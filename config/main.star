@@ -264,9 +264,10 @@ COMMON_ENGINE_BUILDER_ARGS = {
   'triggering_policy': scheduler.greedy_batching(max_batch_size=1, max_concurrent_invocations=3)
 }
 
-def engine_properties(build_host=False, build_android_debug=False, build_android_aot=False, build_android_vulkan=False, build_ios=False, needs_jazzy=False):
+def engine_properties(build_host=False, build_fuchsia=False, build_android_debug=False, build_android_aot=False, build_android_vulkan=False, build_ios=False, needs_jazzy=False):
   properties = {
     'build_host': build_host,
+    'build_fuchsia': build_fuchsia,
     'build_android_debug': build_android_debug,
     'build_android_aot': build_android_aot,
     'build_android_vulkan': build_android_vulkan,
@@ -277,6 +278,7 @@ def engine_properties(build_host=False, build_android_debug=False, build_android
   return properties
 
 linux_builder(name='Linux Host Engine|host', properties=engine_properties(build_host=True), **COMMON_ENGINE_BUILDER_ARGS)
+linux_builder(name='Linux Fuchsia|fsc', properties=engine_properties(build_fuchsia=True), **COMMON_ENGINE_BUILDER_ARGS)
 linux_builder(name='Linux Android Debug Engine|dbg', properties=engine_properties(build_android_debug=True, build_android_vulkan=True), **COMMON_ENGINE_BUILDER_ARGS)
 linux_builder(name='Linux Android AOT Engine|aot', properties=engine_properties(build_android_aot=True), **COMMON_ENGINE_BUILDER_ARGS)
 
