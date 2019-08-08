@@ -78,6 +78,9 @@ luci.bucket(
   acls = [acl.entry(acl.BUILDBUCKET_TRIGGERER, groups = 'project-flutter-try-schedulers')]
 )
 
+# Global builder defaults
+luci.builder.defaults.properties.set({'$kitchen': {'emulate_gce': True}})
+
 # Gitiles pollers
 
 luci.gitiles_poller(
