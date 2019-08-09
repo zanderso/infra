@@ -79,7 +79,13 @@ luci.bucket(
 )
 
 # Global builder defaults
-luci.builder.defaults.properties.set({'$kitchen': {'emulate_gce': True}})
+luci.builder.defaults.properties.set({
+  '$kitchen': {'emulate_gce': True},
+  'mastername': 'client.flutter',
+  'goma_jobs': '200',
+  'android_sdk_license': '\n24333f8a63b6825ea9c5514f83c2829b004d1fee',
+  'android_sdk_preview_license': '\n84831b9409646a918e30573bab4c9c91346d8abd',
+})
 
 # Gitiles pollers
 
@@ -139,12 +145,6 @@ luci.list_view(
 
 # Builder-defining functions
 
-DEFAULT_PROPERTIES = {
-  'mastername': 'client.flutter',
-  'gradle_dist_url': 'https://services.gradle.org/distributions/gradle-4.10.2-all.zip',
-  'goma_jobs': '200',
-}
-
 # Helpers:
 def merge_dicts(a, b):
   """Return the result of merging two dicts.
@@ -170,7 +170,6 @@ def merge_dicts(a, b):
 
 # Builders
 def builder(bucket, pool, name, recipe, os, properties={}, cores=None, **kwargs):
-  properties = merge_dicts(DEFAULT_PROPERTIES, properties)
   dimensions = {
     'pool': pool,
     'cpu': 'x86-64',
