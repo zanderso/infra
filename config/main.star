@@ -193,7 +193,7 @@ def builder(bucket, pool, name, recipe, os, properties={}, cores=None, **kwargs)
 
 def try_builder(name, list_view_name, console_view_name=None, category=None, properties={}, **kwargs):
   bucket = 'try'
-  pool = 'luci.flutter.internal'
+  pool = 'luci.flutter.try'
   merged_properties = merge_dicts(properties, {'upload_packages': False})
   name_parts = name.split('|')
 
@@ -266,7 +266,7 @@ def linux_builder(properties = {}, caches=None, cores='8', category='Linux', **k
   if caches != None:
     linux_caches.extend(caches)
   return common_builder(
-    os = 'Ubuntu-16.04',
+    os = 'Linux',
     cores = cores,
     properties = properties,
     caches = linux_caches,
