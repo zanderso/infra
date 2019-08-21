@@ -81,6 +81,7 @@ luci.bucket(
 # Global builder defaults
 luci.builder.defaults.properties.set({
   '$kitchen': {'emulate_gce': True},
+  '$build/goma': {'use_luci_auth': True},
   'mastername': 'client.flutter',
   'goma_jobs': '200',
   'android_sdk_license': '\n24333f8a63b6825ea9c5514f83c2829b004d1fee',
