@@ -336,7 +336,7 @@ COMMON_SCHEDULED_ENGINE_BUILDER_ARGS = merge_dicts(COMMON_ENGINE_BUILDER_ARGS, {
   'triggering_policy': scheduler.greedy_batching(max_batch_size=1, max_concurrent_invocations=3)
 })
 
-def engine_properties(build_host=False, build_fuchsia=False, build_android_debug=False, build_android_aot=False, build_android_vulkan=False, build_ios=False, needs_jazzy=False):
+def engine_properties(build_host=False, build_fuchsia=False, build_android_debug=False, build_android_aot=False, build_android_vulkan=False, build_ios=False, needs_jazzy=False, ios_debug=False, ios_profile=False, ios_release=False):
   properties = {
     'build_host': build_host,
     'build_fuchsia': build_fuchsia,
@@ -345,6 +345,10 @@ def engine_properties(build_host=False, build_fuchsia=False, build_android_debug
     'build_android_vulkan': build_android_vulkan,
     'build_ios': build_ios,
   }
+  if (build_ios):
+    properties['ios_debug'] = ios_debug
+    properties['ios_profile'] = ios_profile
+    properties['ios_release'] = ios_release
   if (needs_jazzy):
     properties['jazzy_version'] = '0.9.5'
   return properties
@@ -359,15 +363,17 @@ linux_try_builder(name='Linux Fuchsia|fsc', properties=engine_properties(build_f
 linux_try_builder(name='Linux Android Debug Engine|dbg', properties=engine_properties(build_android_debug=True, build_android_vulkan=True), **COMMON_ENGINE_BUILDER_ARGS)
 linux_try_builder(name='Linux Android AOT Engine|aot', properties=engine_properties(build_android_aot=True), **COMMON_ENGINE_BUILDER_ARGS)
 
-mac_prod_builder(name='Mac Host Engine|host', properties=engine_properties(build_host=True, needs_jazzy=True), **COMMON_SCHEDULED_ENGINE_BUILDER_ARGS)
-mac_prod_builder(name='Mac Android Debug Engine|dbg', properties=engine_properties(build_android_debug=True, build_android_vulkan=True, needs_jazzy=True), **COMMON_SCHEDULED_ENGINE_BUILDER_ARGS)
-mac_prod_builder(name='Mac Android AOT Engine|aot', properties=engine_properties(build_android_aot=True, needs_jazzy=True), **COMMON_SCHEDULED_ENGINE_BUILDER_ARGS)
-mac_prod_builder(name='Mac iOS Engine|ios', properties=engine_properties(build_ios=True, needs_jazzy=True), **COMMON_SCHEDULED_ENGINE_BUILDER_ARGS)
+mac_prod_builder(name='Mac Host Engine|host', properties=engine_properties(build_host=True), **COMMON_SCHEDULED_ENGINE_BUILDER_ARGS)
+mac_prod_builder(name='Mac Android Debug Engine|dbg', properties=engine_properties(build_android_debug=True, build_android_vulkan=True), **COMMON_SCHEDULED_ENGINE_BUILDER_ARGS)
+mac_prod_builder(name='Mac Android AOT Engine|aot', properties=engine_properties(build_android_aot=True), **COMMON_SCHEDULED_ENGINE_BUILDER_ARGS)
+mac_prod_builder(name='Mac iOS Engine|ios', properties=engine_properties(build_ios=True, ios_debug=True, needs_jazzy=True), **COMMON_SCHEDULED_ENGINE_BUILDER_ARGS)
+mac_prod_builder(name='Mac iOS Engine Profile|ios', properties=engine_properties(build_ios=True, ios_profile=True), **COMMON_SCHEDULED_ENGINE_BUILDER_ARGS)
+mac_prod_builder(name='Mac iOS Engine Release|ios', properties=engine_properties(build_ios=True, ios_release=True), **COMMON_SCHEDULED_ENGINE_BUILDER_ARGS)
 
-mac_try_builder(name='Mac Host Engine|host', properties=engine_properties(build_host=True, needs_jazzy=True), **COMMON_ENGINE_BUILDER_ARGS)
-mac_try_builder(name='Mac Android Debug Engine|dbg', properties=engine_properties(build_android_debug=True, build_android_vulkan=True, needs_jazzy=True), **COMMON_ENGINE_BUILDER_ARGS)
-mac_try_builder(name='Mac Android AOT Engine|aot', properties=engine_properties(build_android_aot=True, needs_jazzy=True), **COMMON_ENGINE_BUILDER_ARGS)
-mac_try_builder(name='Mac iOS Engine|ios', properties=engine_properties(build_ios=True, needs_jazzy=True), **COMMON_ENGINE_BUILDER_ARGS)
+mac_try_builder(name='Mac Host Engine|host', properties=engine_properties(build_host=True), **COMMON_ENGINE_BUILDER_ARGS)
+mac_try_builder(name='Mac Android Debug Engine|dbg', properties=engine_properties(build_android_debug=True, build_android_vulkan=True), **COMMON_ENGINE_BUILDER_ARGS)
+mac_try_builder(name='Mac Android AOT Engine|aot', properties=engine_properties(build_android_aot=True), **COMMON_ENGINE_BUILDER_ARGS)
+mac_try_builder(name='Mac iOS Engine|ios', properties=engine_properties(build_ios=True, ios_debug=True, needs_jazzy=True), **COMMON_ENGINE_BUILDER_ARGS)
 
 windows_prod_builder(name='Windows Host Engine|host', properties=engine_properties(build_host=True), **COMMON_SCHEDULED_ENGINE_BUILDER_ARGS)
 windows_prod_builder(name='Windows Android AOT Engine|aot', properties=engine_properties(build_android_aot=True), **COMMON_SCHEDULED_ENGINE_BUILDER_ARGS)
