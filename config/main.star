@@ -367,8 +367,8 @@ mac_prod_builder(name='Mac Host Engine|host', properties=engine_properties(build
 mac_prod_builder(name='Mac Android Debug Engine|dbg', properties=engine_properties(build_android_debug=True, build_android_vulkan=True), **COMMON_SCHEDULED_ENGINE_BUILDER_ARGS)
 mac_prod_builder(name='Mac Android AOT Engine|aot', properties=engine_properties(build_android_aot=True), **COMMON_SCHEDULED_ENGINE_BUILDER_ARGS)
 mac_prod_builder(name='Mac iOS Engine|ios', properties=engine_properties(build_ios=True, ios_debug=True, needs_jazzy=True), **COMMON_SCHEDULED_ENGINE_BUILDER_ARGS)
-mac_prod_builder(name='Mac iOS Engine Profile|ios', properties=engine_properties(build_ios=True, ios_profile=True), **COMMON_SCHEDULED_ENGINE_BUILDER_ARGS)
-mac_prod_builder(name='Mac iOS Engine Release|ios', properties=engine_properties(build_ios=True, ios_release=True), **COMMON_SCHEDULED_ENGINE_BUILDER_ARGS)
+mac_prod_builder(name='Mac iOS Engine Profile|ios', properties=engine_properties(build_ios=True, ios_profile=True, needs_jazzy=True), **COMMON_SCHEDULED_ENGINE_BUILDER_ARGS)
+mac_prod_builder(name='Mac iOS Engine Release|ios', properties=engine_properties(build_ios=True, ios_release=True, needs_jazzy=True), **COMMON_SCHEDULED_ENGINE_BUILDER_ARGS)
 
 mac_try_builder(name='Mac Host Engine|host', properties=engine_properties(build_host=True), **COMMON_ENGINE_BUILDER_ARGS)
 mac_try_builder(name='Mac Android Debug Engine|dbg', properties=engine_properties(build_android_debug=True, build_android_vulkan=True), **COMMON_ENGINE_BUILDER_ARGS)
