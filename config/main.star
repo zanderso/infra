@@ -175,7 +175,7 @@ def merge_dicts(a, b):
 def builder(bucket, pool, name, recipe, os, properties={}, cores=None, **kwargs):
   dimensions = {
     'pool': pool,
-    'cpu': 'x86-64',
+    'cpu': 'x64',
     'os': os,
   }
   if cores != None:
