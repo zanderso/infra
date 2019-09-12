@@ -355,10 +355,10 @@ def engine_properties(build_host=False, build_fuchsia=False, build_android_debug
     properties['jazzy_version'] = '0.9.5'
   return properties
 
-linux_prod_builder(name='Linux Host Engine|host', os='Ubuntu-16.04', properties=engine_properties(build_host=True), **COMMON_SCHEDULED_ENGINE_BUILDER_ARGS)
-linux_prod_builder(name='Linux Fuchsia|fsc', os='Ubuntu-16.04', properties=engine_properties(build_fuchsia=True), **COMMON_SCHEDULED_ENGINE_BUILDER_ARGS)
-linux_prod_builder(name='Linux Android Debug Engine|dbg', os='Ubuntu-16.04', properties=engine_properties(build_android_debug=True, build_android_vulkan=True), **COMMON_SCHEDULED_ENGINE_BUILDER_ARGS)
-linux_prod_builder(name='Linux Android AOT Engine|aot', os='Ubuntu-16.04', properties=engine_properties(build_android_aot=True), **COMMON_SCHEDULED_ENGINE_BUILDER_ARGS)
+linux_prod_builder(name='Linux Host Engine|host', properties=engine_properties(build_host=True), **COMMON_SCHEDULED_ENGINE_BUILDER_ARGS)
+linux_prod_builder(name='Linux Fuchsia|fsc', properties=engine_properties(build_fuchsia=True), **COMMON_SCHEDULED_ENGINE_BUILDER_ARGS)
+linux_prod_builder(name='Linux Android Debug Engine|dbg', properties=engine_properties(build_android_debug=True, build_android_vulkan=True), **COMMON_SCHEDULED_ENGINE_BUILDER_ARGS)
+linux_prod_builder(name='Linux Android AOT Engine|aot', properties=engine_properties(build_android_aot=True), **COMMON_SCHEDULED_ENGINE_BUILDER_ARGS)
 
 linux_try_builder(name='Linux Host Engine|host', properties=engine_properties(build_host=True), **COMMON_ENGINE_BUILDER_ARGS)
 linux_try_builder(name='Linux Fuchsia|fsc', properties=engine_properties(build_fuchsia=True), **COMMON_ENGINE_BUILDER_ARGS)
