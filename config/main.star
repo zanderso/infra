@@ -357,6 +357,8 @@ def engine_properties(build_host=False, build_fuchsia=False, build_android_debug
     properties['ios_release'] = ios_release
   if (needs_jazzy):
     properties['jazzy_version'] = '0.9.5'
+  if (build_fuchsia):
+    properties['fuchsia_ctl_version'] = 'version:0.0.3'
   return properties
 
 linux_prod_builder(name='Linux Host Engine|host', properties=engine_properties(build_host=True), **COMMON_SCHEDULED_ENGINE_BUILDER_ARGS)
