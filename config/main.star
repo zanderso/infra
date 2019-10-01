@@ -342,7 +342,7 @@ COMMON_SCHEDULED_ENGINE_BUILDER_ARGS = merge_dicts(COMMON_ENGINE_BUILDER_ARGS, {
   'triggering_policy': scheduler.greedy_batching(max_batch_size=1, max_concurrent_invocations=3)
 })
 
-def engine_properties(build_host=False, build_fuchsia=False, build_android_debug=False, build_android_aot=False, build_android_vulkan=False, build_ios=False, needs_jazzy=False, ios_debug=False, ios_profile=False, ios_release=False):
+def engine_properties(build_host=False, build_fuchsia=False, build_android_debug=False, build_android_aot=False, build_android_vulkan=False, build_ios=False, needs_jazzy=False, ios_debug=False, ios_profile=False, ios_release=False, build_android_jit_release=False):
   properties = {
     'build_host': build_host,
     'build_fuchsia': build_fuchsia,
@@ -350,6 +350,7 @@ def engine_properties(build_host=False, build_fuchsia=False, build_android_debug
     'build_android_aot': build_android_aot,
     'build_android_vulkan': build_android_vulkan,
     'build_ios': build_ios,
+    'build_android_jit_release': build_android_jit_release,
   }
   if (build_ios):
     properties['ios_debug'] = ios_debug
@@ -363,7 +364,7 @@ def engine_properties(build_host=False, build_fuchsia=False, build_android_debug
 
 linux_prod_builder(name='Linux Host Engine|host', properties=engine_properties(build_host=True), **COMMON_SCHEDULED_ENGINE_BUILDER_ARGS)
 linux_prod_builder(name='Linux Fuchsia|fsc', properties=engine_properties(build_fuchsia=True), **COMMON_SCHEDULED_ENGINE_BUILDER_ARGS)
-linux_prod_builder(name='Linux Android Debug Engine|dbg', properties=engine_properties(build_android_debug=True, build_android_vulkan=True), **COMMON_SCHEDULED_ENGINE_BUILDER_ARGS)
+linux_prod_builder(name='Linux Android Debug Engine|dbg', properties=engine_properties(build_android_debug=True, build_android_vulkan=True, build_android_jit_release=True), **COMMON_SCHEDULED_ENGINE_BUILDER_ARGS)
 linux_prod_builder(name='Linux Android AOT Engine|aot', properties=engine_properties(build_android_aot=True), **COMMON_SCHEDULED_ENGINE_BUILDER_ARGS)
 linux_prod_builder(name='Linux Engine Drone|drn', recipe='flutter/engine_builder', console_view_name=None, no_notify=True)
 
