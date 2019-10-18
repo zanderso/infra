@@ -310,7 +310,7 @@ COMMON_SCHEDULED_FRAMEWORK_BUILDER_ARGS = merge_dicts(COMMON_FRAMEWORK_BUILDER_A
 })
 
 FRAMEWORK_MAC_EXTRAS = {
-  'properties': {'shard': 'tests', 'cocoapods_version': '1.6.0'},
+  'properties': {'shard': 'framework_tests', 'cocoapods_version': '1.6.0'},
   'caches': [swarming.cache(name='flutter_cocoapods', path='cocoapods')],
 }
 
@@ -318,18 +318,18 @@ COMMON_MAC_FRAMEWORK_BUILDER_ARGS = merge_dicts(COMMON_FRAMEWORK_BUILDER_ARGS, F
 
 COMMON_SCHEDULED_MAC_FRAMEWORK_BUILDER_ARGS = merge_dicts(COMMON_MAC_FRAMEWORK_BUILDER_ARGS, COMMON_SCHEDULED_FRAMEWORK_BUILDER_ARGS)
 
-linux_prod_builder(name='Linux|frwk', properties={'shard': 'tests'}, **COMMON_SCHEDULED_FRAMEWORK_BUILDER_ARGS)
-linux_prod_builder(name='Linux Coverage|lcov', properties={'shard': 'coverage', 'coveralls_lcov_version': '5.1.0',}, **COMMON_SCHEDULED_FRAMEWORK_BUILDER_ARGS)
+linux_prod_builder(name='Linux|frwk', properties={'shard': 'framework_tests'}, **COMMON_SCHEDULED_FRAMEWORK_BUILDER_ARGS)
+linux_prod_builder(name='Linux Coverage|lcov', properties={'shard': 'framework_coverage', 'coveralls_lcov_version': '5.1.0',}, **COMMON_SCHEDULED_FRAMEWORK_BUILDER_ARGS)
 
-linux_try_builder(name='Linux|frwk', properties={'shard': 'tests'}, **COMMON_FRAMEWORK_BUILDER_ARGS)
+linux_try_builder(name='Linux|frwk', properties={'shard': 'framework_tests'}, **COMMON_FRAMEWORK_BUILDER_ARGS)
 
 mac_prod_builder(name='Mac|frwk', **COMMON_SCHEDULED_MAC_FRAMEWORK_BUILDER_ARGS)
 
 mac_try_builder(name='Mac|frwk', **COMMON_MAC_FRAMEWORK_BUILDER_ARGS)
 
-windows_prod_builder(name='Windows|frwk', properties={'shard': 'tests'}, **COMMON_SCHEDULED_FRAMEWORK_BUILDER_ARGS)
+windows_prod_builder(name='Windows|frwk', properties={'shard': 'framework_tests'}, **COMMON_SCHEDULED_FRAMEWORK_BUILDER_ARGS)
 
-windows_try_builder(name='Windows|frwk', properties={'shard': 'tests'}, **COMMON_FRAMEWORK_BUILDER_ARGS)
+windows_try_builder(name='Windows|frwk', properties={'shard': 'framework_tests'}, **COMMON_FRAMEWORK_BUILDER_ARGS)
 
 COMMON_ENGINE_BUILDER_ARGS = {
   'recipe': 'flutter/engine',
