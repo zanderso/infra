@@ -319,7 +319,6 @@ COMMON_MAC_FRAMEWORK_BUILDER_ARGS = merge_dicts(COMMON_FRAMEWORK_BUILDER_ARGS, F
 COMMON_SCHEDULED_MAC_FRAMEWORK_BUILDER_ARGS = merge_dicts(COMMON_MAC_FRAMEWORK_BUILDER_ARGS, COMMON_SCHEDULED_FRAMEWORK_BUILDER_ARGS)
 
 linux_prod_builder(name='Linux|frwk', properties={'shard': 'framework_tests'}, **COMMON_SCHEDULED_FRAMEWORK_BUILDER_ARGS)
-linux_prod_builder(name='Linux Coverage|lcov', properties={'shard': 'framework_coverage', 'coveralls_lcov_version': '5.1.0',}, **COMMON_SCHEDULED_FRAMEWORK_BUILDER_ARGS)
 
 linux_try_builder(name='Linux|frwk', properties={'shard': 'framework_tests'}, **COMMON_FRAMEWORK_BUILDER_ARGS)
 
