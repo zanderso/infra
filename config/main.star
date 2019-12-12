@@ -15,6 +15,7 @@ The documentation for lucicfg can be found here:
 https://chromium.googlesource.com/infra/luci/luci-go/+/refs/heads/master/lucicfg/doc/README.md
 """
 
+COCOON_GIT = 'https://chromium.googlesource.com/external/github.com/flutter/cocoon'
 FLUTTER_GIT = 'https://chromium.googlesource.com/external/github.com/flutter/flutter'
 ENGINE_GIT = 'https://chromium.googlesource.com/external/github.com/flutter/engine'
 
@@ -120,6 +121,7 @@ def recipe(name):
     cipd_version = 'refs/heads/master',
   )
 
+recipe('flutter/cocoon')
 recipe('flutter/flutter')
 recipe('flutter/engine')
 recipe('flutter/engine_builder')
@@ -134,10 +136,15 @@ def console_view(name, repo, refs = ['refs/heads/master'], exclude_ref = None):
     exclude_ref = exclude_ref,
   )
 
+console_view('cocoon', COCOON_GIT)
 console_view('framework', FLUTTER_GIT)
 console_view('engine', ENGINE_GIT)
 console_view('packaging', FLUTTER_GIT, refs=['refs/heads/beta', 'refs/heads/dev', 'refs/heads/stable'], exclude_ref='refs/heads/master')
 
+luci.list_view(
+  name='cocoon-try',
+  title='Cocoon try builders',
+)
 luci.list_view(
   name='framework-try',
   title='Framework try builders',
@@ -298,6 +305,13 @@ linux_try_builder, linux_prod_builder = linux_builder()
 mac_try_builder, mac_prod_builder = mac_builder()
 windows_try_builder, windows_prod_builder = windows_builder()
 
+COMMON_LINUX_COCOON_BUILDER_ARGS = {
+  'recipe': 'flutter/cocoon',
+  'console_view_name': 'cocoon',
+  'list_view_name': 'cocoon-try',
+  'caches': [swarming.cache(name='dart_pub_cache', path='.pub-cache')],
+}
+
 COMMON_FRAMEWORK_BUILDER_ARGS = {
   'recipe': 'flutter/flutter',
   'console_view_name': 'framework',
@@ -320,6 +334,7 @@ COMMON_SCHEDULED_MAC_FRAMEWORK_BUILDER_ARGS = merge_dicts(COMMON_MAC_FRAMEWORK_B
 
 linux_prod_builder(name='Linux|frwk', properties={'shard': 'framework_tests'}, **COMMON_SCHEDULED_FRAMEWORK_BUILDER_ARGS)
 
+linux_try_builder(name='Cocoon|cocoon', **COMMON_LINUX_COCOON_BUILDER_ARGS)
 linux_try_builder(name='Linux|frwk', properties={'shard': 'framework_tests'}, **COMMON_FRAMEWORK_BUILDER_ARGS)
 
 mac_prod_builder(name='Mac|frwk', **COMMON_SCHEDULED_MAC_FRAMEWORK_BUILDER_ARGS)
