@@ -285,6 +285,7 @@ def linux_builder(properties = {}, caches=None, cores='8', category='Linux', os=
     properties = properties,
     caches = linux_caches,
     category = category,
+    fuchsia_ctl_version = 'version:0.0.10',
     **kwargs
   )
 
