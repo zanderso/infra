@@ -277,6 +277,7 @@ def mac_builder(properties = {}, caches=None, category = 'Mac', **kwargs):
 
 def linux_builder(properties = {}, caches=None, cores='8', category='Linux', os=None, **kwargs):
   linux_caches = [swarming.cache(name = 'flutter_openjdk_install', path = 'java')]
+  properties['fuchsia_ctl_version'] = 'version:0.0.10'
   if caches != None:
     linux_caches.extend(caches)
   return common_builder(
@@ -285,7 +286,6 @@ def linux_builder(properties = {}, caches=None, cores='8', category='Linux', os=
     properties = properties,
     caches = linux_caches,
     category = category,
-    fuchsia_ctl_version = 'version:0.0.10',
     **kwargs
   )
 
@@ -357,7 +357,7 @@ COMMON_SCHEDULED_ENGINE_BUILDER_ARGS = merge_dicts(COMMON_ENGINE_BUILDER_ARGS, {
   'triggering_policy': scheduler.greedy_batching(max_batch_size=1, max_concurrent_invocations=3)
 })
 
-def engine_properties(build_host=False, build_fuchsia=False, build_android_debug=False, build_android_aot=False, build_android_vulkan=False, build_ios=False, needs_jazzy=False, ios_debug=False, ios_profile=False, ios_release=False, build_android_jit_release=False):
+def engine_properties(build_host=False, build_fuchsia=False, build_android_debug=False, build_android_aot=False, build_android_vulkan=False, build_ios=False, needs_jazzy=False, ios_debug=False, ios_profile=False, ios_release=False, build_android_jit_release=False, no_bitcode=False):
   properties = {
     'build_host': build_host,
     'build_fuchsia': build_fuchsia,
@@ -371,6 +371,7 @@ def engine_properties(build_host=False, build_fuchsia=False, build_android_debug
     properties['ios_debug'] = ios_debug
     properties['ios_profile'] = ios_profile
     properties['ios_release'] = ios_release
+    properties['no_bitcode'] = no_bitcode
   if (needs_jazzy):
     properties['jazzy_version'] = '0.9.5'
   if (build_fuchsia):
@@ -401,7 +402,7 @@ mac_prod_builder(name='Mac Engine Drone|drn', recipe='flutter/engine_builder', c
 mac_try_builder(name='Mac Host Engine|host', properties=engine_properties(build_host=True), **COMMON_ENGINE_BUILDER_ARGS)
 mac_try_builder(name='Mac Android Debug Engine|dbg', properties=engine_properties(build_android_debug=True, build_android_vulkan=True), **COMMON_ENGINE_BUILDER_ARGS)
 mac_try_builder(name='Mac Android AOT Engine|aot', properties=engine_properties(build_android_aot=True), **COMMON_ENGINE_BUILDER_ARGS)
-mac_try_builder(name='Mac iOS Engine|ios', properties=engine_properties(build_ios=True, ios_debug=True, needs_jazzy=True), **COMMON_ENGINE_BUILDER_ARGS)
+mac_try_builder(name='Mac iOS Engine|ios', properties=engine_properties(build_ios=True, ios_debug=True, needs_jazzy=True, no_bitcode=True), **COMMON_ENGINE_BUILDER_ARGS)
 mac_try_builder(name='Mac Engine Drone|drn', recipe='flutter/engine_builder', list_view_name='engine-try')
 
 windows_prod_builder(name='Windows Host Engine|host', properties=engine_properties(build_host=True), **COMMON_SCHEDULED_ENGINE_BUILDER_ARGS)
