@@ -277,7 +277,7 @@ def mac_builder(properties = {}, caches=None, category = 'Mac', **kwargs):
 
 def linux_builder(properties = {}, caches=None, cores='8', category='Linux', os=None, **kwargs):
   linux_caches = [swarming.cache(name = 'flutter_openjdk_install', path = 'java')]
-  properties['fuchsia_ctl_version'] = 'version:0.0.10'
+  properties['fuchsia_ctl_version'] = 'version:0.0.13'
   if caches != None:
     linux_caches.extend(caches)
   return common_builder(
