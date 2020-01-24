@@ -19,6 +19,7 @@ COCOON_GIT = 'https://chromium.googlesource.com/external/github.com/flutter/coco
 FLUTTER_GIT = 'https://chromium.googlesource.com/external/github.com/flutter/flutter'
 ENGINE_GIT = 'https://chromium.googlesource.com/external/github.com/flutter/engine'
 HOTFIX_REFS = 'refs/heads/v.+hotfixes'
+FUCHSIA_CTL_VERSION = 'version:0.0.14'
 
 lucicfg.config(
   config_dir = '.',
@@ -294,7 +295,7 @@ def mac_builder(properties = {}, caches=None, category = 'Mac', **kwargs):
 
 def linux_builder(properties = {}, caches=None, cores='8', category='Linux', os=None, **kwargs):
   linux_caches = [swarming.cache(name = 'flutter_openjdk_install', path = 'java')]
-  properties['fuchsia_ctl_version'] = 'version:0.0.13'
+  properties['fuchsia_ctl_version'] = FUCHSIA_CTL_VERSION
   if caches != None:
     linux_caches.extend(caches)
   return common_builder(
@@ -409,7 +410,7 @@ def engine_properties(build_host=False, build_fuchsia=False, build_android_debug
   if (needs_jazzy):
     properties['jazzy_version'] = '0.9.5'
   if (build_fuchsia):
-    properties['fuchsia_ctl_version'] = 'version:0.0.13'
+    properties['fuchsia_ctl_version'] = FUCHSIA_CTL_VERSION
   return properties
 
 linux_prod_builder(name='Linux Host Engine|host', properties=engine_properties(build_host=True), **COMMON_SCHEDULED_ENGINE_BUILDER_ARGS)
