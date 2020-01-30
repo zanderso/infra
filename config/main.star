@@ -153,6 +153,7 @@ recipe('flutter/flutter')
 recipe('flutter/engine')
 recipe('flutter/engine_builder')
 recipe('flutter/ios-usb-dependencies')
+recipe('flutter/web_engine')
 
 
 # Console definitions
@@ -165,7 +166,6 @@ def console_view(name, repo, refs=['refs/heads/master'], exclude_ref=None):
     )
 
 
-console_view('cocoon', COCOON_GIT)
 console_view('framework', FLUTTER_GIT)
 console_view('hotfix-framework', FLUTTER_GIT, [HOTFIX_REFS])
 console_view('engine', ENGINE_GIT)
@@ -186,6 +186,10 @@ luci.list_view(
 luci.list_view(
     name='engine-try',
     title='Engine try builders',
+)
+luci.list_view(
+    name='web-engine-try',
+    title='Web Engine try builders',
 )
 
 # Builder-defining functions
@@ -672,6 +676,18 @@ windows_try_builder(name='Windows Android AOT Engine|aot',
 windows_try_builder(name='Windows Engine Drone|drn',
                     recipe='flutter/engine_builder',
                     list_view_name='engine-try')
+
+COMMON_WEB_ENGINE_BUILDER_ARGS = {
+    'recipe': 'flutter/web_engine',
+    'console_view_name': 'web-engine',
+    'list_view_name': 'web-engine-try',
+}
+
+linux_try_builder(name='Linux Web Engine|lwe',
+                  **COMMON_WEB_ENGINE_BUILDER_ARGS)
+mac_try_builder(name='Mac Web Engine|mwe', **COMMON_WEB_ENGINE_BUILDER_ARGS)
+windows_try_builder(name='Windows Web Engine|wwe',
+                    **COMMON_WEB_ENGINE_BUILDER_ARGS)
 
 COMMON_PACKAGING_BUILDER_ARGS = {
     'recipe': 'flutter/flutter',
