@@ -257,7 +257,7 @@ def try_builder(name,
                 **kwargs):
     bucket = 'try'
     pool = 'luci.flutter.try'
-    merged_properties = merge_dicts(properties, {'upload_packages': False})
+    merged_properties = merge_dicts(properties, {'upload_packages': False, 'gold_tryjob': True})
     name_parts = name.split('|')
 
     luci.list_view_entry(
@@ -275,7 +275,7 @@ def prod_builder(name,
                  list_view_name=None,
                  properties={},
                  **kwargs):
-    merged_properties = merge_dicts(properties, {'upload_packages': True})
+    merged_properties = merge_dicts(properties, {'upload_packages': True, 'gold_tryjob': False})
     bucket = 'prod'
     pool = 'luci.flutter.prod'
     name_parts = name.split('|')
