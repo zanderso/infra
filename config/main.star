@@ -18,6 +18,7 @@ COCOON_GIT = 'https://chromium.googlesource.com/external/github.com/flutter/coco
 FLUTTER_GIT = 'https://chromium.googlesource.com/external/github.com/flutter/flutter'
 ENGINE_GIT = 'https://chromium.googlesource.com/external/github.com/flutter/engine'
 HOTFIX_REFS = 'refs/heads/v.+hotfixes'
+RELEASE_REFS = 'refs/tags/flutter-\d+\.\d+-candidate\.\d+'
 FUCHSIA_CTL_VERSION = 'version:0.0.18'
 
 lucicfg.config(
@@ -115,6 +116,14 @@ luci.gitiles_poller(
     bucket='prod',
     repo=FLUTTER_GIT,
     refs=[HOTFIX_REFS],
+)
+
+
+luci.gitiles_poller(
+    name='release-gitiles-trigger-framework',
+    bucket='prod',
+    repo=FLUTTER_GIT,
+    refs=[RELEASE_REFS],
 )
 
 luci.gitiles_poller(
