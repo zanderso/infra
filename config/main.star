@@ -18,7 +18,7 @@ COCOON_GIT = 'https://chromium.googlesource.com/external/github.com/flutter/coco
 FLUTTER_GIT = 'https://chromium.googlesource.com/external/github.com/flutter/flutter'
 ENGINE_GIT = 'https://chromium.googlesource.com/external/github.com/flutter/engine'
 HOTFIX_REFS = 'refs/heads/v.+hotfixes'
-RELEASE_REFS = 'refs/tags/flutter-\d+\.\d+-candidate\.\d+'
+CANDIDATE_REFS = 'refs/tags/flutter-\d+\.\d+-candidate\.\d+'
 FUCHSIA_CTL_VERSION = 'version:0.0.18'
 
 lucicfg.config(
@@ -51,15 +51,18 @@ luci.project(
             ],
             groups='all',
         ),
-        acl.entry(acl.BUILDBUCKET_TRIGGERER,
-                  groups='project-flutter-prod-schedulers'),
-        acl.entry(acl.BUILDBUCKET_TRIGGERER,
-                  users='luci-scheduler@appspot.gserviceaccount.com'),
-        acl.entry(roles=[
-            acl.BUILDBUCKET_OWNER,
-            acl.SCHEDULER_OWNER,
-        ],
-                  groups='project-flutter-admins'),
+        acl.entry(
+            acl.BUILDBUCKET_TRIGGERER,
+            groups='project-flutter-prod-schedulers'),
+        acl.entry(
+            acl.BUILDBUCKET_TRIGGERER,
+            users='luci-scheduler@appspot.gserviceaccount.com'),
+        acl.entry(
+            roles=[
+                acl.BUILDBUCKET_OWNER,
+                acl.SCHEDULER_OWNER,
+            ],
+            groups='project-flutter-admins'),
         acl.entry(acl.LOGDOG_WRITER, groups='luci-logdog-chromium-writers'),
     ],
 )
@@ -73,11 +76,12 @@ luci.milo(
 )
 
 luci.bucket(name='prod')
-luci.bucket(name='try',
-            acls=[
-                acl.entry(acl.BUILDBUCKET_TRIGGERER,
-                          groups='project-flutter-try-schedulers')
-            ])
+luci.bucket(
+    name='try',
+    acls=[
+        acl.entry(
+            acl.BUILDBUCKET_TRIGGERER, groups='project-flutter-try-schedulers')
+    ])
 
 # Global builder defaults
 luci.builder.defaults.properties.set({
@@ -118,12 +122,11 @@ luci.gitiles_poller(
     refs=[HOTFIX_REFS],
 )
 
-
 luci.gitiles_poller(
-    name='release-gitiles-trigger-framework',
+    name='candidate-gitiles-trigger-framework',
     bucket='prod',
     repo=FLUTTER_GIT,
-    refs=[RELEASE_REFS],
+    refs=[CANDIDATE_REFS],
 )
 
 luci.gitiles_poller(
@@ -179,12 +182,14 @@ def console_view(name, repo, refs=['refs/heads/master'], exclude_ref=None):
 
 console_view('framework', FLUTTER_GIT)
 console_view('hotfix-framework', FLUTTER_GIT, [HOTFIX_REFS])
+console_view('candidate-framework', FLUTTER_GIT, [CANDIDATE_REFS])
 console_view('engine', ENGINE_GIT)
 console_view('hotfix-engine', ENGINE_GIT, [HOTFIX_REFS])
-console_view('packaging',
-             FLUTTER_GIT,
-             refs=['refs/heads/beta', 'refs/heads/dev', 'refs/heads/stable'],
-             exclude_ref='refs/heads/master')
+console_view(
+    'packaging',
+    FLUTTER_GIT,
+    refs=['refs/heads/beta', 'refs/heads/dev', 'refs/heads/stable'],
+    exclude_ref='refs/heads/master')
 
 luci.list_view(
     name='cocoon-try',
@@ -246,16 +251,17 @@ def builder(bucket,
     if cores != None:
         dimensions['cores'] = cores
     name_parts = name.split('|')
-    luci.builder(name=name_parts[0],
-                 bucket=bucket,
-                 executable=recipe,
-                 properties=properties,
-                 service_account='flutter-' + bucket +
-                 '-builder@chops-service-accounts.iam.gserviceaccount.com',
-                 execution_timeout=3 * time.hour,
-                 dimensions=dimensions,
-                 build_numbers=True,
-                 **kwargs)
+    luci.builder(
+        name=name_parts[0],
+        bucket=bucket,
+        executable=recipe,
+        properties=properties,
+        service_account='flutter-' + bucket +
+        '-builder@chops-service-accounts.iam.gserviceaccount.com',
+        execution_timeout=3 * time.hour,
+        dimensions=dimensions,
+        build_numbers=True,
+        **kwargs)
 
 
 def try_builder(name,
@@ -266,7 +272,10 @@ def try_builder(name,
                 **kwargs):
     bucket = 'try'
     pool = 'luci.flutter.try'
-    merged_properties = merge_dicts(properties, {'upload_packages': False, 'gold_tryjob': True})
+    merged_properties = merge_dicts(properties, {
+        'upload_packages': False,
+        'gold_tryjob': True
+    })
     name_parts = name.split('|')
 
     luci.list_view_entry(
@@ -284,7 +293,10 @@ def prod_builder(name,
                  list_view_name=None,
                  properties={},
                  **kwargs):
-    merged_properties = merge_dicts(properties, {'upload_packages': True, 'gold_tryjob': False})
+    merged_properties = merge_dicts(properties, {
+        'upload_packages': True,
+        'gold_tryjob': False
+    })
     bucket = 'prod'
     pool = 'luci.flutter.prod'
     name_parts = name.split('|')
@@ -305,12 +317,13 @@ def prod_builder(name,
         ),
     ]
 
-    return builder(bucket,
-                   pool,
-                   name,
-                   properties=merged_properties,
-                   notifies=notifies,
-                   **kwargs)
+    return builder(
+        bucket,
+        pool,
+        name,
+        properties=merged_properties,
+        notifies=notifies,
+        **kwargs)
 
 
 def common_builder(**common_kwargs):
@@ -335,11 +348,12 @@ def mac_builder(properties={}, caches=None, category='Mac', **kwargs):
     mac_caches = [swarming.cache('osx_sdk')]
     if caches != None:
         mac_caches.extend(caches)
-    return common_builder(os='Mac-10.14',
-                          properties=properties,
-                          caches=mac_caches,
-                          category=category,
-                          **kwargs)
+    return common_builder(
+        os='Mac-10.14',
+        properties=properties,
+        caches=mac_caches,
+        category=category,
+        **kwargs)
 
 
 def linux_builder(properties={},
@@ -354,12 +368,13 @@ def linux_builder(properties={},
     properties['fuchsia_ctl_version'] = FUCHSIA_CTL_VERSION
     if caches != None:
         linux_caches.extend(caches)
-    return common_builder(os=os or 'Linux',
-                          cores=cores,
-                          properties=properties,
-                          caches=linux_caches,
-                          category=category,
-                          **kwargs)
+    return common_builder(
+        os=os or 'Linux',
+        cores=cores,
+        properties=properties,
+        caches=linux_caches,
+        category=category,
+        **kwargs)
 
 
 def windows_builder(properties={},
@@ -372,12 +387,13 @@ def windows_builder(properties={},
     ]
     if caches != None:
         windows_caches.extend(caches)
-    return common_builder(os='Windows-10',
-                          cores=cores,
-                          properties=properties,
-                          caches=windows_caches,
-                          category=category,
-                          **kwargs)
+    return common_builder(
+        os='Windows-10',
+        cores=cores,
+        properties=properties,
+        caches=windows_caches,
+        category=category,
+        **kwargs)
 
 
 linux_try_builder, linux_prod_builder = linux_builder()
@@ -401,11 +417,22 @@ COMMON_HOTFIX_FRAMEWORK_BUILDER_ARGS = merge_dicts(
     COMMON_FRAMEWORK_BUILDER_ARGS, {
         'console_view_name':
         'hotfix-framework',
-        'recipe': 'flutter/flutter_v1_12_13',
+        'recipe':
+        'flutter/flutter_v1_12_13',
         'triggered_by': ['hotfix-gitiles-trigger-framework'],
         'triggering_policy':
-        scheduler.greedy_batching(max_batch_size=1,
-                                  max_concurrent_invocations=3),
+        scheduler.greedy_batching(
+            max_batch_size=1, max_concurrent_invocations=3),
+    })
+
+COMMON_CANDIDATE_FRAMEWORK_BUILDER_ARGS = merge_dicts(
+    COMMON_FRAMEWORK_BUILDER_ARGS, {
+        'console_view_name':
+        'candidate-framework',
+        'triggered_by': ['candidate-gitiles-trigger-framework'],
+        'triggering_policy':
+        scheduler.greedy_batching(
+            max_batch_size=1, max_concurrent_invocations=3),
     })
 
 COMMON_SCHEDULED_FRAMEWORK_BUILDER_ARGS = merge_dicts(
@@ -432,35 +459,54 @@ COMMON_SCHEDULED_MAC_FRAMEWORK_BUILDER_ARGS = merge_dicts(
 COMMON_HOTFIX_MAC_FRAMEWORK_BUILDER_ARGS = merge_dicts(
     COMMON_MAC_FRAMEWORK_BUILDER_ARGS, COMMON_HOTFIX_FRAMEWORK_BUILDER_ARGS)
 
-linux_prod_builder(name='Linux|frwk',
-                   properties={'shard': 'framework_tests'},
-                   **COMMON_SCHEDULED_FRAMEWORK_BUILDER_ARGS)
-linux_prod_builder(name='Linux hotfix|frwk',
-                   properties={'shard': 'framework_tests'},
-                   **COMMON_HOTFIX_FRAMEWORK_BUILDER_ARGS)
+COMMON_CANDIDATE_MAC_FRAMEWORK_BUILDER_ARGS = merge_dicts(
+    COMMON_MAC_FRAMEWORK_BUILDER_ARGS, COMMON_CANDIDATE_FRAMEWORK_BUILDER_ARGS)
+
+linux_prod_builder(
+    name='Linux|frwk',
+    properties={'shard': 'framework_tests'},
+    **COMMON_SCHEDULED_FRAMEWORK_BUILDER_ARGS)
+linux_prod_builder(
+    name='Linux hotfix|frwk',
+    properties={'shard': 'framework_tests'},
+    **COMMON_HOTFIX_FRAMEWORK_BUILDER_ARGS)
+linux_prod_builder(
+    name='Linux candidate|frwk',
+    properties={'shard': 'framework_tests'},
+    **COMMON_CANDIDATE_FRAMEWORK_BUILDER_ARGS)
 
 linux_try_builder(name='Cocoon|cocoon', **COMMON_LINUX_COCOON_BUILDER_ARGS)
-linux_try_builder(name='Linux|frwk',
-                  properties={'shard': 'framework_tests'},
-                  **COMMON_FRAMEWORK_BUILDER_ARGS)
+linux_try_builder(
+    name='Linux|frwk',
+    properties={'shard': 'framework_tests'},
+    **COMMON_FRAMEWORK_BUILDER_ARGS)
 
-mac_prod_builder(name='Mac|frwk',
-                 **COMMON_SCHEDULED_MAC_FRAMEWORK_BUILDER_ARGS)
-mac_prod_builder(name='Mac hotfix|frwk',
-                 **COMMON_HOTFIX_MAC_FRAMEWORK_BUILDER_ARGS)
+mac_prod_builder(
+    name='Mac|frwk', **COMMON_SCHEDULED_MAC_FRAMEWORK_BUILDER_ARGS)
+mac_prod_builder(
+    name='Mac hotfix|frwk', **COMMON_HOTFIX_MAC_FRAMEWORK_BUILDER_ARGS)
+mac_prod_builder(
+    name='Mac candidate|frwk', **COMMON_CANDIDATE_MAC_FRAMEWORK_BUILDER_ARGS)
 
 mac_try_builder(name='Mac|frwk', **COMMON_MAC_FRAMEWORK_BUILDER_ARGS)
 
-windows_prod_builder(name='Windows|frwk',
-                     properties={'shard': 'framework_tests'},
-                     **COMMON_SCHEDULED_FRAMEWORK_BUILDER_ARGS)
-windows_prod_builder(name='Windows hotfix|frwk',
-                     properties={'shard': 'framework_tests'},
-                     **COMMON_HOTFIX_FRAMEWORK_BUILDER_ARGS)
+windows_prod_builder(
+    name='Windows|frwk',
+    properties={'shard': 'framework_tests'},
+    **COMMON_SCHEDULED_FRAMEWORK_BUILDER_ARGS)
+windows_prod_builder(
+    name='Windows hotfix|frwk',
+    properties={'shard': 'framework_tests'},
+    **COMMON_HOTFIX_FRAMEWORK_BUILDER_ARGS)
+windows_prod_builder(
+    name='Windows candidate|frwk',
+    properties={'shard': 'framework_tests'},
+    **COMMON_CANDIDATE_FRAMEWORK_BUILDER_ARGS)
 
-windows_try_builder(name='Windows|frwk',
-                    properties={'shard': 'framework_tests'},
-                    **COMMON_FRAMEWORK_BUILDER_ARGS)
+windows_try_builder(
+    name='Windows|frwk',
+    properties={'shard': 'framework_tests'},
+    **COMMON_FRAMEWORK_BUILDER_ARGS)
 
 COMMON_ENGINE_BUILDER_ARGS = {
     'recipe': 'flutter/engine',
@@ -472,19 +518,20 @@ COMMON_SCHEDULED_ENGINE_BUILDER_ARGS = merge_dicts(
     COMMON_ENGINE_BUILDER_ARGS, {
         'triggered_by': ['master-gitiles-trigger-engine'],
         'triggering_policy':
-        scheduler.greedy_batching(max_batch_size=1,
-                                  max_concurrent_invocations=3)
+        scheduler.greedy_batching(
+            max_batch_size=1, max_concurrent_invocations=3)
     })
 
 COMMON_HOTFIX_ENGINE_BUILDER_ARGS = merge_dicts(
     COMMON_ENGINE_BUILDER_ARGS, {
         'console_view_name':
         'hotfix-engine',
-        'recipe': 'flutter/engine_v1_12_13',
+        'recipe':
+        'flutter/engine_v1_12_13',
         'triggered_by': ['hotfix-gitiles-trigger-engine'],
         'triggering_policy':
-        scheduler.greedy_batching(max_batch_size=1,
-                                  max_concurrent_invocations=3)
+        scheduler.greedy_batching(
+            max_batch_size=1, max_concurrent_invocations=3)
     })
 
 
@@ -521,174 +568,209 @@ def engine_properties(build_host=False,
     return properties
 
 
-linux_prod_builder(name='Linux Host Engine|host',
-                   properties=engine_properties(build_host=True),
-                   **COMMON_SCHEDULED_ENGINE_BUILDER_ARGS)
-linux_prod_builder(name='Linux Fuchsia|fsc',
-                   properties=engine_properties(build_fuchsia=True),
-                   **COMMON_SCHEDULED_ENGINE_BUILDER_ARGS)
-linux_prod_builder(name='Linux Android Debug Engine|dbg',
-                   properties=engine_properties(
-                       build_android_debug=True,
-                       build_android_vulkan=True,
-                       build_android_jit_release=True),
-                   **COMMON_SCHEDULED_ENGINE_BUILDER_ARGS)
-linux_prod_builder(name='Linux Android AOT Engine|aot',
-                   properties=engine_properties(build_android_aot=True),
-                   **COMMON_SCHEDULED_ENGINE_BUILDER_ARGS)
-linux_prod_builder(name='Linux Engine Drone|drn',
-                   recipe='flutter/engine_builder',
-                   console_view_name=None,
-                   no_notify=True)
+linux_prod_builder(
+    name='Linux Host Engine|host',
+    properties=engine_properties(build_host=True),
+    **COMMON_SCHEDULED_ENGINE_BUILDER_ARGS)
+linux_prod_builder(
+    name='Linux Fuchsia|fsc',
+    properties=engine_properties(build_fuchsia=True),
+    **COMMON_SCHEDULED_ENGINE_BUILDER_ARGS)
+linux_prod_builder(
+    name='Linux Android Debug Engine|dbg',
+    properties=engine_properties(
+        build_android_debug=True,
+        build_android_vulkan=True,
+        build_android_jit_release=True),
+    **COMMON_SCHEDULED_ENGINE_BUILDER_ARGS)
+linux_prod_builder(
+    name='Linux Android AOT Engine|aot',
+    properties=engine_properties(build_android_aot=True),
+    **COMMON_SCHEDULED_ENGINE_BUILDER_ARGS)
+linux_prod_builder(
+    name='Linux Engine Drone|drn',
+    recipe='flutter/engine_builder',
+    console_view_name=None,
+    no_notify=True)
 
-linux_prod_builder(name='Linux hotfix Host Engine|host',
-                   properties=engine_properties(build_host=True),
-                   **COMMON_HOTFIX_ENGINE_BUILDER_ARGS)
-linux_prod_builder(name='Linux hotfix Fuchsia|fsc',
-                   properties=engine_properties(build_fuchsia=True),
-                   **COMMON_HOTFIX_ENGINE_BUILDER_ARGS)
-linux_prod_builder(name='Linux hotfix Android Debug Engine|dbg',
-                   properties=engine_properties(
-                       build_android_debug=True,
-                       build_android_vulkan=True,
-                       build_android_jit_release=True),
-                   **COMMON_HOTFIX_ENGINE_BUILDER_ARGS)
-linux_prod_builder(name='Linux hotfix Android AOT Engine|aot',
-                   properties=engine_properties(build_android_aot=True),
-                   **COMMON_HOTFIX_ENGINE_BUILDER_ARGS)
-linux_prod_builder(name='Linux hotfix Engine Drone|drn',
-                   recipe='flutter/engine_builder',
-                   console_view_name=None,
-                   no_notify=True)
+linux_prod_builder(
+    name='Linux hotfix Host Engine|host',
+    properties=engine_properties(build_host=True),
+    **COMMON_HOTFIX_ENGINE_BUILDER_ARGS)
+linux_prod_builder(
+    name='Linux hotfix Fuchsia|fsc',
+    properties=engine_properties(build_fuchsia=True),
+    **COMMON_HOTFIX_ENGINE_BUILDER_ARGS)
+linux_prod_builder(
+    name='Linux hotfix Android Debug Engine|dbg',
+    properties=engine_properties(
+        build_android_debug=True,
+        build_android_vulkan=True,
+        build_android_jit_release=True),
+    **COMMON_HOTFIX_ENGINE_BUILDER_ARGS)
+linux_prod_builder(
+    name='Linux hotfix Android AOT Engine|aot',
+    properties=engine_properties(build_android_aot=True),
+    **COMMON_HOTFIX_ENGINE_BUILDER_ARGS)
+linux_prod_builder(
+    name='Linux hotfix Engine Drone|drn',
+    recipe='flutter/engine_builder',
+    console_view_name=None,
+    no_notify=True)
 
-linux_try_builder(name='Linux Host Engine|host',
-                  properties=engine_properties(build_host=True),
-                  **COMMON_ENGINE_BUILDER_ARGS)
-linux_try_builder(name='Linux Fuchsia|fsc',
-                  properties=engine_properties(build_fuchsia=True),
-                  **COMMON_ENGINE_BUILDER_ARGS)
-linux_try_builder(name='Linux Android Debug Engine|dbg',
-                  properties=engine_properties(build_android_debug=True,
-                                               build_android_vulkan=True),
-                  **COMMON_ENGINE_BUILDER_ARGS)
-linux_try_builder(name='Linux Android AOT Engine|aot',
-                  properties=engine_properties(build_android_aot=True),
-                  **COMMON_ENGINE_BUILDER_ARGS)
-linux_try_builder(name='Linux Engine Drone|drn',
-                  recipe='flutter/engine_builder',
-                  list_view_name='engine-try')
+linux_try_builder(
+    name='Linux Host Engine|host',
+    properties=engine_properties(build_host=True),
+    **COMMON_ENGINE_BUILDER_ARGS)
+linux_try_builder(
+    name='Linux Fuchsia|fsc',
+    properties=engine_properties(build_fuchsia=True),
+    **COMMON_ENGINE_BUILDER_ARGS)
+linux_try_builder(
+    name='Linux Android Debug Engine|dbg',
+    properties=engine_properties(
+        build_android_debug=True, build_android_vulkan=True),
+    **COMMON_ENGINE_BUILDER_ARGS)
+linux_try_builder(
+    name='Linux Android AOT Engine|aot',
+    properties=engine_properties(build_android_aot=True),
+    **COMMON_ENGINE_BUILDER_ARGS)
+linux_try_builder(
+    name='Linux Engine Drone|drn',
+    recipe='flutter/engine_builder',
+    list_view_name='engine-try')
 
-mac_prod_builder(name='Mac Host Engine|host',
-                 properties=engine_properties(build_host=True),
-                 **COMMON_SCHEDULED_ENGINE_BUILDER_ARGS)
-mac_prod_builder(name='Mac Android Debug Engine|dbg',
-                 properties=engine_properties(build_android_debug=True,
-                                              build_android_vulkan=True),
-                 **COMMON_SCHEDULED_ENGINE_BUILDER_ARGS)
-mac_prod_builder(name='Mac Android AOT Engine|aot',
-                 properties=engine_properties(build_android_aot=True),
-                 **COMMON_SCHEDULED_ENGINE_BUILDER_ARGS)
-mac_prod_builder(name='Mac iOS Engine|ios',
-                 properties=engine_properties(build_ios=True,
-                                              ios_debug=True,
-                                              needs_jazzy=True),
-                 **COMMON_SCHEDULED_ENGINE_BUILDER_ARGS)
-mac_prod_builder(name='Mac iOS Engine Profile|ios',
-                 properties=engine_properties(build_ios=True,
-                                              ios_profile=True,
-                                              needs_jazzy=True),
-                 **COMMON_SCHEDULED_ENGINE_BUILDER_ARGS)
-mac_prod_builder(name='Mac iOS Engine Release|ios',
-                 properties=engine_properties(build_ios=True,
-                                              ios_release=True,
-                                              needs_jazzy=True),
-                 **COMMON_SCHEDULED_ENGINE_BUILDER_ARGS)
-mac_prod_builder(name='Mac Engine Drone|drn',
-                 recipe='flutter/engine_builder',
-                 console_view_name=None,
-                 no_notify=True)
+mac_prod_builder(
+    name='Mac Host Engine|host',
+    properties=engine_properties(build_host=True),
+    **COMMON_SCHEDULED_ENGINE_BUILDER_ARGS)
+mac_prod_builder(
+    name='Mac Android Debug Engine|dbg',
+    properties=engine_properties(
+        build_android_debug=True, build_android_vulkan=True),
+    **COMMON_SCHEDULED_ENGINE_BUILDER_ARGS)
+mac_prod_builder(
+    name='Mac Android AOT Engine|aot',
+    properties=engine_properties(build_android_aot=True),
+    **COMMON_SCHEDULED_ENGINE_BUILDER_ARGS)
+mac_prod_builder(
+    name='Mac iOS Engine|ios',
+    properties=engine_properties(
+        build_ios=True, ios_debug=True, needs_jazzy=True),
+    **COMMON_SCHEDULED_ENGINE_BUILDER_ARGS)
+mac_prod_builder(
+    name='Mac iOS Engine Profile|ios',
+    properties=engine_properties(
+        build_ios=True, ios_profile=True, needs_jazzy=True),
+    **COMMON_SCHEDULED_ENGINE_BUILDER_ARGS)
+mac_prod_builder(
+    name='Mac iOS Engine Release|ios',
+    properties=engine_properties(
+        build_ios=True, ios_release=True, needs_jazzy=True),
+    **COMMON_SCHEDULED_ENGINE_BUILDER_ARGS)
+mac_prod_builder(
+    name='Mac Engine Drone|drn',
+    recipe='flutter/engine_builder',
+    console_view_name=None,
+    no_notify=True)
 
-mac_prod_builder(name='Mac hotfix Host Engine|host',
-                 properties=engine_properties(build_host=True),
-                 **COMMON_HOTFIX_ENGINE_BUILDER_ARGS)
-mac_prod_builder(name='Mac hotfix Android Debug Engine|dbg',
-                 properties=engine_properties(build_android_debug=True,
-                                              build_android_vulkan=True),
-                 **COMMON_HOTFIX_ENGINE_BUILDER_ARGS)
-mac_prod_builder(name='Mac hotfix Android AOT Engine|aot',
-                 properties=engine_properties(build_android_aot=True),
-                 **COMMON_HOTFIX_ENGINE_BUILDER_ARGS)
-mac_prod_builder(name='Mac hotfix iOS Engine|ios',
-                 properties=engine_properties(build_ios=True,
-                                              ios_debug=True,
-                                              needs_jazzy=True),
-                 **COMMON_HOTFIX_ENGINE_BUILDER_ARGS)
-mac_prod_builder(name='Mac hotfix iOS Engine Profile|ios',
-                 properties=engine_properties(build_ios=True,
-                                              ios_profile=True,
-                                              needs_jazzy=True),
-                 **COMMON_HOTFIX_ENGINE_BUILDER_ARGS)
-mac_prod_builder(name='Mac hotfix iOS Engine Release|ios',
-                 properties=engine_properties(build_ios=True,
-                                              ios_release=True,
-                                              needs_jazzy=True),
-                 **COMMON_HOTFIX_ENGINE_BUILDER_ARGS)
-mac_prod_builder(name='Mac hotfix Engine Drone|drn',
-                 recipe='flutter/engine_builder',
-                 console_view_name=None,
-                 no_notify=True)
+mac_prod_builder(
+    name='Mac hotfix Host Engine|host',
+    properties=engine_properties(build_host=True),
+    **COMMON_HOTFIX_ENGINE_BUILDER_ARGS)
+mac_prod_builder(
+    name='Mac hotfix Android Debug Engine|dbg',
+    properties=engine_properties(
+        build_android_debug=True, build_android_vulkan=True),
+    **COMMON_HOTFIX_ENGINE_BUILDER_ARGS)
+mac_prod_builder(
+    name='Mac hotfix Android AOT Engine|aot',
+    properties=engine_properties(build_android_aot=True),
+    **COMMON_HOTFIX_ENGINE_BUILDER_ARGS)
+mac_prod_builder(
+    name='Mac hotfix iOS Engine|ios',
+    properties=engine_properties(
+        build_ios=True, ios_debug=True, needs_jazzy=True),
+    **COMMON_HOTFIX_ENGINE_BUILDER_ARGS)
+mac_prod_builder(
+    name='Mac hotfix iOS Engine Profile|ios',
+    properties=engine_properties(
+        build_ios=True, ios_profile=True, needs_jazzy=True),
+    **COMMON_HOTFIX_ENGINE_BUILDER_ARGS)
+mac_prod_builder(
+    name='Mac hotfix iOS Engine Release|ios',
+    properties=engine_properties(
+        build_ios=True, ios_release=True, needs_jazzy=True),
+    **COMMON_HOTFIX_ENGINE_BUILDER_ARGS)
+mac_prod_builder(
+    name='Mac hotfix Engine Drone|drn',
+    recipe='flutter/engine_builder',
+    console_view_name=None,
+    no_notify=True)
 
-mac_try_builder(name='Mac Host Engine|host',
-                properties=engine_properties(build_host=True),
-                **COMMON_ENGINE_BUILDER_ARGS)
-mac_try_builder(name='Mac Android Debug Engine|dbg',
-                properties=engine_properties(build_android_debug=True,
-                                             build_android_vulkan=True),
-                **COMMON_ENGINE_BUILDER_ARGS)
-mac_try_builder(name='Mac Android AOT Engine|aot',
-                properties=engine_properties(build_android_aot=True),
-                **COMMON_ENGINE_BUILDER_ARGS)
-mac_try_builder(name='Mac iOS Engine|ios',
-                properties=engine_properties(build_ios=True,
-                                             ios_debug=True,
-                                             needs_jazzy=True,
-                                             no_bitcode=True),
-                **COMMON_ENGINE_BUILDER_ARGS)
-mac_try_builder(name='Mac Engine Drone|drn',
-                recipe='flutter/engine_builder',
-                list_view_name='engine-try')
+mac_try_builder(
+    name='Mac Host Engine|host',
+    properties=engine_properties(build_host=True),
+    **COMMON_ENGINE_BUILDER_ARGS)
+mac_try_builder(
+    name='Mac Android Debug Engine|dbg',
+    properties=engine_properties(
+        build_android_debug=True, build_android_vulkan=True),
+    **COMMON_ENGINE_BUILDER_ARGS)
+mac_try_builder(
+    name='Mac Android AOT Engine|aot',
+    properties=engine_properties(build_android_aot=True),
+    **COMMON_ENGINE_BUILDER_ARGS)
+mac_try_builder(
+    name='Mac iOS Engine|ios',
+    properties=engine_properties(
+        build_ios=True, ios_debug=True, needs_jazzy=True, no_bitcode=True),
+    **COMMON_ENGINE_BUILDER_ARGS)
+mac_try_builder(
+    name='Mac Engine Drone|drn',
+    recipe='flutter/engine_builder',
+    list_view_name='engine-try')
 
-windows_prod_builder(name='Windows Host Engine|host',
-                     properties=engine_properties(build_host=True),
-                     **COMMON_SCHEDULED_ENGINE_BUILDER_ARGS)
-windows_prod_builder(name='Windows Android AOT Engine|aot',
-                     properties=engine_properties(build_android_aot=True),
-                     **COMMON_SCHEDULED_ENGINE_BUILDER_ARGS)
-windows_prod_builder(name='Windows Engine Drone|drn',
-                     recipe='flutter/engine_builder',
-                     console_view_name=None,
-                     no_notify=True)
+windows_prod_builder(
+    name='Windows Host Engine|host',
+    properties=engine_properties(build_host=True),
+    **COMMON_SCHEDULED_ENGINE_BUILDER_ARGS)
+windows_prod_builder(
+    name='Windows Android AOT Engine|aot',
+    properties=engine_properties(build_android_aot=True),
+    **COMMON_SCHEDULED_ENGINE_BUILDER_ARGS)
+windows_prod_builder(
+    name='Windows Engine Drone|drn',
+    recipe='flutter/engine_builder',
+    console_view_name=None,
+    no_notify=True)
 
-windows_prod_builder(name='Windows hotfix Host Engine|host',
-                     properties=engine_properties(build_host=True),
-                     **COMMON_HOTFIX_ENGINE_BUILDER_ARGS)
-windows_prod_builder(name='Windows hotfix Android AOT Engine|aot',
-                     properties=engine_properties(build_android_aot=True),
-                     **COMMON_HOTFIX_ENGINE_BUILDER_ARGS)
-windows_prod_builder(name='Windows hotfix Engine Drone|drn',
-                     recipe='flutter/engine_builder',
-                     console_view_name=None,
-                     no_notify=True)
+windows_prod_builder(
+    name='Windows hotfix Host Engine|host',
+    properties=engine_properties(build_host=True),
+    **COMMON_HOTFIX_ENGINE_BUILDER_ARGS)
+windows_prod_builder(
+    name='Windows hotfix Android AOT Engine|aot',
+    properties=engine_properties(build_android_aot=True),
+    **COMMON_HOTFIX_ENGINE_BUILDER_ARGS)
+windows_prod_builder(
+    name='Windows hotfix Engine Drone|drn',
+    recipe='flutter/engine_builder',
+    console_view_name=None,
+    no_notify=True)
 
-windows_try_builder(name='Windows Host Engine|host',
-                    properties=engine_properties(build_host=True),
-                    **COMMON_ENGINE_BUILDER_ARGS)
-windows_try_builder(name='Windows Android AOT Engine|aot',
-                    properties=engine_properties(build_android_aot=True),
-                    **COMMON_ENGINE_BUILDER_ARGS)
-windows_try_builder(name='Windows Engine Drone|drn',
-                    recipe='flutter/engine_builder',
-                    list_view_name='engine-try')
+windows_try_builder(
+    name='Windows Host Engine|host',
+    properties=engine_properties(build_host=True),
+    **COMMON_ENGINE_BUILDER_ARGS)
+windows_try_builder(
+    name='Windows Android AOT Engine|aot',
+    properties=engine_properties(build_android_aot=True),
+    **COMMON_ENGINE_BUILDER_ARGS)
+windows_try_builder(
+    name='Windows Engine Drone|drn',
+    recipe='flutter/engine_builder',
+    list_view_name='engine-try')
 
 COMMON_WEB_ENGINE_BUILDER_ARGS = {
     'recipe': 'flutter/web_engine',
@@ -696,11 +778,11 @@ COMMON_WEB_ENGINE_BUILDER_ARGS = {
     'list_view_name': 'web-engine-try',
 }
 
-linux_try_builder(name='Linux Web Engine|lwe',
-                  **COMMON_WEB_ENGINE_BUILDER_ARGS)
+linux_try_builder(
+    name='Linux Web Engine|lwe', **COMMON_WEB_ENGINE_BUILDER_ARGS)
 mac_try_builder(name='Mac Web Engine|mwe', **COMMON_WEB_ENGINE_BUILDER_ARGS)
-windows_try_builder(name='Windows Web Engine|wwe',
-                    **COMMON_WEB_ENGINE_BUILDER_ARGS)
+windows_try_builder(
+    name='Windows Web Engine|wwe', **COMMON_WEB_ENGINE_BUILDER_ARGS)
 
 COMMON_PACKAGING_BUILDER_ARGS = {
     'recipe': 'flutter/flutter',
@@ -708,31 +790,32 @@ COMMON_PACKAGING_BUILDER_ARGS = {
     'triggered_by': ['gitiles-trigger-packaging'],
 }
 
-linux_prod_builder(name='Linux Flutter Packaging|pkg',
-                   **COMMON_PACKAGING_BUILDER_ARGS)
-mac_prod_builder(name='Mac Flutter Packaging|pkg',
-                 **COMMON_PACKAGING_BUILDER_ARGS)
-windows_prod_builder(name='Windows Flutter Packaging|pkg',
-                     **COMMON_PACKAGING_BUILDER_ARGS)
+linux_prod_builder(
+    name='Linux Flutter Packaging|pkg', **COMMON_PACKAGING_BUILDER_ARGS)
+mac_prod_builder(
+    name='Mac Flutter Packaging|pkg', **COMMON_PACKAGING_BUILDER_ARGS)
+windows_prod_builder(
+    name='Windows Flutter Packaging|pkg', **COMMON_PACKAGING_BUILDER_ARGS)
 
 
 def ios_tools_builder(**kwargs):
     builder = kwargs['name'].split('|')[0]
     repo = 'https://flutter-mirrors.googlesource.com/' + builder
     console_view(builder, repo)
-    luci.gitiles_poller(name='gitiles-trigger-' + builder,
-                        bucket='prod',
-                        repo=repo,
-                        triggers=[builder])
-    return mac_prod_builder(recipe='flutter/ios-usb-dependencies',
-                            properties={
-                                'package_name': builder + '-flutter',
-                            },
-                            console_view_name=builder,
-                            triggering_policy=scheduler.greedy_batching(
-                                max_concurrent_invocations=1,
-                                max_batch_size=6),
-                            **kwargs)
+    luci.gitiles_poller(
+        name='gitiles-trigger-' + builder,
+        bucket='prod',
+        repo=repo,
+        triggers=[builder])
+    return mac_prod_builder(
+        recipe='flutter/ios-usb-dependencies',
+        properties={
+            'package_name': builder + '-flutter',
+        },
+        console_view_name=builder,
+        triggering_policy=scheduler.greedy_batching(
+            max_concurrent_invocations=1, max_batch_size=6),
+        **kwargs)
 
 
 ios_tools_builder(name='ideviceinstaller|idev')
