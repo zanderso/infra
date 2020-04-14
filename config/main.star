@@ -18,8 +18,8 @@ COCOON_GIT = 'https://chromium.googlesource.com/external/github.com/flutter/coco
 FLUTTER_GIT = 'https://chromium.googlesource.com/external/github.com/flutter/flutter'
 ENGINE_GIT = 'https://chromium.googlesource.com/external/github.com/flutter/engine'
 HOTFIX_REFS = 'refs/heads/v.+hotfixes'
-CANDIDATE_REFS = 'refs/heads/flutter-\d+\.\d+-candidate\.\d+'
-FUCHSIA_CTL_VERSION = 'version:0.0.18'
+CANDIDATE_REFS = r'refs/heads/flutter-\d+\.\d+-candidate\.\d+'
+FUCHSIA_CTL_VERSION = 'version:0.0.20'
 
 lucicfg.config(
     config_dir='.',
