@@ -17,8 +17,13 @@ https://chromium.googlesource.com/infra/luci/luci-go/+/refs/heads/master/lucicfg
 COCOON_GIT = 'https://chromium.googlesource.com/external/github.com/flutter/cocoon'
 FLUTTER_GIT = 'https://chromium.googlesource.com/external/github.com/flutter/flutter'
 ENGINE_GIT = 'https://chromium.googlesource.com/external/github.com/flutter/engine'
+# TODO(fujino): Remove this once 1.12.13 is no longer latest stable
 HOTFIX_REFS = 'refs/heads/v.+hotfixes'
-CANDIDATE_REFS = r'refs/heads/flutter-\d+\.\d+-candidate\.\d+'
+STABLE_REFS = r'refs/heads/flutter-1\.12\.13-candidate\.\d+'
+# To be interpolated into recipe names e.g. 'flutter/flutter_' + STABLE_VERSION
+STABLE_VERSION = 'v1_12_13'
+BETA_REFS = r'refs/heads/flutter-1\.17\.0-candidate\.\d+'
+BETA_VERSION = 'v1_17_0'
 FUCHSIA_CTL_VERSION = 'version:0.0.20'
 
 lucicfg.config(
@@ -123,10 +128,17 @@ luci.gitiles_poller(
 )
 
 luci.gitiles_poller(
-    name='candidate-gitiles-trigger-framework',
+    name='stable-gitiles-trigger-framework',
     bucket='prod',
     repo=FLUTTER_GIT,
-    refs=[CANDIDATE_REFS],
+    refs=[STABLE_REFS],
+)
+
+luci.gitiles_poller(
+    name='beta-gitiles-trigger-framework',
+    bucket='prod',
+    repo=FLUTTER_GIT,
+    refs=[BETA_REFS],
 )
 
 luci.gitiles_poller(
@@ -143,10 +155,38 @@ luci.gitiles_poller(
 )
 
 luci.gitiles_poller(
-    name='gitiles-trigger-packaging',
+    name='stable-gitiles-trigger-engine',
+    bucket='prod',
+    repo=ENGINE_GIT,
+    refs=[STABLE_REFS],
+)
+
+luci.gitiles_poller(
+    name='beta-gitiles-trigger-engine',
+    bucket='prod',
+    repo=ENGINE_GIT,
+    refs=[BETA_REFS],
+)
+
+luci.gitiles_poller(
+    name='gitiles-trigger-dev-packaging',
     bucket='prod',
     repo=FLUTTER_GIT,
-    refs=['refs/heads/dev', 'refs/heads/beta', 'refs/heads/stable'],
+    refs=['refs/heads/dev'],
+)
+
+luci.gitiles_poller(
+    name='gitiles-trigger-beta-packaging',
+    bucket='prod',
+    repo=FLUTTER_GIT,
+    refs=['refs/heads/beta'],
+)
+
+luci.gitiles_poller(
+    name='gitiles-trigger-stable-packaging',
+    bucket='prod',
+    repo=FLUTTER_GIT,
+    refs=['refs/heads/stable'],
 )
 
 
@@ -162,10 +202,15 @@ def recipe(name):
 
 recipe('flutter/cocoon')
 recipe('flutter/flutter')
-recipe('flutter/flutter_v1_12_13')
+recipe('flutter/flutter_' + STABLE_VERSION)
+recipe('flutter/flutter_' + BETA_VERSION)
 recipe('flutter/engine')
-recipe('flutter/engine_v1_12_13')
+recipe('flutter/engine_' + STABLE_VERSION)
+recipe('flutter/engine_' + BETA_VERSION)
 recipe('flutter/engine_builder')
+# TODO(fujino): uncomment when 1.17.0 is promoted to stable
+# recipe('flutter/engine_builder_' + STABLE_VERSION)
+recipe('flutter/engine_builder_' + BETA_VERSION)
 recipe('flutter/ios-usb-dependencies')
 recipe('flutter/web_engine')
 
@@ -181,10 +226,15 @@ def console_view(name, repo, refs=['refs/heads/master'], exclude_ref=None):
 
 
 console_view('framework', FLUTTER_GIT)
+# TODO(fujino): Remove this (and all other hotfix references) once 1.12.13 is
+# no longer stable
 console_view('hotfix-framework', FLUTTER_GIT, [HOTFIX_REFS])
-console_view('candidate-framework', FLUTTER_GIT, [CANDIDATE_REFS])
+console_view('stable-framework', FLUTTER_GIT, [STABLE_REFS])
+console_view('beta-framework', FLUTTER_GIT, [BETA_REFS])
 console_view('engine', ENGINE_GIT)
 console_view('hotfix-engine', ENGINE_GIT, [HOTFIX_REFS])
+console_view('stable-engine', ENGINE_GIT, [STABLE_REFS])
+console_view('beta-engine', ENGINE_GIT, [BETA_REFS])
 console_view(
     'packaging',
     FLUTTER_GIT,
@@ -418,18 +468,32 @@ COMMON_HOTFIX_FRAMEWORK_BUILDER_ARGS = merge_dicts(
         'console_view_name':
         'hotfix-framework',
         'recipe':
-        'flutter/flutter_v1_12_13',
+        'flutter/flutter_' + STABLE_VERSION,
         'triggered_by': ['hotfix-gitiles-trigger-framework'],
         'triggering_policy':
         scheduler.greedy_batching(
             max_batch_size=1, max_concurrent_invocations=3),
     })
 
-COMMON_CANDIDATE_FRAMEWORK_BUILDER_ARGS = merge_dicts(
+COMMON_STABLE_FRAMEWORK_BUILDER_ARGS = merge_dicts(
     COMMON_FRAMEWORK_BUILDER_ARGS, {
         'console_view_name':
-        'candidate-framework',
-        'triggered_by': ['candidate-gitiles-trigger-framework'],
+        'stable-framework',
+        'recipe':
+        'flutter/flutter_' + STABLE_VERSION,
+        'triggered_by': ['stable-gitiles-trigger-framework'],
+        'triggering_policy':
+        scheduler.greedy_batching(
+            max_batch_size=1, max_concurrent_invocations=3),
+    })
+
+COMMON_BETA_FRAMEWORK_BUILDER_ARGS = merge_dicts(
+    COMMON_FRAMEWORK_BUILDER_ARGS, {
+        'console_view_name':
+        'beta-framework',
+        'recipe':
+        'flutter/flutter_' + BETA_VERSION,
+        'triggered_by': ['beta-gitiles-trigger-framework'],
         'triggering_policy':
         scheduler.greedy_batching(
             max_batch_size=1, max_concurrent_invocations=3),
@@ -459,8 +523,11 @@ COMMON_SCHEDULED_MAC_FRAMEWORK_BUILDER_ARGS = merge_dicts(
 COMMON_HOTFIX_MAC_FRAMEWORK_BUILDER_ARGS = merge_dicts(
     COMMON_MAC_FRAMEWORK_BUILDER_ARGS, COMMON_HOTFIX_FRAMEWORK_BUILDER_ARGS)
 
-COMMON_CANDIDATE_MAC_FRAMEWORK_BUILDER_ARGS = merge_dicts(
-    COMMON_MAC_FRAMEWORK_BUILDER_ARGS, COMMON_CANDIDATE_FRAMEWORK_BUILDER_ARGS)
+COMMON_STABLE_MAC_FRAMEWORK_BUILDER_ARGS = merge_dicts(
+    COMMON_MAC_FRAMEWORK_BUILDER_ARGS, COMMON_STABLE_FRAMEWORK_BUILDER_ARGS)
+
+COMMON_BETA_MAC_FRAMEWORK_BUILDER_ARGS = merge_dicts(
+    COMMON_MAC_FRAMEWORK_BUILDER_ARGS, COMMON_BETA_FRAMEWORK_BUILDER_ARGS)
 
 linux_prod_builder(
     name='Linux|frwk',
@@ -471,9 +538,13 @@ linux_prod_builder(
     properties={'shard': 'framework_tests'},
     **COMMON_HOTFIX_FRAMEWORK_BUILDER_ARGS)
 linux_prod_builder(
-    name='Linux candidate|frwk',
+    name='Linux stable|frwk',
     properties={'shard': 'framework_tests'},
-    **COMMON_CANDIDATE_FRAMEWORK_BUILDER_ARGS)
+    **COMMON_STABLE_FRAMEWORK_BUILDER_ARGS)
+linux_prod_builder(
+    name='Linux beta|frwk',
+    properties={'shard': 'framework_tests'},
+    **COMMON_BETA_FRAMEWORK_BUILDER_ARGS)
 
 linux_try_builder(name='Cocoon|cocoon', **COMMON_LINUX_COCOON_BUILDER_ARGS)
 linux_try_builder(
@@ -486,7 +557,9 @@ mac_prod_builder(
 mac_prod_builder(
     name='Mac hotfix|frwk', **COMMON_HOTFIX_MAC_FRAMEWORK_BUILDER_ARGS)
 mac_prod_builder(
-    name='Mac candidate|frwk', **COMMON_CANDIDATE_MAC_FRAMEWORK_BUILDER_ARGS)
+    name='Mac stable|frwk', **COMMON_STABLE_MAC_FRAMEWORK_BUILDER_ARGS)
+mac_prod_builder(
+    name='Mac beta|frwk', **COMMON_BETA_MAC_FRAMEWORK_BUILDER_ARGS)
 
 mac_try_builder(name='Mac|frwk', **COMMON_MAC_FRAMEWORK_BUILDER_ARGS)
 
@@ -499,9 +572,13 @@ windows_prod_builder(
     properties={'shard': 'framework_tests'},
     **COMMON_HOTFIX_FRAMEWORK_BUILDER_ARGS)
 windows_prod_builder(
-    name='Windows candidate|frwk',
+    name='Windows stable|frwk',
     properties={'shard': 'framework_tests'},
-    **COMMON_CANDIDATE_FRAMEWORK_BUILDER_ARGS)
+    **COMMON_STABLE_FRAMEWORK_BUILDER_ARGS)
+windows_prod_builder(
+    name='Windows beta|frwk',
+    properties={'shard': 'framework_tests'},
+    **COMMON_BETA_FRAMEWORK_BUILDER_ARGS)
 
 windows_try_builder(
     name='Windows|frwk',
@@ -527,8 +604,32 @@ COMMON_HOTFIX_ENGINE_BUILDER_ARGS = merge_dicts(
         'console_view_name':
         'hotfix-engine',
         'recipe':
-        'flutter/engine_v1_12_13',
+        'flutter/engine_' + STABLE_VERSION,
         'triggered_by': ['hotfix-gitiles-trigger-engine'],
+        'triggering_policy':
+        scheduler.greedy_batching(
+            max_batch_size=1, max_concurrent_invocations=3)
+    })
+
+COMMON_STABLE_ENGINE_BUILDER_ARGS = merge_dicts(
+    COMMON_ENGINE_BUILDER_ARGS, {
+        'console_view_name':
+        'stable-engine',
+        'recipe':
+        'flutter/engine_' + STABLE_VERSION,
+        'triggered_by': ['stable-gitiles-trigger-engine'],
+        'triggering_policy':
+        scheduler.greedy_batching(
+            max_batch_size=1, max_concurrent_invocations=3)
+    })
+
+COMMON_BETA_ENGINE_BUILDER_ARGS = merge_dicts(
+    COMMON_ENGINE_BUILDER_ARGS, {
+        'console_view_name':
+        'beta-engine',
+        'recipe':
+        'flutter/engine_' + BETA_VERSION,
+        'triggered_by': ['beta-gitiles-trigger-engine'],
         'triggering_policy':
         scheduler.greedy_batching(
             max_batch_size=1, max_concurrent_invocations=3)
@@ -618,6 +719,57 @@ linux_prod_builder(
     console_view_name=None,
     no_notify=True)
 
+linux_prod_builder(
+    name='Linux stable Host Engine|host',
+    properties=engine_properties(build_host=True),
+    **COMMON_STABLE_ENGINE_BUILDER_ARGS)
+linux_prod_builder(
+    name='Linux stable Fuchsia|fsc',
+    properties=engine_properties(build_fuchsia=True),
+    **COMMON_STABLE_ENGINE_BUILDER_ARGS)
+linux_prod_builder(
+    name='Linux stable Android Debug Engine|dbg',
+    properties=engine_properties(
+        build_android_debug=True,
+        build_android_vulkan=True,
+        build_android_jit_release=True),
+    **COMMON_STABLE_ENGINE_BUILDER_ARGS)
+linux_prod_builder(
+    name='Linux stable Android AOT Engine|aot',
+    properties=engine_properties(build_android_aot=True),
+    **COMMON_STABLE_ENGINE_BUILDER_ARGS)
+# TODO(fujino): uncomment once 1.17.0 lands in stable
+#linux_prod_builder(
+#    name='Linux stable Engine Drone|drn',
+#    recipe='flutter/engine_builder_' + STABLE_VERSION,
+#    console_view_name=None,
+#    no_notify=True)
+
+linux_prod_builder(
+    name='Linux beta Host Engine|host',
+    properties=engine_properties(build_host=True),
+    **COMMON_BETA_ENGINE_BUILDER_ARGS)
+linux_prod_builder(
+    name='Linux beta Fuchsia|fsc',
+    properties=engine_properties(build_fuchsia=True),
+    **COMMON_BETA_ENGINE_BUILDER_ARGS)
+linux_prod_builder(
+    name='Linux beta Android Debug Engine|dbg',
+    properties=engine_properties(
+        build_android_debug=True,
+        build_android_vulkan=True,
+        build_android_jit_release=True),
+    **COMMON_BETA_ENGINE_BUILDER_ARGS)
+linux_prod_builder(
+    name='Linux beta Android AOT Engine|aot',
+    properties=engine_properties(build_android_aot=True),
+    **COMMON_BETA_ENGINE_BUILDER_ARGS)
+linux_prod_builder(
+    name='Linux beta Engine Drone|drn',
+    recipe='flutter/engine_builder_' + BETA_VERSION,
+    console_view_name=None,
+    no_notify=True)
+
 linux_try_builder(
     name='Linux Host Engine|host',
     properties=engine_properties(build_host=True),
@@ -670,6 +822,76 @@ mac_prod_builder(
     **COMMON_SCHEDULED_ENGINE_BUILDER_ARGS)
 mac_prod_builder(
     name='Mac Engine Drone|drn',
+    recipe='flutter/engine_builder',
+    console_view_name=None,
+    no_notify=True)
+
+# Mac Engine Stable Builders
+mac_prod_builder(
+    name='Mac stable Host Engine|host',
+    properties=engine_properties(build_host=True),
+    **COMMON_STABLE_ENGINE_BUILDER_ARGS)
+mac_prod_builder(
+    name='Mac stable Android Debug Engine|dbg',
+    properties=engine_properties(
+        build_android_debug=True, build_android_vulkan=True),
+    **COMMON_STABLE_ENGINE_BUILDER_ARGS)
+mac_prod_builder(
+    name='Mac stable Android AOT Engine|aot',
+    properties=engine_properties(build_android_aot=True),
+    **COMMON_STABLE_ENGINE_BUILDER_ARGS)
+mac_prod_builder(
+    name='Mac stable iOS Engine|ios',
+    properties=engine_properties(
+        build_ios=True, ios_debug=True, needs_jazzy=True),
+    **COMMON_STABLE_ENGINE_BUILDER_ARGS)
+mac_prod_builder(
+    name='Mac stable iOS Engine Profile|ios',
+    properties=engine_properties(
+        build_ios=True, ios_profile=True, needs_jazzy=True),
+    **COMMON_STABLE_ENGINE_BUILDER_ARGS)
+mac_prod_builder(
+    name='Mac stable iOS Engine Release|ios',
+    properties=engine_properties(
+        build_ios=True, ios_release=True, needs_jazzy=True),
+    **COMMON_STABLE_ENGINE_BUILDER_ARGS)
+mac_prod_builder(
+    name='Mac stable Engine Drone|drn',
+    recipe='flutter/engine_builder',
+    console_view_name=None,
+    no_notify=True)
+
+# Mac Engine Beta Builders
+mac_prod_builder(
+    name='Mac beta Host Engine|host',
+    properties=engine_properties(build_host=True),
+    **COMMON_BETA_ENGINE_BUILDER_ARGS)
+mac_prod_builder(
+    name='Mac beta Android Debug Engine|dbg',
+    properties=engine_properties(
+        build_android_debug=True, build_android_vulkan=True),
+    **COMMON_BETA_ENGINE_BUILDER_ARGS)
+mac_prod_builder(
+    name='Mac beta Android AOT Engine|aot',
+    properties=engine_properties(build_android_aot=True),
+    **COMMON_BETA_ENGINE_BUILDER_ARGS)
+mac_prod_builder(
+    name='Mac beta iOS Engine|ios',
+    properties=engine_properties(
+        build_ios=True, ios_debug=True, needs_jazzy=True),
+    **COMMON_BETA_ENGINE_BUILDER_ARGS)
+mac_prod_builder(
+    name='Mac beta iOS Engine Profile|ios',
+    properties=engine_properties(
+        build_ios=True, ios_profile=True, needs_jazzy=True),
+    **COMMON_BETA_ENGINE_BUILDER_ARGS)
+mac_prod_builder(
+    name='Mac beta iOS Engine Release|ios',
+    properties=engine_properties(
+        build_ios=True, ios_release=True, needs_jazzy=True),
+    **COMMON_BETA_ENGINE_BUILDER_ARGS)
+mac_prod_builder(
+    name='Mac beta Engine Drone|drn',
     recipe='flutter/engine_builder',
     console_view_name=None,
     no_notify=True)
@@ -746,6 +968,34 @@ windows_prod_builder(
     no_notify=True)
 
 windows_prod_builder(
+    name='Windows stable Host Engine|host',
+    properties=engine_properties(build_host=True),
+    **COMMON_STABLE_ENGINE_BUILDER_ARGS)
+windows_prod_builder(
+    name='Windows stable Android AOT Engine|aot',
+    properties=engine_properties(build_android_aot=True),
+    **COMMON_STABLE_ENGINE_BUILDER_ARGS)
+windows_prod_builder(
+    name='Windows stable Engine Drone|drn',
+    recipe='flutter/engine_builder',
+    console_view_name=None,
+    no_notify=True)
+
+windows_prod_builder(
+    name='Windows beta Host Engine|host',
+    properties=engine_properties(build_host=True),
+    **COMMON_BETA_ENGINE_BUILDER_ARGS)
+windows_prod_builder(
+    name='Windows beta Android AOT Engine|aot',
+    properties=engine_properties(build_android_aot=True),
+    **COMMON_BETA_ENGINE_BUILDER_ARGS)
+windows_prod_builder(
+    name='Windows beta Engine Drone|drn',
+    recipe='flutter/engine_builder',
+    console_view_name=None,
+    no_notify=True)
+
+windows_prod_builder(
     name='Windows hotfix Host Engine|host',
     properties=engine_properties(build_host=True),
     **COMMON_HOTFIX_ENGINE_BUILDER_ARGS)
@@ -784,18 +1034,44 @@ mac_try_builder(name='Mac Web Engine|mwe', **COMMON_WEB_ENGINE_BUILDER_ARGS)
 windows_try_builder(
     name='Windows Web Engine|wwe', **COMMON_WEB_ENGINE_BUILDER_ARGS)
 
-COMMON_PACKAGING_BUILDER_ARGS = {
+DEV_PACKAGING_BUILDER_ARGS = {
     'recipe': 'flutter/flutter',
     'console_view_name': 'packaging',
-    'triggered_by': ['gitiles-trigger-packaging'],
+    'triggered_by': ['gitiles-trigger-dev-packaging'],
+}
+
+BETA_PACKAGING_BUILDER_ARGS = {
+    'recipe': 'flutter/flutter_' + BETA_VERSION,
+    'console_view_name': 'packaging',
+    'triggered_by': ['gitiles-trigger-beta-packaging'],
+}
+
+STABLE_PACKAGING_BUILDER_ARGS = {
+    'recipe': 'flutter/flutter_' + STABLE_VERSION,
+    'console_view_name': 'packaging',
+    'triggered_by': ['gitiles-trigger-stable-packaging'],
 }
 
 linux_prod_builder(
-    name='Linux Flutter Packaging|pkg', **COMMON_PACKAGING_BUILDER_ARGS)
+    name='Linux Flutter Dev Packaging|pkg', **DEV_PACKAGING_BUILDER_ARGS)
 mac_prod_builder(
-    name='Mac Flutter Packaging|pkg', **COMMON_PACKAGING_BUILDER_ARGS)
+    name='Mac Flutter Dev Packaging|pkg', **DEV_PACKAGING_BUILDER_ARGS)
 windows_prod_builder(
-    name='Windows Flutter Packaging|pkg', **COMMON_PACKAGING_BUILDER_ARGS)
+    name='Windows Flutter Dev Packaging|pkg', **DEV_PACKAGING_BUILDER_ARGS)
+
+linux_prod_builder(
+    name='Linux Flutter Beta Packaging|pkg', **BETA_PACKAGING_BUILDER_ARGS)
+mac_prod_builder(
+    name='Mac Flutter Beta Packaging|pkg', **BETA_PACKAGING_BUILDER_ARGS)
+windows_prod_builder(
+    name='Windows Flutter Beta Packaging|pkg', **BETA_PACKAGING_BUILDER_ARGS)
+
+linux_prod_builder(
+    name='Linux Flutter Stable Packaging|pkg', **STABLE_PACKAGING_BUILDER_ARGS)
+mac_prod_builder(
+    name='Mac Flutter Stable Packaging|pkg', **STABLE_PACKAGING_BUILDER_ARGS)
+windows_prod_builder(
+    name='Windows Flutter Stable Packaging|pkg', **STABLE_PACKAGING_BUILDER_ARGS)
 
 
 def ios_tools_builder(**kwargs):
