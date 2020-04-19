@@ -24,7 +24,7 @@ STABLE_REFS = r'refs/heads/flutter-1\.12\.13-candidate\.\d+'
 STABLE_VERSION = 'v1_12_13'
 BETA_REFS = r'refs/heads/flutter-1\.17\.0-candidate\.\d+'
 BETA_VERSION = 'v1_17_0'
-FUCHSIA_CTL_VERSION = 'version:0.0.20'
+FUCHSIA_CTL_VERSION = 'version:0.0.21'
 
 lucicfg.config(
     config_dir='.',
