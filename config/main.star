@@ -19,10 +19,10 @@ FLUTTER_GIT = 'https://chromium.googlesource.com/external/github.com/flutter/flu
 ENGINE_GIT = 'https://chromium.googlesource.com/external/github.com/flutter/engine'
 # TODO(fujino): Remove this once 1.12.13 is no longer latest stable
 HOTFIX_REFS = 'refs/heads/v.+hotfixes'
-STABLE_REFS = r'refs/heads/flutter-1\.12\.13-candidate\.\d+'
+STABLE_REFS = r'refs/heads/flutter-1\.12-candidate\.13'
 # To be interpolated into recipe names e.g. 'flutter/flutter_' + STABLE_VERSION
 STABLE_VERSION = 'v1_12_13'
-BETA_REFS = r'refs/heads/flutter-1\.17\.0-candidate\.\d+'
+BETA_REFS = r'refs/heads/flutter-1\.17-candidate\.3'
 BETA_VERSION = 'v1_17_0'
 FUCHSIA_CTL_VERSION = 'version:0.0.22'
 
