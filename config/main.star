@@ -1053,25 +1053,25 @@ STABLE_PACKAGING_BUILDER_ARGS = {
 }
 
 linux_prod_builder(
-    name='Linux Flutter Dev Packaging|pkg', **DEV_PACKAGING_BUILDER_ARGS)
+    name='Linux Flutter Dev Packaging|dev', **DEV_PACKAGING_BUILDER_ARGS)
 mac_prod_builder(
-    name='Mac Flutter Dev Packaging|pkg', **DEV_PACKAGING_BUILDER_ARGS)
+    name='Mac Flutter Dev Packaging|dev', **DEV_PACKAGING_BUILDER_ARGS)
 windows_prod_builder(
-    name='Windows Flutter Dev Packaging|pkg', **DEV_PACKAGING_BUILDER_ARGS)
+    name='Windows Flutter Dev Packaging|dev', **DEV_PACKAGING_BUILDER_ARGS)
 
 linux_prod_builder(
-    name='Linux Flutter Beta Packaging|pkg', **BETA_PACKAGING_BUILDER_ARGS)
+    name='Linux Flutter Beta Packaging|beta', **BETA_PACKAGING_BUILDER_ARGS)
 mac_prod_builder(
-    name='Mac Flutter Beta Packaging|pkg', **BETA_PACKAGING_BUILDER_ARGS)
+    name='Mac Flutter Beta Packaging|beta', **BETA_PACKAGING_BUILDER_ARGS)
 windows_prod_builder(
-    name='Windows Flutter Beta Packaging|pkg', **BETA_PACKAGING_BUILDER_ARGS)
+    name='Windows Flutter Beta Packaging|beta', **BETA_PACKAGING_BUILDER_ARGS)
 
 linux_prod_builder(
-    name='Linux Flutter Stable Packaging|pkg', **STABLE_PACKAGING_BUILDER_ARGS)
+    name='Linux Flutter Stable Packaging|stbl', **STABLE_PACKAGING_BUILDER_ARGS)
 mac_prod_builder(
-    name='Mac Flutter Stable Packaging|pkg', **STABLE_PACKAGING_BUILDER_ARGS)
+    name='Mac Flutter Stable Packaging|stbl', **STABLE_PACKAGING_BUILDER_ARGS)
 windows_prod_builder(
-    name='Windows Flutter Stable Packaging|pkg', **STABLE_PACKAGING_BUILDER_ARGS)
+    name='Windows Flutter Stable Packaging|stbl', **STABLE_PACKAGING_BUILDER_ARGS)
 
 
 def ios_tools_builder(**kwargs):
