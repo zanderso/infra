@@ -15,6 +15,7 @@ https://chromium.googlesource.com/infra/luci/luci-go/+/refs/heads/master/lucicfg
 """
 
 COCOON_GIT = 'https://chromium.googlesource.com/external/github.com/flutter/cocoon'
+FLUTTER_RECIPES_GIT = 'https://flutter.googlesource.com/recipes'
 FLUTTER_GIT = 'https://chromium.googlesource.com/external/github.com/flutter/flutter'
 ENGINE_GIT = 'https://chromium.googlesource.com/external/github.com/flutter/engine'
 # TODO(fujino): Remove this once 1.12.13 is no longer latest stable
@@ -115,6 +116,12 @@ luci.builder.defaults.properties.set({
 # Gitiles pollers
 
 luci.gitiles_poller(
+    name='master-gitiles-trigger-recipes',
+    bucket='prod',
+    repo=FLUTTER_RECIPES_GIT,
+)
+
+luci.gitiles_poller(
     name='master-gitiles-trigger-framework',
     bucket='prod',
     repo=FLUTTER_GIT,
@@ -190,7 +197,7 @@ luci.gitiles_poller(
 )
 
 
-# Recipe definitions
+# Recipe definitions.
 def recipe(name):
     luci.recipe(
         name=name,
@@ -198,6 +205,14 @@ def recipe(name):
         'infra/recipe_bundles/chromium.googlesource.com/chromium/tools/build',
         cipd_version='refs/heads/master',
     )
+
+# Flutter recipe-bundler definition.
+luci.recipe(
+    name='recipe_bundler',
+    cipd_package='infra/recipe_bundles/chromium.googlesource.com/infra/infra',
+    cipd_version='git_revision:9c7c5d6669de83823c9a34c7da11c7891d09662d',
+)
+
 
 
 recipe('flutter/cocoon')
@@ -226,6 +241,7 @@ def console_view(name, repo, refs=['refs/heads/master'], exclude_ref=None):
 
 
 console_view('framework', FLUTTER_GIT)
+console_view('recipes', FLUTTER_RECIPES_GIT)
 # TODO(fujino): Remove this (and all other hotfix references) once 1.12.13 is
 # no longer stable
 console_view('hotfix-framework', FLUTTER_GIT, [HOTFIX_REFS])
@@ -457,6 +473,23 @@ COMMON_LINUX_COCOON_BUILDER_ARGS = {
     'caches': [swarming.cache(name='dart_pub_cache', path='.pub-cache')],
 }
 
+COMMON_LINUX_RECIPES_BUILDER_ARGS = {
+    'recipe': 'recipe_bundler',
+    'console_view_name': 'recipes',
+    'triggered_by': ['master-gitiles-trigger-recipes'],
+    'triggering_policy':
+        scheduler.greedy_batching(
+            max_batch_size=1, max_concurrent_invocations=3),
+    'properties': {
+        'package_name_prefix': 'flutter/recipe_bundles',
+        'package_name_internal_prefix': 'flutter_internal/recipe_bundles',
+        'recipe_bundler_vers': 'git_revision:2ed88b2c854578b512e1c0486824175fe0d7aab6',
+        'repo_specs': [
+            'flutter.googlesource.com/recipes=FETCH_HEAD,refs/heads/master',
+        ],
+    },
+}
+
 COMMON_FRAMEWORK_BUILDER_ARGS = {
     'recipe': 'flutter/flutter',
     'console_view_name': 'framework',
@@ -545,6 +578,10 @@ linux_prod_builder(
     name='Linux beta|frwk',
     properties={'shard': 'framework_tests'},
     **COMMON_BETA_FRAMEWORK_BUILDER_ARGS)
+
+linux_prod_builder(
+    name='Recipes | rcps',
+    **COMMON_LINUX_RECIPES_BUILDER_ARGS)
 
 linux_try_builder(name='Cocoon|cocoon', **COMMON_LINUX_COCOON_BUILDER_ARGS)
 linux_try_builder(
