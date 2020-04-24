@@ -202,7 +202,7 @@ def recipe(name):
     luci.recipe(
         name=name,
         cipd_package=
-        'flutter/recipe_bundles/flutter.googlesource.com/recipes',
+        'infra/recipe_bundles/chromium.googlesource.com/chromium/tools/build',
         cipd_version='refs/heads/master',
     )
 
@@ -215,19 +215,19 @@ luci.recipe(
 
 
 
-recipe('cocoon')
-recipe('flutter')
-recipe('flutter_' + STABLE_VERSION)
-recipe('flutter_' + BETA_VERSION)
-recipe('engine')
-recipe('engine_' + STABLE_VERSION)
-recipe('engine_' + BETA_VERSION)
-recipe('engine_builder')
+recipe('flutter/cocoon')
+recipe('flutter/flutter')
+recipe('flutter/flutter_' + STABLE_VERSION)
+recipe('flutter/flutter_' + BETA_VERSION)
+recipe('flutter/engine')
+recipe('flutter/engine_' + STABLE_VERSION)
+recipe('flutter/engine_' + BETA_VERSION)
+recipe('flutter/engine_builder')
 # TODO(fujino): uncomment when 1.17.0 is promoted to stable
 # recipe('flutter/engine_builder_' + STABLE_VERSION)
-recipe('engine_builder_' + BETA_VERSION)
-recipe('ios-usb-dependencies')
-recipe('web_engine')
+recipe('flutter/engine_builder_' + BETA_VERSION)
+recipe('flutter/ios-usb-dependencies')
+recipe('flutter/web_engine')
 
 
 # Console definitions
@@ -467,7 +467,7 @@ mac_try_builder, mac_prod_builder = mac_builder()
 windows_try_builder, windows_prod_builder = windows_builder()
 
 COMMON_LINUX_COCOON_BUILDER_ARGS = {
-    'recipe': 'cocoon',
+    'recipe': 'flutter/cocoon',
     'console_view_name': 'cocoon',
     'list_view_name': 'cocoon-try',
     'caches': [swarming.cache(name='dart_pub_cache', path='.pub-cache')],
@@ -491,7 +491,7 @@ COMMON_LINUX_RECIPES_BUILDER_ARGS = {
 }
 
 COMMON_FRAMEWORK_BUILDER_ARGS = {
-    'recipe': 'flutter',
+    'recipe': 'flutter/flutter',
     'console_view_name': 'framework',
     'list_view_name': 'framework-try',
 }
@@ -501,7 +501,7 @@ COMMON_HOTFIX_FRAMEWORK_BUILDER_ARGS = merge_dicts(
         'console_view_name':
         'hotfix-framework',
         'recipe':
-        'flutter_' + STABLE_VERSION,
+        'flutter/flutter_' + STABLE_VERSION,
         'triggered_by': ['hotfix-gitiles-trigger-framework'],
         'triggering_policy':
         scheduler.greedy_batching(
@@ -513,7 +513,7 @@ COMMON_STABLE_FRAMEWORK_BUILDER_ARGS = merge_dicts(
         'console_view_name':
         'stable-framework',
         'recipe':
-        'flutter_' + STABLE_VERSION,
+        'flutter/flutter_' + STABLE_VERSION,
         'triggered_by': ['stable-gitiles-trigger-framework'],
         'triggering_policy':
         scheduler.greedy_batching(
@@ -525,7 +525,7 @@ COMMON_BETA_FRAMEWORK_BUILDER_ARGS = merge_dicts(
         'console_view_name':
         'beta-framework',
         'recipe':
-        'flutter_' + BETA_VERSION,
+        'flutter/flutter_' + BETA_VERSION,
         'triggered_by': ['beta-gitiles-trigger-framework'],
         'triggering_policy':
         scheduler.greedy_batching(
@@ -623,7 +623,7 @@ windows_try_builder(
     **COMMON_FRAMEWORK_BUILDER_ARGS)
 
 COMMON_ENGINE_BUILDER_ARGS = {
-    'recipe': 'engine',
+    'recipe': 'flutter/engine',
     'console_view_name': 'engine',
     'list_view_name': 'engine-try',
 }
@@ -641,7 +641,7 @@ COMMON_HOTFIX_ENGINE_BUILDER_ARGS = merge_dicts(
         'console_view_name':
         'hotfix-engine',
         'recipe':
-        'engine_' + STABLE_VERSION,
+        'flutter/engine_' + STABLE_VERSION,
         'triggered_by': ['hotfix-gitiles-trigger-engine'],
         'triggering_policy':
         scheduler.greedy_batching(
@@ -653,7 +653,7 @@ COMMON_STABLE_ENGINE_BUILDER_ARGS = merge_dicts(
         'console_view_name':
         'stable-engine',
         'recipe':
-        'engine_' + STABLE_VERSION,
+        'flutter/engine_' + STABLE_VERSION,
         'triggered_by': ['stable-gitiles-trigger-engine'],
         'triggering_policy':
         scheduler.greedy_batching(
@@ -665,7 +665,7 @@ COMMON_BETA_ENGINE_BUILDER_ARGS = merge_dicts(
         'console_view_name':
         'beta-engine',
         'recipe':
-        'engine_' + BETA_VERSION,
+        'flutter/engine_' + BETA_VERSION,
         'triggered_by': ['beta-gitiles-trigger-engine'],
         'triggering_policy':
         scheduler.greedy_batching(
@@ -727,7 +727,7 @@ linux_prod_builder(
     **COMMON_SCHEDULED_ENGINE_BUILDER_ARGS)
 linux_prod_builder(
     name='Linux Engine Drone|drn',
-    recipe='engine_builder',
+    recipe='flutter/engine_builder',
     console_view_name=None,
     no_notify=True)
 
@@ -752,7 +752,7 @@ linux_prod_builder(
     **COMMON_HOTFIX_ENGINE_BUILDER_ARGS)
 linux_prod_builder(
     name='Linux hotfix Engine Drone|drn',
-    recipe='engine_builder',
+    recipe='flutter/engine_builder',
     console_view_name=None,
     no_notify=True)
 
@@ -803,7 +803,7 @@ linux_prod_builder(
     **COMMON_BETA_ENGINE_BUILDER_ARGS)
 linux_prod_builder(
     name='Linux beta Engine Drone|drn',
-    recipe='engine_builder_' + BETA_VERSION,
+    recipe='flutter/engine_builder_' + BETA_VERSION,
     console_view_name=None,
     no_notify=True)
 
@@ -826,7 +826,7 @@ linux_try_builder(
     **COMMON_ENGINE_BUILDER_ARGS)
 linux_try_builder(
     name='Linux Engine Drone|drn',
-    recipe='engine_builder',
+    recipe='flutter/engine_builder',
     list_view_name='engine-try')
 
 mac_prod_builder(
@@ -859,7 +859,7 @@ mac_prod_builder(
     **COMMON_SCHEDULED_ENGINE_BUILDER_ARGS)
 mac_prod_builder(
     name='Mac Engine Drone|drn',
-    recipe='engine_builder',
+    recipe='flutter/engine_builder',
     console_view_name=None,
     no_notify=True)
 
@@ -894,7 +894,7 @@ mac_prod_builder(
     **COMMON_STABLE_ENGINE_BUILDER_ARGS)
 mac_prod_builder(
     name='Mac stable Engine Drone|drn',
-    recipe='engine_builder',
+    recipe='flutter/engine_builder',
     console_view_name=None,
     no_notify=True)
 
@@ -929,7 +929,7 @@ mac_prod_builder(
     **COMMON_BETA_ENGINE_BUILDER_ARGS)
 mac_prod_builder(
     name='Mac beta Engine Drone|drn',
-    recipe='engine_builder',
+    recipe='flutter/engine_builder',
     console_view_name=None,
     no_notify=True)
 
@@ -963,7 +963,7 @@ mac_prod_builder(
     **COMMON_HOTFIX_ENGINE_BUILDER_ARGS)
 mac_prod_builder(
     name='Mac hotfix Engine Drone|drn',
-    recipe='engine_builder',
+    recipe='flutter/engine_builder',
     console_view_name=None,
     no_notify=True)
 
@@ -987,7 +987,7 @@ mac_try_builder(
     **COMMON_ENGINE_BUILDER_ARGS)
 mac_try_builder(
     name='Mac Engine Drone|drn',
-    recipe='engine_builder',
+    recipe='flutter/engine_builder',
     list_view_name='engine-try')
 
 windows_prod_builder(
@@ -1000,7 +1000,7 @@ windows_prod_builder(
     **COMMON_SCHEDULED_ENGINE_BUILDER_ARGS)
 windows_prod_builder(
     name='Windows Engine Drone|drn',
-    recipe='engine_builder',
+    recipe='flutter/engine_builder',
     console_view_name=None,
     no_notify=True)
 
@@ -1014,7 +1014,7 @@ windows_prod_builder(
     **COMMON_STABLE_ENGINE_BUILDER_ARGS)
 windows_prod_builder(
     name='Windows stable Engine Drone|drn',
-    recipe='engine_builder',
+    recipe='flutter/engine_builder',
     console_view_name=None,
     no_notify=True)
 
@@ -1028,7 +1028,7 @@ windows_prod_builder(
     **COMMON_BETA_ENGINE_BUILDER_ARGS)
 windows_prod_builder(
     name='Windows beta Engine Drone|drn',
-    recipe='engine_builder',
+    recipe='flutter/engine_builder',
     console_view_name=None,
     no_notify=True)
 
@@ -1042,7 +1042,7 @@ windows_prod_builder(
     **COMMON_HOTFIX_ENGINE_BUILDER_ARGS)
 windows_prod_builder(
     name='Windows hotfix Engine Drone|drn',
-    recipe='engine_builder',
+    recipe='flutter/engine_builder',
     console_view_name=None,
     no_notify=True)
 
@@ -1056,11 +1056,11 @@ windows_try_builder(
     **COMMON_ENGINE_BUILDER_ARGS)
 windows_try_builder(
     name='Windows Engine Drone|drn',
-    recipe='engine_builder',
+    recipe='flutter/engine_builder',
     list_view_name='engine-try')
 
 COMMON_WEB_ENGINE_BUILDER_ARGS = {
-    'recipe': 'web_engine',
+    'recipe': 'flutter/web_engine',
     'console_view_name': 'web-engine',
     'list_view_name': 'web-engine-try',
 }
@@ -1072,19 +1072,19 @@ windows_try_builder(
     name='Windows Web Engine|wwe', **COMMON_WEB_ENGINE_BUILDER_ARGS)
 
 DEV_PACKAGING_BUILDER_ARGS = {
-    'recipe': 'flutter',
+    'recipe': 'flutter/flutter',
     'console_view_name': 'packaging',
     'triggered_by': ['gitiles-trigger-dev-packaging'],
 }
 
 BETA_PACKAGING_BUILDER_ARGS = {
-    'recipe': 'flutter_' + BETA_VERSION,
+    'recipe': 'flutter/flutter_' + BETA_VERSION,
     'console_view_name': 'packaging',
     'triggered_by': ['gitiles-trigger-beta-packaging'],
 }
 
 STABLE_PACKAGING_BUILDER_ARGS = {
-    'recipe': 'flutter_' + STABLE_VERSION,
+    'recipe': 'flutter/flutter_' + STABLE_VERSION,
     'console_view_name': 'packaging',
     'triggered_by': ['gitiles-trigger-stable-packaging'],
 }
@@ -1121,7 +1121,7 @@ def ios_tools_builder(**kwargs):
         repo=repo,
         triggers=[builder])
     return mac_prod_builder(
-        recipe='ios-usb-dependencies',
+        recipe='flutter/ios-usb-dependencies',
         properties={
             'package_name': builder + '-flutter',
         },
