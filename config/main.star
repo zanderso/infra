@@ -70,6 +70,9 @@ luci.project(
             ],
             groups='project-flutter-admins'),
         acl.entry(acl.LOGDOG_WRITER, groups='luci-logdog-chromium-writers'),
+	acl.entry(
+	    roles=[acl.CQ_COMMITTER],
+	    groups=["project-flutter-try-schedulers"]),
     ],
 )
 
@@ -81,7 +84,15 @@ luci.milo(
     favicon='https://storage.googleapis.com/flutter_infra/favicon.ico',
 )
 
-luci.bucket(name='prod')
+luci.bucket(
+    name='prod',
+    acls=[
+        acl.entry(
+            acl.BUILDBUCKET_TRIGGERER, groups='project-flutter-prod-schedulers'),
+        acl.entry(
+            acl.SCHEDULER_TRIGGERER, groups='project-flutter-prod-schedulers'),
+    ])
+
 luci.bucket(
     name='try',
     acls=[
