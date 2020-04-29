@@ -33,18 +33,9 @@ BETA_REFS = r'refs/heads/flutter-1\.17-candidate\.3'
 BETA_VERSION = 'v1_17_0'
 FUCHSIA_CTL_VERSION = 'version:0.0.22'
 
-lucicfg.config(
-    config_dir='.',
-    tracked_files=[
-        'commit-queue.cfg',
-        'cr-buildbucket.cfg',
-        'luci-logdog.cfg',
-        'luci-milo.cfg',
-        'luci-notify.cfg',
-        'luci-scheduler.cfg',
-        'project.cfg',
-    ],
-)
+lucicfg.config(config_dir="generated/flutter",
+               tracked_files=["**/*"],
+               fail_on_warnings=True)
 
 luci.project(
     name='flutter',
@@ -149,6 +140,27 @@ common.builder(
     },
     service_account=accounts.FLUTTER_TRY,
 )
+
+# Autoroller builder. This is used to roll flutter recipes dependencies.
+common.builder(
+    name="recipe-deps-roller",
+    builder_group=builder_groups.recipes_prod,
+    executable=luci.recipe(
+        name="recipe_autoroller",
+        cipd_package=
+        "infra/recipe_bundles/chromium.googlesource.com/infra/infra",
+        cipd_version="git_revision:647d5e58ec508f13ccd054f1516e78d7ca3bd540"),
+    execution_timeout=20 * time.minute,
+    properties={
+        "db_gcs_bucket": "flutter-recipe-roller-db",
+        "projects": {
+            "flutter": "https://flutter.googlesource.com/recipes",
+        }.items(),
+    },
+    schedule="with 1h interval",
+    console_category='recipes',
+    console_short_name='aroll')
+
 ###############################################################################
 
 # Gitiles pollers
@@ -156,13 +168,6 @@ luci.gitiles_poller(
     name='master-gitiles-trigger-recipes',
     bucket='prod',
     repo=FLUTTER_RECIPES_GIT,
-)
-
-luci.gitiles_poller(
-    name='gitiles-trigger-autoroller',
-    bucket='prod',
-    repo=FLUTTER_RECIPES_GIT,
-    schedule="with 1h interval",
 )
 
 luci.gitiles_poller(
@@ -255,13 +260,6 @@ luci.recipe(
     name='recipe_bundler',
     cipd_package='infra/recipe_bundles/chromium.googlesource.com/infra/infra',
     cipd_version='git_revision:9c7c5d6669de83823c9a34c7da11c7891d09662d',
-)
-
-# Flutter autoroller recipe definition.
-luci.recipe(
-    name='recipe_autoroller',
-    cipd_package='infra/recipe_bundles/chromium.googlesource.com/infra/infra',
-    cipd_version='refs/heads/master',
 )
 
 recipe('cocoon')
@@ -537,15 +535,6 @@ COMMON_LINUX_RECIPES_BUILDER_ARGS = {
     },
 }
 
-COMMON_LINUX_AUTOROLLER_BUILDER_ARGS = {
-    'recipe': 'recipe_autoroller',
-    'console_view_name': 'recipes',
-    'triggered_by': ['gitiles-trigger-autoroller'],
-    'properties': {
-        "projects": [["flutter", "https://flutter.googlesource.com/recipes"]]
-    },
-}
-
 COMMON_FRAMEWORK_BUILDER_ARGS = {
     'recipe': 'flutter',
     'console_view_name': 'framework',
@@ -632,8 +621,6 @@ linux_prod_builder(name='Linux beta|frwk',
                    **COMMON_BETA_FRAMEWORK_BUILDER_ARGS)
 
 linux_prod_builder(name='Recipes|rcps', **COMMON_LINUX_RECIPES_BUILDER_ARGS)
-linux_prod_builder(name='Autoroller|aroll',
-                   **COMMON_LINUX_AUTOROLLER_BUILDER_ARGS)
 
 linux_try_builder(name='Cocoon|cocoon', **COMMON_LINUX_COCOON_BUILDER_ARGS)
 linux_try_builder(name='Linux|frwk',
