@@ -31,21 +31,11 @@ def _group(account,
     )
 
 
-builder_groups = struct(
-    recipes_try=_group(
-        account=accounts.FLUTTER_TRY,
-        bucket="try",
-        pool="luci.flutter.try",
-        triggering_repos=(repos.FLUTTER_RECIPES, ),
-        triggering_refs=("refs/heads/master", ),
-        views=(),
-    ),
-    recipes_prod=_group(
-        account=accounts.FLUTTER_PROD,
-        bucket="prod",
-        pool="luci.flutter.prod",
-        triggering_repos=(repos.FLUTTER_RECIPES, ),
-        triggering_refs=("refs/heads/master", ),
-        views=('recipes', ),
-    ),
-)
+builder_groups = struct(recipes_try=_group(
+    account=accounts.FLUTTER_TRY,
+    bucket="try",
+    pool="luci.flutter.try",
+    triggering_repos=(repos.FLUTTER_RECIPES, ),
+    triggering_refs=("refs/heads/master", ),
+    views=(),
+), )
