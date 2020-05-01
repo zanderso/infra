@@ -56,18 +56,26 @@ luci.project(
             ],
             groups='all',
         ),
-        acl.entry(acl.BUILDBUCKET_TRIGGERER,
-                  groups='project-flutter-prod-schedulers'),
-        acl.entry(acl.BUILDBUCKET_TRIGGERER,
-                  users='luci-scheduler@appspot.gserviceaccount.com'),
         acl.entry(roles=[
-            acl.BUILDBUCKET_OWNER,
-            acl.SCHEDULER_OWNER,
+            acl.BUILDBUCKET_TRIGGERER,
+            acl.SCHEDULER_TRIGGERER,
         ],
-                  groups='project-flutter-admins'),
-        acl.entry(acl.LOGDOG_WRITER, groups='luci-logdog-chromium-writers'),
-        acl.entry(roles=[acl.CQ_COMMITTER],
-                  groups=["project-flutter-try-schedulers"]),
+                  groups='project-flutter-prod-schedulers'),
+        acl.entry(
+            roles=[
+                acl.BUILDBUCKET_OWNER,
+                acl.SCHEDULER_OWNER,
+            ],
+            groups='project-flutter-admins',
+        ),
+        acl.entry(
+            acl.LOGDOG_WRITER,
+            groups='luci-logdog-chromium-writers',
+        ),
+        acl.entry(
+            roles=[acl.CQ_COMMITTER],
+            groups=["project-flutter-try-schedulers"],
+        ),
     ],
 )
 
