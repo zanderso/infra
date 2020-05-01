@@ -192,4 +192,5 @@ common = struct(
     cq_group=_cq_group,
     cq_group_name=_cq_group_name,
     poller_name=_poller_name,
+    TARGET_X64="x64",
 )

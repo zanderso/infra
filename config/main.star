@@ -130,6 +130,12 @@ luci.builder.defaults.properties.set({
 # Common recipe group configurations.
 common.cq_group(repos.FLUTTER_RECIPES)
 
+# Default dimensions
+luci.builder.defaults.dimensions.set({
+    "cpu": common.TARGET_X64,
+    "os": "Linux",
+})
+
 # Builder configuration to validate recipe changes in presubmit.
 common.builder(
     name="recipes-unittest-only",
