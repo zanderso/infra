@@ -16,6 +16,7 @@ https://chromium.googlesource.com/infra/luci/luci-go/+/refs/heads/master/lucicfg
 
 load("//lib/accounts.star", "accounts")
 load("//lib/common.star", "common")
+load("//lib/consoles.star", "consoles")
 load("//lib/builder_groups.star", "builder_groups")
 load("//lib/repos.star", "repos")
 load("//lib/recipes.star", "recipes")
@@ -125,8 +126,62 @@ luci.builder.defaults.properties.set({
     '\n84831b9409646a918e30573bab4c9c91346d8abd',
 })
 
-####################### Flutter Builder Definitions ############################
+######################### Console Definitions #################################
 
+console_names = struct(
+    framework=consoles.console_view(
+        'framework',
+        FLUTTER_GIT,
+    ),
+    recipes=consoles.console_view(
+        'recipes',
+        FLUTTER_RECIPES_GIT,
+    ),
+    # TODO(fujino): Remove this (and all other hotfix references) once 1.12.13 is
+    # no longer stable
+    hotfix_framework=consoles.console_view(
+        'hotfix_framework',
+        FLUTTER_GIT,
+        [HOTFIX_REFS],
+    ),
+    stable_framework=consoles.console_view(
+        'stable_framework',
+        FLUTTER_GIT,
+        [STABLE_REFS],
+    ),
+    beta_framework=consoles.console_view(
+        'beta_framework',
+        FLUTTER_GIT,
+        [BETA_REFS],
+    ),
+    engine=consoles.console_view(
+        'engine',
+        ENGINE_GIT,
+    ),
+    hotfix_engine=consoles.console_view(
+        'hotfix_engine',
+        ENGINE_GIT,
+        [HOTFIX_REFS],
+    ),
+    stable_engine=consoles.console_view(
+        'stable_engine',
+        ENGINE_GIT,
+        [STABLE_REFS],
+    ),
+    beta_engine=consoles.console_view(
+        'beta_engine',
+        ENGINE_GIT,
+        [BETA_REFS],
+    ),
+    packaging=consoles.console_view(
+        'packaging',
+        FLUTTER_GIT,
+        refs=['refs/heads/beta', 'refs/heads/dev', 'refs/heads/stable'],
+        exclude_ref='refs/heads/master',
+    ),
+)
+
+###################### Defaults, and global configs  ##########################
 # Common recipe group configurations.
 common.cq_group(repos.FLUTTER_RECIPES)
 
@@ -135,6 +190,8 @@ luci.builder.defaults.dimensions.set({
     "cpu": common.TARGET_X64,
     "os": "Linux",
 })
+
+####################### Flutter Builder Definitions ###########################
 
 # Builder configuration to validate recipe changes in presubmit.
 common.builder(
@@ -173,17 +230,35 @@ common.builder(
         }.items(),
     },
     schedule="with 1h interval",
-    console_category='recipes',
+    console_category=console_names.recipes,
     console_short_name='aroll')
 
+# Recipes builder. This is used to create a bundle of the cipd package.
+common.builder(
+    name="recipes-bundler",
+    builder_group=builder_groups.recipes_prod,
+    executable=luci.recipe(
+        name="recipe_bundler",
+        cipd_package=
+        "infra/recipe_bundles/chromium.googlesource.com/infra/infra",
+        cipd_version="git_revision:647d5e58ec508f13ccd054f1516e78d7ca3bd540"),
+    execution_timeout=20 * time.minute,
+    properties={
+        'package_name_prefix':
+        'flutter/recipe_bundles',
+        'package_name_internal_prefix':
+        'flutter_internal/recipe_bundles',
+        'recipe_bundler_vers':
+        'git_revision:2ed88b2c854578b512e1c0486824175fe0d7aab6',
+        'repo_specs': [
+            'flutter.googlesource.com/recipes=FETCH_HEAD,refs/heads/master',
+        ],
+    }.items(),
+    console_category=console_names.recipes,
+    console_short_name='bdlr')
 ###############################################################################
 
 # Gitiles pollers
-luci.gitiles_poller(
-    name='master-gitiles-trigger-recipes',
-    bucket='prod',
-    repo=FLUTTER_RECIPES_GIT,
-)
 
 luci.gitiles_poller(
     name='master-gitiles-trigger-framework',
@@ -270,13 +345,6 @@ def recipe(name):
     )
 
 
-# Flutter recipe-bundler definition.
-luci.recipe(
-    name='recipe_bundler',
-    cipd_package='infra/recipe_bundles/chromium.googlesource.com/infra/infra',
-    cipd_version='git_revision:9c7c5d6669de83823c9a34c7da11c7891d09662d',
-)
-
 recipe('cocoon')
 recipe('flutter')
 recipe('flutter_' + STABLE_VERSION)
@@ -291,33 +359,6 @@ recipe('engine_builder_' + BETA_VERSION)
 recipe('ios-usb-dependencies')
 recipe('web_engine')
 
-
-# Console definitions
-def console_view(name, repo, refs=['refs/heads/master'], exclude_ref=None):
-    luci.console_view(
-        name=name,
-        repo=repo,
-        refs=refs,
-        exclude_ref=exclude_ref,
-    )
-
-
-console_view('framework', FLUTTER_GIT)
-console_view('recipes', FLUTTER_RECIPES_GIT)
-# TODO(fujino): Remove this (and all other hotfix references) once 1.12.13 is
-# no longer stable
-console_view('hotfix-framework', FLUTTER_GIT, [HOTFIX_REFS])
-console_view('stable-framework', FLUTTER_GIT, [STABLE_REFS])
-console_view('beta-framework', FLUTTER_GIT, [BETA_REFS])
-console_view('engine', ENGINE_GIT)
-console_view('hotfix-engine', ENGINE_GIT, [HOTFIX_REFS])
-console_view('stable-engine', ENGINE_GIT, [STABLE_REFS])
-console_view('beta-engine', ENGINE_GIT, [BETA_REFS])
-console_view('packaging',
-             FLUTTER_GIT,
-             refs=['refs/heads/beta', 'refs/heads/dev', 'refs/heads/stable'],
-             exclude_ref='refs/heads/master')
-
 luci.list_view(
     name='cocoon-try',
     title='Cocoon try builders',
@@ -329,10 +370,6 @@ luci.list_view(
 luci.list_view(
     name='engine-try',
     title='Engine try builders',
-)
-luci.list_view(
-    name='web-engine-try',
-    title='Web Engine try builders',
 )
 
 # Builder-defining functions
@@ -529,27 +566,6 @@ COMMON_LINUX_COCOON_BUILDER_ARGS = {
     'caches': [swarming.cache(name='dart_pub_cache', path='.pub-cache')],
 }
 
-COMMON_LINUX_RECIPES_BUILDER_ARGS = {
-    'recipe':
-    'recipe_bundler',
-    'console_view_name':
-    'recipes',
-    'triggered_by': ['master-gitiles-trigger-recipes'],
-    'triggering_policy':
-    scheduler.greedy_batching(max_batch_size=1, max_concurrent_invocations=3),
-    'properties': {
-        'package_name_prefix':
-        'flutter/recipe_bundles',
-        'package_name_internal_prefix':
-        'flutter_internal/recipe_bundles',
-        'recipe_bundler_vers':
-        'git_revision:2ed88b2c854578b512e1c0486824175fe0d7aab6',
-        'repo_specs': [
-            'flutter.googlesource.com/recipes=FETCH_HEAD,refs/heads/master',
-        ],
-    },
-}
-
 COMMON_FRAMEWORK_BUILDER_ARGS = {
     'recipe': 'flutter',
     'console_view_name': 'framework',
@@ -559,7 +575,7 @@ COMMON_FRAMEWORK_BUILDER_ARGS = {
 COMMON_HOTFIX_FRAMEWORK_BUILDER_ARGS = merge_dicts(
     COMMON_FRAMEWORK_BUILDER_ARGS, {
         'console_view_name':
-        'hotfix-framework',
+        console_names.hotfix_framework,
         'recipe':
         'flutter_' + STABLE_VERSION,
         'triggered_by': ['hotfix-gitiles-trigger-framework'],
@@ -571,7 +587,7 @@ COMMON_HOTFIX_FRAMEWORK_BUILDER_ARGS = merge_dicts(
 COMMON_STABLE_FRAMEWORK_BUILDER_ARGS = merge_dicts(
     COMMON_FRAMEWORK_BUILDER_ARGS, {
         'console_view_name':
-        'stable-framework',
+        console_names.stable_framework,
         'recipe':
         'flutter_' + STABLE_VERSION,
         'triggered_by': ['stable-gitiles-trigger-framework'],
@@ -583,7 +599,7 @@ COMMON_STABLE_FRAMEWORK_BUILDER_ARGS = merge_dicts(
 COMMON_BETA_FRAMEWORK_BUILDER_ARGS = merge_dicts(
     COMMON_FRAMEWORK_BUILDER_ARGS, {
         'console_view_name':
-        'beta-framework',
+        console_names.beta_framework,
         'recipe':
         'flutter_' + BETA_VERSION,
         'triggered_by': ['beta-gitiles-trigger-framework'],
@@ -635,8 +651,6 @@ linux_prod_builder(name='Linux beta|frwk',
                    properties={'shard': 'framework_tests'},
                    **COMMON_BETA_FRAMEWORK_BUILDER_ARGS)
 
-linux_prod_builder(name='Recipes|rcps', **COMMON_LINUX_RECIPES_BUILDER_ARGS)
-
 linux_try_builder(name='Cocoon|cocoon', **COMMON_LINUX_COCOON_BUILDER_ARGS)
 linux_try_builder(name='Linux|frwk',
                   properties={'shard': 'framework_tests'},
@@ -687,7 +701,7 @@ COMMON_SCHEDULED_ENGINE_BUILDER_ARGS = merge_dicts(
 COMMON_HOTFIX_ENGINE_BUILDER_ARGS = merge_dicts(
     COMMON_ENGINE_BUILDER_ARGS, {
         'console_view_name':
-        'hotfix-engine',
+        console_names.hotfix_engine,
         'recipe':
         'engine_' + STABLE_VERSION,
         'triggered_by': ['hotfix-gitiles-trigger-engine'],
@@ -699,7 +713,7 @@ COMMON_HOTFIX_ENGINE_BUILDER_ARGS = merge_dicts(
 COMMON_STABLE_ENGINE_BUILDER_ARGS = merge_dicts(
     COMMON_ENGINE_BUILDER_ARGS, {
         'console_view_name':
-        'stable-engine',
+        console_names.stable_engine,
         'recipe':
         'engine_' + STABLE_VERSION,
         'triggered_by': ['stable-gitiles-trigger-engine'],
@@ -711,7 +725,7 @@ COMMON_STABLE_ENGINE_BUILDER_ARGS = merge_dicts(
 COMMON_BETA_ENGINE_BUILDER_ARGS = merge_dicts(
     COMMON_ENGINE_BUILDER_ARGS, {
         'console_view_name':
-        'beta-engine',
+        console_names.beta_engine,
         'recipe':
         'engine_' + BETA_VERSION,
         'triggered_by': ['beta-gitiles-trigger-engine'],
@@ -1051,8 +1065,7 @@ windows_try_builder(name='Windows Engine Drone|drn',
 
 COMMON_WEB_ENGINE_BUILDER_ARGS = {
     'recipe': 'web_engine',
-    'console_view_name': 'web-engine',
-    'list_view_name': 'web-engine-try',
+    'list_view_name': 'engine-try',
 }
 
 linux_try_builder(name='Linux Web Engine|lwe',
@@ -1063,19 +1076,19 @@ windows_try_builder(name='Windows Web Engine|wwe',
 
 DEV_PACKAGING_BUILDER_ARGS = {
     'recipe': 'flutter',
-    'console_view_name': 'packaging',
+    'console_view_name': console_names.packaging,
     'triggered_by': ['gitiles-trigger-dev-packaging'],
 }
 
 BETA_PACKAGING_BUILDER_ARGS = {
     'recipe': 'flutter_' + BETA_VERSION,
-    'console_view_name': 'packaging',
+    'console_view_name': console_names.packaging,
     'triggered_by': ['gitiles-trigger-beta-packaging'],
 }
 
 STABLE_PACKAGING_BUILDER_ARGS = {
     'recipe': 'flutter_' + STABLE_VERSION,
-    'console_view_name': 'packaging',
+    'console_view_name': console_names.packaging,
     'triggered_by': ['gitiles-trigger-stable-packaging'],
 }
 
@@ -1104,7 +1117,7 @@ windows_prod_builder(name='Windows Flutter Stable Packaging|stbl',
 def ios_tools_builder(**kwargs):
     builder = kwargs['name'].split('|')[0]
     repo = 'https://flutter-mirrors.googlesource.com/' + builder
-    console_view(builder, repo)
+    consoles.console_view(builder, repo)
     luci.gitiles_poller(name='gitiles-trigger-' + builder,
                         bucket='prod',
                         repo=repo,
