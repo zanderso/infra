@@ -74,7 +74,7 @@ luci.project(
             groups='luci-logdog-chromium-writers',
         ),
         acl.entry(
-            roles=[acl.CQ_COMMITTER],
+            roles=[acl.CQ_COMMITTER, acl.CQ_DRY_RUNNER],
             groups=["project-flutter-try-schedulers"],
         ),
     ],
