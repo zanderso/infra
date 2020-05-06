@@ -3,9 +3,12 @@
 # found in the LICENSE file.
 """Utility methods to create builders."""
 
+load("//lib/helpers.star", "helpers")
+
 # Regular expressions for files to skip CQ.
 LOCATION_REGEXP_MARKDOWN = r".+/[+]/.*\.md"
 LOCATION_REGEXP_OWNERS = r".+/[+].*/OWNERS"
+FUCHSIA_CTL_VERSION = 'version:0.0.22'
 
 
 def _repo_url_to_luci_object_name(repo_url):
@@ -185,6 +188,173 @@ def _builder(name,
                                     short_name=console_short_name)
 
 
+#############################
+def _flutter_builder(bucket,
+                     pool,
+                     name,
+                     recipe,
+                     os,
+                     properties={},
+                     cores=None,
+                     **kwargs):
+    dimensions = {
+        'pool': pool,
+        'cpu': 'x64',
+        'os': os,
+    }
+    if cores != None:
+        dimensions['cores'] = cores
+    name_parts = name.split('|')
+    luci.builder(name=name_parts[0],
+                 bucket=bucket,
+                 executable=recipe,
+                 properties=properties,
+                 service_account='flutter-' + bucket +
+                 '-builder@chops-service-accounts.iam.gserviceaccount.com',
+                 execution_timeout=3 * time.hour,
+                 dimensions=dimensions,
+                 build_numbers=True,
+                 **kwargs)
+
+
+def _try_builder(name,
+                 list_view_name,
+                 console_view_name=None,
+                 category=None,
+                 properties={},
+                 **kwargs):
+    bucket = 'try'
+    pool = 'luci.flutter.try'
+    merged_properties = helpers.merge_dicts(properties, {
+        'upload_packages': False,
+        'gold_tryjob': True
+    })
+    name_parts = name.split('|')
+
+    luci.list_view_entry(
+        builder=bucket + '/' + name_parts[0],
+        list_view=list_view_name,
+    )
+
+    return _flutter_builder(bucket,
+                            pool,
+                            name,
+                            properties=merged_properties,
+                            **kwargs)
+
+
+def _prod_builder(name,
+                  console_view_name,
+                  category,
+                  no_notify=False,
+                  list_view_name=None,
+                  properties={},
+                  **kwargs):
+    merged_properties = helpers.merge_dicts(properties, {
+        'upload_packages': True,
+        'gold_tryjob': False
+    })
+    bucket = 'prod'
+    pool = 'luci.flutter.prod'
+    name_parts = name.split('|')
+
+    if console_view_name:
+        luci.console_view_entry(
+            builder=bucket + '/' + name_parts[0],
+            console_view=console_view_name,
+            category=category,
+            short_name=name_parts[1],
+        )
+
+    notifies = None if no_notify else [
+        luci.notifier(
+            name='blamelist-on-new-failure',
+            on_new_failure=True,
+            notify_blamelist=True,
+        ),
+    ]
+
+    return _flutter_builder(bucket,
+                            pool,
+                            name,
+                            properties=merged_properties,
+                            notifies=notifies,
+                            **kwargs)
+
+
+def _common_builder(**common_kwargs):
+    def prod_job(*args, **kwargs):
+        return _prod_builder(*args,
+                             **helpers.merge_dicts(common_kwargs, kwargs))
+
+    def try_job(*args, **kwargs):
+        return _try_builder(*args,
+                            **helpers.merge_dicts(common_kwargs, kwargs))
+
+    return try_job, prod_job
+
+
+def _mac_builder(properties={}, caches=None, category='Mac', **kwargs):
+    # see https://chrome-infra-packages.appspot.com/p/infra_internal/ios/xcode/mac/+/
+    properties = helpers.merge_dicts(
+        {
+            '$depot_tools/osx_sdk': {
+                'sdk_version': '11a420a',  # 11.0
+            },
+        },
+        properties)
+    mac_caches = [swarming.cache('osx_sdk')]
+    if caches != None:
+        mac_caches.extend(caches)
+    return _common_builder(os='Mac-10.14',
+                           properties=properties,
+                           caches=mac_caches,
+                           category=category,
+                           **kwargs)
+
+
+def _linux_builder(properties={},
+                   caches=None,
+                   cores='8',
+                   category='Linux',
+                   os=None,
+                   **kwargs):
+    linux_caches = [
+        swarming.cache(name='flutter_openjdk_install', path='java')
+    ]
+    properties['fuchsia_ctl_version'] = FUCHSIA_CTL_VERSION
+    if caches != None:
+        linux_caches.extend(caches)
+    return _common_builder(os=os or 'Linux',
+                           cores=cores,
+                           properties=properties,
+                           caches=linux_caches,
+                           category=category,
+                           **kwargs)
+
+
+def _windows_builder(properties={},
+                     caches=None,
+                     cores='8',
+                     category='Windows',
+                     **kwargs):
+    windows_caches = [
+        swarming.cache(name='flutter_openjdk_install', path='java')
+    ]
+    if caches != None:
+        windows_caches.extend(caches)
+    return _common_builder(os='Windows-10',
+                           cores=cores,
+                           properties=properties,
+                           caches=windows_caches,
+                           category=category,
+                           **kwargs)
+
+
+_linux_try_builder, _linux_prod_builder = _linux_builder()
+_mac_try_builder, _mac_prod_builder = _mac_builder()
+_windows_try_builder, _windows_prod_builder = _windows_builder()
+
 common = struct(
     builder=_builder,
     LOCATION_REGEXP_MARKDOWN=LOCATION_REGEXP_MARKDOWN,
@@ -193,4 +363,10 @@ common = struct(
     cq_group_name=_cq_group_name,
     poller_name=_poller_name,
     TARGET_X64="x64",
+    linux_try_builder=_linux_try_builder,
+    linux_prod_builder=_linux_prod_builder,
+    mac_try_builder=_mac_try_builder,
+    mac_prod_builder=_mac_prod_builder,
+    windows_try_builder=_windows_try_builder,
+    windows_prod_builder=_windows_prod_builder,
 )
