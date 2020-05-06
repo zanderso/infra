@@ -32,6 +32,9 @@ STABLE_REFS = r'refs/heads/flutter-1\.12-candidate\.13'
 STABLE_VERSION = 'v1_12_13'
 BETA_REFS = r'refs/heads/flutter-1\.17-candidate\.3'
 BETA_VERSION = 'v1_17_0'
+# Don't match the last number of the branch name or else this will have to be
+# updated for every dev release.
+DEV_REFS = r'refs/heads/flutter-1\.18-candidate\.'
 FUCHSIA_CTL_VERSION = 'version:0.0.22'
 
 lucicfg.config(config_dir="generated/flutter",
@@ -154,6 +157,11 @@ console_names = struct(
         FLUTTER_GIT,
         [BETA_REFS],
     ),
+    dev_framework=consoles.console_view(
+        'dev_framework',
+        FLUTTER_GIT,
+        [DEV_REFS],
+    ),
     engine=consoles.console_view(
         'engine',
         ENGINE_GIT,
@@ -172,6 +180,11 @@ console_names = struct(
         'beta_engine',
         ENGINE_GIT,
         [BETA_REFS],
+    ),
+    dev_engine=consoles.console_view(
+        'dev_engine',
+        ENGINE_GIT,
+        [DEV_REFS],
     ),
     packaging=consoles.console_view(
         'packaging',
@@ -288,6 +301,13 @@ luci.gitiles_poller(
 )
 
 luci.gitiles_poller(
+    name='dev-gitiles-trigger-framework',
+    bucket='prod',
+    repo=FLUTTER_GIT,
+    refs=[DEV_REFS],
+)
+
+luci.gitiles_poller(
     name='master-gitiles-trigger-engine',
     bucket='prod',
     repo=ENGINE_GIT,
@@ -312,6 +332,13 @@ luci.gitiles_poller(
     bucket='prod',
     repo=ENGINE_GIT,
     refs=[BETA_REFS],
+)
+
+luci.gitiles_poller(
+    name='dev-gitiles-trigger-engine',
+    bucket='prod',
+    repo=ENGINE_GIT,
+    refs=[DEV_REFS],
 )
 
 luci.gitiles_poller(
@@ -608,6 +635,16 @@ COMMON_BETA_FRAMEWORK_BUILDER_ARGS = merge_dicts(
                                   max_concurrent_invocations=3),
     })
 
+COMMON_DEV_FRAMEWORK_BUILDER_ARGS = merge_dicts(
+    COMMON_FRAMEWORK_BUILDER_ARGS, {
+        'console_view_name':
+        console_names.dev_framework,
+        'triggered_by': ['dev-gitiles-trigger-framework'],
+        'triggering_policy':
+        scheduler.greedy_batching(max_batch_size=1,
+                                  max_concurrent_invocations=3),
+    })
+
 COMMON_SCHEDULED_FRAMEWORK_BUILDER_ARGS = merge_dicts(
     COMMON_FRAMEWORK_BUILDER_ARGS, {
         'triggered_by': ['master-gitiles-trigger-framework'],
@@ -638,6 +675,9 @@ COMMON_STABLE_MAC_FRAMEWORK_BUILDER_ARGS = merge_dicts(
 COMMON_BETA_MAC_FRAMEWORK_BUILDER_ARGS = merge_dicts(
     COMMON_MAC_FRAMEWORK_BUILDER_ARGS, COMMON_BETA_FRAMEWORK_BUILDER_ARGS)
 
+COMMON_DEV_MAC_FRAMEWORK_BUILDER_ARGS = merge_dicts(
+    COMMON_MAC_FRAMEWORK_BUILDER_ARGS, COMMON_DEV_FRAMEWORK_BUILDER_ARGS)
+
 linux_prod_builder(name='Linux|frwk',
                    properties={'shard': 'framework_tests'},
                    **COMMON_SCHEDULED_FRAMEWORK_BUILDER_ARGS)
@@ -650,6 +690,9 @@ linux_prod_builder(name='Linux stable|frwk',
 linux_prod_builder(name='Linux beta|frwk',
                    properties={'shard': 'framework_tests'},
                    **COMMON_BETA_FRAMEWORK_BUILDER_ARGS)
+linux_prod_builder(name='Linux dev|frwk',
+                   properties={'shard': 'framework_tests'},
+                   **COMMON_DEV_FRAMEWORK_BUILDER_ARGS)
 
 linux_try_builder(name='Cocoon|cocoon', **COMMON_LINUX_COCOON_BUILDER_ARGS)
 linux_try_builder(name='Linux|frwk',
@@ -664,6 +707,8 @@ mac_prod_builder(name='Mac stable|frwk',
                  **COMMON_STABLE_MAC_FRAMEWORK_BUILDER_ARGS)
 mac_prod_builder(name='Mac beta|frwk',
                  **COMMON_BETA_MAC_FRAMEWORK_BUILDER_ARGS)
+mac_prod_builder(name='Mac dev|frwk',
+                 **COMMON_DEV_MAC_FRAMEWORK_BUILDER_ARGS)
 
 mac_try_builder(name='Mac|frwk', **COMMON_MAC_FRAMEWORK_BUILDER_ARGS)
 
@@ -679,6 +724,9 @@ windows_prod_builder(name='Windows stable|frwk',
 windows_prod_builder(name='Windows beta|frwk',
                      properties={'shard': 'framework_tests'},
                      **COMMON_BETA_FRAMEWORK_BUILDER_ARGS)
+windows_prod_builder(name='Windows dev|frwk',
+                     properties={'shard': 'framework_tests'},
+                     **COMMON_DEV_FRAMEWORK_BUILDER_ARGS)
 
 windows_try_builder(name='Windows|frwk',
                     properties={'shard': 'framework_tests'},
@@ -729,6 +777,16 @@ COMMON_BETA_ENGINE_BUILDER_ARGS = merge_dicts(
         'recipe':
         'engine_' + BETA_VERSION,
         'triggered_by': ['beta-gitiles-trigger-engine'],
+        'triggering_policy':
+        scheduler.greedy_batching(max_batch_size=1,
+                                  max_concurrent_invocations=3)
+    })
+
+COMMON_DEV_ENGINE_BUILDER_ARGS = merge_dicts(
+    COMMON_ENGINE_BUILDER_ARGS, {
+        'console_view_name':
+        console_names.dev_engine,
+        'triggered_by': ['dev-gitiles-trigger-engine'],
         'triggering_policy':
         scheduler.greedy_batching(max_batch_size=1,
                                   max_concurrent_invocations=3)
@@ -850,6 +908,26 @@ linux_prod_builder(name='Linux beta Engine Drone|drn',
                    console_view_name=None,
                    no_notify=True)
 
+linux_prod_builder(name='Linux dev Host Engine|host',
+                   properties=engine_properties(build_host=True),
+                   **COMMON_DEV_ENGINE_BUILDER_ARGS)
+linux_prod_builder(name='Linux dev Fuchsia|fsc',
+                   properties=engine_properties(build_fuchsia=True),
+                   **COMMON_DEV_ENGINE_BUILDER_ARGS)
+linux_prod_builder(name='Linux dev Android Debug Engine|dbg',
+                   properties=engine_properties(
+                       build_android_debug=True,
+                       build_android_vulkan=True,
+                       build_android_jit_release=True),
+                   **COMMON_DEV_ENGINE_BUILDER_ARGS)
+linux_prod_builder(name='Linux dev Android AOT Engine|aot',
+                   properties=engine_properties(build_android_aot=True),
+                   **COMMON_DEV_ENGINE_BUILDER_ARGS)
+linux_prod_builder(name='Linux dev Engine Drone|drn',
+                   console_view_name=None,
+                   recipe='engine_builder',
+                   no_notify=True)
+
 linux_try_builder(name='Linux Host Engine|host',
                   properties=engine_properties(build_host=True),
                   **COMMON_ENGINE_BUILDER_ARGS)
@@ -959,6 +1037,37 @@ mac_prod_builder(name='Mac beta Engine Drone|drn',
                  console_view_name=None,
                  no_notify=True)
 
+# Mac Engine Dev Builders
+mac_prod_builder(name='Mac dev Host Engine|host',
+                 properties=engine_properties(build_host=True),
+                 **COMMON_DEV_ENGINE_BUILDER_ARGS)
+mac_prod_builder(name='Mac dev Android Debug Engine|dbg',
+                 properties=engine_properties(build_android_debug=True,
+                                              build_android_vulkan=True),
+                 **COMMON_DEV_ENGINE_BUILDER_ARGS)
+mac_prod_builder(name='Mac dev Android AOT Engine|aot',
+                 properties=engine_properties(build_android_aot=True),
+                 **COMMON_DEV_ENGINE_BUILDER_ARGS)
+mac_prod_builder(name='Mac dev iOS Engine|ios',
+                 properties=engine_properties(build_ios=True,
+                                              ios_debug=True,
+                                              needs_jazzy=True),
+                 **COMMON_DEV_ENGINE_BUILDER_ARGS)
+mac_prod_builder(name='Mac dev iOS Engine Profile|ios',
+                 properties=engine_properties(build_ios=True,
+                                              ios_profile=True,
+                                              needs_jazzy=True),
+                 **COMMON_DEV_ENGINE_BUILDER_ARGS)
+mac_prod_builder(name='Mac dev iOS Engine Release|ios',
+                 properties=engine_properties(build_ios=True,
+                                              ios_release=True,
+                                              needs_jazzy=True),
+                 **COMMON_DEV_ENGINE_BUILDER_ARGS)
+mac_prod_builder(name='Mac dev Engine Drone|drn',
+                 recipe='engine_builder',
+                 console_view_name=None,
+                 no_notify=True)
+
 mac_prod_builder(name='Mac hotfix Host Engine|host',
                  properties=engine_properties(build_host=True),
                  **COMMON_HOTFIX_ENGINE_BUILDER_ARGS)
@@ -1038,6 +1147,17 @@ windows_prod_builder(name='Windows beta Android AOT Engine|aot',
                      properties=engine_properties(build_android_aot=True),
                      **COMMON_BETA_ENGINE_BUILDER_ARGS)
 windows_prod_builder(name='Windows beta Engine Drone|drn',
+                     recipe='engine_builder',
+                     console_view_name=None,
+                     no_notify=True)
+
+windows_prod_builder(name='Windows dev Host Engine|host',
+                     properties=engine_properties(build_host=True),
+                     **COMMON_DEV_ENGINE_BUILDER_ARGS)
+windows_prod_builder(name='Windows dev Android AOT Engine|aot',
+                     properties=engine_properties(build_android_aot=True),
+                     **COMMON_DEV_ENGINE_BUILDER_ARGS)
+windows_prod_builder(name='Windows dev Engine Drone|drn',
                      recipe='engine_builder',
                      console_view_name=None,
                      no_notify=True)
