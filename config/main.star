@@ -22,11 +22,9 @@ load("//lib/helpers.star", "helpers")
 load("//lib/repos.star", "repos")
 load("//lib/recipes.star", "recipes")
 
-# TODO(fujino): Remove this once 1.12.13 is no longer latest stable
-HOTFIX_REFS = 'refs/heads/v.+hotfixes'
-STABLE_REFS = r'refs/heads/flutter-1\.12-candidate\.13'
+STABLE_REFS = r'refs/heads/flutter-1\.17-candidate\.3'
 # To be interpolated into recipe names e.g. 'flutter/flutter_' + STABLE_VERSION
-STABLE_VERSION = 'v1_12_13'
+STABLE_VERSION = 'v1_17_0'
 BETA_REFS = r'refs/heads/flutter-1\.17-candidate\.3'
 BETA_VERSION = 'v1_17_0'
 # Don't match the last number of the branch name or else this will have to be
@@ -137,13 +135,6 @@ console_names = struct(
         'recipes',
         repos.FLUTTER_RECIPES,
     ),
-    # TODO(fujino): Remove this (and all other hotfix references) once 1.12.13 is
-    # no longer stable
-    hotfix_framework=consoles.console_view(
-        'hotfix_framework',
-        repos.FLUTTER,
-        [HOTFIX_REFS],
-    ),
     stable_framework=consoles.console_view(
         'stable_framework',
         repos.FLUTTER,
@@ -162,11 +153,6 @@ console_names = struct(
     engine=consoles.console_view(
         'engine',
         repos.ENGINE,
-    ),
-    hotfix_engine=consoles.console_view(
-        'hotfix_engine',
-        repos.ENGINE,
-        [HOTFIX_REFS],
     ),
     stable_engine=consoles.console_view(
         'stable_engine',
@@ -307,13 +293,6 @@ luci.gitiles_poller(
 )
 
 luci.gitiles_poller(
-    name='hotfix-gitiles-trigger-framework',
-    bucket='prod',
-    repo=repos.FLUTTER,
-    refs=[HOTFIX_REFS],
-)
-
-luci.gitiles_poller(
     name='stable-gitiles-trigger-framework',
     bucket='prod',
     repo=repos.FLUTTER,
@@ -338,13 +317,6 @@ luci.gitiles_poller(
     name='master-gitiles-trigger-engine',
     bucket='prod',
     repo=repos.ENGINE,
-)
-
-luci.gitiles_poller(
-    name='hotfix-gitiles-trigger-engine',
-    bucket='prod',
-    repo=repos.ENGINE,
-    refs=[HOTFIX_REFS],
 )
 
 luci.gitiles_poller(
@@ -407,8 +379,7 @@ recipe('engine')
 recipe('engine_' + STABLE_VERSION)
 recipe('engine_' + BETA_VERSION)
 recipe('engine_builder')
-# TODO(fujino): uncomment when 1.17.0 is promoted to stable
-# recipe('flutter/engine_builder_' + STABLE_VERSION)
+recipe('engine_builder_' + STABLE_VERSION)
 recipe('engine_builder_' + BETA_VERSION)
 recipe('ios-usb-dependencies')
 recipe('web_engine')
@@ -440,18 +411,6 @@ COMMON_FRAMEWORK_BUILDER_ARGS = {
     'console_view_name': 'framework',
     'list_view_name': 'framework-try',
 }
-
-COMMON_HOTFIX_FRAMEWORK_BUILDER_ARGS = helpers.merge_dicts(
-    COMMON_FRAMEWORK_BUILDER_ARGS, {
-        'console_view_name':
-        console_names.hotfix_framework,
-        'recipe':
-        'flutter_' + STABLE_VERSION,
-        'triggered_by': ['hotfix-gitiles-trigger-framework'],
-        'triggering_policy':
-        scheduler.greedy_batching(max_batch_size=1,
-                                  max_concurrent_invocations=3),
-    })
 
 COMMON_STABLE_FRAMEWORK_BUILDER_ARGS = helpers.merge_dicts(
     COMMON_FRAMEWORK_BUILDER_ARGS, {
@@ -508,9 +467,6 @@ COMMON_MAC_FRAMEWORK_BUILDER_ARGS = helpers.merge_dicts(
 COMMON_SCHEDULED_MAC_FRAMEWORK_BUILDER_ARGS = helpers.merge_dicts(
     COMMON_MAC_FRAMEWORK_BUILDER_ARGS, COMMON_SCHEDULED_FRAMEWORK_BUILDER_ARGS)
 
-COMMON_HOTFIX_MAC_FRAMEWORK_BUILDER_ARGS = helpers.merge_dicts(
-    COMMON_MAC_FRAMEWORK_BUILDER_ARGS, COMMON_HOTFIX_FRAMEWORK_BUILDER_ARGS)
-
 COMMON_STABLE_MAC_FRAMEWORK_BUILDER_ARGS = helpers.merge_dicts(
     COMMON_MAC_FRAMEWORK_BUILDER_ARGS, COMMON_STABLE_FRAMEWORK_BUILDER_ARGS)
 
@@ -523,9 +479,6 @@ COMMON_DEV_MAC_FRAMEWORK_BUILDER_ARGS = helpers.merge_dicts(
 common.linux_prod_builder(name='Linux|frwk',
                           properties={'shard': 'framework_tests'},
                           **COMMON_SCHEDULED_FRAMEWORK_BUILDER_ARGS)
-common.linux_prod_builder(name='Linux hotfix|frwk',
-                          properties={'shard': 'framework_tests'},
-                          **COMMON_HOTFIX_FRAMEWORK_BUILDER_ARGS)
 common.linux_prod_builder(name='Linux stable|frwk',
                           properties={'shard': 'framework_tests'},
                           **COMMON_STABLE_FRAMEWORK_BUILDER_ARGS)
@@ -544,8 +497,6 @@ common.linux_try_builder(name='Linux|frwk',
 
 common.mac_prod_builder(name='Mac|frwk',
                         **COMMON_SCHEDULED_MAC_FRAMEWORK_BUILDER_ARGS)
-common.mac_prod_builder(name='Mac hotfix|frwk',
-                        **COMMON_HOTFIX_MAC_FRAMEWORK_BUILDER_ARGS)
 common.mac_prod_builder(name='Mac stable|frwk',
                         **COMMON_STABLE_MAC_FRAMEWORK_BUILDER_ARGS)
 common.mac_prod_builder(name='Mac beta|frwk',
@@ -558,9 +509,6 @@ common.mac_try_builder(name='Mac|frwk', **COMMON_MAC_FRAMEWORK_BUILDER_ARGS)
 common.windows_prod_builder(name='Windows|frwk',
                             properties={'shard': 'framework_tests'},
                             **COMMON_SCHEDULED_FRAMEWORK_BUILDER_ARGS)
-common.windows_prod_builder(name='Windows hotfix|frwk',
-                            properties={'shard': 'framework_tests'},
-                            **COMMON_HOTFIX_FRAMEWORK_BUILDER_ARGS)
 common.windows_prod_builder(name='Windows stable|frwk',
                             properties={'shard': 'framework_tests'},
                             **COMMON_STABLE_FRAMEWORK_BUILDER_ARGS)
@@ -584,18 +532,6 @@ COMMON_ENGINE_BUILDER_ARGS = {
 COMMON_SCHEDULED_ENGINE_BUILDER_ARGS = helpers.merge_dicts(
     COMMON_ENGINE_BUILDER_ARGS, {
         'triggered_by': ['master-gitiles-trigger-engine'],
-        'triggering_policy':
-        scheduler.greedy_batching(max_batch_size=1,
-                                  max_concurrent_invocations=3)
-    })
-
-COMMON_HOTFIX_ENGINE_BUILDER_ARGS = helpers.merge_dicts(
-    COMMON_ENGINE_BUILDER_ARGS, {
-        'console_view_name':
-        console_names.hotfix_engine,
-        'recipe':
-        'engine_' + STABLE_VERSION,
-        'triggered_by': ['hotfix-gitiles-trigger-engine'],
         'triggering_policy':
         scheduler.greedy_batching(max_batch_size=1,
                                   max_concurrent_invocations=3)
@@ -689,26 +625,6 @@ common.linux_prod_builder(name='Linux Engine Drone|drn',
                           console_view_name=None,
                           no_notify=True)
 
-common.linux_prod_builder(name='Linux hotfix Host Engine|host',
-                          properties=engine_properties(build_host=True),
-                          **COMMON_HOTFIX_ENGINE_BUILDER_ARGS)
-common.linux_prod_builder(name='Linux hotfix Fuchsia|fsc',
-                          properties=engine_properties(build_fuchsia=True),
-                          **COMMON_HOTFIX_ENGINE_BUILDER_ARGS)
-common.linux_prod_builder(name='Linux hotfix Android Debug Engine|dbg',
-                          properties=engine_properties(
-                              build_android_debug=True,
-                              build_android_vulkan=True,
-                              build_android_jit_release=True),
-                          **COMMON_HOTFIX_ENGINE_BUILDER_ARGS)
-common.linux_prod_builder(name='Linux hotfix Android AOT Engine|aot',
-                          properties=engine_properties(build_android_aot=True),
-                          **COMMON_HOTFIX_ENGINE_BUILDER_ARGS)
-common.linux_prod_builder(name='Linux hotfix Engine Drone|drn',
-                          recipe='engine_builder',
-                          console_view_name=None,
-                          no_notify=True)
-
 common.linux_prod_builder(name='Linux stable Host Engine|host',
                           properties=engine_properties(build_host=True),
                           **COMMON_STABLE_ENGINE_BUILDER_ARGS)
@@ -724,12 +640,10 @@ common.linux_prod_builder(name='Linux stable Android Debug Engine|dbg',
 common.linux_prod_builder(name='Linux stable Android AOT Engine|aot',
                           properties=engine_properties(build_android_aot=True),
                           **COMMON_STABLE_ENGINE_BUILDER_ARGS)
-# TODO(fujino): uncomment once 1.17.0 lands in stable
-#linux_prod_builder(
-#    name='Linux stable Engine Drone|drn',
-#    recipe='flutter/engine_builder_' + STABLE_VERSION,
-#    console_view_name=None,
-#    no_notify=True)
+common.linux_prod_builder(name='Linux stable Engine Drone|drn',
+                          recipe='engine_builder_' + STABLE_VERSION,
+                          console_view_name=None,
+                          no_notify=True)
 
 common.linux_prod_builder(name='Linux beta Host Engine|host',
                           properties=engine_properties(build_host=True),
@@ -916,37 +830,6 @@ common.mac_prod_builder(name='Mac dev Engine Drone|drn',
                         console_view_name=None,
                         no_notify=True)
 
-common.mac_prod_builder(name='Mac hotfix Host Engine|host',
-                        properties=engine_properties(build_host=True),
-                        **COMMON_HOTFIX_ENGINE_BUILDER_ARGS)
-common.mac_prod_builder(name='Mac hotfix Android Debug Engine|dbg',
-                        properties=engine_properties(
-                            build_android_debug=True,
-                            build_android_vulkan=True),
-                        **COMMON_HOTFIX_ENGINE_BUILDER_ARGS)
-common.mac_prod_builder(name='Mac hotfix Android AOT Engine|aot',
-                        properties=engine_properties(build_android_aot=True),
-                        **COMMON_HOTFIX_ENGINE_BUILDER_ARGS)
-common.mac_prod_builder(name='Mac hotfix iOS Engine|ios',
-                        properties=engine_properties(build_ios=True,
-                                                     ios_debug=True,
-                                                     needs_jazzy=True),
-                        **COMMON_HOTFIX_ENGINE_BUILDER_ARGS)
-common.mac_prod_builder(name='Mac hotfix iOS Engine Profile|ios',
-                        properties=engine_properties(build_ios=True,
-                                                     ios_profile=True,
-                                                     needs_jazzy=True),
-                        **COMMON_HOTFIX_ENGINE_BUILDER_ARGS)
-common.mac_prod_builder(name='Mac hotfix iOS Engine Release|ios',
-                        properties=engine_properties(build_ios=True,
-                                                     ios_release=True,
-                                                     needs_jazzy=True),
-                        **COMMON_HOTFIX_ENGINE_BUILDER_ARGS)
-common.mac_prod_builder(name='Mac hotfix Engine Drone|drn',
-                        recipe='engine_builder',
-                        console_view_name=None,
-                        no_notify=True)
-
 common.mac_try_builder(name='Mac Host Engine|host',
                        properties=engine_properties(build_host=True),
                        **COMMON_ENGINE_BUILDER_ARGS)
@@ -1011,18 +894,6 @@ common.windows_prod_builder(
     properties=engine_properties(build_android_aot=True),
     **COMMON_DEV_ENGINE_BUILDER_ARGS)
 common.windows_prod_builder(name='Windows dev Engine Drone|drn',
-                            recipe='engine_builder',
-                            console_view_name=None,
-                            no_notify=True)
-
-common.windows_prod_builder(name='Windows hotfix Host Engine|host',
-                            properties=engine_properties(build_host=True),
-                            **COMMON_HOTFIX_ENGINE_BUILDER_ARGS)
-common.windows_prod_builder(
-    name='Windows hotfix Android AOT Engine|aot',
-    properties=engine_properties(build_android_aot=True),
-    **COMMON_HOTFIX_ENGINE_BUILDER_ARGS)
-common.windows_prod_builder(name='Windows hotfix Engine Drone|drn',
                             recipe='engine_builder',
                             console_view_name=None,
                             no_notify=True)
