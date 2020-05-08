@@ -49,7 +49,6 @@ def _ref_to_luci_object_name(ref):
 
 def _cq_group(repo, tree_status_host=None):
     luci.cq_group(name=_cq_group_name(repo),
-                  cancel_stale_tryjobs=True,
                   retry_config=cq.retry_config(single_quota=1,
                                                global_quota=2,
                                                failure_weight=2,
