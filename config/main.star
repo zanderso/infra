@@ -282,6 +282,23 @@ common.mac_prod_builder(name='Mac Web Engine|mwe',
                         **common_scheduled_web_engine_builders)
 common.windows_prod_builder(name='Windows Web Engine|wwe',
                             **common_scheduled_web_engine_builders)
+
+################### The fuchsia_ctl Builder Definitions #######################
+
+# Builder configuration to validate fuchsia_ctl changes in presubmit.
+# https://github.com/flutter/packages/tree/master/packages/fuchsia_ctl
+common.builder(
+    name="fuchsia_ctl",
+    builder_group=builder_groups.recipes_try,
+    executable=recipes.recipe(name="fuchsia_ctl"),
+    execution_timeout=30 * time.minute,
+    properties={
+        "packages_git_url": 'https://github.com/flutter/packages/',
+        "packages_git_ref": 'master',
+    },
+    service_account=accounts.FLUTTER_TRY,
+)
+
 ###############################################################################
 
 # Gitiles pollers
