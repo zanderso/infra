@@ -30,7 +30,7 @@ BETA_VERSION = '1_18_0'
 # Don't match the last number of the branch name or else this will have to be
 # updated for every dev release.
 DEV_REFS = r'refs/heads/flutter-1\.19-candidate\.'
-FUCHSIA_CTL_VERSION = 'version:0.0.22'
+FUCHSIA_CTL_VERSION = 'version:0.0.23'
 
 lucicfg.config(config_dir="generated/flutter",
                tracked_files=["**/*"],

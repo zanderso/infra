@@ -8,7 +8,7 @@ load("//lib/helpers.star", "helpers")
 # Regular expressions for files to skip CQ.
 LOCATION_REGEXP_MARKDOWN = r".+/[+]/.*\.md"
 LOCATION_REGEXP_OWNERS = r".+/[+].*/OWNERS"
-FUCHSIA_CTL_VERSION = 'version:0.0.22'
+FUCHSIA_CTL_VERSION = 'version:0.0.23'
 
 
 def _repo_url_to_luci_object_name(repo_url):
