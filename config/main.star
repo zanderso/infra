@@ -383,6 +383,7 @@ recipe('engine_builder_' + STABLE_VERSION)
 recipe('engine_builder_' + BETA_VERSION)
 recipe('ios-usb-dependencies')
 recipe('web_engine')
+recipe('fuchsia_ctl')
 
 luci.list_view(
     name='cocoon-try',
@@ -395,6 +396,10 @@ luci.list_view(
 luci.list_view(
     name='engine-try',
     title='Engine try builders',
+)
+luci.list_view(
+    name='fuchsia_ctl-try',
+    title='fuchsia_ctl try builders',
 )
 
 # Builder-defining functions
@@ -975,3 +980,8 @@ ios_tools_builder(name='usbmuxd|usbmd')
 ios_tools_builder(name='openssl|ssl')
 ios_tools_builder(name='ios-deploy|deploy')
 ios_tools_builder(name='libzip|zip')
+
+common.linux_try_builder(name='fuchsia_ctl|fctl',
+                         recipe='fuchsia_ctl',
+                         list_view_name='fuchsia_ctl-try',
+                         properties={'fuchsia_ctl_version': None})
