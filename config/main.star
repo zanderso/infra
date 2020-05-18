@@ -14,22 +14,36 @@ The documentation for lucicfg can be found here:
 https://chromium.googlesource.com/infra/luci/luci-go/+/refs/heads/master/lucicfg/doc/README.md
 """
 
-load("//lib/accounts.star", "accounts")
 load("//lib/common.star", "common")
 load("//lib/consoles.star", "consoles")
-load("//lib/builder_groups.star", "builder_groups")
 load("//lib/helpers.star", "helpers")
 load("//lib/repos.star", "repos")
 load("//lib/recipes.star", "recipes")
+load("//recipes_config.star", "recipes_config")
+load("//framework_config.star", "framework_config")
 
-STABLE_REFS = r'refs/heads/flutter-1\.17-candidate\.3'
-# To be interpolated into recipe names e.g. 'flutter/flutter_' + STABLE_VERSION
-STABLE_VERSION = 'v1_17_0'
-BETA_REFS = r'refs/heads/flutter-1\.18-candidate\.11'
-BETA_VERSION = '1_18_0'
-# Don't match the last number of the branch name or else this will have to be
-# updated for every dev release.
-DEV_REFS = r'refs/heads/flutter-1\.19-candidate\.'
+BRANCHES = {
+    'stable': {
+        'ref': r'refs/heads/flutter-1\.17-candidate\.3',
+        # To be interpolated into recipe names e.g. 'flutter/flutter_' + BRANCHES['stable']['version']
+        'version': 'v1_17_0',
+    },
+    'beta': {
+        'ref': r'refs/heads/flutter-1\.18-candidate\.11',
+        'version': '1_18_0',
+    },
+    'dev': {
+        # Don't match the last number of the branch name or else this will have
+        # to be updated for every dev release.
+        'ref': r'refs/heads/flutter-1\.19-candidate\.',
+        'version': None,
+    },
+    'master': {
+        'ref': r'refs/heads/master',
+        'version': None,
+    },
+}
+
 FUCHSIA_CTL_VERSION = 'version:0.0.23'
 
 lucicfg.config(config_dir="generated/flutter",
@@ -55,11 +69,13 @@ luci.project(
             ],
             groups='all',
         ),
-        acl.entry(roles=[
-            acl.BUILDBUCKET_TRIGGERER,
-            acl.SCHEDULER_TRIGGERER,
-        ],
-                  groups='project-flutter-prod-schedulers'),
+        acl.entry(
+            roles=[
+                acl.BUILDBUCKET_TRIGGERER,
+                acl.SCHEDULER_TRIGGERER,
+            ],
+            groups='project-flutter-prod-schedulers',
+        ),
         acl.entry(
             roles=[
                 acl.BUILDBUCKET_OWNER,
@@ -78,7 +94,7 @@ luci.project(
     ],
 )
 
-luci.logdog(gs_bucket='chromium-luci-logdog', )
+luci.logdog(gs_bucket='chromium-luci-logdog')
 
 luci.milo(
     logo=
@@ -86,21 +102,32 @@ luci.milo(
     favicon='https://storage.googleapis.com/flutter_infra/favicon.ico',
 )
 
-luci.bucket(name='prod',
-            acls=[
-                acl.entry(acl.BUILDBUCKET_TRIGGERER,
-                          groups='project-flutter-prod-schedulers'),
-                acl.entry(acl.SCHEDULER_TRIGGERER,
-                          groups='project-flutter-prod-schedulers'),
-            ])
+luci.bucket(
+    name='prod',
+    acls=[
+        acl.entry(acl.BUILDBUCKET_TRIGGERER,
+                  groups='project-flutter-prod-schedulers'),
+        acl.entry(acl.SCHEDULER_TRIGGERER,
+                  groups='project-flutter-prod-schedulers'),
+    ],
+)
 
-luci.bucket(name='try',
-            acls=[
-                acl.entry(acl.BUILDBUCKET_TRIGGERER,
-                          groups='project-flutter-try-schedulers')
-            ])
+luci.bucket(
+    name='try',
+    acls=[
+        acl.entry(acl.BUILDBUCKET_TRIGGERER,
+                  groups='project-flutter-try-schedulers')
+    ],
+)
 
-######################### Global builder defaults #############################
+# Common recipe group configurations.
+common.cq_group(repos.FLUTTER_RECIPES)
+
+luci.builder.defaults.dimensions.set({
+    "cpu": common.TARGET_X64,
+    "os": "Linux",
+})
+
 luci.builder.defaults.properties.set({
     '$kitchen': {
         'emulate_gce': True
@@ -124,32 +151,15 @@ luci.builder.defaults.properties.set({
     '\n84831b9409646a918e30573bab4c9c91346d8abd',
 })
 
+############################ End Global Defaults ############################
+
+recipes_config.setup()
+
+framework_config.setup(BRANCHES)
+
 ######################### Console Definitions #################################
 
 console_names = struct(
-    framework=consoles.console_view(
-        'framework',
-        repos.FLUTTER,
-    ),
-    recipes=consoles.console_view(
-        'recipes',
-        repos.FLUTTER_RECIPES,
-    ),
-    stable_framework=consoles.console_view(
-        'stable_framework',
-        repos.FLUTTER,
-        [STABLE_REFS],
-    ),
-    beta_framework=consoles.console_view(
-        'beta_framework',
-        repos.FLUTTER,
-        [BETA_REFS],
-    ),
-    dev_framework=consoles.console_view(
-        'dev_framework',
-        repos.FLUTTER,
-        [DEV_REFS],
-    ),
     engine=consoles.console_view(
         'engine',
         repos.ENGINE,
@@ -157,17 +167,17 @@ console_names = struct(
     stable_engine=consoles.console_view(
         'stable_engine',
         repos.ENGINE,
-        [STABLE_REFS],
+        [BRANCHES['stable']['ref']],
     ),
     beta_engine=consoles.console_view(
         'beta_engine',
         repos.ENGINE,
-        [BETA_REFS],
+        [BRANCHES['beta']['ref']],
     ),
     dev_engine=consoles.console_view(
         'dev_engine',
         repos.ENGINE,
-        [DEV_REFS],
+        [BRANCHES['dev']['ref']],
     ),
     packaging=consoles.console_view(
         'packaging',
@@ -176,82 +186,6 @@ console_names = struct(
         exclude_ref='refs/heads/master',
     ),
 )
-
-###################### Defaults, and global configs  ##########################
-# Common recipe group configurations.
-common.cq_group(repos.FLUTTER_RECIPES)
-
-# Default dimensions
-luci.builder.defaults.dimensions.set({
-    "cpu": common.TARGET_X64,
-    "os": "Linux",
-})
-
-####################### Flutter Builder Definitions ###########################
-
-# Builder configuration to validate recipe changes in presubmit.
-common.builder(
-    name="recipes-unittest-only",
-    builder_group=builder_groups.recipes_try,
-    # This builder is very quick to run, so we run it on every CQ attempt to
-    # minimize the chances of expectation file conflicts between CLs that land
-    # around the same time.
-    cq_disable_reuse=True,
-    executable=recipes.recipe(name="recipes"),
-    execution_timeout=10 * time.minute,
-    location_regexp_exclude=[
-        common.LOCATION_REGEXP_MARKDOWN, common.LOCATION_REGEXP_OWNERS
-    ],
-    properties={
-        "remote": repos.FLUTTER_RECIPES,
-        "unittest_only": True,
-    },
-    service_account=accounts.FLUTTER_TRY,
-)
-
-# Autoroller builder. This is used to roll flutter recipes dependencies.
-common.builder(
-    name="recipe-deps-roller",
-    builder_group=builder_groups.recipes_prod,
-    executable=luci.recipe(
-        name="recipe_autoroller",
-        cipd_package=
-        "infra/recipe_bundles/chromium.googlesource.com/infra/infra",
-        cipd_version="git_revision:647d5e58ec508f13ccd054f1516e78d7ca3bd540"),
-    execution_timeout=20 * time.minute,
-    properties={
-        "db_gcs_bucket": "flutter-recipe-roller-db",
-        "projects": {
-            "flutter": "https://flutter.googlesource.com/recipes",
-        }.items(),
-    },
-    schedule="with 1h interval",
-    console_category=console_names.recipes,
-    console_short_name='aroll')
-
-# Recipes builder. This is used to create a bundle of the cipd package.
-common.builder(
-    name="recipes-bundler",
-    builder_group=builder_groups.recipes_prod,
-    executable=luci.recipe(
-        name="recipe_bundler",
-        cipd_package=
-        "infra/recipe_bundles/chromium.googlesource.com/infra/infra",
-        cipd_version="git_revision:647d5e58ec508f13ccd054f1516e78d7ca3bd540"),
-    execution_timeout=20 * time.minute,
-    properties={
-        'package_name_prefix':
-        'flutter/recipe_bundles',
-        'package_name_internal_prefix':
-        'flutter_internal/recipe_bundles',
-        'recipe_bundler_vers':
-        'git_revision:2ed88b2c854578b512e1c0486824175fe0d7aab6',
-        'repo_specs': [
-            'flutter.googlesource.com/recipes=FETCH_HEAD,refs/heads/master',
-        ],
-    }.items(),
-    console_category=console_names.recipes,
-    console_short_name='bdlr')
 
 ########################## Engine builders ###################################
 common_web_engine_builders = {
@@ -287,33 +221,6 @@ common.windows_prod_builder(name='Windows Web Engine|wwe',
 # Gitiles pollers
 
 luci.gitiles_poller(
-    name='master-gitiles-trigger-framework',
-    bucket='prod',
-    repo=repos.FLUTTER,
-)
-
-luci.gitiles_poller(
-    name='stable-gitiles-trigger-framework',
-    bucket='prod',
-    repo=repos.FLUTTER,
-    refs=[STABLE_REFS],
-)
-
-luci.gitiles_poller(
-    name='beta-gitiles-trigger-framework',
-    bucket='prod',
-    repo=repos.FLUTTER,
-    refs=[BETA_REFS],
-)
-
-luci.gitiles_poller(
-    name='dev-gitiles-trigger-framework',
-    bucket='prod',
-    repo=repos.FLUTTER,
-    refs=[DEV_REFS],
-)
-
-luci.gitiles_poller(
     name='master-gitiles-trigger-engine',
     bucket='prod',
     repo=repos.ENGINE,
@@ -323,21 +230,21 @@ luci.gitiles_poller(
     name='stable-gitiles-trigger-engine',
     bucket='prod',
     repo=repos.ENGINE,
-    refs=[STABLE_REFS],
+    refs=[BRANCHES['stable']['ref']],
 )
 
 luci.gitiles_poller(
     name='beta-gitiles-trigger-engine',
     bucket='prod',
     repo=repos.ENGINE,
-    refs=[BETA_REFS],
+    refs=[BRANCHES['beta']['ref']],
 )
 
 luci.gitiles_poller(
     name='dev-gitiles-trigger-engine',
     bucket='prod',
     repo=repos.ENGINE,
-    refs=[DEV_REFS],
+    refs=[BRANCHES['dev']['ref']],
 )
 
 luci.gitiles_poller(
@@ -372,15 +279,12 @@ def recipe(name):
 
 
 recipe('cocoon')
-recipe('flutter')
-recipe('flutter_' + STABLE_VERSION)
-recipe('flutter_' + BETA_VERSION)
 recipe('engine')
-recipe('engine_' + STABLE_VERSION)
-recipe('engine_' + BETA_VERSION)
+recipe('engine_' + BRANCHES['stable']['version'])
+recipe('engine_' + BRANCHES['beta']['version'])
 recipe('engine_builder')
-recipe('engine_builder_' + STABLE_VERSION)
-recipe('engine_builder_' + BETA_VERSION)
+recipe('engine_builder_' + BRANCHES['stable']['version'])
+recipe('engine_builder_' + BRANCHES['beta']['version'])
 recipe('ios-usb-dependencies')
 recipe('web_engine')
 recipe('fuchsia_ctl')
@@ -388,10 +292,6 @@ recipe('fuchsia_ctl')
 luci.list_view(
     name='cocoon-try',
     title='Cocoon try builders',
-)
-luci.list_view(
-    name='framework-try',
-    title='Framework try builders',
 )
 luci.list_view(
     name='engine-try',
@@ -411,122 +311,8 @@ COMMON_LINUX_COCOON_BUILDER_ARGS = {
     'caches': [swarming.cache(name='dart_pub_cache', path='.pub-cache')],
 }
 
-COMMON_FRAMEWORK_BUILDER_ARGS = {
-    'recipe': 'flutter',
-    'console_view_name': 'framework',
-    'list_view_name': 'framework-try',
-}
-
-COMMON_STABLE_FRAMEWORK_BUILDER_ARGS = helpers.merge_dicts(
-    COMMON_FRAMEWORK_BUILDER_ARGS, {
-        'console_view_name':
-        console_names.stable_framework,
-        'recipe':
-        'flutter_' + STABLE_VERSION,
-        'triggered_by': ['stable-gitiles-trigger-framework'],
-        'triggering_policy':
-        scheduler.greedy_batching(max_batch_size=1,
-                                  max_concurrent_invocations=3),
-    })
-
-COMMON_BETA_FRAMEWORK_BUILDER_ARGS = helpers.merge_dicts(
-    COMMON_FRAMEWORK_BUILDER_ARGS, {
-        'console_view_name':
-        console_names.beta_framework,
-        'recipe':
-        'flutter_' + BETA_VERSION,
-        'triggered_by': ['beta-gitiles-trigger-framework'],
-        'triggering_policy':
-        scheduler.greedy_batching(max_batch_size=1,
-                                  max_concurrent_invocations=3),
-    })
-
-COMMON_DEV_FRAMEWORK_BUILDER_ARGS = helpers.merge_dicts(
-    COMMON_FRAMEWORK_BUILDER_ARGS, {
-        'console_view_name':
-        console_names.dev_framework,
-        'triggered_by': ['dev-gitiles-trigger-framework'],
-        'triggering_policy':
-        scheduler.greedy_batching(max_batch_size=1,
-                                  max_concurrent_invocations=3),
-    })
-
-COMMON_SCHEDULED_FRAMEWORK_BUILDER_ARGS = helpers.merge_dicts(
-    COMMON_FRAMEWORK_BUILDER_ARGS, {
-        'triggered_by': ['master-gitiles-trigger-framework'],
-        'triggering_policy':
-        scheduler.greedy_batching(max_concurrent_invocations=6),
-    })
-
-FRAMEWORK_MAC_EXTRAS = {
-    'properties': {
-        'shard': 'framework_tests',
-        'cocoapods_version': '1.6.0'
-    },
-    'caches': [swarming.cache(name='flutter_cocoapods', path='cocoapods')],
-}
-
-COMMON_MAC_FRAMEWORK_BUILDER_ARGS = helpers.merge_dicts(
-    COMMON_FRAMEWORK_BUILDER_ARGS, FRAMEWORK_MAC_EXTRAS)
-
-COMMON_SCHEDULED_MAC_FRAMEWORK_BUILDER_ARGS = helpers.merge_dicts(
-    COMMON_MAC_FRAMEWORK_BUILDER_ARGS, COMMON_SCHEDULED_FRAMEWORK_BUILDER_ARGS)
-
-COMMON_STABLE_MAC_FRAMEWORK_BUILDER_ARGS = helpers.merge_dicts(
-    COMMON_MAC_FRAMEWORK_BUILDER_ARGS, COMMON_STABLE_FRAMEWORK_BUILDER_ARGS)
-
-COMMON_BETA_MAC_FRAMEWORK_BUILDER_ARGS = helpers.merge_dicts(
-    COMMON_MAC_FRAMEWORK_BUILDER_ARGS, COMMON_BETA_FRAMEWORK_BUILDER_ARGS)
-
-COMMON_DEV_MAC_FRAMEWORK_BUILDER_ARGS = helpers.merge_dicts(
-    COMMON_MAC_FRAMEWORK_BUILDER_ARGS, COMMON_DEV_FRAMEWORK_BUILDER_ARGS)
-
-common.linux_prod_builder(name='Linux|frwk',
-                          properties={'shard': 'framework_tests'},
-                          **COMMON_SCHEDULED_FRAMEWORK_BUILDER_ARGS)
-common.linux_prod_builder(name='Linux stable|frwk',
-                          properties={'shard': 'framework_tests'},
-                          **COMMON_STABLE_FRAMEWORK_BUILDER_ARGS)
-common.linux_prod_builder(name='Linux beta|frwk',
-                          properties={'shard': 'framework_tests'},
-                          **COMMON_BETA_FRAMEWORK_BUILDER_ARGS)
-common.linux_prod_builder(name='Linux dev|frwk',
-                          properties={'shard': 'framework_tests'},
-                          **COMMON_DEV_FRAMEWORK_BUILDER_ARGS)
-
 common.linux_try_builder(name='Cocoon|cocoon',
                          **COMMON_LINUX_COCOON_BUILDER_ARGS)
-common.linux_try_builder(name='Linux|frwk',
-                         properties={'shard': 'framework_tests'},
-                         **COMMON_FRAMEWORK_BUILDER_ARGS)
-
-common.mac_prod_builder(name='Mac|frwk',
-                        **COMMON_SCHEDULED_MAC_FRAMEWORK_BUILDER_ARGS)
-common.mac_prod_builder(name='Mac stable|frwk',
-                        **COMMON_STABLE_MAC_FRAMEWORK_BUILDER_ARGS)
-common.mac_prod_builder(name='Mac beta|frwk',
-                        **COMMON_BETA_MAC_FRAMEWORK_BUILDER_ARGS)
-common.mac_prod_builder(name='Mac dev|frwk',
-                        **COMMON_DEV_MAC_FRAMEWORK_BUILDER_ARGS)
-
-common.mac_try_builder(name='Mac|frwk', **COMMON_MAC_FRAMEWORK_BUILDER_ARGS)
-
-common.windows_prod_builder(name='Windows|frwk',
-                            properties={'shard': 'framework_tests'},
-                            **COMMON_SCHEDULED_FRAMEWORK_BUILDER_ARGS)
-common.windows_prod_builder(name='Windows stable|frwk',
-                            properties={'shard': 'framework_tests'},
-                            **COMMON_STABLE_FRAMEWORK_BUILDER_ARGS)
-common.windows_prod_builder(name='Windows beta|frwk',
-                            properties={'shard': 'framework_tests'},
-                            **COMMON_BETA_FRAMEWORK_BUILDER_ARGS)
-common.windows_prod_builder(name='Windows dev|frwk',
-                            properties={'shard': 'framework_tests'},
-                            **COMMON_DEV_FRAMEWORK_BUILDER_ARGS)
-
-common.windows_try_builder(name='Windows|frwk',
-                           properties={'shard': 'framework_tests'},
-                           **COMMON_FRAMEWORK_BUILDER_ARGS)
 
 COMMON_ENGINE_BUILDER_ARGS = {
     'recipe': 'engine',
@@ -547,7 +333,7 @@ COMMON_STABLE_ENGINE_BUILDER_ARGS = helpers.merge_dicts(
         'console_view_name':
         console_names.stable_engine,
         'recipe':
-        'engine_' + STABLE_VERSION,
+        'engine_' + BRANCHES['stable']['version'],
         'triggered_by': ['stable-gitiles-trigger-engine'],
         'triggering_policy':
         scheduler.greedy_batching(max_batch_size=1,
@@ -559,7 +345,7 @@ COMMON_BETA_ENGINE_BUILDER_ARGS = helpers.merge_dicts(
         'console_view_name':
         console_names.beta_engine,
         'recipe':
-        'engine_' + BETA_VERSION,
+        'engine_' + BRANCHES['beta']['version'],
         'triggered_by': ['beta-gitiles-trigger-engine'],
         'triggering_policy':
         scheduler.greedy_batching(max_batch_size=1,
@@ -646,7 +432,8 @@ common.linux_prod_builder(name='Linux stable Android AOT Engine|aot',
                           properties=engine_properties(build_android_aot=True),
                           **COMMON_STABLE_ENGINE_BUILDER_ARGS)
 common.linux_prod_builder(name='Linux stable Engine Drone|drn',
-                          recipe='engine_builder_' + STABLE_VERSION,
+                          recipe='engine_builder_' +
+                          BRANCHES['stable']['version'],
                           console_view_name=None,
                           no_notify=True)
 
@@ -666,7 +453,8 @@ common.linux_prod_builder(name='Linux beta Android AOT Engine|aot',
                           properties=engine_properties(build_android_aot=True),
                           **COMMON_BETA_ENGINE_BUILDER_ARGS)
 common.linux_prod_builder(name='Linux beta Engine Drone|drn',
-                          recipe='engine_builder_' + BETA_VERSION,
+                          recipe='engine_builder_' +
+                          BRANCHES['beta']['version'],
                           console_view_name=None,
                           no_notify=True)
 
@@ -921,13 +709,13 @@ DEV_PACKAGING_BUILDER_ARGS = {
 }
 
 BETA_PACKAGING_BUILDER_ARGS = {
-    'recipe': 'flutter_' + BETA_VERSION,
+    'recipe': 'flutter_' + BRANCHES['beta']['version'],
     'console_view_name': console_names.packaging,
     'triggered_by': ['gitiles-trigger-beta-packaging'],
 }
 
 STABLE_PACKAGING_BUILDER_ARGS = {
-    'recipe': 'flutter_' + STABLE_VERSION,
+    'recipe': 'flutter_' + BRANCHES['stable']['version'],
     'console_view_name': console_names.packaging,
     'triggered_by': ['gitiles-trigger-stable-packaging'],
 }
