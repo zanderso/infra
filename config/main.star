@@ -212,8 +212,11 @@ common.windows_try_builder(name='Windows Web Engine|wwe',
                            **common_web_engine_builders)
 common.linux_prod_builder(name='Linux Web Engine|lwe',
                           **common_scheduled_web_engine_builders)
-common.mac_prod_builder(name='Mac Web Engine|mwe',
-                        **common_scheduled_web_engine_builders)
+
+# TODO(fujino): Re-enable after https://github.com/flutter/flutter/issues/58012
+# is fixed.
+#common.mac_prod_builder(name='Mac Web Engine|mwe',
+#                        **common_scheduled_web_engine_builders)
 common.windows_prod_builder(name='Windows Web Engine|wwe',
                             **common_scheduled_web_engine_builders)
 ###############################################################################
