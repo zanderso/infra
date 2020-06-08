@@ -22,6 +22,10 @@ load("//lib/recipes.star", "recipes")
 load("//recipes_config.star", "recipes_config")
 load("//framework_config.star", "framework_config")
 
+# Avoid jumping back and forth with configs being updated by lower
+# version lucicfg.
+lucicfg.check_version('1.15.0')
+
 BRANCHES = {
     'stable': {
         'ref': r'refs/heads/flutter-1\.17-candidate\.3',
