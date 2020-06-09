@@ -83,6 +83,7 @@ def _builder(name,
              console_short_name=None,
              cq_disable_reuse=False,
              dimensions=None,
+             experiment_percentage=None,
              location_regexp=None,
              location_regexp_exclude=None,
              path_regexps=None,
@@ -110,6 +111,7 @@ def _builder(name,
             this builder will be triggered by every CQ run even if it already
             passed on a previous recent CQ run on the same patchset.
         dimensions: Passed through to luci.builder, with some defaults applied.
+        experiment_percentage: Passed through to luci.cq_tryjob_verifier.
         location_regexp: Passed through to luci.cq_tryjob_verifier.
         location_regexp_exclude: Passed through to luci.cq_tryjob_verifier.
         path_regexps: Passed through to luci.gitiles_poller.
@@ -164,8 +166,18 @@ def _builder(name,
                 'cq_group': _cq_group_name(repo),
                 'disable_reuse': cq_disable_reuse,
             }
-            kwargs['location_regexp'] = location_regexp
-            kwargs['location_regexp_exclude'] = location_regexp_exclude
+            if experiment_percentage:
+                kwargs['experiment_percentage'] = experiment_percentage
+                if location_regexp:
+                    fail(
+                        'location_regexp cannot be used simultaneously with ' +
+                        'experiment_percentage')
+                if location_regexp_exclude:
+                    fail('location_regexp_exclude cannot be used ' +
+                         'simultaneously with experiment_percentage')
+            else:
+                kwargs['location_regexp'] = location_regexp
+                kwargs['location_regexp_exclude'] = location_regexp_exclude
             luci.cq_tryjob_verifier(**kwargs)
         else:
             for ref in builder_group.triggering_refs or (

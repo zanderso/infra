@@ -26,6 +26,7 @@ def _setup():
         name="recipes",
         cipd_package='flutter/recipe_bundles/flutter.googlesource.com/recipes',
         cipd_version='refs/heads/master',
+        use_bbagent=True,
     )
 
     # Builder configuration to validate recipe changes in presubmit.
@@ -46,6 +47,20 @@ def _setup():
             "unittest_only": True,
         },
         service_account=accounts.FLUTTER_TRY,
+    )
+
+    # Builder configuration to run led tasks of all affected recipes.
+    common.builder(
+        name="recipes-with-led",
+        builder_group=builder_groups.recipes_try,
+        executable=executable,
+        execution_timeout=180 * time.minute,
+        properties={
+            "remote": repos.FLUTTER_RECIPES,
+            "unittest_only": False,
+        },
+        service_account=accounts.FLUTTER_TRY,
+        experiment_percentage=100,
     )
 
     # Autoroller builder. This is used to roll flutter recipes dependencies.
