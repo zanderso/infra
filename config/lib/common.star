@@ -314,9 +314,12 @@ def _mac_builder(properties={}, caches=None, category='Mac', **kwargs):
             },
         },
         properties)
+    mac_caches = [swarming.cache('xcode_binary'), swarming.cache('osx_sdk')]
+    if caches != None:
+        mac_caches.extend(caches)
     return _common_builder(os='Mac-10.14',
                            properties=properties,
-                           caches=caches,
+                           caches=mac_caches,
                            category=category,
                            **kwargs)
 
