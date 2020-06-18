@@ -39,7 +39,7 @@ BRANCHES = {
     'dev': {
         # Don't match the last number of the branch name or else this will have
         # to be updated for every dev release.
-        'ref': r'refs/heads/flutter-1\.19-candidate\..+',
+        'ref': r'refs/heads/flutter-1\.20-candidate\..+',
         'version': None,
     },
     'master': {
