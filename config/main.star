@@ -20,6 +20,7 @@ load("//lib/helpers.star", "helpers")
 load("//lib/repos.star", "repos")
 load("//lib/recipes.star", "recipes")
 load("//recipes_config.star", "recipes_config")
+load("//engine_config.star", "engine_config")
 load("//framework_config.star", "framework_config")
 
 # Avoid jumping back and forth with configs being updated by lower
@@ -124,8 +125,14 @@ luci.bucket(
     ],
 )
 
-# Common recipe group configurations.
+# CQ group configurations. Only FLUTTER_RECIPES is using
+# LUCI CQ but we still need the CQ configurations for all
+# the try configurations for led recipe tests.
+common.cq_group(repos.COCOON)
+common.cq_group(repos.ENGINE)
+common.cq_group(repos.FLUTTER)
 common.cq_group(repos.FLUTTER_RECIPES)
+common.cq_group(repos.PACKAGES)
 
 luci.builder.defaults.dimensions.set({
     "cpu": common.TARGET_X64,
@@ -156,102 +163,21 @@ luci.builder.defaults.properties.set({
 })
 
 ############################ End Global Defaults ############################
-
-recipes_config.setup()
+engine_config.setup(BRANCHES)
 
 framework_config.setup(BRANCHES)
 
+recipes_config.setup()
 ######################### Console Definitions #################################
 
-console_names = struct(
-    engine=consoles.console_view(
-        'engine',
-        repos.ENGINE,
-    ),
-    stable_engine=consoles.console_view(
-        'stable_engine',
-        repos.ENGINE,
-        [BRANCHES['stable']['ref']],
-    ),
-    beta_engine=consoles.console_view(
-        'beta_engine',
-        repos.ENGINE,
-        [BRANCHES['beta']['ref']],
-    ),
-    dev_engine=consoles.console_view(
-        'dev_engine',
-        repos.ENGINE,
-        [BRANCHES['dev']['ref']],
-    ),
-    packaging=consoles.console_view(
-        'packaging',
-        repos.FLUTTER,
-        refs=['refs/heads/beta', 'refs/heads/dev', 'refs/heads/stable'],
-        exclude_ref='refs/heads/master',
-    ),
-)
-
-########################## Engine builders ###################################
-common_web_engine_builders = {
-    'recipe': 'web_engine',
-    'list_view_name': 'engine-try',
-}
-
-common_scheduled_web_engine_builders = helpers.merge_dicts(
-    common_web_engine_builders, {
-        'console_view_name':
-        'engine',
-        'list_view_name':
-        'engine',
-        'triggered_by': ['master-gitiles-trigger-engine'],
-        'triggering_policy':
-        scheduler.greedy_batching(max_batch_size=1,
-                                  max_concurrent_invocations=3)
-    })
-
-common.linux_try_builder(name='Linux Web Engine|lwe',
-                         **common_web_engine_builders)
-common.mac_try_builder(name='Mac Web Engine|mwe', **common_web_engine_builders)
-common.windows_try_builder(name='Windows Web Engine|wwe',
-                           **common_web_engine_builders)
-common.linux_prod_builder(name='Linux Web Engine|lwe',
-                          **common_scheduled_web_engine_builders)
-
-common.mac_prod_builder(name='Mac Web Engine|mwe',
-                        **common_scheduled_web_engine_builders)
-common.windows_prod_builder(name='Windows Web Engine|wwe',
-                            **common_scheduled_web_engine_builders)
-###############################################################################
+console_names = struct(packaging=consoles.console_view(
+    'packaging',
+    repos.FLUTTER,
+    refs=['refs/heads/beta', 'refs/heads/dev', 'refs/heads/stable'],
+    exclude_ref='refs/heads/master',
+), )
 
 # Gitiles pollers
-
-luci.gitiles_poller(
-    name='master-gitiles-trigger-engine',
-    bucket='prod',
-    repo=repos.ENGINE,
-)
-
-luci.gitiles_poller(
-    name='stable-gitiles-trigger-engine',
-    bucket='prod',
-    repo=repos.ENGINE,
-    refs=[BRANCHES['stable']['ref']],
-)
-
-luci.gitiles_poller(
-    name='beta-gitiles-trigger-engine',
-    bucket='prod',
-    repo=repos.ENGINE,
-    refs=[BRANCHES['beta']['ref']],
-)
-
-luci.gitiles_poller(
-    name='dev-gitiles-trigger-engine',
-    bucket='prod',
-    repo=repos.ENGINE,
-    refs=[BRANCHES['dev']['ref']],
-)
-
 luci.gitiles_poller(
     name='gitiles-trigger-dev-packaging',
     bucket='prod',
@@ -284,23 +210,12 @@ def recipe(name):
 
 
 recipe('cocoon')
-recipe('engine')
-recipe('engine_' + BRANCHES['stable']['version'])
-recipe('engine_' + BRANCHES['beta']['version'])
-recipe('engine_builder')
-recipe('engine_builder_' + BRANCHES['stable']['version'])
-recipe('engine_builder_' + BRANCHES['beta']['version'])
 recipe('ios-usb-dependencies')
-recipe('web_engine')
 recipe('fuchsia_ctl')
 
 luci.list_view(
     name='cocoon-try',
     title='Cocoon try builders',
-)
-luci.list_view(
-    name='engine-try',
-    title='Engine try builders',
 )
 luci.list_view(
     name='fuchsia_ctl-try',
@@ -317,395 +232,8 @@ COMMON_LINUX_COCOON_BUILDER_ARGS = {
 }
 
 common.linux_try_builder(name='Cocoon|cocoon',
+                         repo=repos.COCOON,
                          **COMMON_LINUX_COCOON_BUILDER_ARGS)
-
-COMMON_ENGINE_BUILDER_ARGS = {
-    'recipe': 'engine',
-    'console_view_name': 'engine',
-    'list_view_name': 'engine-try',
-}
-
-COMMON_SCHEDULED_ENGINE_BUILDER_ARGS = helpers.merge_dicts(
-    COMMON_ENGINE_BUILDER_ARGS, {
-        'triggered_by': ['master-gitiles-trigger-engine'],
-        'triggering_policy':
-        scheduler.greedy_batching(max_batch_size=1,
-                                  max_concurrent_invocations=3)
-    })
-
-COMMON_STABLE_ENGINE_BUILDER_ARGS = helpers.merge_dicts(
-    COMMON_ENGINE_BUILDER_ARGS, {
-        'console_view_name':
-        console_names.stable_engine,
-        'recipe':
-        'engine_' + BRANCHES['stable']['version'],
-        'triggered_by': ['stable-gitiles-trigger-engine'],
-        'triggering_policy':
-        scheduler.greedy_batching(max_batch_size=1,
-                                  max_concurrent_invocations=3)
-    })
-
-COMMON_BETA_ENGINE_BUILDER_ARGS = helpers.merge_dicts(
-    COMMON_ENGINE_BUILDER_ARGS, {
-        'console_view_name':
-        console_names.beta_engine,
-        'recipe':
-        'engine_' + BRANCHES['beta']['version'],
-        'triggered_by': ['beta-gitiles-trigger-engine'],
-        'triggering_policy':
-        scheduler.greedy_batching(max_batch_size=1,
-                                  max_concurrent_invocations=3)
-    })
-
-COMMON_DEV_ENGINE_BUILDER_ARGS = helpers.merge_dicts(
-    COMMON_ENGINE_BUILDER_ARGS, {
-        'console_view_name':
-        console_names.dev_engine,
-        'triggered_by': ['dev-gitiles-trigger-engine'],
-        'triggering_policy':
-        scheduler.greedy_batching(max_batch_size=1,
-                                  max_concurrent_invocations=3)
-    })
-
-
-def engine_properties(build_host=False,
-                      build_fuchsia=False,
-                      build_android_debug=False,
-                      build_android_aot=False,
-                      build_android_vulkan=False,
-                      build_ios=False,
-                      needs_jazzy=False,
-                      ios_debug=False,
-                      ios_profile=False,
-                      ios_release=False,
-                      build_android_jit_release=False,
-                      no_bitcode=False):
-    properties = {
-        'build_host': build_host,
-        'build_fuchsia': build_fuchsia,
-        'build_android_debug': build_android_debug,
-        'build_android_aot': build_android_aot,
-        'build_android_vulkan': build_android_vulkan,
-        'build_ios': build_ios,
-        'build_android_jit_release': build_android_jit_release,
-    }
-    if (build_ios):
-        properties['ios_debug'] = ios_debug
-        properties['ios_profile'] = ios_profile
-        properties['ios_release'] = ios_release
-        properties['no_bitcode'] = no_bitcode
-    if (needs_jazzy):
-        properties['jazzy_version'] = '0.9.5'
-    if (build_fuchsia):
-        properties['fuchsia_ctl_version'] = FUCHSIA_CTL_VERSION
-    return properties
-
-
-common.linux_prod_builder(name='Linux Host Engine|host',
-                          properties=engine_properties(build_host=True),
-                          **COMMON_SCHEDULED_ENGINE_BUILDER_ARGS)
-common.linux_prod_builder(name='Linux Fuchsia|fsc',
-                          properties=engine_properties(build_fuchsia=True),
-                          **COMMON_SCHEDULED_ENGINE_BUILDER_ARGS)
-common.linux_prod_builder(name='Linux Android Debug Engine|dbg',
-                          properties=engine_properties(
-                              build_android_debug=True,
-                              build_android_vulkan=True,
-                              build_android_jit_release=True),
-                          **COMMON_SCHEDULED_ENGINE_BUILDER_ARGS)
-common.linux_prod_builder(name='Linux Android AOT Engine|aot',
-                          properties=engine_properties(build_android_aot=True),
-                          **COMMON_SCHEDULED_ENGINE_BUILDER_ARGS)
-common.linux_prod_builder(name='Linux Engine Drone|drn',
-                          recipe='engine_builder',
-                          console_view_name=None,
-                          no_notify=True)
-
-common.linux_prod_builder(name='Linux stable Host Engine|host',
-                          properties=engine_properties(build_host=True),
-                          **COMMON_STABLE_ENGINE_BUILDER_ARGS)
-common.linux_prod_builder(name='Linux stable Fuchsia|fsc',
-                          properties=engine_properties(build_fuchsia=True),
-                          **COMMON_STABLE_ENGINE_BUILDER_ARGS)
-common.linux_prod_builder(name='Linux stable Android Debug Engine|dbg',
-                          properties=engine_properties(
-                              build_android_debug=True,
-                              build_android_vulkan=True,
-                              build_android_jit_release=True),
-                          **COMMON_STABLE_ENGINE_BUILDER_ARGS)
-common.linux_prod_builder(name='Linux stable Android AOT Engine|aot',
-                          properties=engine_properties(build_android_aot=True),
-                          **COMMON_STABLE_ENGINE_BUILDER_ARGS)
-common.linux_prod_builder(name='Linux stable Engine Drone|drn',
-                          recipe='engine_builder_' +
-                          BRANCHES['stable']['version'],
-                          console_view_name=None,
-                          no_notify=True)
-
-common.linux_prod_builder(name='Linux beta Host Engine|host',
-                          properties=engine_properties(build_host=True),
-                          **COMMON_BETA_ENGINE_BUILDER_ARGS)
-common.linux_prod_builder(name='Linux beta Fuchsia|fsc',
-                          properties=engine_properties(build_fuchsia=True),
-                          **COMMON_BETA_ENGINE_BUILDER_ARGS)
-common.linux_prod_builder(name='Linux beta Android Debug Engine|dbg',
-                          properties=engine_properties(
-                              build_android_debug=True,
-                              build_android_vulkan=True,
-                              build_android_jit_release=True),
-                          **COMMON_BETA_ENGINE_BUILDER_ARGS)
-common.linux_prod_builder(name='Linux beta Android AOT Engine|aot',
-                          properties=engine_properties(build_android_aot=True),
-                          **COMMON_BETA_ENGINE_BUILDER_ARGS)
-common.linux_prod_builder(name='Linux beta Engine Drone|drn',
-                          recipe='engine_builder_' +
-                          BRANCHES['beta']['version'],
-                          console_view_name=None,
-                          no_notify=True)
-
-common.linux_prod_builder(name='Linux dev Host Engine|host',
-                          properties=engine_properties(build_host=True),
-                          **COMMON_DEV_ENGINE_BUILDER_ARGS)
-common.linux_prod_builder(name='Linux dev Fuchsia|fsc',
-                          properties=engine_properties(build_fuchsia=True),
-                          **COMMON_DEV_ENGINE_BUILDER_ARGS)
-common.linux_prod_builder(name='Linux dev Android Debug Engine|dbg',
-                          properties=engine_properties(
-                              build_android_debug=True,
-                              build_android_vulkan=True,
-                              build_android_jit_release=True),
-                          **COMMON_DEV_ENGINE_BUILDER_ARGS)
-common.linux_prod_builder(name='Linux dev Android AOT Engine|aot',
-                          properties=engine_properties(build_android_aot=True),
-                          **COMMON_DEV_ENGINE_BUILDER_ARGS)
-common.linux_prod_builder(name='Linux dev Engine Drone|drn',
-                          console_view_name=None,
-                          recipe='engine_builder',
-                          no_notify=True)
-
-common.linux_try_builder(name='Linux Host Engine|host',
-                         properties=engine_properties(build_host=True),
-                         **COMMON_ENGINE_BUILDER_ARGS)
-common.linux_try_builder(name='Linux Fuchsia|fsc',
-                         properties=engine_properties(build_fuchsia=True),
-                         **COMMON_ENGINE_BUILDER_ARGS)
-common.linux_try_builder(name='Linux Android Debug Engine|dbg',
-                         properties=engine_properties(
-                             build_android_debug=True,
-                             build_android_vulkan=True),
-                         **COMMON_ENGINE_BUILDER_ARGS)
-common.linux_try_builder(name='Linux Android AOT Engine|aot',
-                         properties=engine_properties(build_android_aot=True),
-                         **COMMON_ENGINE_BUILDER_ARGS)
-common.linux_try_builder(name='Linux Engine Drone|drn',
-                         recipe='engine_builder',
-                         list_view_name='engine-try')
-
-common.mac_prod_builder(name='Mac Host Engine|host',
-                        properties=engine_properties(build_host=True),
-                        **COMMON_SCHEDULED_ENGINE_BUILDER_ARGS)
-common.mac_prod_builder(name='Mac Android Debug Engine|dbg',
-                        properties=engine_properties(
-                            build_android_debug=True,
-                            build_android_vulkan=True),
-                        **COMMON_SCHEDULED_ENGINE_BUILDER_ARGS)
-common.mac_prod_builder(name='Mac Android AOT Engine|aot',
-                        properties=engine_properties(build_android_aot=True),
-                        **COMMON_SCHEDULED_ENGINE_BUILDER_ARGS)
-common.mac_prod_builder(name='Mac iOS Engine|ios',
-                        properties=engine_properties(build_ios=True,
-                                                     ios_debug=True,
-                                                     needs_jazzy=True),
-                        **COMMON_SCHEDULED_ENGINE_BUILDER_ARGS)
-common.mac_prod_builder(name='Mac iOS Engine Profile|ios',
-                        properties=engine_properties(build_ios=True,
-                                                     ios_profile=True,
-                                                     needs_jazzy=True),
-                        **COMMON_SCHEDULED_ENGINE_BUILDER_ARGS)
-common.mac_prod_builder(name='Mac iOS Engine Release|ios',
-                        properties=engine_properties(build_ios=True,
-                                                     ios_release=True,
-                                                     needs_jazzy=True),
-                        **COMMON_SCHEDULED_ENGINE_BUILDER_ARGS)
-common.mac_prod_builder(name='Mac Engine Drone|drn',
-                        recipe='engine_builder',
-                        console_view_name=None,
-                        no_notify=True)
-
-# Mac Engine Stable Builders
-common.mac_prod_builder(name='Mac stable Host Engine|host',
-                        properties=engine_properties(build_host=True),
-                        **COMMON_STABLE_ENGINE_BUILDER_ARGS)
-common.mac_prod_builder(name='Mac stable Android Debug Engine|dbg',
-                        properties=engine_properties(
-                            build_android_debug=True,
-                            build_android_vulkan=True),
-                        **COMMON_STABLE_ENGINE_BUILDER_ARGS)
-common.mac_prod_builder(name='Mac stable Android AOT Engine|aot',
-                        properties=engine_properties(build_android_aot=True),
-                        **COMMON_STABLE_ENGINE_BUILDER_ARGS)
-common.mac_prod_builder(name='Mac stable iOS Engine|ios',
-                        properties=engine_properties(build_ios=True,
-                                                     ios_debug=True,
-                                                     needs_jazzy=True),
-                        **COMMON_STABLE_ENGINE_BUILDER_ARGS)
-common.mac_prod_builder(name='Mac stable iOS Engine Profile|ios',
-                        properties=engine_properties(build_ios=True,
-                                                     ios_profile=True,
-                                                     needs_jazzy=True),
-                        **COMMON_STABLE_ENGINE_BUILDER_ARGS)
-common.mac_prod_builder(name='Mac stable iOS Engine Release|ios',
-                        properties=engine_properties(build_ios=True,
-                                                     ios_release=True,
-                                                     needs_jazzy=True),
-                        **COMMON_STABLE_ENGINE_BUILDER_ARGS)
-common.mac_prod_builder(name='Mac stable Engine Drone|drn',
-                        recipe='engine_builder',
-                        console_view_name=None,
-                        no_notify=True)
-
-# Mac Engine Beta Builders
-common.mac_prod_builder(name='Mac beta Host Engine|host',
-                        properties=engine_properties(build_host=True),
-                        **COMMON_BETA_ENGINE_BUILDER_ARGS)
-common.mac_prod_builder(name='Mac beta Android Debug Engine|dbg',
-                        properties=engine_properties(
-                            build_android_debug=True,
-                            build_android_vulkan=True),
-                        **COMMON_BETA_ENGINE_BUILDER_ARGS)
-common.mac_prod_builder(name='Mac beta Android AOT Engine|aot',
-                        properties=engine_properties(build_android_aot=True),
-                        **COMMON_BETA_ENGINE_BUILDER_ARGS)
-common.mac_prod_builder(name='Mac beta iOS Engine|ios',
-                        properties=engine_properties(build_ios=True,
-                                                     ios_debug=True,
-                                                     needs_jazzy=True),
-                        **COMMON_BETA_ENGINE_BUILDER_ARGS)
-common.mac_prod_builder(name='Mac beta iOS Engine Profile|ios',
-                        properties=engine_properties(build_ios=True,
-                                                     ios_profile=True,
-                                                     needs_jazzy=True),
-                        **COMMON_BETA_ENGINE_BUILDER_ARGS)
-common.mac_prod_builder(name='Mac beta iOS Engine Release|ios',
-                        properties=engine_properties(build_ios=True,
-                                                     ios_release=True,
-                                                     needs_jazzy=True),
-                        **COMMON_BETA_ENGINE_BUILDER_ARGS)
-common.mac_prod_builder(name='Mac beta Engine Drone|drn',
-                        recipe='engine_builder',
-                        console_view_name=None,
-                        no_notify=True)
-
-# Mac Engine Dev Builders
-common.mac_prod_builder(name='Mac dev Host Engine|host',
-                        properties=engine_properties(build_host=True),
-                        **COMMON_DEV_ENGINE_BUILDER_ARGS)
-common.mac_prod_builder(name='Mac dev Android Debug Engine|dbg',
-                        properties=engine_properties(
-                            build_android_debug=True,
-                            build_android_vulkan=True),
-                        **COMMON_DEV_ENGINE_BUILDER_ARGS)
-common.mac_prod_builder(name='Mac dev Android AOT Engine|aot',
-                        properties=engine_properties(build_android_aot=True),
-                        **COMMON_DEV_ENGINE_BUILDER_ARGS)
-common.mac_prod_builder(name='Mac dev iOS Engine|ios',
-                        properties=engine_properties(build_ios=True,
-                                                     ios_debug=True,
-                                                     needs_jazzy=True),
-                        **COMMON_DEV_ENGINE_BUILDER_ARGS)
-common.mac_prod_builder(name='Mac dev iOS Engine Profile|ios',
-                        properties=engine_properties(build_ios=True,
-                                                     ios_profile=True,
-                                                     needs_jazzy=True),
-                        **COMMON_DEV_ENGINE_BUILDER_ARGS)
-common.mac_prod_builder(name='Mac dev iOS Engine Release|ios',
-                        properties=engine_properties(build_ios=True,
-                                                     ios_release=True,
-                                                     needs_jazzy=True),
-                        **COMMON_DEV_ENGINE_BUILDER_ARGS)
-common.mac_prod_builder(name='Mac dev Engine Drone|drn',
-                        recipe='engine_builder',
-                        console_view_name=None,
-                        no_notify=True)
-
-common.mac_try_builder(name='Mac Host Engine|host',
-                       properties=engine_properties(build_host=True),
-                       **COMMON_ENGINE_BUILDER_ARGS)
-common.mac_try_builder(name='Mac Android Debug Engine|dbg',
-                       properties=engine_properties(build_android_debug=True,
-                                                    build_android_vulkan=True),
-                       **COMMON_ENGINE_BUILDER_ARGS)
-common.mac_try_builder(name='Mac Android AOT Engine|aot',
-                       properties=engine_properties(build_android_aot=True),
-                       **COMMON_ENGINE_BUILDER_ARGS)
-common.mac_try_builder(name='Mac iOS Engine|ios',
-                       properties=engine_properties(build_ios=True,
-                                                    ios_debug=True,
-                                                    needs_jazzy=True,
-                                                    no_bitcode=True),
-                       **COMMON_ENGINE_BUILDER_ARGS)
-common.mac_try_builder(name='Mac Engine Drone|drn',
-                       recipe='engine_builder',
-                       list_view_name='engine-try')
-
-common.windows_prod_builder(name='Windows Host Engine|host',
-                            properties=engine_properties(build_host=True),
-                            **COMMON_SCHEDULED_ENGINE_BUILDER_ARGS)
-common.windows_prod_builder(
-    name='Windows Android AOT Engine|aot',
-    properties=engine_properties(build_android_aot=True),
-    **COMMON_SCHEDULED_ENGINE_BUILDER_ARGS)
-common.windows_prod_builder(name='Windows Engine Drone|drn',
-                            recipe='engine_builder',
-                            console_view_name=None,
-                            no_notify=True)
-
-common.windows_prod_builder(name='Windows stable Host Engine|host',
-                            properties=engine_properties(build_host=True),
-                            **COMMON_STABLE_ENGINE_BUILDER_ARGS)
-common.windows_prod_builder(
-    name='Windows stable Android AOT Engine|aot',
-    properties=engine_properties(build_android_aot=True),
-    **COMMON_STABLE_ENGINE_BUILDER_ARGS)
-common.windows_prod_builder(name='Windows stable Engine Drone|drn',
-                            recipe='engine_builder',
-                            console_view_name=None,
-                            no_notify=True)
-
-common.windows_prod_builder(name='Windows beta Host Engine|host',
-                            properties=engine_properties(build_host=True),
-                            **COMMON_BETA_ENGINE_BUILDER_ARGS)
-common.windows_prod_builder(
-    name='Windows beta Android AOT Engine|aot',
-    properties=engine_properties(build_android_aot=True),
-    **COMMON_BETA_ENGINE_BUILDER_ARGS)
-common.windows_prod_builder(name='Windows beta Engine Drone|drn',
-                            recipe='engine_builder',
-                            console_view_name=None,
-                            no_notify=True)
-
-common.windows_prod_builder(name='Windows dev Host Engine|host',
-                            properties=engine_properties(build_host=True),
-                            **COMMON_DEV_ENGINE_BUILDER_ARGS)
-common.windows_prod_builder(
-    name='Windows dev Android AOT Engine|aot',
-    properties=engine_properties(build_android_aot=True),
-    **COMMON_DEV_ENGINE_BUILDER_ARGS)
-common.windows_prod_builder(name='Windows dev Engine Drone|drn',
-                            recipe='engine_builder',
-                            console_view_name=None,
-                            no_notify=True)
-
-common.windows_try_builder(name='Windows Host Engine|host',
-                           properties=engine_properties(build_host=True),
-                           **COMMON_ENGINE_BUILDER_ARGS)
-common.windows_try_builder(
-    name='Windows Android AOT Engine|aot',
-    properties=engine_properties(build_android_aot=True),
-    **COMMON_ENGINE_BUILDER_ARGS)
-common.windows_try_builder(name='Windows Engine Drone|drn',
-                           recipe='engine_builder',
-                           list_view_name='engine-try')
 
 DEV_PACKAGING_BUILDER_ARGS = {
     'recipe': 'flutter',
@@ -724,21 +252,6 @@ STABLE_PACKAGING_BUILDER_ARGS = {
     'console_view_name': console_names.packaging,
     'triggered_by': ['gitiles-trigger-stable-packaging'],
 }
-
-common.linux_prod_builder(name='Linux Flutter Dev Packaging|dev',
-                          **DEV_PACKAGING_BUILDER_ARGS)
-common.mac_prod_builder(name='Mac Flutter Dev Packaging|dev',
-                        **DEV_PACKAGING_BUILDER_ARGS)
-common.windows_prod_builder(name='Windows Flutter Dev Packaging|dev',
-                            **DEV_PACKAGING_BUILDER_ARGS)
-
-common.linux_prod_builder(name='Linux Flutter Beta Packaging|beta',
-                          **BETA_PACKAGING_BUILDER_ARGS)
-common.mac_prod_builder(name='Mac Flutter Beta Packaging|beta',
-                        **BETA_PACKAGING_BUILDER_ARGS)
-common.windows_prod_builder(name='Windows Flutter Beta Packaging|beta',
-                            **BETA_PACKAGING_BUILDER_ARGS)
-
 common.linux_prod_builder(name='Linux Flutter Stable Packaging|stbl',
                           **STABLE_PACKAGING_BUILDER_ARGS)
 common.mac_prod_builder(name='Mac Flutter Stable Packaging|stbl',
@@ -776,5 +289,6 @@ ios_tools_builder(name='libzip|zip')
 
 common.linux_try_builder(name='fuchsia_ctl|fctl',
                          recipe='fuchsia_ctl',
+                         repo=repos.PACKAGES,
                          list_view_name='fuchsia_ctl-try',
                          properties={'fuchsia_ctl_version': None})

@@ -11,4 +11,6 @@ repos = struct(
     'https://chromium.googlesource.com/external/github.com/flutter/flutter',
     ENGINE=
     'https://chromium.googlesource.com/external/github.com/flutter/engine',
+    PACKAGES=
+    'https://chromium.googlesource.com/external/github.com/flutter/packages',
 )

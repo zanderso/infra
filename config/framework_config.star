@@ -13,7 +13,7 @@ load("//lib/common.star", "common")
 load("//lib/repos.star", "repos")
 
 
-def _setup(BRANCHES):
+def _setup(branches):
     platfrom_args = {
         'linux': {
             'properties': {
@@ -35,12 +35,12 @@ def _setup(BRANCHES):
         },
     }
 
-    for branch in BRANCHES:
+    for branch in branches:
         framework_prod_config(
             platfrom_args,
             branch,
-            BRANCHES[branch]['version'],
-            BRANCHES[branch]['ref'],
+            branches[branch]['version'],
+            branches[branch]['ref'],
         )
 
     framework_try_config(platfrom_args)
@@ -120,18 +120,21 @@ def framework_try_config(platfrom_args):
     common.linux_try_builder(
         name='Linux|frwk',
         recipe='flutter',
+        repo=repos.FLUTTER,
         list_view_name=list_view_name,
         **platfrom_args['linux'],
     )
     common.mac_try_builder(
         name='Mac|frwk',
         recipe='flutter',
+        repo=repos.FLUTTER,
         list_view_name=list_view_name,
         **platfrom_args['mac'],
     )
     common.windows_try_builder(
         name='Windows|frwk',
         recipe='flutter',
+        repo=repos.FLUTTER,
         list_view_name=list_view_name,
         **platfrom_args['windows'],
     )
