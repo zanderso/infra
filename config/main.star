@@ -34,8 +34,8 @@ BRANCHES = {
         'version': 'v1_17_0',
     },
     'beta': {
-        'ref': r'refs/heads/flutter-1\.18-candidate\.11',
-        'version': '1_18_0',
+        'ref': r'refs/heads/flutter-1\.19-candidate\..+',
+        'version': None,
     },
     'dev': {
         # Don't match the last number of the branch name or else this will have
@@ -242,8 +242,12 @@ DEV_PACKAGING_BUILDER_ARGS = {
 }
 
 BETA_PACKAGING_BUILDER_ARGS = {
-    'recipe': 'flutter_' + BRANCHES['beta']['version'],
-    'console_view_name': console_names.packaging,
+    'recipe':
+    'flutter%s' %
+    ('_%s' %
+     BRANCHES['beta']['version'] if BRANCHES['beta']['version'] else ''),
+    'console_view_name':
+    console_names.packaging,
     'triggered_by': ['gitiles-trigger-beta-packaging'],
 }
 
