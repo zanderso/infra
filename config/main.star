@@ -256,6 +256,21 @@ STABLE_PACKAGING_BUILDER_ARGS = {
     'console_view_name': console_names.packaging,
     'triggered_by': ['gitiles-trigger-stable-packaging'],
 }
+
+common.linux_prod_builder(name='Linux Flutter Dev Packaging|dev',
+                          **DEV_PACKAGING_BUILDER_ARGS)
+common.mac_prod_builder(name='Mac Flutter Dev Packaging|dev',
+                        **DEV_PACKAGING_BUILDER_ARGS)
+common.windows_prod_builder(name='Windows Flutter Dev Packaging|dev',
+                            **DEV_PACKAGING_BUILDER_ARGS)
+
+common.linux_prod_builder(name='Linux Flutter Beta Packaging|beta',
+                          **BETA_PACKAGING_BUILDER_ARGS)
+common.mac_prod_builder(name='Mac Flutter Beta Packaging|beta',
+                        **BETA_PACKAGING_BUILDER_ARGS)
+common.windows_prod_builder(name='Windows Flutter Beta Packaging|beta',
+                            **BETA_PACKAGING_BUILDER_ARGS)
+
 common.linux_prod_builder(name='Linux Flutter Stable Packaging|stbl',
                           **STABLE_PACKAGING_BUILDER_ARGS)
 common.mac_prod_builder(name='Mac Flutter Stable Packaging|stbl',
