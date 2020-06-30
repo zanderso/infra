@@ -45,6 +45,7 @@ def cocoon_try_config(platform_args):
                              recipe='cocoon',
                              list_view_name=list_view_name,
                              repo=repos.COCOON,
+                             add_cq=True,
                              **platform_args['linux'])
 
 

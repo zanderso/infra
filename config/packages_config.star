@@ -40,6 +40,7 @@ def packages_try_config(platform_args):
     common.linux_try_builder(name='fuchsia_ctl|fctl',
                              recipe='fuchsia_ctl',
                              repo=repos.PACKAGES,
+                             add_cq=True,
                              list_view_name='fuchsia_ctl-try',
                              **platform_args['linux'])
 

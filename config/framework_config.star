@@ -122,6 +122,7 @@ def framework_try_config(platfrom_args):
         recipe='flutter',
         repo=repos.FLUTTER,
         list_view_name=list_view_name,
+        add_cq=True,
         **platfrom_args['linux'],
     )
     common.mac_try_builder(
@@ -136,6 +137,7 @@ def framework_try_config(platfrom_args):
         recipe='flutter',
         repo=repos.FLUTTER,
         list_view_name=list_view_name,
+        add_cq=True,
         **platfrom_args['windows'],
     )
 

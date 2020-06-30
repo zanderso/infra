@@ -302,7 +302,9 @@ def _common_builder(**common_kwargs):
         cq_args = {}
         cq_args['builder'] = 'try/%s' % kwargs['name'].split('|')[0]
         cq_args['cq_group'] = _cq_group_name(kwargs['repo'])
-        luci.cq_tryjob_verifier(**cq_args)
+        if kwargs.get('add_cq'):
+            kwargs.pop('add_cq')
+            luci.cq_tryjob_verifier(**cq_args)
         return _try_builder(*args,
                             **helpers.merge_dicts(common_kwargs, kwargs))
 

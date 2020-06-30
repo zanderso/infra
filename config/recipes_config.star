@@ -80,7 +80,7 @@ def _setup():
                 "flutter": "https://flutter.googlesource.com/recipes",
             }.items(),
         },
-        schedule="with 1h interval",
+        schedule="0 2,13 * * *",
         console_category=console_name,
         console_short_name='aroll',
     )
