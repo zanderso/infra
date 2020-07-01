@@ -34,14 +34,14 @@ def _setup(branches):
     packaging_recipe("ios-usb-dependencies", "")
     for branch in branches:
         # Skip packaging for master branch.
-        if branch == "master":
+        if branch == "master" or branch == None:
             continue
         packaging_recipe("flutter", branches[branch]["version"])
         packaging_prod_config(
             platform_args,
             branch,
             branches[branch]["version"],
-            branches[branch]["ref"],
+            branches[branch]["release-ref"],
         )
 
 def recipe_name(name, version):
@@ -71,7 +71,7 @@ def packaging_prod_config(platform_args, branch, version, ref):
     # Packaging should only build from release branches and never from master. This
     # is to prevent using excesive amount of resources to package something we will
     # never use.
-    if branch == "master":
+    if branch == "master" or branch == None:
         fail("Packaging builders should not run on master changes")
 
     # Defines console views for prod builders
@@ -83,7 +83,7 @@ def packaging_prod_config(platform_args, branch, version, ref):
     )
 
     # Defines prod schedulers
-    trigger_name = branch + "-gitiles-trigger-framework"
+    trigger_name = branch + "-gitiles-trigger-packaging"
     luci.gitiles_poller(
         name = trigger_name,
         bucket = "prod",
