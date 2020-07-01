@@ -51,7 +51,7 @@ BRANCHES = {
     },
     "master": {
         "testing-ref": r"refs/heads/master",
-        "release-ref": r"refs/heads/master",
+        "release-ref": None,
         "version": None,
     },
 }
