@@ -13,46 +13,57 @@ load("//lib/common.star", "common")
 load("//lib/consoles.star", "consoles")
 load("//lib/repos.star", "repos")
 
-
 def _setup():
     luci.recipe(
-        name='ios-usb-dependencies',
-        cipd_package='flutter/recipe_bundles/flutter.googlesource.com/recipes',
-        cipd_version='refs/heads/master',
+        name = "ios-usb-dependencies",
+        cipd_package = "flutter/recipe_bundles/flutter.googlesource.com/recipes",
+        cipd_version = "refs/heads/master",
     )
     iostools_prod_config()
 
-
 def ios_tools_builder(name, repo):
-    builder = name.split('|')[0]
+    """Creates configurations for ios tool builders.
+
+    Args:
+      name(str): The name of the tool repository.
+      repo(str): The url of the repository.
+    """
+    builder = name.split("|")[0]
     consoles.console_view(builder, repo)
-    luci.gitiles_poller(name='gitiles-trigger-%s' % builder,
-                        bucket='prod',
-                        repo=repo,
-                        triggers=[builder])
+    luci.gitiles_poller(
+        name = "gitiles-trigger-%s" % builder,
+        bucket = "prod",
+        repo = repo,
+        triggers = [builder],
+    )
     common.mac_prod_builder(
-        name=name,
-        repo=repo,
-        recipe='ios-usb-dependencies',
-        properties={
-            'package_name': builder + '-flutter',
+        name = name,
+        repo = repo,
+        recipe = "ios-usb-dependencies",
+        properties = {
+            "package_name": builder + "-flutter",
         },
-        console_view_name=builder,
-        triggering_policy=scheduler.greedy_batching(
-            max_concurrent_invocations=1, max_batch_size=6),
+        console_view_name = builder,
+        triggering_policy = scheduler.greedy_batching(
+            max_concurrent_invocations = 1,
+            max_batch_size = 6,
+        ),
     )
 
-
 def iostools_prod_config():
-    ios_tools_builder(name='ideviceinstaller|idev',
-                      repo=repos.IDEVICEINSTALLER)
-    ios_tools_builder(name='libimobiledevice|libi',
-                      repo=repos.LIBIMOBILEDEVICE)
-    ios_tools_builder(name='libplist|plist', repo=repos.LIBPLIST)
-    ios_tools_builder(name='usbmuxd|usbmd', repo=repos.USBMUXD)
-    ios_tools_builder(name='openssl|ssl', repo=repos.OPENSSL)
-    ios_tools_builder(name='ios-deploy|deploy', repo=repos.IOS_DEPLOY)
-    ios_tools_builder(name='libzip|zip', repo=repos.LIBZIP)
+    """Creates prod configurations for iostools."""
+    ios_tools_builder(
+        name = "ideviceinstaller|idev",
+        repo = repos.IDEVICEINSTALLER,
+    )
+    ios_tools_builder(
+        name = "libimobiledevice|libi",
+        repo = repos.LIBIMOBILEDEVICE,
+    )
+    ios_tools_builder(name = "libplist|plist", repo = repos.LIBPLIST)
+    ios_tools_builder(name = "usbmuxd|usbmd", repo = repos.USBMUXD)
+    ios_tools_builder(name = "openssl|ssl", repo = repos.OPENSSL)
+    ios_tools_builder(name = "ios-deploy|deploy", repo = repos.IOS_DEPLOY)
+    ios_tools_builder(name = "libzip|zip", repo = repos.LIBZIP)
 
-
-iostools_config = struct(setup=_setup, )
+iostools_config = struct(setup = _setup)

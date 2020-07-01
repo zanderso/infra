@@ -15,10 +15,7 @@ https://chromium.googlesource.com/infra/luci/luci-go/+/refs/heads/master/lucicfg
 """
 
 load("//lib/common.star", "common")
-load("//lib/consoles.star", "consoles")
-load("//lib/helpers.star", "helpers")
 load("//lib/repos.star", "repos")
-load("//lib/recipes.star", "recipes")
 load("//cocoon_config.star", "cocoon_config")
 load("//recipes_config.star", "recipes_config")
 load("//engine_config.star", "engine_config")
@@ -29,103 +26,112 @@ load("//packaging_config.star", "packaging_config")
 
 # Avoid jumping back and forth with configs being updated by lower
 # version lucicfg.
-lucicfg.check_version('1.15.0')
+lucicfg.check_version("1.17.0")
 
 BRANCHES = {
-    'stable': {
-        'ref': r'refs/heads/flutter-1\.17-candidate\.3',
+    "stable": {
+        "ref": r"refs/heads/flutter-1\.17-candidate\.3",
         # To be interpolated into recipe names e.g. 'flutter/flutter_' + BRANCHES['stable']['version']
-        'version': 'v1_17_0',
+        "version": "v1_17_0",
     },
-    'beta': {
-        'ref': r'refs/heads/flutter-1\.19-candidate\..+',
-        'version': None,
+    "beta": {
+        "ref": r"refs/heads/flutter-1\.19-candidate\..+",
+        "version": None,
     },
-    'dev': {
+    "dev": {
         # Don't match the last number of the branch name or else this will have
         # to be updated for every dev release.
-        'ref': r'refs/heads/flutter-1\.20-candidate\..+',
-        'version': None,
+        "ref": r"refs/heads/flutter-1\.20-candidate\..+",
+        "version": None,
     },
-    'master': {
-        'ref': r'refs/heads/master',
-        'version': None,
+    "master": {
+        "ref": r"refs/heads/master",
+        "version": None,
     },
 }
 
-FUCHSIA_CTL_VERSION = 'version:0.0.23'
+FUCHSIA_CTL_VERSION = "version:0.0.23"
 
-lucicfg.config(config_dir="generated/flutter",
-               tracked_files=["**/*"],
-               fail_on_warnings=True)
+lucicfg.config(
+    config_dir = "generated/flutter",
+    tracked_files = ["**/*"],
+    fail_on_warnings = True,
+    lint_checks = ["default"],
+)
 
 luci.project(
-    name='flutter',
-    config_dir="luci",
-    buildbucket='cr-buildbucket.appspot.com',
-    logdog='luci-logdog.appspot.com',
-    milo='luci-milo.appspot.com',
-    scheduler='luci-scheduler.appspot.com',
-    swarming='chromium-swarm.appspot.com',
-    notify='luci-notify.appspot.com',
-    acls=[
+    name = "flutter",
+    config_dir = "luci",
+    buildbucket = "cr-buildbucket.appspot.com",
+    logdog = "luci-logdog.appspot.com",
+    milo = "luci-milo.appspot.com",
+    scheduler = "luci-scheduler.appspot.com",
+    swarming = "chromium-swarm.appspot.com",
+    notify = "luci-notify.appspot.com",
+    acls = [
         acl.entry(
-            roles=[
+            roles = [
                 acl.BUILDBUCKET_READER,
                 acl.LOGDOG_READER,
                 acl.PROJECT_CONFIGS_READER,
                 acl.SCHEDULER_READER,
             ],
-            groups='all',
+            groups = "all",
         ),
         acl.entry(
-            roles=[
+            roles = [
                 acl.BUILDBUCKET_TRIGGERER,
                 acl.SCHEDULER_TRIGGERER,
             ],
-            groups='project-flutter-prod-schedulers',
+            groups = "project-flutter-prod-schedulers",
         ),
         acl.entry(
-            roles=[
+            roles = [
                 acl.BUILDBUCKET_OWNER,
                 acl.SCHEDULER_OWNER,
             ],
-            groups='project-flutter-admins',
+            groups = "project-flutter-admins",
         ),
         acl.entry(
             acl.LOGDOG_WRITER,
-            groups='luci-logdog-chromium-writers',
+            groups = "luci-logdog-chromium-writers",
         ),
         acl.entry(
-            roles=[acl.CQ_COMMITTER, acl.CQ_DRY_RUNNER],
-            groups=["project-flutter-try-schedulers"],
+            roles = [acl.CQ_COMMITTER, acl.CQ_DRY_RUNNER],
+            groups = ["project-flutter-try-schedulers"],
         ),
     ],
 )
 
-luci.logdog(gs_bucket='chromium-luci-logdog')
+luci.logdog(gs_bucket = "chromium-luci-logdog")
 
 luci.milo(
-    logo=
-    'https://storage.googleapis.com/chrome-infra-public/logo/flutter-logo.svg',
-    favicon='https://storage.googleapis.com/flutter_infra/favicon.ico',
+    logo =
+        "https://storage.googleapis.com/chrome-infra-public/logo/flutter-logo.svg",
+    favicon = "https://storage.googleapis.com/flutter_infra/favicon.ico",
 )
 
 luci.bucket(
-    name='prod',
-    acls=[
-        acl.entry(acl.BUILDBUCKET_TRIGGERER,
-                  groups='project-flutter-prod-schedulers'),
-        acl.entry(acl.SCHEDULER_TRIGGERER,
-                  groups='project-flutter-prod-schedulers'),
+    name = "prod",
+    acls = [
+        acl.entry(
+            acl.BUILDBUCKET_TRIGGERER,
+            groups = "project-flutter-prod-schedulers",
+        ),
+        acl.entry(
+            acl.SCHEDULER_TRIGGERER,
+            groups = "project-flutter-prod-schedulers",
+        ),
     ],
 )
 
 luci.bucket(
-    name='try',
-    acls=[
-        acl.entry(acl.BUILDBUCKET_TRIGGERER,
-                  groups='project-flutter-try-schedulers')
+    name = "try",
+    acls = [
+        acl.entry(
+            acl.BUILDBUCKET_TRIGGERER,
+            groups = "project-flutter-try-schedulers",
+        ),
     ],
 )
 
@@ -144,26 +150,22 @@ luci.builder.defaults.dimensions.set({
 })
 
 luci.builder.defaults.properties.set({
-    '$kitchen': {
-        'emulate_gce': True
+    "$kitchen": {
+        "emulate_gce": True,
     },
-    '$build/goma': {
-        'use_luci_auth': True
+    "$build/goma": {
+        "use_luci_auth": True,
     },
-    '$recipe_engine/isolated': {
-        "server": "https://isolateserver.appspot.com"
+    "$recipe_engine/isolated": {
+        "server": "https://isolateserver.appspot.com",
     },
-    '$recipe_engine/swarming': {
-        "server": "https://chromium-swarm.appspot.com"
+    "$recipe_engine/swarming": {
+        "server": "https://chromium-swarm.appspot.com",
     },
-    'mastername':
-    'client.flutter',
-    'goma_jobs':
-    '200',
-    'android_sdk_license':
-    '\n24333f8a63b6825ea9c5514f83c2829b004d1fee',
-    'android_sdk_preview_license':
-    '\n84831b9409646a918e30573bab4c9c91346d8abd',
+    "mastername": "client.flutter",
+    "goma_jobs": "200",
+    "android_sdk_license": "\n24333f8a63b6825ea9c5514f83c2829b004d1fee",
+    "android_sdk_preview_license": "\n84831b9409646a918e30573bab4c9c91346d8abd",
 })
 
 ############################ End Global Defaults ############################
