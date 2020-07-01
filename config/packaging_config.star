@@ -16,13 +16,19 @@ load("//lib/repos.star", "repos")
 def _setup(branches):
     platform_args = {
         'linux': {
-            'properties': {},
+            'properties': {
+                'shard': 'framework_tests'
+            },
         },
         'mac': {
-            'properties': {},
+            'properties': {
+                'shard': 'framework_tests'
+            },
         },
         'windows': {
-            'properties': {},
+            'properties': {
+                'shard': 'framework_tests'
+            },
         },
     }
 
