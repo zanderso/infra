@@ -34,7 +34,7 @@ def _setup(branches):
             platform_args,
             branch,
             branches[branch]["version"],
-            branches[branch]["ref"],
+            branches[branch]["testing-ref"],
         )
 
     engine_try_config(platform_args)

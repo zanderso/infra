@@ -39,7 +39,7 @@ def _setup(branches):
             platfrom_args,
             branch,
             branches[branch]["version"],
-            branches[branch]["ref"],
+            branches[branch]["testing-ref"],
         )
 
     framework_try_config(platfrom_args)

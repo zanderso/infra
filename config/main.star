@@ -30,22 +30,28 @@ lucicfg.check_version("1.17.0")
 
 BRANCHES = {
     "stable": {
-        "ref": r"refs/heads/flutter-1\.17-candidate\.3",
+        # This ref is used to trigger testing
+        "testing-ref": r"refs/heads/flutter-1\.17-candidate\.3",
+        # This ref is used to trigger packaging builds
+        "release-ref": r"refs/heads/stable",
         # To be interpolated into recipe names e.g. 'flutter/flutter_' + BRANCHES['stable']['version']
         "version": "v1_17_0",
     },
     "beta": {
-        "ref": r"refs/heads/flutter-1\.19-candidate\..+",
+        "testing-ref": r"refs/heads/flutter-1\.19-candidate\..+",
+        "release-ref": r"refs/heads/beta",
         "version": None,
     },
     "dev": {
         # Don't match the last number of the branch name or else this will have
         # to be updated for every dev release.
-        "ref": r"refs/heads/flutter-1\.20-candidate\..+",
+        "testing-ref": r"refs/heads/flutter-1\.20-candidate\..+",
+        "release-ref": r"refs/heads/dev",
         "version": None,
     },
     "master": {
-        "ref": r"refs/heads/master",
+        "testing-ref": r"refs/heads/master",
+        "release-ref": r"refs/heads/master",
         "version": None,
     },
 }

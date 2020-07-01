@@ -41,7 +41,7 @@ def _setup(branches):
             platform_args,
             branch,
             branches[branch]["version"],
-            branches[branch]["ref"],
+            branches[branch]["release-ref"],
         )
 
 def recipe_name(name, version):
@@ -83,7 +83,7 @@ def packaging_prod_config(platform_args, branch, version, ref):
     )
 
     # Defines prod schedulers
-    trigger_name = branch + "-gitiles-trigger-framework"
+    trigger_name = branch + "-gitiles-trigger-packaging"
     luci.gitiles_poller(
         name = trigger_name,
         bucket = "prod",
