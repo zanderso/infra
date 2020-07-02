@@ -56,7 +56,7 @@ BRANCHES = {
     },
 }
 
-FUCHSIA_CTL_VERSION = "version:0.0.23"
+FUCHSIA_CTL_VERSION = "version:0.0.24"
 
 lucicfg.config(
     config_dir = "generated/flutter",
@@ -177,7 +177,7 @@ luci.builder.defaults.properties.set({
 ############################ End Global Defaults ############################
 cocoon_config.setup()
 
-engine_config.setup(BRANCHES)
+engine_config.setup(BRANCHES, FUCHSIA_CTL_VERSION)
 
 framework_config.setup(BRANCHES)
 

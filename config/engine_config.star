@@ -16,12 +16,11 @@ to take advantage of led recipe builder tests.
 load("//lib/common.star", "common")
 load("//lib/repos.star", "repos")
 
-FUCHSIA_CTL_VERSION = "version:0.0.23"
-
-def _setup(branches):
+def _setup(branches, fuchsia_ctl_version):
     """Default configurations for branches and repos."""
     platform_args = {
-        "linux": {},
+        "linux": {
+        },
         "mac": {
             "caches": [swarming.cache(name = "flutter_cocoapods", path = "cocoapods")],
         },
@@ -35,9 +34,10 @@ def _setup(branches):
             branch,
             branches[branch]["version"],
             branches[branch]["testing-ref"],
+            fuchsia_ctl_version,
         )
 
-    engine_try_config(platform_args)
+    engine_try_config(platform_args, fuchsia_ctl_version)
 
 def full_recipe_name(recipe_name, version):
     """Creates a recipe name for recipe and version.
@@ -63,7 +63,6 @@ def engine_recipes(version):
 
 def engine_properties(
         build_host = False,
-        build_fuchsia = False,
         build_android_debug = False,
         build_android_aot = False,
         build_android_vulkan = False,
@@ -73,12 +72,12 @@ def engine_properties(
         ios_profile = False,
         ios_release = False,
         build_android_jit_release = False,
-        no_bitcode = False):
+        no_bitcode = False,
+        fuchsia_ctl_version = ""):
     """Creates build properties for engine based on parameters.
 
     Args:
       build_host(boolean): Whether this is a host build or not.
-      build_fuchsia(boolean): Whether to build fuchsia or not.
       build_android_debug(boolean): Whether this is an android debug build or not.
       build_android_aot(boolean): Whether this is an android aot build or not.
       build_android_vulkan(boolean): Whether this a android vulkan build or not.
@@ -89,13 +88,14 @@ def engine_properties(
       ios_release(booelan): True if we need to build ios release version.
       build_android_jit_release(boolean): True if we need to build android jit release version.
       no_bitcode(boolean): True if we need to disable bit code.
+      fuchsia_ctl_version(str): The version of the fuchsia controller to use.
 
     Returns:
       A dictionary with the properties applicable to the build, jazzy_version and fuchsia_ctl version.
     """
     properties = {
         "build_host": build_host,
-        "build_fuchsia": build_fuchsia,
+        "build_fuchsia": True if fuchsia_ctl_version else False,
         "build_android_debug": build_android_debug,
         "build_android_aot": build_android_aot,
         "build_android_vulkan": build_android_vulkan,
@@ -109,15 +109,15 @@ def engine_properties(
         properties["no_bitcode"] = no_bitcode
     if (needs_jazzy):
         properties["jazzy_version"] = "0.9.5"
-    if (build_fuchsia):
-        properties["fuchsia_ctl_version"] = FUCHSIA_CTL_VERSION
+    if fuchsia_ctl_version:
+        properties["fuchsia_ctl_version"] = fuchsia_ctl_version
     return properties
 
 def builder_name(pattern, branch):
     """Create a builder name using a string patter and branch."""
     return pattern % ("" if branch == "master" else " " + branch)
 
-def engine_prod_config(platform_args, branch, version, ref):
+def engine_prod_config(platform_args, branch, version, ref, fuchsia_ctl_version):
     """Creates prod engine configurations.
 
     Args:
@@ -126,6 +126,7 @@ def engine_prod_config(platform_args, branch, version, ref):
       branch(str): The branch name to create configurations for.
       version(str): One of dev|stable|beta.
       ref(str): The git ref we are creating configurations for.
+      fuchsia_ctl_version(str): The fuchsia controller version to use.
     """
 
     # Defines console views for prod builders
@@ -197,7 +198,7 @@ def engine_prod_config(platform_args, branch, version, ref):
         name = builder_name("Linux%s Fuchsia|fsc", branch),
         recipe = full_recipe_name("engine", version),
         console_view_name = console_view_name,
-        properties = engine_properties(build_fuchsia = True),
+        properties = engine_properties(fuchsia_ctl_version = fuchsia_ctl_version),
         triggered_by = [trigger_name],
         triggering_policy = triggering_policy,
         **platform_args["linux"]
@@ -340,12 +341,13 @@ def engine_prod_config(platform_args, branch, version, ref):
         no_notify = True,
     )
 
-def engine_try_config(platform_args):
+def engine_try_config(platform_args, fuchsia_ctl_version):
     """Defines a list view for try builders.
 
     Args:
       platform_args(dict): Dictionary with default properties with
         platform as a key.
+      fuchsia_ctl_version(str): The fuchsia controller version to use.
     """
     list_view_name = "engine-try"
     luci.list_view(
@@ -394,7 +396,7 @@ def engine_try_config(platform_args):
         repo = repos.ENGINE,
         add_cq = True,
         list_view_name = list_view_name,
-        properties = engine_properties(build_fuchsia = True),
+        properties = engine_properties(fuchsia_ctl_version = fuchsia_ctl_version),
         **platform_args["linux"]
     )
     common.linux_try_builder(
