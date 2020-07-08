@@ -46,7 +46,6 @@ def ios_tools_builder(name, repo):
         console_view_name = builder,
         triggering_policy = scheduler.greedy_batching(
             max_concurrent_invocations = 1,
-            max_batch_size = 6,
         ),
     )
 
