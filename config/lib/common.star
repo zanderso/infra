@@ -170,6 +170,7 @@ def _builder(
         properties = final_properties,
         triggering_policy = builder_group.triggering_policy,
         schedule = None if disabled else schedule,
+        task_template_canary_percentage = 0,
         service_account = service_account or builder_group.account,
         swarming_tags = swarming_tags,
     )
@@ -253,6 +254,7 @@ def _flutter_builder(
         execution_timeout = 3 * time.hour,
         dimensions = dimensions,
         build_numbers = True,
+        task_template_canary_percentage = 0,
         **kwargs
     )
 
