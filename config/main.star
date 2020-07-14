@@ -38,7 +38,7 @@ BRANCHES = {
         "version": "v1_17_0",
     },
     "beta": {
-        "testing-ref": r"refs/heads/flutter-1\.20-candidate\.7",
+        "testing-ref": r"refs/heads/flutter-1\.20-candidate\..+",
         "release-ref": r"refs/heads/beta",
         "version": "1_20_0",
     },
