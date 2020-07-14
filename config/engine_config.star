@@ -73,7 +73,8 @@ def engine_properties(
         ios_release = False,
         build_android_jit_release = False,
         no_bitcode = False,
-        fuchsia_ctl_version = ""):
+        fuchsia_ctl_version = "",
+        osx_sdk = ""):
     """Creates build properties for engine based on parameters.
 
     Args:
@@ -89,6 +90,7 @@ def engine_properties(
       build_android_jit_release(boolean): True if we need to build android jit release version.
       no_bitcode(boolean): True if we need to disable bit code.
       fuchsia_ctl_version(str): The version of the fuchsia controller to use.
+      osx_sdk(str): The version of xcode to use.
 
     Returns:
       A dictionary with the properties applicable to the build, jazzy_version and fuchsia_ctl version.
@@ -111,6 +113,8 @@ def engine_properties(
         properties["jazzy_version"] = "0.9.5"
     if fuchsia_ctl_version:
         properties["fuchsia_ctl_version"] = fuchsia_ctl_version
+    if osx_sdk:
+        properties["$depot_tools/osx_sdk"] = {"sdk_version": osx_sdk}
     return properties
 
 def builder_name(pattern, branch):
@@ -149,10 +153,12 @@ def engine_prod_config(platform_args, branch, version, ref, fuchsia_ctl_version)
 
     # Defines triggering policy
     if branch == "master":
+        osx_sdk = "" # Fallback to default
         triggering_policy = scheduler.greedy_batching(
             max_concurrent_invocations = 6,
         )
     else:
+        osx_sdk = "11a420a" # 11.0
         triggering_policy = scheduler.greedy_batching(
             max_batch_size = 1,
             max_concurrent_invocations = 3,
@@ -237,7 +243,10 @@ def engine_prod_config(platform_args, branch, version, ref, fuchsia_ctl_version)
         name = builder_name("Mac%s Host Engine|host", branch),
         recipe = full_recipe_name("engine", version),
         console_view_name = console_view_name,
-        properties = engine_properties(build_host = True),
+        properties = engine_properties(
+          build_host = True,
+          osx_sdk='12a6163b' if branch == "master" else ""
+          ),
         triggered_by = [trigger_name],
         triggering_policy = triggering_policy,
         **platform_args["mac"]

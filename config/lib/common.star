@@ -353,7 +353,7 @@ def _mac_builder(properties = {}, caches = None, category = "Mac", **kwargs):
     properties = helpers.merge_dicts(
         {
             "$depot_tools/osx_sdk": {
-                "sdk_version": "11a420a",  # 11.0
+                "sdk_version": "11c505wk",  # 11.3.1
             },
         },
         properties,
