@@ -272,7 +272,6 @@ def engine_prod_config(platform_args, branch, version, ref, fuchsia_ctl_version)
             ios_debug = True,
             needs_jazzy = True,
         ),
-        dimensions = {"mac_model": "Macmini7,1"},
         triggered_by = [trigger_name],
         triggering_policy = triggering_policy,
         **platform_args["mac"]
@@ -463,6 +462,7 @@ def engine_try_config(platform_args, fuchsia_ctl_version):
         recipe = "engine",
         repo = repos.ENGINE,
         list_view_name = list_view_name,
+        dimensions = {"mac_model": "Macmini7,1"},
         properties = engine_properties(
             build_ios = True,
             ios_debug = True,
