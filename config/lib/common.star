@@ -235,12 +235,20 @@ def _flutter_builder(
         os,
         properties = {},
         cores = None,
+        dimensions = None,
         **kwargs):
-    dimensions = {
-        "pool": pool,
-        "cpu": "x64",
-        "os": os,
-    }
+    if dimensions:
+        dimensions = helpers.merge_dicts({
+            "pool": pool,
+            "cpu": "x64",
+            "os": os,
+        }, dimensions)
+    else:
+        dimensions = {
+            "pool": pool,
+            "cpu": "x64",
+            "os": os,
+        }
     if cores != None:
         dimensions["cores"] = cores
     name_parts = name.split("|")
