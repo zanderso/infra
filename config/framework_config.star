@@ -151,7 +151,6 @@ def framework_try_config(platform_args):
         recipe = "flutter",
         repo = repos.FLUTTER,
         list_view_name = list_view_name,
-        add_cq = True,
         **platform_args["windows"]
     )
 

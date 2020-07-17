@@ -375,7 +375,6 @@ def engine_try_config(platform_args, fuchsia_ctl_version):
         name = "Windows Web Engine|wwe",
         recipe = "web_engine",
         repo = repos.ENGINE,
-        add_cq = True,
         list_view_name = list_view_name,
         **platform_args["windows"]
     )
@@ -484,7 +483,6 @@ def engine_try_config(platform_args, fuchsia_ctl_version):
         name = "Windows Host Engine|host",
         recipe = "engine",
         repo = repos.ENGINE,
-        add_cq = True,
         list_view_name = list_view_name,
         properties = engine_properties(build_host = True),
         **platform_args["windows"]
@@ -493,7 +491,6 @@ def engine_try_config(platform_args, fuchsia_ctl_version):
         name = "Windows Android AOT Engine|aot",
         recipe = "engine",
         repo = repos.ENGINE,
-        add_cq = True,
         list_view_name = list_view_name,
         properties = engine_properties(build_android_aot = True),
         **platform_args["windows"]

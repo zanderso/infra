@@ -60,7 +60,6 @@ def _setup():
             "unittest_only": False,
         },
         service_account = accounts.FLUTTER_TRY,
-        experiment_percentage = 100,
     )
 
     # Autoroller builder. This is used to roll flutter recipes dependencies.
