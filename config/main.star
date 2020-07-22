@@ -159,8 +159,8 @@ luci.builder.defaults.properties.set({
     "$kitchen": {
         "emulate_gce": True,
     },
-    "$build/goma": {
-        "use_luci_auth": True,
+    "$fuchsia/goma": {
+        "server": "rbe-prod1.endpoints.fuchsia-infra-goma-prod.cloud.goog",
     },
     "$recipe_engine/isolated": {
         "server": "https://isolateserver.appspot.com",
