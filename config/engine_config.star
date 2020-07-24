@@ -183,7 +183,6 @@ def engine_prod_config(platform_args, branch, version, ref, fuchsia_ctl_version)
     common.windows_prod_builder(
         name = builder_name("Windows%s Web Engine|wwe", branch),
         recipe = full_recipe_name("web_engine", version),
-        properties = engine_properties(gcs_goldens_bucket = "flutter_logs"),
         console_view_name = console_view_name,
         triggered_by = [trigger_name],
         triggering_policy = triggering_policy,
@@ -384,7 +383,6 @@ def engine_try_config(platform_args, fuchsia_ctl_version):
         recipe = "web_engine",
         repo = repos.ENGINE,
         list_view_name = list_view_name,
-        properties = engine_properties(gcs_goldens_bucket = "flutter_logs"),
         **platform_args["windows"]
     )
 
