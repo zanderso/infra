@@ -169,6 +169,7 @@ def engine_prod_config(platform_args, branch, version, ref, fuchsia_ctl_version)
         console_view_name = console_view_name,
         triggered_by = [trigger_name],
         triggering_policy = triggering_policy,
+        priority = 30 if branch == "master" else 25,
         **platform_args["linux"]
     )
     common.mac_prod_builder(
@@ -178,6 +179,7 @@ def engine_prod_config(platform_args, branch, version, ref, fuchsia_ctl_version)
         console_view_name = console_view_name,
         triggered_by = [trigger_name],
         triggering_policy = triggering_policy,
+        priority = 30 if branch == "master" else 25,
         **platform_args["mac"]
     )
     common.windows_prod_builder(
@@ -186,6 +188,7 @@ def engine_prod_config(platform_args, branch, version, ref, fuchsia_ctl_version)
         console_view_name = console_view_name,
         triggered_by = [trigger_name],
         triggering_policy = triggering_policy,
+        priority = 30 if branch == "master" else 25,
         **platform_args["windows"]
     )
 
@@ -197,6 +200,7 @@ def engine_prod_config(platform_args, branch, version, ref, fuchsia_ctl_version)
         properties = engine_properties(build_host = True),
         triggered_by = [trigger_name],
         triggering_policy = triggering_policy,
+        priority = 30 if branch == "master" else 25,
         **platform_args["linux"]
     )
     common.linux_prod_builder(
@@ -206,6 +210,7 @@ def engine_prod_config(platform_args, branch, version, ref, fuchsia_ctl_version)
         properties = engine_properties(fuchsia_ctl_version = fuchsia_ctl_version),
         triggered_by = [trigger_name],
         triggering_policy = triggering_policy,
+        priority = 30 if branch == "master" else 25,
         **platform_args["linux"]
     )
     common.linux_prod_builder(
@@ -219,6 +224,7 @@ def engine_prod_config(platform_args, branch, version, ref, fuchsia_ctl_version)
         ),
         triggered_by = [trigger_name],
         triggering_policy = triggering_policy,
+        priority = 30 if branch == "master" else 25,
         **platform_args["linux"]
     )
     common.linux_prod_builder(
@@ -228,6 +234,7 @@ def engine_prod_config(platform_args, branch, version, ref, fuchsia_ctl_version)
         properties = engine_properties(build_android_aot = True),
         triggered_by = [trigger_name],
         triggering_policy = triggering_policy,
+        priority = 30 if branch == "master" else 25,
         **platform_args["linux"]
     )
     common.linux_prod_builder(
@@ -235,6 +242,7 @@ def engine_prod_config(platform_args, branch, version, ref, fuchsia_ctl_version)
         recipe = full_recipe_name("engine_builder", version),
         console_view_name = None,
         no_notify = True,
+        priority = 30 if branch == "master" else 25,
     )
 
     # Defines engine mac builders.
@@ -245,6 +253,7 @@ def engine_prod_config(platform_args, branch, version, ref, fuchsia_ctl_version)
         properties = engine_properties(build_host = True),
         triggered_by = [trigger_name],
         triggering_policy = triggering_policy,
+        priority = 30 if branch == "master" else 25,
         **platform_args["mac"]
     )
     common.mac_prod_builder(
@@ -257,6 +266,7 @@ def engine_prod_config(platform_args, branch, version, ref, fuchsia_ctl_version)
         ),
         triggered_by = [trigger_name],
         triggering_policy = triggering_policy,
+        priority = 30 if branch == "master" else 25,
         **platform_args["mac"]
     )
     common.mac_prod_builder(
@@ -266,6 +276,7 @@ def engine_prod_config(platform_args, branch, version, ref, fuchsia_ctl_version)
         properties = engine_properties(build_android_aot = True),
         triggered_by = [trigger_name],
         triggering_policy = triggering_policy,
+        priority = 30 if branch == "master" else 25,
         **platform_args["mac"]
     )
     common.mac_prod_builder(
@@ -279,6 +290,7 @@ def engine_prod_config(platform_args, branch, version, ref, fuchsia_ctl_version)
         ),
         triggered_by = [trigger_name],
         triggering_policy = triggering_policy,
+        priority = 30 if branch == "master" else 25,
         **platform_args["mac"]
     )
     common.mac_prod_builder(
@@ -292,6 +304,7 @@ def engine_prod_config(platform_args, branch, version, ref, fuchsia_ctl_version)
         ),
         triggered_by = [trigger_name],
         triggering_policy = triggering_policy,
+        priority = 30 if branch == "master" else 25,
         **platform_args["mac"]
     )
     common.mac_prod_builder(
@@ -305,6 +318,7 @@ def engine_prod_config(platform_args, branch, version, ref, fuchsia_ctl_version)
         ),
         triggered_by = [trigger_name],
         triggering_policy = triggering_policy,
+        priority = 30 if branch == "master" else 25,
         **platform_args["mac"]
     )
     common.mac_prod_builder(
@@ -312,6 +326,7 @@ def engine_prod_config(platform_args, branch, version, ref, fuchsia_ctl_version)
         recipe = full_recipe_name("engine_builder", version),
         console_view_name = None,
         no_notify = True,
+        priority = 30 if branch == "master" else 25,
     )
 
     # Defines engine Windows builders
@@ -322,6 +337,7 @@ def engine_prod_config(platform_args, branch, version, ref, fuchsia_ctl_version)
         properties = engine_properties(build_host = True),
         triggered_by = [trigger_name],
         triggering_policy = triggering_policy,
+        priority = 30 if branch == "master" else 25,
         **platform_args["windows"]
     )
     common.windows_prod_builder(
@@ -331,6 +347,7 @@ def engine_prod_config(platform_args, branch, version, ref, fuchsia_ctl_version)
         properties = engine_properties(build_android_aot = True),
         triggered_by = [trigger_name],
         triggering_policy = triggering_policy,
+        priority = 30 if branch == "master" else 25,
         **platform_args["windows"]
     )
     common.windows_prod_builder(
@@ -344,6 +361,7 @@ def engine_prod_config(platform_args, branch, version, ref, fuchsia_ctl_version)
         ),
         console_view_name = None,
         no_notify = True,
+        priority = 30 if branch == "master" else 25,
     )
 
 def engine_try_config(platform_args, fuchsia_ctl_version):
