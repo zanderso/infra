@@ -58,7 +58,7 @@ def engine_recipes(version):
             name = full_recipe_name(name, version),
             cipd_package =
                 "flutter/recipe_bundles/flutter.googlesource.com/recipes",
-            cipd_version = "git_revision:11a9f313259cd3a064b6081cbf0509af589b50c8",
+            cipd_version = "refs/heads/master",
         )
 
 def engine_properties(
