@@ -60,6 +60,11 @@ def framework_prod_config(platform_args, branch, version, ref):
         cipd_package = "flutter/recipe_bundles/flutter.googlesource.com/recipes",
         cipd_version = "refs/heads/master",
     )
+    luci.recipe(
+        name = "flutter/flutter_drone",
+        cipd_package = "flutter/recipe_bundles/flutter.googlesource.com/recipes",
+        cipd_version = "refs/heads/master",
+    )
 
     # Defines console views for prod builders
     console_view_name = ("framework" if branch == "master" else "%s_framework" % branch)
@@ -138,6 +143,16 @@ def framework_try_config(platform_args):
         list_view_name = list_view_name,
         add_cq = True,
         **platform_args["linux"]
+    )
+    common.linux_try_builder(
+        name = "Linux SDK Drone|frwkdrn",
+        recipe = "flutter/flutter_drone",
+        repo = repos.FLUTTER,
+        list_view_name = list_view_name,
+        caches = [
+            swarming.cache(name = "pub_cache", path = ".pub_cache"),
+            swarming.cache(name = "android_sdk", path = "android29"),
+        ],
     )
     common.mac_try_builder(
         name = "Mac|frwk",
