@@ -130,7 +130,7 @@ def framework_prod_config(platform_args, branch, version, ref):
         ],
     )
     common.linux_prod_builder(
-        name = "Linux%s hostonly_devicelab_tests |hst_tests" % ("" if branch == "master" else " " + branch),
+        name = "Linux%s hostonly_devicelab_tests|hst_tests" % ("" if branch == "master" else " " + branch),
         recipe = new_recipe_name,
         console_view_name = console_view_name,
         triggered_by = [trigger_name],
@@ -189,7 +189,7 @@ def framework_try_config(platform_args):
         **platform_args["linux"]
     )
     common.linux_try_builder(
-        name = "Linux  framework_tests|frwk_tests",
+        name = "Linux framework_tests|frwk_tests",
         recipe = "flutter/flutter",
         repo = repos.FLUTTER,
         list_view_name = list_view_name,
@@ -206,7 +206,7 @@ def framework_try_config(platform_args):
         ],
     )
     common.linux_try_builder(
-        name = "Linux hostonly_devicelab_tests |hst_tests",
+        name = "Linux hostonly_devicelab_tests|hst_tests",
         recipe = "flutter/flutter",
         repo = repos.FLUTTER,
         list_view_name = list_view_name,
