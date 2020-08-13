@@ -194,7 +194,7 @@ def framework_prod_config(platform_args, branch, version, ref):
             "android_sdk_license": "\n24333f8a63b6825ea9c5514f83c2829b004d1fee",
             "android_sdk_preview_license": "\n84831b9409646a918e30573bab4c9c91346d8abd",
             "dependencies": ["android_sdk", "chrome_and_drivers"],
-            "subshards": ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11_last"],
+            "subshards": ["0", "1", "2", "3", "4", "5", "6", "7_last"],
         },
         caches = [
             swarming.cache(name = "pub_cache", path = ".pub_cache"),
@@ -296,7 +296,7 @@ def framework_prod_config(platform_args, branch, version, ref):
             "android_sdk_license": "\n24333f8a63b6825ea9c5514f83c2829b004d1fee",
             "android_sdk_preview_license": "\n84831b9409646a918e30573bab4c9c91346d8abd",
             "dependencies": ["android_sdk", "chrome_and_drivers"],
-            "subshards": ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11_last"],
+            "subshards": ["0", "1", "2", "3", "4", "5", "6", "7_last"],
         },
         caches = [
             swarming.cache(name = "pub_cache", path = ".pub_cache"),
@@ -420,7 +420,7 @@ def framework_try_config(platform_args):
             "android_sdk_license": "\n24333f8a63b6825ea9c5514f83c2829b004d1fee",
             "android_sdk_preview_license": "\n84831b9409646a918e30573bab4c9c91346d8abd",
             "dependencies": ["android_sdk", "chrome_and_drivers"],
-            "subshards": ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11_last"],
+            "subshards": ["0", "1", "2", "3", "4", "5", "6", "7_last"],
         },
         caches = [
             swarming.cache(name = "pub_cache", path = ".pub_cache"),
@@ -524,7 +524,7 @@ def framework_try_config(platform_args):
             "android_sdk_license": "\n24333f8a63b6825ea9c5514f83c2829b004d1fee",
             "android_sdk_preview_license": "\n84831b9409646a918e30573bab4c9c91346d8abd",
             "dependencies": ["android_sdk", "chrome_and_drivers"],
-            "subshards": ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11_last"],
+            "subshards": ["0", "1", "2", "3", "4", "5", "6", "7_last"],
         },
         caches = [
             swarming.cache(name = "pub_cache", path = ".pub_cache"),
