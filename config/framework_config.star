@@ -286,24 +286,6 @@ def framework_prod_config(platform_args, branch, version, ref):
         ],
     )
     common.windows_prod_builder(
-        name = "Windows%s web_tests|web_tests" % ("" if branch == "master" else " " + branch),
-        recipe = new_recipe_name,
-        console_view_name = console_view_name,
-        triggered_by = [trigger_name],
-        triggering_policy = triggering_policy,
-        properties = {
-            "shard": "web_tests",
-            "android_sdk_license": "\n24333f8a63b6825ea9c5514f83c2829b004d1fee",
-            "android_sdk_preview_license": "\n84831b9409646a918e30573bab4c9c91346d8abd",
-            "dependencies": ["android_sdk", "chrome_and_drivers"],
-            "subshards": ["0", "1", "2", "3", "4", "5", "6", "7_last"],
-        },
-        caches = [
-            swarming.cache(name = "pub_cache", path = ".pub_cache"),
-            swarming.cache(name = "android_sdk", path = "android29"),
-        ],
-    )
-    common.windows_prod_builder(
         name = "Windows%s SDK Drone|frwdrn" % ("" if branch == "master" else " " + branch),
         recipe = drone_recipe_name,
         console_view_name = None,
@@ -508,23 +490,6 @@ def framework_try_config(platform_args):
             "android_sdk_preview_license": "\n84831b9409646a918e30573bab4c9c91346d8abd",
             "dependencies": ["android_sdk", "chrome_and_drivers"],
             "subshards": ["general", "commands", "integration"],
-        },
-        caches = [
-            swarming.cache(name = "pub_cache", path = ".pub_cache"),
-            swarming.cache(name = "android_sdk", path = "android29"),
-        ],
-    )
-    common.windows_try_builder(
-        name = "Windows web_tests|web_tests",
-        recipe = "flutter/flutter",
-        repo = repos.FLUTTER,
-        list_view_name = list_view_name,
-        properties = {
-            "shard": "web_tests",
-            "android_sdk_license": "\n24333f8a63b6825ea9c5514f83c2829b004d1fee",
-            "android_sdk_preview_license": "\n84831b9409646a918e30573bab4c9c91346d8abd",
-            "dependencies": ["android_sdk", "chrome_and_drivers"],
-            "subshards": ["0", "1", "2", "3", "4", "5", "6", "7_last"],
         },
         caches = [
             swarming.cache(name = "pub_cache", path = ".pub_cache"),
