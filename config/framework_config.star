@@ -15,22 +15,12 @@ load("//lib/repos.star", "repos")
 
 def _setup(branches):
     platfrom_args = {
-        "linux": {
-            "properties": {
-                "shard": "framework_tests",
-            },
-        },
         "mac": {
             "properties": {
                 "shard": "framework_tests",
                 "cocoapods_version": "1.6.0",
             },
             "caches": [swarming.cache(name = "flutter_cocoapods", path = "cocoapods")],
-        },
-        "windows": {
-            "properties": {
-                "shard": "framework_tests",
-            },
         },
     }
 
@@ -110,7 +100,7 @@ def framework_prod_config(platform_args, branch, version, ref):
 
     # Defines framework prod builders
 
-    # Linux platform
+    # Linux platform sharded tests
     common.linux_prod_builder(
         name = "Linux%s build_tests|bld_tests" % ("" if branch == "master" else " " + branch),
         recipe = new_recipe_name,
@@ -209,6 +199,34 @@ def framework_prod_config(platform_args, branch, version, ref):
         caches = [
             swarming.cache(name = "pub_cache", path = ".pub_cache"),
             swarming.cache(name = "android_sdk", path = "android29"),
+        ],
+    )
+
+    # Linux platform adhoc tests
+    common.linux_prod_builder(
+        name = "Linux%s analyze|anlz" % ("" if branch == "master" else " " + branch),
+        recipe = new_recipe_name,
+        console_view_name = None,
+        no_notify = True,
+        properties = {
+            "validation": "analyze",
+            "validation_name": "analyze",
+        },
+        caches = [
+            swarming.cache(name = "pub_cache", path = ".pub_cache"),
+        ],
+    )
+    common.linux_prod_builder(
+        name = "Linux%s fuchsia precache|pcache" % ("" if branch == "master" else " " + branch),
+        recipe = new_recipe_name,
+        console_view_name = None,
+        no_notify = True,
+        properties = {
+            "validation": "analyze",
+            "validation_name": "analyze",
+        },
+        caches = [
+            swarming.cache(name = "pub_cache", path = ".pub_cache"),
         ],
     )
 
@@ -419,6 +437,36 @@ def framework_try_config(platform_args):
             swarming.cache(name = "android_sdk", path = "android29"),
         ],
     )
+
+    # Linux platform adhoc tests
+    common.linux_try_builder(
+        name = "Linux analyze|anlz",
+        recipe = "flutter/flutter",
+        repo = repos.FLUTTER,
+        list_view_name = list_view_name,
+        properties = {
+            "validation": "analyze",
+            "validation_name": "analyze",
+        },
+        caches = [
+            swarming.cache(name = "pub_cache", path = ".pub_cache"),
+        ],
+    )
+    common.linux_try_builder(
+        name = "Linux fuchsia precache|pcache",
+        recipe = "flutter/flutter",
+        repo = repos.FLUTTER,
+        list_view_name = list_view_name,
+        properties = {
+            "validation": "analyze",
+            "validation_name": "analyze",
+        },
+        caches = [
+            swarming.cache(name = "pub_cache", path = ".pub_cache"),
+        ],
+    )
+
+    # Mac platform
     common.mac_try_builder(
         name = "Mac|frwk",
         recipe = "flutter",
@@ -496,7 +544,7 @@ def framework_try_config(platform_args):
             swarming.cache(name = "android_sdk", path = "android29"),
         ],
     )
-    common.linux_try_builder(
+    common.windows_try_builder(
         name = "Windows SDK Drone|frwkdrn",
         recipe = "flutter/flutter_drone",
         repo = repos.FLUTTER,
