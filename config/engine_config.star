@@ -73,6 +73,7 @@ def engine_properties(
         ios_release = False,
         build_android_jit_release = False,
         no_bitcode = False,
+        no_lto = False,
         gcs_goldens_bucket = "",
         fuchsia_ctl_version = ""):
     """Creates build properties for engine based on parameters.
@@ -89,6 +90,7 @@ def engine_properties(
       ios_release(booelan): True if we need to build ios release version.
       build_android_jit_release(boolean): True if we need to build android jit release version.
       no_bitcode(boolean): True if we need to disable bit code.
+      no_lto(boolean): True if we want to build all binaries without LTO.
       gcs_goldens_bucket: Bucket to upload failing golden tests' results for web engine.
       fuchsia_ctl_version(str): The version of the fuchsia controller to use.
 
@@ -105,6 +107,8 @@ def engine_properties(
         "build_android_jit_release": build_android_jit_release,
         "gcs_goldens_bucket": gcs_goldens_bucket,
     }
+    if (no_lto):
+        properties["no_lto"] = True
     if (build_ios):
         properties["ios_debug"] = ios_debug
         properties["ios_profile"] = ios_profile
@@ -395,7 +399,10 @@ def engine_try_config(platform_args, fuchsia_ctl_version):
         repo = repos.ENGINE,
         add_cq = True,
         list_view_name = list_view_name,
-        properties = engine_properties(gcs_goldens_bucket = "flutter_logs"),
+        properties = engine_properties(
+            gcs_goldens_bucket = "flutter_logs",
+            no_lto = True,
+        ),
         **platform_args["linux"]
     )
     common.mac_try_builder(
@@ -403,7 +410,10 @@ def engine_try_config(platform_args, fuchsia_ctl_version):
         recipe = "web_engine",
         repo = repos.ENGINE,
         list_view_name = list_view_name,
-        properties = engine_properties(gcs_goldens_bucket = "flutter_logs"),
+        properties = engine_properties(
+            gcs_goldens_bucket = "flutter_logs",
+            no_lto = True,
+        ),
         **platform_args["mac"]
     )
     common.windows_try_builder(
@@ -421,7 +431,10 @@ def engine_try_config(platform_args, fuchsia_ctl_version):
         repo = repos.ENGINE,
         add_cq = True,
         list_view_name = list_view_name,
-        properties = engine_properties(build_host = True),
+        properties = engine_properties(
+            build_host = True,
+            no_lto = True,
+        ),
         **platform_args["linux"]
     )
     common.linux_try_builder(
@@ -430,7 +443,10 @@ def engine_try_config(platform_args, fuchsia_ctl_version):
         repo = repos.ENGINE,
         add_cq = True,
         list_view_name = list_view_name,
-        properties = engine_properties(fuchsia_ctl_version = fuchsia_ctl_version),
+        properties = engine_properties(
+            fuchsia_ctl_version = fuchsia_ctl_version,
+            no_lto = True,
+        ),
         **platform_args["linux"]
     )
     common.linux_try_builder(
@@ -439,7 +455,10 @@ def engine_try_config(platform_args, fuchsia_ctl_version):
         repo = repos.ENGINE,
         add_cq = True,
         list_view_name = list_view_name,
-        properties = engine_properties(fuchsia_ctl_version = fuchsia_ctl_version),
+        properties = engine_properties(
+            fuchsia_ctl_version = fuchsia_ctl_version,
+            no_lto = True,
+        ),
         **platform_args["linux"]
     )
     common.linux_try_builder(
@@ -451,6 +470,7 @@ def engine_try_config(platform_args, fuchsia_ctl_version):
         properties = engine_properties(
             build_android_debug = True,
             build_android_vulkan = True,
+            no_lto = True,
         ),
         **platform_args["linux"]
     )
@@ -460,7 +480,10 @@ def engine_try_config(platform_args, fuchsia_ctl_version):
         repo = repos.ENGINE,
         add_cq = True,
         list_view_name = list_view_name,
-        properties = engine_properties(build_android_aot = True),
+        properties = engine_properties(
+            build_android_aot = True,
+            no_lto = True,
+        ),
         **platform_args["linux"]
     )
     common.linux_try_builder(
@@ -478,7 +501,10 @@ def engine_try_config(platform_args, fuchsia_ctl_version):
         repo = repos.ENGINE,
         add_cq = True,
         list_view_name = list_view_name,
-        properties = engine_properties(build_host = True),
+        properties = engine_properties(
+            build_host = True,
+            no_lto = True,
+        ),
         **platform_args["mac"]
     )
     common.mac_try_builder(
@@ -489,6 +515,7 @@ def engine_try_config(platform_args, fuchsia_ctl_version):
         properties = engine_properties(
             build_android_debug = True,
             build_android_vulkan = True,
+            no_lto = True,
         ),
         **platform_args["mac"]
     )
@@ -497,7 +524,10 @@ def engine_try_config(platform_args, fuchsia_ctl_version):
         recipe = "engine",
         repo = repos.ENGINE,
         list_view_name = list_view_name,
-        properties = engine_properties(build_android_aot = True),
+        properties = engine_properties(
+            build_android_aot = True,
+            no_lto = True,
+        ),
         **platform_args["mac"]
     )
     common.mac_try_builder(
@@ -511,6 +541,7 @@ def engine_try_config(platform_args, fuchsia_ctl_version):
             ios_debug = True,
             needs_jazzy = True,
             no_bitcode = True,
+            no_lto = True,
         ),
         **platform_args["mac"]
     )
@@ -528,7 +559,10 @@ def engine_try_config(platform_args, fuchsia_ctl_version):
         recipe = "engine",
         repo = repos.ENGINE,
         list_view_name = list_view_name,
-        properties = engine_properties(build_host = True),
+        properties = engine_properties(
+            build_host = True,
+            no_lto = True,
+        ),
         **platform_args["windows"]
     )
     common.windows_try_builder(
@@ -536,7 +570,10 @@ def engine_try_config(platform_args, fuchsia_ctl_version):
         recipe = "engine",
         repo = repos.ENGINE,
         list_view_name = list_view_name,
-        properties = engine_properties(build_android_aot = True),
+        properties = engine_properties(
+            build_android_aot = True,
+            no_lto = True,
+        ),
         **platform_args["windows"]
     )
     common.windows_try_builder(
