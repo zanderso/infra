@@ -437,4 +437,5 @@ common = struct(
     mac_prod_builder = _mac_prod_builder,
     windows_try_builder = _windows_try_builder,
     windows_prod_builder = _windows_prod_builder,
+    try_builder = _try_builder,
 )

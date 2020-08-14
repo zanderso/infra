@@ -69,6 +69,11 @@ def framework_prod_config(platform_args, branch, version, ref):
         cipd_package = "flutter/recipe_bundles/flutter.googlesource.com/recipes",
         cipd_version = "refs/heads/master",
     )
+    luci.recipe(
+        name = "devicelab",
+        cipd_package = "flutter/recipe_bundles/flutter.googlesource.com/recipes",
+        cipd_version = "refs/heads/master",
+    )
 
     # Defines console views for prod builders
     console_view_name = ("framework" if branch == "master" else "%s_framework" % branch)
@@ -436,6 +441,15 @@ def framework_try_config(platform_args):
             swarming.cache(name = "pub_cache", path = ".pub_cache"),
             swarming.cache(name = "android_sdk", path = "android29"),
         ],
+    )
+
+    # Only runs the devicelab tasks (in the manifest.yaml) that are not benchmarks.
+    common.try_builder(
+        name = "testonly_devicelab_tests|tst_tests",
+        recipe = "devicelab",
+        os = "Linux",
+        repo = repos.FLUTTER,
+        list_view_name = list_view_name,
     )
 
     # Linux platform adhoc tests
