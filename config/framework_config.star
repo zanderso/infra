@@ -179,6 +179,24 @@ def framework_prod_config(platform_args, branch, version, ref):
         ],
     )
     common.linux_prod_builder(
+        name = "Linux%s web_integration_tests|web_int" % ("" if branch == "master" else " " + branch),
+        recipe = "flutter/flutter_drone",
+        console_view_name = console_view_name,
+        triggered_by = [trigger_name],
+        triggering_policy = triggering_policy,
+        properties = {
+            "shard": "web_integration_tests",
+            "android_sdk_license": "\n24333f8a63b6825ea9c5514f83c2829b004d1fee",
+            "android_sdk_preview_license": "\n84831b9409646a918e30573bab4c9c91346d8abd",
+            "dependencies": ["android_sdk", "chrome_and_drivers"],
+            "subshards": [],
+        },
+        caches = [
+            swarming.cache(name = "pub_cache", path = ".pub_cache"),
+            swarming.cache(name = "android_sdk", path = "android29"),
+        ],
+    )
+    common.linux_prod_builder(
         name = "Linux%s web_tests|web_tests" % ("" if branch == "master" else " " + branch),
         recipe = new_recipe_name,
         console_view_name = console_view_name,
@@ -215,20 +233,46 @@ def framework_prod_config(platform_args, branch, version, ref):
         no_notify = True,
         properties = {
             "validation": "analyze",
-            "validation_name": "analyze",
+            "validation_name": "Analyze",
         },
         caches = [
             swarming.cache(name = "pub_cache", path = ".pub_cache"),
         ],
     )
     common.linux_prod_builder(
-        name = "Linux%s fuchsia precache|pcache" % ("" if branch == "master" else " " + branch),
+        name = "Linux%s customer_testing|cst_test" % ("" if branch == "master" else " " + branch),
         recipe = new_recipe_name,
         console_view_name = None,
         no_notify = True,
         properties = {
-            "validation": "analyze",
-            "validation_name": "analyze",
+            "validation": "fuchsia_precache",
+            "validation_name": "Fuchsia precache",
+        },
+        caches = [
+            swarming.cache(name = "pub_cache", path = ".pub_cache"),
+        ],
+    )
+    common.linux_prod_builder(
+        name = "Linux%s docs|docs" % ("" if branch == "master" else " " + branch),
+        recipe = new_recipe_name,
+        console_view_name = None,
+        no_notify = True,
+        properties = {
+            "validation": "docs",
+            "validation_name": "Docs",
+        },
+        caches = [
+            swarming.cache(name = "pub_cache", path = ".pub_cache"),
+        ],
+    )
+    common.linux_prod_builder(
+        name = "Linux%s fuchsia_precache|pcache" % ("" if branch == "master" else " " + branch),
+        recipe = new_recipe_name,
+        console_view_name = None,
+        no_notify = True,
+        properties = {
+            "validation": "fuchsia_precache",
+            "validation_name": "Fuchsia precache",
         },
         caches = [
             swarming.cache(name = "pub_cache", path = ".pub_cache"),
@@ -316,6 +360,21 @@ def framework_prod_config(platform_args, branch, version, ref):
         caches = [
             swarming.cache(name = "pub_cache", path = ".pub_cache"),
             swarming.cache(name = "android_sdk", path = "android29"),
+        ],
+    )
+
+    # Windows adhoc tests
+    common.windows_prod_builder(
+        name = "Windows%s docs|docs" % ("" if branch == "master" else " " + branch),
+        recipe = new_recipe_name,
+        console_view_name = None,
+        no_notify = True,
+        properties = {
+            "validation": "customer_testing",
+            "validation_name": "Customer testing",
+        },
+        caches = [
+            swarming.cache(name = "pub_cache", path = ".pub_cache"),
         ],
     )
 
@@ -433,6 +492,23 @@ def framework_try_config(platform_args):
         ],
     )
     common.linux_try_builder(
+        name = "Linux web_integration_tests|web_int",
+        recipe = "flutter/flutter_drone",
+        repo = repos.FLUTTER,
+        list_view_name = list_view_name,
+        properties = {
+            "shard": "web_integration_tests",
+            "android_sdk_license": "\n24333f8a63b6825ea9c5514f83c2829b004d1fee",
+            "android_sdk_preview_license": "\n84831b9409646a918e30573bab4c9c91346d8abd",
+            "dependencies": ["android_sdk", "chrome_and_drivers"],
+            "subshards": [],
+        },
+        caches = [
+            swarming.cache(name = "pub_cache", path = ".pub_cache"),
+            swarming.cache(name = "android_sdk", path = "android29"),
+        ],
+    )
+    common.linux_try_builder(
         name = "Linux SDK Drone|frwkdrn",
         recipe = "flutter/flutter_drone",
         repo = repos.FLUTTER,
@@ -460,7 +536,33 @@ def framework_try_config(platform_args):
         list_view_name = list_view_name,
         properties = {
             "validation": "analyze",
-            "validation_name": "analyze",
+            "validation_name": "Analyze",
+        },
+        caches = [
+            swarming.cache(name = "pub_cache", path = ".pub_cache"),
+        ],
+    )
+    common.linux_try_builder(
+        name = "Linux customer_testing|cst_tests",
+        recipe = "flutter/flutter",
+        repo = repos.FLUTTER,
+        list_view_name = list_view_name,
+        properties = {
+            "validation": "customer_testing",
+            "validation_name": "Customer testing",
+        },
+        caches = [
+            swarming.cache(name = "pub_cache", path = ".pub_cache"),
+        ],
+    )
+    common.linux_try_builder(
+        name = "Linux docs|docs",
+        recipe = "flutter/flutter",
+        repo = repos.FLUTTER,
+        list_view_name = list_view_name,
+        properties = {
+            "validation": "docs",
+            "validation_name": "Docs",
         },
         caches = [
             swarming.cache(name = "pub_cache", path = ".pub_cache"),
@@ -472,8 +574,8 @@ def framework_try_config(platform_args):
         repo = repos.FLUTTER,
         list_view_name = list_view_name,
         properties = {
-            "validation": "analyze",
-            "validation_name": "analyze",
+            "validation": "fuchsia_precache",
+            "validation_name": "Fuchsia precache",
         },
         caches = [
             swarming.cache(name = "pub_cache", path = ".pub_cache"),
@@ -566,6 +668,21 @@ def framework_try_config(platform_args):
         caches = [
             swarming.cache(name = "pub_cache", path = ".pub_cache"),
             swarming.cache(name = "android_sdk", path = "android29"),
+        ],
+    )
+
+    # Windows adhoc tests
+    common.windows_try_builder(
+        name = "Windows docs|docs",
+        recipe = "flutter/flutter",
+        repo = repos.FLUTTER,
+        list_view_name = list_view_name,
+        properties = {
+            "validation": "customer_testing",
+            "validation_name": "Customer testing",
+        },
+        caches = [
+            swarming.cache(name = "pub_cache", path = ".pub_cache"),
         ],
     )
 
