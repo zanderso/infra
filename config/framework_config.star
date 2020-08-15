@@ -229,8 +229,9 @@ def framework_prod_config(platform_args, branch, version, ref):
     common.linux_prod_builder(
         name = "Linux%s analyze|anlz" % ("" if branch == "master" else " " + branch),
         recipe = new_recipe_name,
-        console_view_name = None,
-        no_notify = True,
+        console_view_name = console_view_name,
+        triggered_by = [trigger_name],
+        triggering_policy = triggering_policy,
         properties = {
             "validation": "analyze",
             "validation_name": "Analyze",
@@ -242,8 +243,9 @@ def framework_prod_config(platform_args, branch, version, ref):
     common.linux_prod_builder(
         name = "Linux%s customer_testing|cst_test" % ("" if branch == "master" else " " + branch),
         recipe = new_recipe_name,
-        console_view_name = None,
-        no_notify = True,
+        console_view_name = console_view_name,
+        triggered_by = [trigger_name],
+        triggering_policy = triggering_policy,
         properties = {
             "validation": "fuchsia_precache",
             "validation_name": "Fuchsia precache",
@@ -255,8 +257,9 @@ def framework_prod_config(platform_args, branch, version, ref):
     common.linux_prod_builder(
         name = "Linux%s docs|docs" % ("" if branch == "master" else " " + branch),
         recipe = new_recipe_name,
-        console_view_name = None,
-        no_notify = True,
+        console_view_name = console_view_name,
+        triggered_by = [trigger_name],
+        triggering_policy = triggering_policy,
         properties = {
             "validation": "docs",
             "validation_name": "Docs",
@@ -268,8 +271,9 @@ def framework_prod_config(platform_args, branch, version, ref):
     common.linux_prod_builder(
         name = "Linux%s fuchsia_precache|pcache" % ("" if branch == "master" else " " + branch),
         recipe = new_recipe_name,
-        console_view_name = None,
-        no_notify = True,
+        console_view_name = console_view_name,
+        triggered_by = [trigger_name],
+        triggering_policy = triggering_policy,
         properties = {
             "validation": "fuchsia_precache",
             "validation_name": "Fuchsia precache",
@@ -367,8 +371,9 @@ def framework_prod_config(platform_args, branch, version, ref):
     common.windows_prod_builder(
         name = "Windows%s docs|docs" % ("" if branch == "master" else " " + branch),
         recipe = new_recipe_name,
-        console_view_name = None,
-        no_notify = True,
+        console_view_name = console_view_name,
+        triggered_by = [trigger_name],
+        triggering_policy = triggering_policy,
         properties = {
             "validation": "customer_testing",
             "validation_name": "Customer testing",
