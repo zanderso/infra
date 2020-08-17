@@ -27,6 +27,14 @@ def _setup():
         cipd_version = "refs/heads/master",
         use_bbagent = True,
     )
+    tricium_executable = luci.recipe(
+        name = "tricium",
+        cipd_package = "flutter/recipe_bundles/flutter.googlesource.com/recipes",
+        cipd_version = "refs/heads/master",
+        use_bbagent = True,
+    )
+
+    # Presubmit builders
 
     # Builder configuration to validate recipe changes in presubmit.
     common.builder(
@@ -61,6 +69,25 @@ def _setup():
         },
         service_account = accounts.FLUTTER_TRY,
     )
+
+    common.builder(
+        name = "tricium",
+        builder_group = builder_groups.recipes_try,
+        # This builder is very quick to run, so we run it on every CQ attempt to
+        # minimize the chances of expectation file conflicts between CLs that land
+        # around the same time.
+        cq_disable_reuse = True,
+        executable = tricium_executable,
+        execution_timeout = 10 * time.minute,
+        experiment_percentage = 100,
+        properties = {
+            "analyses": ["Yapf"],
+            "cipd_packages": [{"name": "infra/tools/yapf", "subdir": "", "version": "latest"}],
+        },
+        service_account = accounts.FLUTTER_TRY,
+    )
+
+    # Postsubmit builders.
 
     # Autoroller builder. This is used to roll flutter recipes dependencies.
     common.builder(
