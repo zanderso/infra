@@ -369,7 +369,7 @@ def framework_prod_config(platform_args, branch, version, ref):
 
     # Windows adhoc tests
     common.windows_prod_builder(
-        name = "Windows%s docs|docs" % ("" if branch == "master" else " " + branch),
+        name = "Windows%s customer_testing|cst_test" % ("" if branch == "master" else " " + branch),
         recipe = new_recipe_name,
         console_view_name = console_view_name,
         triggered_by = [trigger_name],
@@ -377,6 +377,20 @@ def framework_prod_config(platform_args, branch, version, ref):
         properties = {
             "validation": "customer_testing",
             "validation_name": "Customer testing",
+        },
+        caches = [
+            swarming.cache(name = "pub_cache", path = ".pub_cache"),
+        ],
+    )
+    common.windows_prod_builder(
+        name = "Windows%s docs|docs" % ("" if branch == "master" else " " + branch),
+        recipe = new_recipe_name,
+        console_view_name = console_view_name,
+        triggered_by = [trigger_name],
+        triggering_policy = triggering_policy,
+        properties = {
+            "validation": "docs",
+            "validation_name": "Docs",
         },
         caches = [
             swarming.cache(name = "pub_cache", path = ".pub_cache"),
@@ -678,13 +692,26 @@ def framework_try_config(platform_args):
 
     # Windows adhoc tests
     common.windows_try_builder(
-        name = "Windows docs|docs",
+        name = "Windows customer_testing|cst_tests",
         recipe = "flutter/flutter",
         repo = repos.FLUTTER,
         list_view_name = list_view_name,
         properties = {
             "validation": "customer_testing",
             "validation_name": "Customer testing",
+        },
+        caches = [
+            swarming.cache(name = "pub_cache", path = ".pub_cache"),
+        ],
+    )
+    common.windows_try_builder(
+        name = "Windows docs|docs",
+        recipe = "flutter/flutter",
+        repo = repos.FLUTTER,
+        list_view_name = list_view_name,
+        properties = {
+            "validation": "docs",
+            "validation_name": "Docs",
         },
         caches = [
             swarming.cache(name = "pub_cache", path = ".pub_cache"),
