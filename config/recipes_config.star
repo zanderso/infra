@@ -28,7 +28,7 @@ def _setup():
         use_bbagent = True,
     )
     tricium_executable = luci.recipe(
-        name = "tricium",
+        name = "tricium/tricium",
         cipd_package = "flutter/recipe_bundles/flutter.googlesource.com/recipes",
         cipd_version = "refs/heads/master",
         use_bbagent = True,
