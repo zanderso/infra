@@ -79,7 +79,6 @@ def _setup():
         cq_disable_reuse = True,
         executable = tricium_executable,
         execution_timeout = 10 * time.minute,
-        experiment_percentage = 100,
         properties = {
             "analyses": ["Yapf"],
             "cipd_packages": [{"name": "infra/tools/yapf", "subdir": "", "version": "latest"}],
