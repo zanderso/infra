@@ -276,7 +276,6 @@ def _try_builder(
     bucket = "try"
     pool = "luci.flutter.try"
     merged_properties = helpers.merge_dicts(properties, {
-        "upload_packages": False,
         "gold_tryjob": True,
     })
     name_parts = name.split("|")

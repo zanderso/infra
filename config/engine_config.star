@@ -53,7 +53,7 @@ def full_recipe_name(recipe_name, version):
 
 def engine_recipes(version):
     """Creates a luci recipe for a given code version."""
-    for name in ["engine", "web_engine", "engine_builder", "femu_test"]:
+    for name in ["engine", "web_engine", "engine_builder", "femu_test", "engine/scenarios"]:
         luci.recipe(
             name = full_recipe_name(name, version),
             cipd_package =
@@ -484,6 +484,16 @@ def engine_try_config(platform_args, fuchsia_ctl_version):
             build_android_aot = True,
             no_lto = True,
         ),
+        **platform_args["linux"]
+    )
+    common.linux_try_builder(
+        name = "Linux Android Scenarios|scnrs",
+        recipe = "engine/scenarios",
+        repo = repos.ENGINE,
+        list_view_name = list_view_name,
+        properties = {
+            "upload_packages": True,
+        },
         **platform_args["linux"]
     )
     common.linux_try_builder(
