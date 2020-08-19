@@ -493,6 +493,7 @@ def engine_try_config(platform_args, fuchsia_ctl_version):
         list_view_name = list_view_name,
         properties = {
             "upload_packages": True,
+            "clobber": True,
         },
         **platform_args["linux"]
     )
