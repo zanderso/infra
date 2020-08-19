@@ -247,8 +247,8 @@ def framework_prod_config(platform_args, branch, version, ref):
         triggered_by = [trigger_name],
         triggering_policy = triggering_policy,
         properties = {
-            "validation": "fuchsia_precache",
-            "validation_name": "Fuchsia precache",
+            "validation": "customer_testing",
+            "validation_name": "Customer testing",
         },
         caches = [
             swarming.cache(name = "pub_cache", path = ".pub_cache"),
@@ -574,7 +574,7 @@ def framework_try_config(platform_args):
         ],
     )
     common.linux_try_builder(
-        name = "Linux fuchsia precache|pcache",
+        name = "Linux fuchsia_precache|pcache",
         recipe = "flutter/flutter",
         repo = repos.FLUTTER,
         list_view_name = list_view_name,
