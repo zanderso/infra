@@ -531,6 +531,7 @@ def framework_try_config(platform_args):
         os = "Linux",
         repo = repos.FLUTTER,
         list_view_name = list_view_name,
+        properties = {"role": "scheduler"},
     )
 
     # Linux platform adhoc tests
