@@ -282,6 +282,21 @@ def framework_prod_config(platform_args, branch, version, ref):
             swarming.cache(name = "pub_cache", path = ".pub_cache"),
         ],
     )
+    common.linux_prod_builder(
+        name = "Linux%s web_smoke_test|web_smk" % ("" if branch == "master" else " " + branch),
+        recipe = new_recipe_name,
+        console_view_name = console_view_name,
+        triggered_by = [trigger_name],
+        triggering_policy = triggering_policy,
+        properties = {
+            "validation": "web_smoke_test",
+            "validation_name": "Web smoke tests",
+        },
+        caches = [
+            swarming.cache(name = "pub_cache", path = ".pub_cache"),
+            swarming.cache(name = "android_sdk", path = "android29"),
+        ],
+    )
 
     # Windows platform
     common.windows_prod_builder(
@@ -585,6 +600,20 @@ def framework_try_config(platform_args):
         },
         caches = [
             swarming.cache(name = "pub_cache", path = ".pub_cache"),
+        ],
+    )
+    common.linux_try_builder(
+        name = "Linux web_smoke_test|web_smk",
+        recipe = "flutter/flutter",
+        repo = repos.FLUTTER,
+        list_view_name = list_view_name,
+        properties = {
+            "validation": "web_smoke_test",
+            "validation_name": "Web smoke tests",
+        },
+        caches = [
+            swarming.cache(name = "pub_cache", path = ".pub_cache"),
+            swarming.cache(name = "android_sdk", path = "android29"),
         ],
     )
 
