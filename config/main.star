@@ -24,8 +24,8 @@ load("//iostools_config.star", "iostools_config")
 load("//packages_config.star", "packages_config")
 load("//packaging_config.star", "packaging_config")
 
-# Avoid jumping back and forth with configs being updated by lower
-# version lucicfg.
+# Avoid jumping back and forth with configs being updated by lower version
+# lucicfg.
 lucicfg.check_version("1.17.0")
 
 BRANCHES = {

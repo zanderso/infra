@@ -19,7 +19,7 @@ repos = struct(
     LIBIMOBILEDEVICE =
         "https://flutter-mirrors.googlesource.com/libimobiledevice",
     LIBPLIST = "https://flutter-mirrors.googlesource.com/libplist",
-    USBMUXD = "https://flutter-mirrors.googlesource.com/usbmuxd",
+    USBMUXD = "https://flutter-mirrors.googlesource.com/libusbmuxd",
     OPENSSL = "https://flutter-mirrors.googlesource.com/openssl",
     IOS_DEPLOY = "https://flutter-mirrors.googlesource.com/ios-deploy",
     LIBZIP = "https://flutter-mirrors.googlesource.com/libzip",
