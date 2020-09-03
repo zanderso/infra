@@ -291,6 +291,7 @@ def framework_prod_config(platform_args, branch, version, ref):
         properties = {
             "validation": "web_smoke_test",
             "validation_name": "Web smoke tests",
+            "dependencies": [{"dependency": "chrome_and_driver"}],
         },
         caches = [
             swarming.cache(name = "pub_cache", path = ".pub_cache"),
@@ -610,6 +611,7 @@ def framework_try_config(platform_args):
         properties = {
             "validation": "web_smoke_test",
             "validation_name": "Web smoke tests",
+            "dependencies": [{"dependency": "chrome_and_driver"}],
         },
         caches = [
             swarming.cache(name = "pub_cache", path = ".pub_cache"),
