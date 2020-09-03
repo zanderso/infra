@@ -8,6 +8,8 @@ repos = struct(
     FLUTTER_RECIPES = "https://flutter.googlesource.com/recipes",
     COCOON =
         "https://chromium.googlesource.com/external/github.com/flutter/cocoon",
+    PLUGINS =
+        "https://chromium.googlesource.com/external/github.com/flutter/plugins",
     FLUTTER =
         "https://chromium.googlesource.com/external/github.com/flutter/flutter",
     ENGINE =

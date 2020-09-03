@@ -23,6 +23,7 @@ load("//framework_config.star", "framework_config")
 load("//iostools_config.star", "iostools_config")
 load("//packages_config.star", "packages_config")
 load("//packaging_config.star", "packaging_config")
+load("//plugins_config.star", "plugins_config")
 
 # Avoid jumping back and forth with configs being updated by lower version
 # lucicfg.
@@ -149,6 +150,7 @@ common.cq_group(repos.ENGINE)
 common.cq_group(repos.FLUTTER)
 common.cq_group(repos.FLUTTER_RECIPES)
 common.cq_group(repos.PACKAGES)
+common.cq_group(repos.PLUGINS)
 
 luci.builder.defaults.dimensions.set({
     "cpu": common.TARGET_X64,
@@ -190,4 +192,6 @@ packages_config.setup()
 packaging_config.setup(BRANCHES)
 
 recipes_config.setup()
+
+plugins_config.setup()
 ######################### Console Definitions #################################
