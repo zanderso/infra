@@ -547,7 +547,6 @@ def engine_try_config(platform_args, fuchsia_ctl_version):
         recipe = "engine",
         repo = repos.ENGINE,
         list_view_name = list_view_name,
-        dimensions = {"mac_model": "Macmini7,1"},
         properties = engine_properties(
             build_ios = True,
             ios_debug = True,

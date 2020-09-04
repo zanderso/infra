@@ -369,7 +369,7 @@ def _mac_builder(properties = {}, caches = None, category = "Mac", **kwargs):
     if caches != None:
         mac_caches.extend(caches)
     return _common_builder(
-        os = "Mac-10.14",
+        os = "Mac-10.15",
         properties = properties,
         caches = mac_caches,
         category = category,
