@@ -420,6 +420,16 @@ def framework_prod_config(platform_args, branch, version, ref):
             swarming.cache(name = "android_sdk", path = "android29"),
         ],
     )
+    common.mac_prod_builder(
+        name = "Mac%s SDK Drone|frwdrn" % ("" if branch == "master" else " " + branch),
+        recipe = drone_recipe_name,
+        console_view_name = None,
+        no_notify = True,
+        caches = [
+            swarming.cache(name = "pub_cache", path = ".pub_cache"),
+            swarming.cache(name = "android_sdk", path = "android29"),
+        ],
+    )
 
 def framework_try_config(platform_args):
     """Try configurations for the framework repository.
