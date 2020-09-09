@@ -404,7 +404,7 @@ def framework_prod_config(platform_args, branch, version, ref):
             swarming.cache(name = "pub_cache", path = ".pub_cache"),
         ],
     )
-    common.linux_prod_builder(
+    common.mac_prod_builder(
         name = "Mac%s tool_tests|tool_tests" % ("" if branch == "master" else " " + branch),
         recipe = new_recipe_name,
         console_view_name = console_view_name,
