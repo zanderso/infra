@@ -161,7 +161,7 @@ def framework_prod_config(platform_args, branch, version, ref):
         properties = {
             "shard": "tool_tests",
             "subshards": ["general", "commands", "integration"],
-            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}],
+            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}],
         },
         caches = [
             swarming.cache(name = "pub_cache", path = ".pub_cache"),
@@ -339,7 +339,7 @@ def framework_prod_config(platform_args, branch, version, ref):
         properties = {
             "shard": "tool_tests",
             "subshards": ["general", "commands", "integration"],
-            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}],
+            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}],
         },
         caches = [
             swarming.cache(name = "pub_cache", path = ".pub_cache"),
@@ -413,7 +413,7 @@ def framework_prod_config(platform_args, branch, version, ref):
         properties = {
             "shard": "tool_tests",
             "subshards": ["general", "commands", "integration"],
-            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}],
+            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}],
         },
         caches = [
             swarming.cache(name = "pub_cache", path = ".pub_cache"),
@@ -490,7 +490,7 @@ def framework_try_config(platform_args):
         properties = {
             "shard": "tool_tests",
             "subshards": ["general", "commands", "integration"],
-            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}],
+            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}],
         },
         caches = [
             swarming.cache(name = "pub_cache", path = ".pub_cache"),
@@ -676,7 +676,7 @@ def framework_try_config(platform_args):
         properties = {
             "shard": "tool_tests",
             "subshards": ["general", "commands", "integration"],
-            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}],
+            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}],
         },
         caches = [
             swarming.cache(name = "pub_cache", path = ".pub_cache"),
