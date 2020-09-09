@@ -114,10 +114,8 @@ def framework_prod_config(platform_args, branch, version, ref):
         triggering_policy = triggering_policy,
         properties = {
             "shard": "build_tests",
-            "android_sdk_license": "\n24333f8a63b6825ea9c5514f83c2829b004d1fee",
-            "android_sdk_preview_license": "\n84831b9409646a918e30573bab4c9c91346d8abd",
-            "dependencies": ["android_sdk", "chrome_and_drivers"],
             "subshards": ["0", "1_last"],
+            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}],
         },
         caches = [
             swarming.cache(name = "pub_cache", path = ".pub_cache"),
@@ -132,14 +130,10 @@ def framework_prod_config(platform_args, branch, version, ref):
         triggering_policy = triggering_policy,
         properties = {
             "shard": "framework_tests",
-            "android_sdk_license": "\n24333f8a63b6825ea9c5514f83c2829b004d1fee",
-            "android_sdk_preview_license": "\n84831b9409646a918e30573bab4c9c91346d8abd",
-            "dependencies": ["android_sdk", "chrome_and_drivers"],
             "subshards": ["libraries", "misc", "widgets"],
         },
         caches = [
             swarming.cache(name = "pub_cache", path = ".pub_cache"),
-            swarming.cache(name = "android_sdk", path = "android29"),
         ],
     )
     common.linux_prod_builder(
@@ -150,10 +144,8 @@ def framework_prod_config(platform_args, branch, version, ref):
         triggering_policy = triggering_policy,
         properties = {
             "shard": "hostonly_devicelab_tests",
-            "android_sdk_license": "\n24333f8a63b6825ea9c5514f83c2829b004d1fee",
-            "android_sdk_preview_license": "\n84831b9409646a918e30573bab4c9c91346d8abd",
-            "dependencies": ["android_sdk", "chrome_and_drivers"],
             "subshards": ["0", "1", "2", "3_last"],
+            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}],
         },
         caches = [
             swarming.cache(name = "pub_cache", path = ".pub_cache"),
@@ -168,10 +160,8 @@ def framework_prod_config(platform_args, branch, version, ref):
         triggering_policy = triggering_policy,
         properties = {
             "shard": "tool_tests",
-            "android_sdk_license": "\n24333f8a63b6825ea9c5514f83c2829b004d1fee",
-            "android_sdk_preview_license": "\n84831b9409646a918e30573bab4c9c91346d8abd",
-            "dependencies": ["android_sdk", "chrome_and_drivers"],
             "subshards": ["general", "commands", "integration"],
+            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}],
         },
         caches = [
             swarming.cache(name = "pub_cache", path = ".pub_cache"),
@@ -186,14 +176,11 @@ def framework_prod_config(platform_args, branch, version, ref):
         triggering_policy = triggering_policy,
         properties = {
             "shard": "web_integration_tests",
-            "android_sdk_license": "\n24333f8a63b6825ea9c5514f83c2829b004d1fee",
-            "android_sdk_preview_license": "\n84831b9409646a918e30573bab4c9c91346d8abd",
-            "dependencies": ["android_sdk", "chrome_and_drivers"],
             "subshards": [],
+            "dependencies": [{"dependency": "chrome_and_driver"}],
         },
         caches = [
             swarming.cache(name = "pub_cache", path = ".pub_cache"),
-            swarming.cache(name = "android_sdk", path = "android29"),
         ],
     )
     common.linux_prod_builder(
@@ -204,10 +191,8 @@ def framework_prod_config(platform_args, branch, version, ref):
         triggering_policy = triggering_policy,
         properties = {
             "shard": "web_tests",
-            "android_sdk_license": "\n24333f8a63b6825ea9c5514f83c2829b004d1fee",
-            "android_sdk_preview_license": "\n84831b9409646a918e30573bab4c9c91346d8abd",
-            "dependencies": ["android_sdk", "chrome_and_drivers"],
             "subshards": ["0", "1", "2", "3", "4", "5", "6", "7_last"],
+            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_drivers"}],
         },
         caches = [
             swarming.cache(name = "pub_cache", path = ".pub_cache"),
@@ -295,7 +280,6 @@ def framework_prod_config(platform_args, branch, version, ref):
         },
         caches = [
             swarming.cache(name = "pub_cache", path = ".pub_cache"),
-            swarming.cache(name = "android_sdk", path = "android29"),
         ],
     )
 
@@ -308,10 +292,8 @@ def framework_prod_config(platform_args, branch, version, ref):
         triggering_policy = triggering_policy,
         properties = {
             "shard": "build_tests",
-            "android_sdk_license": "\n24333f8a63b6825ea9c5514f83c2829b004d1fee",
-            "android_sdk_preview_license": "\n84831b9409646a918e30573bab4c9c91346d8abd",
-            "dependencies": ["android_sdk", "chrome_and_drivers"],
             "subshards": ["0", "1_last"],
+            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}],
         },
         caches = [
             swarming.cache(name = "pub_cache", path = ".pub_cache"),
@@ -326,14 +308,10 @@ def framework_prod_config(platform_args, branch, version, ref):
         triggering_policy = triggering_policy,
         properties = {
             "shard": "framework_tests",
-            "android_sdk_license": "\n24333f8a63b6825ea9c5514f83c2829b004d1fee",
-            "android_sdk_preview_license": "\n84831b9409646a918e30573bab4c9c91346d8abd",
-            "dependencies": ["android_sdk", "chrome_and_drivers"],
             "subshards": ["libraries", "misc", "widgets"],
         },
         caches = [
             swarming.cache(name = "pub_cache", path = ".pub_cache"),
-            swarming.cache(name = "android_sdk", path = "android29"),
         ],
     )
     common.windows_prod_builder(
@@ -344,10 +322,8 @@ def framework_prod_config(platform_args, branch, version, ref):
         triggering_policy = triggering_policy,
         properties = {
             "shard": "hostonly_devicelab_tests",
-            "android_sdk_license": "\n24333f8a63b6825ea9c5514f83c2829b004d1fee",
-            "android_sdk_preview_license": "\n84831b9409646a918e30573bab4c9c91346d8abd",
-            "dependencies": ["android_sdk", "chrome_and_drivers"],
             "subshards": ["0", "1", "2", "3_last"],
+            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}],
         },
         caches = [
             swarming.cache(name = "pub_cache", path = ".pub_cache"),
@@ -362,10 +338,8 @@ def framework_prod_config(platform_args, branch, version, ref):
         triggering_policy = triggering_policy,
         properties = {
             "shard": "tool_tests",
-            "android_sdk_license": "\n24333f8a63b6825ea9c5514f83c2829b004d1fee",
-            "android_sdk_preview_license": "\n84831b9409646a918e30573bab4c9c91346d8abd",
-            "dependencies": ["android_sdk", "chrome_and_drivers"],
             "subshards": ["general", "commands", "integration"],
+            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}],
         },
         caches = [
             swarming.cache(name = "pub_cache", path = ".pub_cache"),
@@ -401,12 +375,50 @@ def framework_prod_config(platform_args, branch, version, ref):
 
     # Mac builders
     common.mac_prod_builder(
-        name = "Mac%s|frwk" % ("" if branch == "master" else " " + branch),
-        recipe = recipe_name,
+        name = "Mac%s build_tests|bld_tests" % ("" if branch == "master" else " " + branch),
+        recipe = new_recipe_name,
         console_view_name = console_view_name,
         triggered_by = [trigger_name],
         triggering_policy = triggering_policy,
-        **platform_args["mac"]
+        properties = {
+            "shard": "build_tests",
+            "subshards": ["0", "1_last"],
+            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}],
+        },
+        caches = [
+            swarming.cache(name = "pub_cache", path = ".pub_cache"),
+            swarming.cache(name = "android_sdk", path = "android29"),
+        ],
+    )
+    common.mac_prod_builder(
+        name = "Mac%s framework_tests|frwk_tests" % ("" if branch == "master" else " " + branch),
+        recipe = new_recipe_name,
+        console_view_name = console_view_name,
+        triggered_by = [trigger_name],
+        triggering_policy = triggering_policy,
+        properties = {
+            "shard": "framework_tests",
+            "subshards": ["libraries", "misc", "widgets"],
+        },
+        caches = [
+            swarming.cache(name = "pub_cache", path = ".pub_cache"),
+        ],
+    )
+    common.linux_prod_builder(
+        name = "Mac%s tool_tests|tool_tests" % ("" if branch == "master" else " " + branch),
+        recipe = new_recipe_name,
+        console_view_name = console_view_name,
+        triggered_by = [trigger_name],
+        triggering_policy = triggering_policy,
+        properties = {
+            "shard": "tool_tests",
+            "subshards": ["general", "commands", "integration"],
+            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}],
+        },
+        caches = [
+            swarming.cache(name = "pub_cache", path = ".pub_cache"),
+            swarming.cache(name = "android_sdk", path = "android29"),
+        ],
     )
 
 def framework_try_config(platform_args):
@@ -434,10 +446,8 @@ def framework_try_config(platform_args):
         list_view_name = list_view_name,
         properties = {
             "shard": "build_tests",
-            "android_sdk_license": "\n24333f8a63b6825ea9c5514f83c2829b004d1fee",
-            "android_sdk_preview_license": "\n84831b9409646a918e30573bab4c9c91346d8abd",
-            "dependencies": ["android_sdk", "chrome_and_drivers"],
             "subshards": ["0", "1_last"],
+            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}],
         },
         caches = [
             swarming.cache(name = "pub_cache", path = ".pub_cache"),
@@ -451,14 +461,10 @@ def framework_try_config(platform_args):
         list_view_name = list_view_name,
         properties = {
             "shard": "framework_tests",
-            "android_sdk_license": "\n24333f8a63b6825ea9c5514f83c2829b004d1fee",
-            "android_sdk_preview_license": "\n84831b9409646a918e30573bab4c9c91346d8abd",
-            "dependencies": ["android_sdk", "chrome_and_drivers"],
             "subshards": ["libraries", "misc", "widgets"],
         },
         caches = [
             swarming.cache(name = "pub_cache", path = ".pub_cache"),
-            swarming.cache(name = "android_sdk", path = "android29"),
         ],
     )
     common.linux_try_builder(
@@ -468,10 +474,8 @@ def framework_try_config(platform_args):
         list_view_name = list_view_name,
         properties = {
             "shard": "hostonly_devicelab_tests",
-            "android_sdk_license": "\n24333f8a63b6825ea9c5514f83c2829b004d1fee",
-            "android_sdk_preview_license": "\n84831b9409646a918e30573bab4c9c91346d8abd",
-            "dependencies": ["android_sdk", "chrome_and_drivers"],
             "subshards": ["0", "1", "2", "3_last"],
+            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}],
         },
         caches = [
             swarming.cache(name = "pub_cache", path = ".pub_cache"),
@@ -485,10 +489,8 @@ def framework_try_config(platform_args):
         list_view_name = list_view_name,
         properties = {
             "shard": "tool_tests",
-            "android_sdk_license": "\n24333f8a63b6825ea9c5514f83c2829b004d1fee",
-            "android_sdk_preview_license": "\n84831b9409646a918e30573bab4c9c91346d8abd",
-            "dependencies": ["android_sdk", "chrome_and_drivers"],
             "subshards": ["general", "commands", "integration"],
+            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}],
         },
         caches = [
             swarming.cache(name = "pub_cache", path = ".pub_cache"),
@@ -502,10 +504,8 @@ def framework_try_config(platform_args):
         list_view_name = list_view_name,
         properties = {
             "shard": "web_tests",
-            "android_sdk_license": "\n24333f8a63b6825ea9c5514f83c2829b004d1fee",
-            "android_sdk_preview_license": "\n84831b9409646a918e30573bab4c9c91346d8abd",
-            "dependencies": ["android_sdk", "chrome_and_drivers"],
             "subshards": ["0", "1", "2", "3", "4", "5", "6", "7_last"],
+            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}],
         },
         caches = [
             swarming.cache(name = "pub_cache", path = ".pub_cache"),
@@ -519,10 +519,8 @@ def framework_try_config(platform_args):
         list_view_name = list_view_name,
         properties = {
             "shard": "web_integration_tests",
-            "android_sdk_license": "\n24333f8a63b6825ea9c5514f83c2829b004d1fee",
-            "android_sdk_preview_license": "\n84831b9409646a918e30573bab4c9c91346d8abd",
-            "dependencies": ["android_sdk", "chrome_and_drivers"],
             "subshards": [],
+            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}],
         },
         caches = [
             swarming.cache(name = "pub_cache", path = ".pub_cache"),
@@ -615,7 +613,6 @@ def framework_try_config(platform_args):
         },
         caches = [
             swarming.cache(name = "pub_cache", path = ".pub_cache"),
-            swarming.cache(name = "android_sdk", path = "android29"),
         ],
     )
 
@@ -636,10 +633,8 @@ def framework_try_config(platform_args):
         list_view_name = list_view_name,
         properties = {
             "shard": "build_tests",
-            "android_sdk_license": "\n24333f8a63b6825ea9c5514f83c2829b004d1fee",
-            "android_sdk_preview_license": "\n84831b9409646a918e30573bab4c9c91346d8abd",
-            "dependencies": ["android_sdk", "chrome_and_drivers"],
             "subshards": ["0", "1_last"],
+            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}],
         },
         caches = [
             swarming.cache(name = "pub_cache", path = ".pub_cache"),
@@ -653,14 +648,10 @@ def framework_try_config(platform_args):
         list_view_name = list_view_name,
         properties = {
             "shard": "framework_tests",
-            "android_sdk_license": "\n24333f8a63b6825ea9c5514f83c2829b004d1fee",
-            "android_sdk_preview_license": "\n84831b9409646a918e30573bab4c9c91346d8abd",
-            "dependencies": ["android_sdk", "chrome_and_drivers"],
             "subshards": ["libraries", "misc", "widgets"],
         },
         caches = [
             swarming.cache(name = "pub_cache", path = ".pub_cache"),
-            swarming.cache(name = "android_sdk", path = "android29"),
         ],
     )
     common.windows_try_builder(
@@ -670,14 +661,11 @@ def framework_try_config(platform_args):
         list_view_name = list_view_name,
         properties = {
             "shard": "hostonly_devicelab_tests",
-            "android_sdk_license": "\n24333f8a63b6825ea9c5514f83c2829b004d1fee",
-            "android_sdk_preview_license": "\n84831b9409646a918e30573bab4c9c91346d8abd",
-            "dependencies": ["android_sdk", "chrome_and_drivers"],
             "subshards": ["0", "1", "2", "3_last"],
+            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}],
         },
         caches = [
             swarming.cache(name = "pub_cache", path = ".pub_cache"),
-            swarming.cache(name = "android_sdk", path = "android29"),
         ],
     )
     common.windows_try_builder(
@@ -687,10 +675,8 @@ def framework_try_config(platform_args):
         list_view_name = list_view_name,
         properties = {
             "shard": "tool_tests",
-            "android_sdk_license": "\n24333f8a63b6825ea9c5514f83c2829b004d1fee",
-            "android_sdk_preview_license": "\n84831b9409646a918e30573bab4c9c91346d8abd",
-            "dependencies": ["android_sdk", "chrome_and_drivers"],
             "subshards": ["general", "commands", "integration"],
+            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}],
         },
         caches = [
             swarming.cache(name = "pub_cache", path = ".pub_cache"),
