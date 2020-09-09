@@ -192,7 +192,7 @@ def framework_prod_config(platform_args, branch, version, ref):
         properties = {
             "shard": "web_tests",
             "subshards": ["0", "1", "2", "3", "4", "5", "6", "7_last"],
-            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_drivers"}],
+            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}],
         },
         caches = [
             swarming.cache(name = "pub_cache", path = ".pub_cache"),
