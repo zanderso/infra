@@ -628,11 +628,42 @@ def framework_try_config(platform_args):
 
     # Mac platform
     common.mac_try_builder(
-        name = "Mac|frwk",
-        recipe = "flutter",
+        name = "Mac framework_tests|frwk_tests",
+        recipe = "flutter/flutter",
         repo = repos.FLUTTER,
         list_view_name = list_view_name,
-        **platform_args["mac"]
+        properties = {
+            "shard": "framework_tests",
+            "subshards": ["libraries", "misc", "widgets"],
+        },
+        caches = [
+            swarming.cache(name = "pub_cache", path = ".pub_cache"),
+        ],
+    )
+    common.mac_try_builder(
+        name = "Mac tool_tests|tool_tests",
+        recipe = "flutter/flutter",
+        repo = repos.FLUTTER,
+        list_view_name = list_view_name,
+        properties = {
+            "shard": "tool_tests",
+            "subshards": ["general", "commands", "integration"],
+            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}],
+        },
+        caches = [
+            swarming.cache(name = "pub_cache", path = ".pub_cache"),
+            swarming.cache(name = "android_sdk", path = "android29"),
+        ],
+    )
+    common.mac_try_builder(
+        name = "Mac SDK Drone|frwkdrn",
+        recipe = "flutter/flutter_drone",
+        repo = repos.FLUTTER,
+        list_view_name = list_view_name,
+        caches = [
+            swarming.cache(name = "pub_cache", path = ".pub_cache"),
+            swarming.cache(name = "android_sdk", path = "android29"),
+        ],
     )
 
     # Windows platform
