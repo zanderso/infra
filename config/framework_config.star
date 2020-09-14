@@ -14,32 +14,19 @@ load("//lib/common.star", "common")
 load("//lib/repos.star", "repos")
 
 def _setup(branches):
-    platfrom_args = {
-        "mac": {
-            "properties": {
-                "shard": "framework_tests",
-                "cocoapods_version": "1.6.0",
-            },
-            "caches": [swarming.cache(name = "flutter_cocoapods", path = "cocoapods")],
-        },
-    }
-
     for branch in branches:
         framework_prod_config(
-            platfrom_args,
             branch,
             branches[branch]["version"],
             branches[branch]["testing-ref"],
         )
 
-    framework_try_config(platfrom_args)
+    framework_try_config()
 
-def framework_prod_config(platform_args, branch, version, ref):
+def framework_prod_config(branch, version, ref):
     """Prod configurations for the framework repository.
 
     Args:
-      platform_args(dict): Dictionary with default properties with platform as
-        key.
       branch(str): The branch name we are creating configurations for.
       version(str): One of dev|beta|stable.
       ref(str): The git ref we are creating configurations for.
@@ -323,7 +310,7 @@ def framework_prod_config(platform_args, branch, version, ref):
         properties = {
             "shard": "hostonly_devicelab_tests",
             "subshards": ["0", "1", "2", "3_last"],
-            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}],
+            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}],
         },
         caches = [
             swarming.cache(name = "pub_cache", path = ".pub_cache"),
@@ -383,7 +370,7 @@ def framework_prod_config(platform_args, branch, version, ref):
         properties = {
             "shard": "build_tests",
             "subshards": ["0", "1_last"],
-            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}, {"dependency": "xcode"}],
+            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}, {"dependency": "xcode"}, {"dependency": "gems"}],
             "$depot_tools/osx_sdk": {
                 "sdk_version": "11E708",
             },
@@ -437,13 +424,8 @@ def framework_prod_config(platform_args, branch, version, ref):
         ],
     )
 
-def framework_try_config(platform_args):
-    """Try configurations for the framework repository.
-
-    Args:
-      platform_args(dict): Dictionary with default properties with platform as
-        key.
-    """
+def framework_try_config():
+    """Try configurations for the framework repository."""
 
     # Defines a list view for try builders
     list_view_name = "framework-try"

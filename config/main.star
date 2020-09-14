@@ -172,8 +172,6 @@ luci.builder.defaults.properties.set({
     },
     "mastername": "client.flutter",
     "goma_jobs": "200",
-    "android_sdk_license": "\n24333f8a63b6825ea9c5514f83c2829b004d1fee",
-    "android_sdk_preview_license": "\n84831b9409646a918e30573bab4c9c91346d8abd",
     "upload_packages": False,
     "clobber": False,
 })
