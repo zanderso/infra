@@ -616,6 +616,24 @@ def framework_try_config():
 
     # Mac platform
     common.mac_try_builder(
+        name = "Mac build_tests|bld_tests",
+        recipe = "flutter/flutter",
+        repo = repos.FLUTTER,
+        list_view_name = list_view_name,
+        properties = {
+            "shard": "build_tests",
+            "subshards": ["0", "1_last"],
+            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}, {"dependency": "xcode"}, {"dependency": "gems"}],
+            "$depot_tools/osx_sdk": {
+                "sdk_version": "11E708",
+            },
+        },
+        caches = [
+            swarming.cache(name = "pub_cache", path = ".pub_cache"),
+            swarming.cache(name = "android_sdk", path = "android29"),
+        ],
+    )
+    common.mac_try_builder(
         name = "Mac framework_tests|frwk_tests",
         recipe = "flutter/flutter",
         repo = repos.FLUTTER,
