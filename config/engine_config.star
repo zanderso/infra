@@ -107,6 +107,9 @@ def engine_properties(
         "build_android_jit_release": build_android_jit_release,
         "gcs_goldens_bucket": gcs_goldens_bucket,
     }
+    if any([build_android_debug or build_android_aot or build_android_vulkan or build_android_jit_release]):
+        properties["android_sdk_license"] = "\n24333f8a63b6825ea9c5514f83c2829b004d1fee"
+        properties["android_sdk_preview_license"] = "\n84831b9409646a918e30573bab4c9c91346d8abd"
     if (no_lto):
         properties["no_lto"] = True
     if (build_ios):
