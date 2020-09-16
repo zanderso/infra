@@ -82,7 +82,8 @@ def framework_prod_config(branch, version, ref):
     # Defines triggering policy
     if branch == "master":
         triggering_policy = scheduler.greedy_batching(
-            max_concurrent_invocations = 6,
+            max_batch_size = 3,
+            max_concurrent_invocations = 3,
         )
     else:
         triggering_policy = scheduler.greedy_batching(
