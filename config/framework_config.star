@@ -425,6 +425,22 @@ def framework_prod_config(branch, version, ref):
         ],
     )
 
+    # Mac adhoc tests
+    common.mac_prod_builder(
+        name = "Mac%s customer_testing|cst_test" % ("" if branch == "master" else " " + branch),
+        recipe = new_recipe_name,
+        console_view_name = console_view_name,
+        triggered_by = [trigger_name],
+        triggering_policy = triggering_policy,
+        properties = {
+            "validation": "customer_testing",
+            "validation_name": "Customer testing",
+        },
+        caches = [
+            swarming.cache(name = "pub_cache", path = ".pub_cache"),
+        ],
+    )
+
 def framework_try_config():
     """Try configurations for the framework repository."""
 
@@ -673,6 +689,21 @@ def framework_try_config():
         caches = [
             swarming.cache(name = "pub_cache", path = ".pub_cache"),
             swarming.cache(name = "android_sdk", path = "android29"),
+        ],
+    )
+
+    # Mac adhoc test
+    common.mac_try_builder(
+        name = "Mac customer_testing|cst_test",
+        recipe = "flutter/flutter",
+        repo = repos.FLUTTER,
+        list_view_name = list_view_name,
+        properties = {
+            "validation": "customer_testing",
+            "validation_name": "Customer testing",
+        },
+        caches = [
+            swarming.cache(name = "pub_cache", path = ".pub_cache"),
         ],
     )
 

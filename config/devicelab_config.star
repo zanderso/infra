@@ -71,7 +71,457 @@ def devicelab_prod_config(branch, version, ref):
 
     # Defines framework prod builders
 
-    # Windows platform sharded tests
+    # Mac prod builders.
+    common.mac_prod_builder(
+        name = "Mac%s build_aar_module_test|aar_module" % ("" if branch == "master" else " " + branch),
+        recipe = drone_recipe_name,
+        console_view_name = console_view_name,
+        triggered_by = [trigger_name],
+        triggering_policy = triggering_policy,
+        properties = {
+            "dependencies": [
+                {
+                    "dependency": "android_sdk",
+                },
+                {
+                    "dependency": "open_jdk",
+                },
+                {
+                    "dependency": "xcode",
+                },
+                {
+                    "dependency": "gems",
+                },
+            ],
+            "task_name": "build_aar_module_test",
+        },
+        caches = [
+            swarming.cache(name = "pub_cache", path = ".pub_cache"),
+            swarming.cache(name = "android_sdk", path = "android29"),
+        ],
+    )
+    common.mac_prod_builder(
+        name = "Mac%s gradle_fast_start_test|gradle_fast_start" % ("" if branch == "master" else " " + branch),
+        recipe = drone_recipe_name,
+        console_view_name = console_view_name,
+        triggered_by = [trigger_name],
+        triggering_policy = triggering_policy,
+        properties = {
+            "dependencies": [
+                {
+                    "dependency": "android_sdk",
+                },
+                {
+                    "dependency": "open_jdk",
+                },
+                {
+                    "dependency": "xcode",
+                },
+                {
+                    "dependency": "gems",
+                },
+            ],
+            "task_name": "gradle_fast_start_test",
+        },
+        caches = [
+            swarming.cache(name = "pub_cache", path = ".pub_cache"),
+            swarming.cache(name = "android_sdk", path = "android29"),
+        ],
+    )
+    common.mac_prod_builder(
+        name = "Mac%s gradle_jetifier_test|gradle_jetifier" % ("" if branch == "master" else " " + branch),
+        recipe = drone_recipe_name,
+        console_view_name = console_view_name,
+        triggered_by = [trigger_name],
+        triggering_policy = triggering_policy,
+        properties = {
+            "dependencies": [
+                {
+                    "dependency": "android_sdk",
+                },
+                {
+                    "dependency": "open_jdk",
+                },
+                {
+                    "dependency": "xcode",
+                },
+                {
+                    "dependency": "gems",
+                },
+            ],
+            "task_name": "gradle_jetifier_test",
+        },
+        caches = [
+            swarming.cache(name = "pub_cache", path = ".pub_cache"),
+            swarming.cache(name = "android_sdk", path = "android29"),
+        ],
+    )
+    common.mac_prod_builder(
+        name = "Mac%s gradle_non_android_plugin_test|gradle_non_android_plugin" % ("" if branch == "master" else " " + branch),
+        recipe = drone_recipe_name,
+        console_view_name = console_view_name,
+        triggered_by = [trigger_name],
+        triggering_policy = triggering_policy,
+        properties = {
+            "dependencies": [
+                {
+                    "dependency": "android_sdk",
+                },
+                {
+                    "dependency": "open_jdk",
+                },
+                {
+                    "dependency": "xcode",
+                },
+                {
+                    "dependency": "gems",
+                },
+            ],
+            "task_name": "gradle_non_android_plugin_test",
+        },
+        caches = [
+            swarming.cache(name = "pub_cache", path = ".pub_cache"),
+            swarming.cache(name = "android_sdk", path = "android29"),
+        ],
+    )
+    common.mac_prod_builder(
+        name = "Mac%s gradle_plugin_bundle_test|gradle_plugin_bundle_test" % ("" if branch == "master" else " " + branch),
+        recipe = drone_recipe_name,
+        console_view_name = console_view_name,
+        triggered_by = [trigger_name],
+        triggering_policy = triggering_policy,
+        properties = {
+            "dependencies": [
+                {
+                    "dependency": "android_sdk",
+                },
+                {
+                    "dependency": "open_jdk",
+                },
+                {
+                    "dependency": "xcode",
+                },
+                {
+                    "dependency": "gems",
+                },
+            ],
+            "task_name": "gradle_plugin_bundle_test",
+        },
+        caches = [
+            swarming.cache(name = "pub_cache", path = ".pub_cache"),
+            swarming.cache(name = "android_sdk", path = "android29"),
+        ],
+    )
+    common.mac_prod_builder(
+        name = "Mac%s gradle_plugin_fat_apk_test|gradle_plugin_fat_apk" % ("" if branch == "master" else " " + branch),
+        recipe = drone_recipe_name,
+        console_view_name = console_view_name,
+        triggered_by = [trigger_name],
+        triggering_policy = triggering_policy,
+        properties = {
+            "dependencies": [
+                {
+                    "dependency": "android_sdk",
+                },
+                {
+                    "dependency": "open_jdk",
+                },
+                {
+                    "dependency": "xcode",
+                },
+                {
+                    "dependency": "gems",
+                },
+            ],
+            "task_name": "gradle_plugin_fat_apk_test",
+        },
+        caches = [
+            swarming.cache(name = "pub_cache", path = ".pub_cache"),
+            swarming.cache(name = "android_sdk", path = "android29"),
+        ],
+    )
+    common.mac_prod_builder(
+        name = "Mac%s gradle_plugin_light_apk_test|gradle_plugin_light_apk" % ("" if branch == "master" else " " + branch),
+        recipe = drone_recipe_name,
+        console_view_name = console_view_name,
+        triggered_by = [trigger_name],
+        triggering_policy = triggering_policy,
+        properties = {
+            "dependencies": [
+                {
+                    "dependency": "android_sdk",
+                },
+                {
+                    "dependency": "open_jdk",
+                },
+                {
+                    "dependency": "xcode",
+                },
+                {
+                    "dependency": "gems",
+                },
+            ],
+            "task_name": "gradle_plugin_light_apk_test",
+        },
+        caches = [
+            swarming.cache(name = "pub_cache", path = ".pub_cache"),
+            swarming.cache(name = "android_sdk", path = "android29"),
+        ],
+    )
+    common.mac_prod_builder(
+        name = "Mac%s gradle_r8_test|gradle_r8" % ("" if branch == "master" else " " + branch),
+        recipe = drone_recipe_name,
+        console_view_name = console_view_name,
+        triggered_by = [trigger_name],
+        triggering_policy = triggering_policy,
+        properties = {
+            "dependencies": [
+                {
+                    "dependency": "android_sdk",
+                },
+                {
+                    "dependency": "open_jdk",
+                },
+                {
+                    "dependency": "xcode",
+                },
+                {
+                    "dependency": "gems",
+                },
+            ],
+            "task_name": "gradle_r8_test",
+        },
+        caches = [
+            swarming.cache(name = "pub_cache", path = ".pub_cache"),
+            swarming.cache(name = "android_sdk", path = "android29"),
+        ],
+    )
+    common.mac_prod_builder(
+        name = "Mac%s module_host_with_custom_build_test|module_host_with_custom_build" % ("" if branch == "master" else " " + branch),
+        recipe = drone_recipe_name,
+        console_view_name = console_view_name,
+        triggered_by = [trigger_name],
+        triggering_policy = triggering_policy,
+        properties = {
+            "dependencies": [
+                {
+                    "dependency": "android_sdk",
+                },
+                {
+                    "dependency": "open_jdk",
+                },
+                {
+                    "dependency": "xcode",
+                },
+                {
+                    "dependency": "gems",
+                },
+            ],
+            "task_name": "module_host_with_custom_build_test",
+        },
+        caches = [
+            swarming.cache(name = "pub_cache", path = ".pub_cache"),
+            swarming.cache(name = "android_sdk", path = "android29"),
+        ],
+    )
+    common.mac_prod_builder(
+        name = "Mac%s module_custom_host_app_name_test|module_custom_host_app_name" % ("" if branch == "master" else " " + branch),
+        recipe = drone_recipe_name,
+        console_view_name = console_view_name,
+        triggered_by = [trigger_name],
+        triggering_policy = triggering_policy,
+        properties = {
+            "dependencies": [
+                {
+                    "dependency": "android_sdk",
+                },
+                {
+                    "dependency": "open_jdk",
+                },
+                {
+                    "dependency": "xcode",
+                },
+                {
+                    "dependency": "gems",
+                },
+            ],
+            "task_name": "module_custom_host_app_name_test",
+        },
+        caches = [
+            swarming.cache(name = "pub_cache", path = ".pub_cache"),
+            swarming.cache(name = "android_sdk", path = "android29"),
+        ],
+    )
+    common.mac_prod_builder(
+        name = "Mac%s module_test|module" % ("" if branch == "master" else " " + branch),
+        recipe = drone_recipe_name,
+        console_view_name = console_view_name,
+        triggered_by = [trigger_name],
+        triggering_policy = triggering_policy,
+        properties = {
+            "dependencies": [
+                {
+                    "dependency": "android_sdk",
+                },
+                {
+                    "dependency": "open_jdk",
+                },
+                {
+                    "dependency": "xcode",
+                },
+                {
+                    "dependency": "gems",
+                },
+            ],
+            "task_name": "module_test",
+        },
+        caches = [
+            swarming.cache(name = "pub_cache", path = ".pub_cache"),
+            swarming.cache(name = "android_sdk", path = "android29"),
+        ],
+    )
+    common.mac_prod_builder(
+        name = "Mac%s plugin_dependencies_test|plugin_dependencies" % ("" if branch == "master" else " " + branch),
+        recipe = drone_recipe_name,
+        console_view_name = console_view_name,
+        triggered_by = [trigger_name],
+        triggering_policy = triggering_policy,
+        properties = {
+            "dependencies": [
+                {
+                    "dependency": "android_sdk",
+                },
+                {
+                    "dependency": "open_jdk",
+                },
+                {
+                    "dependency": "xcode",
+                },
+                {
+                    "dependency": "gems",
+                },
+            ],
+            "task_name": "plugin_dependencies_test",
+        },
+        caches = [
+            swarming.cache(name = "pub_cache", path = ".pub_cache"),
+            swarming.cache(name = "android_sdk", path = "android29"),
+        ],
+    )
+    common.mac_prod_builder(
+        name = "Mac%s module_test_ios|module_ios" % ("" if branch == "master" else " " + branch),
+        recipe = drone_recipe_name,
+        console_view_name = console_view_name,
+        triggered_by = [trigger_name],
+        triggering_policy = triggering_policy,
+        properties = {
+            "dependencies": [
+                {
+                    "dependency": "android_sdk",
+                },
+                {
+                    "dependency": "open_jdk",
+                },
+                {
+                    "dependency": "xcode",
+                },
+                {
+                    "dependency": "gems",
+                },
+            ],
+            "task_name": "module_test_ios",
+        },
+        caches = [
+            swarming.cache(name = "pub_cache", path = ".pub_cache"),
+            swarming.cache(name = "android_sdk", path = "android29"),
+        ],
+    )
+    common.mac_prod_builder(
+        name = "Mac%s build_ios_framework_module_test|build_ios_framework_module" % ("" if branch == "master" else " " + branch),
+        recipe = drone_recipe_name,
+        console_view_name = console_view_name,
+        triggered_by = [trigger_name],
+        triggering_policy = triggering_policy,
+        properties = {
+            "dependencies": [
+                {
+                    "dependency": "android_sdk",
+                },
+                {
+                    "dependency": "open_jdk",
+                },
+                {
+                    "dependency": "xcode",
+                },
+                {
+                    "dependency": "gems",
+                },
+            ],
+            "task_name": "build_ios_framework_module_test",
+        },
+        caches = [
+            swarming.cache(name = "pub_cache", path = ".pub_cache"),
+            swarming.cache(name = "android_sdk", path = "android29"),
+        ],
+    )
+    common.mac_prod_builder(
+        name = "Mac%s plugin_lint_mac|plugin_lint_mac" % ("" if branch == "master" else " " + branch),
+        recipe = drone_recipe_name,
+        console_view_name = console_view_name,
+        triggered_by = [trigger_name],
+        triggering_policy = triggering_policy,
+        properties = {
+            "dependencies": [
+                {
+                    "dependency": "android_sdk",
+                },
+                {
+                    "dependency": "open_jdk",
+                },
+                {
+                    "dependency": "xcode",
+                },
+                {
+                    "dependency": "gems",
+                },
+            ],
+            "task_name": "plugin_lint_mac",
+        },
+        caches = [
+            swarming.cache(name = "pub_cache", path = ".pub_cache"),
+            swarming.cache(name = "android_sdk", path = "android29"),
+        ],
+    )
+    common.mac_prod_builder(
+        name = "Mac%s plugin_test|plugin" % ("" if branch == "master" else " " + branch),
+        recipe = drone_recipe_name,
+        console_view_name = console_view_name,
+        triggered_by = [trigger_name],
+        triggering_policy = triggering_policy,
+        properties = {
+            "dependencies": [
+                {
+                    "dependency": "android_sdk",
+                },
+                {
+                    "dependency": "open_jdk",
+                },
+                {
+                    "dependency": "xcode",
+                },
+                {
+                    "dependency": "gems",
+                },
+            ],
+            "task_name": "plugin_test",
+        },
+        caches = [
+            swarming.cache(name = "pub_cache", path = ".pub_cache"),
+            swarming.cache(name = "android_sdk", path = "android29"),
+        ],
+    )
+
+    # Windows prod builders
     common.windows_prod_builder(
         name = "Windows%s build_aar_module_test|aar_module" % ("" if branch == "master" else " " + branch),
         recipe = drone_recipe_name,
@@ -281,6 +731,442 @@ def devicelab_try_config():
     )
 
     # Defines devicelab try builders
+
+    # Mac try builders.
+    common.mac_try_builder(
+        name = "Mac build_aar_module_test|aar_module",
+        recipe = drone_recipe_name,
+        repo = repos.FLUTTER,
+        list_view_name = list_view_name,
+        properties = {
+            "dependencies": [
+                {
+                    "dependency": "android_sdk",
+                },
+                {
+                    "dependency": "open_jdk",
+                },
+                {
+                    "dependency": "xcode",
+                },
+                {
+                    "dependency": "gems",
+                },
+            ],
+            "task_name": "build_aar_module_test",
+        },
+        caches = [
+            swarming.cache(name = "pub_cache", path = ".pub_cache"),
+            swarming.cache(name = "android_sdk", path = "android29"),
+        ],
+    )
+    common.mac_try_builder(
+        name = "Mac gradle_fast_start_test|gradle_fast_start",
+        recipe = drone_recipe_name,
+        repo = repos.FLUTTER,
+        list_view_name = list_view_name,
+        properties = {
+            "dependencies": [
+                {
+                    "dependency": "android_sdk",
+                },
+                {
+                    "dependency": "open_jdk",
+                },
+                {
+                    "dependency": "xcode",
+                },
+                {
+                    "dependency": "gems",
+                },
+            ],
+            "task_name": "gradle_fast_start_test",
+        },
+        caches = [
+            swarming.cache(name = "pub_cache", path = ".pub_cache"),
+            swarming.cache(name = "android_sdk", path = "android29"),
+        ],
+    )
+    common.mac_try_builder(
+        name = "Mac gradle_jetifier_test|gradle_jetifier",
+        recipe = drone_recipe_name,
+        repo = repos.FLUTTER,
+        list_view_name = list_view_name,
+        properties = {
+            "dependencies": [
+                {
+                    "dependency": "android_sdk",
+                },
+                {
+                    "dependency": "open_jdk",
+                },
+                {
+                    "dependency": "xcode",
+                },
+                {
+                    "dependency": "gems",
+                },
+            ],
+            "task_name": "gradle_jetifier_test",
+        },
+        caches = [
+            swarming.cache(name = "pub_cache", path = ".pub_cache"),
+            swarming.cache(name = "android_sdk", path = "android29"),
+        ],
+    )
+    common.mac_try_builder(
+        name = "Mac gradle_non_android_plugin_test|gradle_non_android_plugin",
+        recipe = drone_recipe_name,
+        repo = repos.FLUTTER,
+        list_view_name = list_view_name,
+        properties = {
+            "dependencies": [
+                {
+                    "dependency": "android_sdk",
+                },
+                {
+                    "dependency": "open_jdk",
+                },
+                {
+                    "dependency": "xcode",
+                },
+                {
+                    "dependency": "gems",
+                },
+            ],
+            "task_name": "gradle_non_android_plugin_test",
+        },
+        caches = [
+            swarming.cache(name = "pub_cache", path = ".pub_cache"),
+            swarming.cache(name = "android_sdk", path = "android29"),
+        ],
+    )
+    common.mac_try_builder(
+        name = "Mac gradle_plugin_bundle_test|gradle_plugin_bundle_test",
+        recipe = drone_recipe_name,
+        repo = repos.FLUTTER,
+        list_view_name = list_view_name,
+        properties = {
+            "dependencies": [
+                {
+                    "dependency": "android_sdk",
+                },
+                {
+                    "dependency": "open_jdk",
+                },
+                {
+                    "dependency": "xcode",
+                },
+                {
+                    "dependency": "gems",
+                },
+            ],
+            "task_name": "gradle_plugin_bundle_test",
+        },
+        caches = [
+            swarming.cache(name = "pub_cache", path = ".pub_cache"),
+            swarming.cache(name = "android_sdk", path = "android29"),
+        ],
+    )
+    common.mac_try_builder(
+        name = "Mac gradle_plugin_fat_apk_test|gradle_plugin_fat_apk",
+        recipe = drone_recipe_name,
+        repo = repos.FLUTTER,
+        list_view_name = list_view_name,
+        properties = {
+            "dependencies": [
+                {
+                    "dependency": "android_sdk",
+                },
+                {
+                    "dependency": "open_jdk",
+                },
+                {
+                    "dependency": "xcode",
+                },
+                {
+                    "dependency": "gems",
+                },
+            ],
+            "task_name": "gradle_plugin_fat_apk_test",
+        },
+        caches = [
+            swarming.cache(name = "pub_cache", path = ".pub_cache"),
+            swarming.cache(name = "android_sdk", path = "android29"),
+        ],
+    )
+    common.mac_try_builder(
+        name = "Mac gradle_plugin_light_apk_test|gradle_plugin_light_apk",
+        recipe = drone_recipe_name,
+        repo = repos.FLUTTER,
+        list_view_name = list_view_name,
+        properties = {
+            "dependencies": [
+                {
+                    "dependency": "android_sdk",
+                },
+                {
+                    "dependency": "open_jdk",
+                },
+                {
+                    "dependency": "xcode",
+                },
+                {
+                    "dependency": "gems",
+                },
+            ],
+            "task_name": "gradle_plugin_light_apk_test",
+        },
+        caches = [
+            swarming.cache(name = "pub_cache", path = ".pub_cache"),
+            swarming.cache(name = "android_sdk", path = "android29"),
+        ],
+    )
+    common.mac_try_builder(
+        name = "Mac gradle_r8_test|gradle_r8",
+        recipe = drone_recipe_name,
+        repo = repos.FLUTTER,
+        list_view_name = list_view_name,
+        properties = {
+            "dependencies": [
+                {
+                    "dependency": "android_sdk",
+                },
+                {
+                    "dependency": "open_jdk",
+                },
+                {
+                    "dependency": "xcode",
+                },
+                {
+                    "dependency": "gems",
+                },
+            ],
+            "task_name": "gradle_r8_test",
+        },
+        caches = [
+            swarming.cache(name = "pub_cache", path = ".pub_cache"),
+            swarming.cache(name = "android_sdk", path = "android29"),
+        ],
+    )
+    common.mac_try_builder(
+        name = "Mac module_host_with_custom_build_test|module_host_with_custom_build",
+        recipe = drone_recipe_name,
+        repo = repos.FLUTTER,
+        list_view_name = list_view_name,
+        properties = {
+            "dependencies": [
+                {
+                    "dependency": "android_sdk",
+                },
+                {
+                    "dependency": "open_jdk",
+                },
+                {
+                    "dependency": "xcode",
+                },
+                {
+                    "dependency": "gems",
+                },
+            ],
+            "task_name": "module_host_with_custom_build_test",
+        },
+        caches = [
+            swarming.cache(name = "pub_cache", path = ".pub_cache"),
+            swarming.cache(name = "android_sdk", path = "android29"),
+        ],
+    )
+    common.mac_try_builder(
+        name = "Mac module_custom_host_app_name_test|module_custom_host_app_name",
+        recipe = drone_recipe_name,
+        repo = repos.FLUTTER,
+        list_view_name = list_view_name,
+        properties = {
+            "dependencies": [
+                {
+                    "dependency": "android_sdk",
+                },
+                {
+                    "dependency": "open_jdk",
+                },
+                {
+                    "dependency": "xcode",
+                },
+                {
+                    "dependency": "gems",
+                },
+            ],
+            "task_name": "module_custom_host_app_name_test",
+        },
+        caches = [
+            swarming.cache(name = "pub_cache", path = ".pub_cache"),
+            swarming.cache(name = "android_sdk", path = "android29"),
+        ],
+    )
+    common.mac_try_builder(
+        name = "Mac module_test|module",
+        recipe = drone_recipe_name,
+        repo = repos.FLUTTER,
+        list_view_name = list_view_name,
+        properties = {
+            "dependencies": [
+                {
+                    "dependency": "android_sdk",
+                },
+                {
+                    "dependency": "open_jdk",
+                },
+                {
+                    "dependency": "xcode",
+                },
+                {
+                    "dependency": "gems",
+                },
+            ],
+            "task_name": "module_test",
+        },
+        caches = [
+            swarming.cache(name = "pub_cache", path = ".pub_cache"),
+            swarming.cache(name = "android_sdk", path = "android29"),
+        ],
+    )
+    common.mac_try_builder(
+        name = "Mac plugin_dependencies_test|plugin_dependencies",
+        recipe = drone_recipe_name,
+        repo = repos.FLUTTER,
+        list_view_name = list_view_name,
+        properties = {
+            "dependencies": [
+                {
+                    "dependency": "android_sdk",
+                },
+                {
+                    "dependency": "open_jdk",
+                },
+                {
+                    "dependency": "xcode",
+                },
+                {
+                    "dependency": "gems",
+                },
+            ],
+            "task_name": "plugin_dependencies_test",
+        },
+        caches = [
+            swarming.cache(name = "pub_cache", path = ".pub_cache"),
+            swarming.cache(name = "android_sdk", path = "android29"),
+        ],
+    )
+    common.mac_try_builder(
+        name = "Mac module_test_ios|module_ios",
+        recipe = drone_recipe_name,
+        repo = repos.FLUTTER,
+        list_view_name = list_view_name,
+        properties = {
+            "dependencies": [
+                {
+                    "dependency": "android_sdk",
+                },
+                {
+                    "dependency": "open_jdk",
+                },
+                {
+                    "dependency": "xcode",
+                },
+                {
+                    "dependency": "gems",
+                },
+            ],
+            "task_name": "module_test_ios",
+        },
+        caches = [
+            swarming.cache(name = "pub_cache", path = ".pub_cache"),
+            swarming.cache(name = "android_sdk", path = "android29"),
+        ],
+    )
+    common.mac_try_builder(
+        name = "Mac build_ios_framework_module_test|build_ios_framework_module",
+        recipe = drone_recipe_name,
+        repo = repos.FLUTTER,
+        list_view_name = list_view_name,
+        properties = {
+            "dependencies": [
+                {
+                    "dependency": "android_sdk",
+                },
+                {
+                    "dependency": "open_jdk",
+                },
+                {
+                    "dependency": "xcode",
+                },
+                {
+                    "dependency": "gems",
+                },
+            ],
+            "task_name": "build_ios_framework_module_test",
+        },
+        caches = [
+            swarming.cache(name = "pub_cache", path = ".pub_cache"),
+            swarming.cache(name = "android_sdk", path = "android29"),
+        ],
+    )
+    common.mac_try_builder(
+        name = "Mac plugin_lint_mac|plugin_lint_mac",
+        recipe = drone_recipe_name,
+        repo = repos.FLUTTER,
+        list_view_name = list_view_name,
+        properties = {
+            "dependencies": [
+                {
+                    "dependency": "android_sdk",
+                },
+                {
+                    "dependency": "open_jdk",
+                },
+                {
+                    "dependency": "xcode",
+                },
+                {
+                    "dependency": "gems",
+                },
+            ],
+            "task_name": "plugin_lint_mac",
+        },
+        caches = [
+            swarming.cache(name = "pub_cache", path = ".pub_cache"),
+            swarming.cache(name = "android_sdk", path = "android29"),
+        ],
+    )
+    common.mac_try_builder(
+        name = "Mac plugin_test|plugin",
+        recipe = drone_recipe_name,
+        repo = repos.FLUTTER,
+        list_view_name = list_view_name,
+        properties = {
+            "dependencies": [
+                {
+                    "dependency": "android_sdk",
+                },
+                {
+                    "dependency": "open_jdk",
+                },
+                {
+                    "dependency": "xcode",
+                },
+                {
+                    "dependency": "gems",
+                },
+            ],
+            "task_name": "plugin_test",
+        },
+        caches = [
+            swarming.cache(name = "pub_cache", path = ".pub_cache"),
+            swarming.cache(name = "android_sdk", path = "android29"),
+        ],
+    )
+
+    # Windows try builders.
     common.windows_try_builder(
         name = "Windows build_aar_module_test|aar_module",
         recipe = drone_recipe_name,
