@@ -103,7 +103,7 @@ def framework_prod_config(branch, version, ref):
         properties = {
             "shard": "build_tests",
             "subshards": ["0", "1_last"],
-            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}],
+            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}, {"dependency": "goldctl"}],
         },
         caches = [
             swarming.cache(name = "pub_cache", path = ".pub_cache"),
@@ -119,6 +119,7 @@ def framework_prod_config(branch, version, ref):
         properties = {
             "shard": "framework_tests",
             "subshards": ["libraries", "misc", "widgets"],
+            "dependencies": [{"dependency": "goldctl"}],
         },
         caches = [
             swarming.cache(name = "pub_cache", path = ".pub_cache"),
@@ -133,7 +134,7 @@ def framework_prod_config(branch, version, ref):
         properties = {
             "shard": "hostonly_devicelab_tests",
             "subshards": ["0", "1", "2", "3_last"],
-            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}],
+            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "goldctl"}],
         },
         caches = [
             swarming.cache(name = "pub_cache", path = ".pub_cache"),
@@ -149,7 +150,7 @@ def framework_prod_config(branch, version, ref):
         properties = {
             "shard": "tool_tests",
             "subshards": ["general", "commands", "integration"],
-            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}],
+            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}, {"dependency": "goldctl"}],
         },
         caches = [
             swarming.cache(name = "pub_cache", path = ".pub_cache"),
@@ -165,7 +166,7 @@ def framework_prod_config(branch, version, ref):
         properties = {
             "shard": "web_integration_tests",
             "subshards": [],
-            "dependencies": [{"dependency": "chrome_and_driver"}],
+            "dependencies": [{"dependency": "chrome_and_driver"}, {"dependency": "goldctl"}],
         },
         caches = [
             swarming.cache(name = "pub_cache", path = ".pub_cache"),
@@ -180,7 +181,7 @@ def framework_prod_config(branch, version, ref):
         properties = {
             "shard": "web_tests",
             "subshards": ["0", "1", "2", "3", "4", "5", "6", "7_last"],
-            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}],
+            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "goldctl"}],
         },
         caches = [
             swarming.cache(name = "pub_cache", path = ".pub_cache"),
@@ -281,7 +282,7 @@ def framework_prod_config(branch, version, ref):
         properties = {
             "shard": "build_tests",
             "subshards": ["0", "1_last"],
-            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}],
+            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}, {"dependency": "goldctl"}],
         },
         caches = [
             swarming.cache(name = "pub_cache", path = ".pub_cache"),
@@ -297,6 +298,7 @@ def framework_prod_config(branch, version, ref):
         properties = {
             "shard": "framework_tests",
             "subshards": ["libraries", "misc", "widgets"],
+            "dependencies": [{"dependency": "goldctl"}],
         },
         caches = [
             swarming.cache(name = "pub_cache", path = ".pub_cache"),
@@ -311,7 +313,7 @@ def framework_prod_config(branch, version, ref):
         properties = {
             "shard": "hostonly_devicelab_tests",
             "subshards": ["0", "1", "2", "3_last"],
-            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}],
+            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}, {"dependency": "goldctl"}],
         },
         caches = [
             swarming.cache(name = "pub_cache", path = ".pub_cache"),
@@ -327,7 +329,7 @@ def framework_prod_config(branch, version, ref):
         properties = {
             "shard": "tool_tests",
             "subshards": ["general", "commands", "integration"],
-            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}],
+            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}, {"dependency": "goldctl"}],
         },
         caches = [
             swarming.cache(name = "pub_cache", path = ".pub_cache"),
@@ -371,7 +373,7 @@ def framework_prod_config(branch, version, ref):
         properties = {
             "shard": "build_tests",
             "subshards": ["0", "1_last"],
-            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}, {"dependency": "xcode"}, {"dependency": "gems"}],
+            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}, {"dependency": "xcode"}, {"dependency": "gems"}, {"dependency": "goldctl"}],
             "$depot_tools/osx_sdk": {
                 "sdk_version": "11E708",
             },
@@ -390,6 +392,7 @@ def framework_prod_config(branch, version, ref):
         properties = {
             "shard": "framework_tests",
             "subshards": ["libraries", "misc", "widgets"],
+            "dependencies": [{"dependency": "goldctl"}],
         },
         caches = [
             swarming.cache(name = "pub_cache", path = ".pub_cache"),
@@ -404,7 +407,7 @@ def framework_prod_config(branch, version, ref):
         properties = {
             "shard": "tool_tests",
             "subshards": ["general", "commands", "integration"],
-            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}, {"dependency": "xcode"}],
+            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}, {"dependency": "xcode"}, {"dependency": "goldctl"}],
             "$depot_tools/osx_sdk": {
                 "sdk_version": "11E708",
             },
@@ -462,7 +465,7 @@ def framework_try_config():
         properties = {
             "shard": "build_tests",
             "subshards": ["0", "1_last"],
-            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}],
+            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}, {"dependency": "goldctl"}],
         },
         caches = [
             swarming.cache(name = "pub_cache", path = ".pub_cache"),
@@ -477,6 +480,7 @@ def framework_try_config():
         properties = {
             "shard": "framework_tests",
             "subshards": ["libraries", "misc", "widgets"],
+            "dependencies": [{"dependency": "goldctl"}],
         },
         caches = [
             swarming.cache(name = "pub_cache", path = ".pub_cache"),
@@ -490,7 +494,7 @@ def framework_try_config():
         properties = {
             "shard": "hostonly_devicelab_tests",
             "subshards": ["0", "1", "2", "3_last"],
-            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}],
+            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "goldctl"}],
         },
         caches = [
             swarming.cache(name = "pub_cache", path = ".pub_cache"),
@@ -505,7 +509,7 @@ def framework_try_config():
         properties = {
             "shard": "tool_tests",
             "subshards": ["general", "commands", "integration"],
-            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}],
+            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}, {"dependency": "goldctl"}],
         },
         caches = [
             swarming.cache(name = "pub_cache", path = ".pub_cache"),
@@ -520,7 +524,7 @@ def framework_try_config():
         properties = {
             "shard": "web_tests",
             "subshards": ["0", "1", "2", "3", "4", "5", "6", "7_last"],
-            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}],
+            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "goldctl"}],
         },
         caches = [
             swarming.cache(name = "pub_cache", path = ".pub_cache"),
@@ -535,7 +539,7 @@ def framework_try_config():
         properties = {
             "shard": "web_integration_tests",
             "subshards": [],
-            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}],
+            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "goldctl"}],
         },
         caches = [
             swarming.cache(name = "pub_cache", path = ".pub_cache"),
@@ -640,7 +644,7 @@ def framework_try_config():
         properties = {
             "shard": "build_tests",
             "subshards": ["0", "1_last"],
-            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}, {"dependency": "xcode"}, {"dependency": "gems"}],
+            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}, {"dependency": "xcode"}, {"dependency": "gems"}, {"dependency": "goldctl"}],
             "$depot_tools/osx_sdk": {
                 "sdk_version": "11E708",
             },
@@ -658,6 +662,7 @@ def framework_try_config():
         properties = {
             "shard": "framework_tests",
             "subshards": ["libraries", "misc", "widgets"],
+            "dependencies": [{"dependency": "goldctl"}],
         },
         caches = [
             swarming.cache(name = "pub_cache", path = ".pub_cache"),
@@ -671,7 +676,7 @@ def framework_try_config():
         properties = {
             "shard": "tool_tests",
             "subshards": ["general", "commands", "integration"],
-            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}, {"dependency": "xcode"}],
+            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}, {"dependency": "xcode"}, {"dependency": "goldctl"}],
             "$depot_tools/osx_sdk": {
                 "sdk_version": "11E708",
             },
@@ -716,7 +721,7 @@ def framework_try_config():
         properties = {
             "shard": "build_tests",
             "subshards": ["0", "1_last"],
-            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}],
+            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}, {"dependency": "goldctl"}],
         },
         caches = [
             swarming.cache(name = "pub_cache", path = ".pub_cache"),
@@ -731,6 +736,7 @@ def framework_try_config():
         properties = {
             "shard": "framework_tests",
             "subshards": ["libraries", "misc", "widgets"],
+            "dependencies": [{"dependency": "goldctl"}],
         },
         caches = [
             swarming.cache(name = "pub_cache", path = ".pub_cache"),
@@ -744,7 +750,7 @@ def framework_try_config():
         properties = {
             "shard": "hostonly_devicelab_tests",
             "subshards": ["0", "1", "2", "3_last"],
-            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}],
+            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "goldctl"}],
         },
         caches = [
             swarming.cache(name = "pub_cache", path = ".pub_cache"),
@@ -758,7 +764,7 @@ def framework_try_config():
         properties = {
             "shard": "tool_tests",
             "subshards": ["general", "commands", "integration"],
-            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}],
+            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}, {"dependency": "goldctl"}],
         },
         caches = [
             swarming.cache(name = "pub_cache", path = ".pub_cache"),
