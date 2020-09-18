@@ -73,7 +73,7 @@ def devicelab_prod_config(branch, version, ref):
 
     # Linux prod builders.
     common.linux_prod_builder(
-        name = "Linux%s build_aar_module_test|aar_module" % ("" if branch == "master" else " " + branch),
+        name = "Linux%s build_aar_module_test|arr" % ("" if branch == "master" else " " + branch),
         recipe = drone_recipe_name,
         console_view_name = console_view_name,
         triggered_by = [trigger_name],
@@ -88,7 +88,7 @@ def devicelab_prod_config(branch, version, ref):
         ],
     )
     common.linux_prod_builder(
-        name = "Linux%s gradle_fast_start_test|gradle_fast_start" % ("" if branch == "master" else " " + branch),
+        name = "Linux%s gradle_fast_start_test|gfs" % ("" if branch == "master" else " " + branch),
         recipe = drone_recipe_name,
         console_view_name = console_view_name,
         triggered_by = [trigger_name],
@@ -103,7 +103,7 @@ def devicelab_prod_config(branch, version, ref):
         ],
     )
     common.linux_prod_builder(
-        name = "Linux%s gradle_jetifier_test|gradle_jetifier" % ("" if branch == "master" else " " + branch),
+        name = "Linux%s gradle_jetifier_test|gjet" % ("" if branch == "master" else " " + branch),
         recipe = drone_recipe_name,
         console_view_name = console_view_name,
         triggered_by = [trigger_name],
@@ -118,7 +118,7 @@ def devicelab_prod_config(branch, version, ref):
         ],
     )
     common.linux_prod_builder(
-        name = "Linux%s gradle_non_android_plugin_test|gradle_non_android_plugin" % ("" if branch == "master" else " " + branch),
+        name = "Linux%s gradle_non_android_plugin_test|gnap" % ("" if branch == "master" else " " + branch),
         recipe = drone_recipe_name,
         console_view_name = console_view_name,
         triggered_by = [trigger_name],
@@ -133,7 +133,7 @@ def devicelab_prod_config(branch, version, ref):
         ],
     )
     common.linux_prod_builder(
-        name = "Linux%s gradle_plugin_bundle_test|gradle_plugin_bundle_test" % ("" if branch == "master" else " " + branch),
+        name = "Linux%s gradle_plugin_bundle_test|gpb" % ("" if branch == "master" else " " + branch),
         recipe = drone_recipe_name,
         console_view_name = console_view_name,
         triggered_by = [trigger_name],
@@ -148,7 +148,7 @@ def devicelab_prod_config(branch, version, ref):
         ],
     )
     common.linux_prod_builder(
-        name = "Linux%s gradle_plugin_fat_apk_test|gradle_plugin_fat_apk" % ("" if branch == "master" else " " + branch),
+        name = "Linux%s gradle_plugin_fat_apk_test|gpfa" % ("" if branch == "master" else " " + branch),
         recipe = drone_recipe_name,
         console_view_name = console_view_name,
         triggered_by = [trigger_name],
@@ -163,7 +163,7 @@ def devicelab_prod_config(branch, version, ref):
         ],
     )
     common.linux_prod_builder(
-        name = "Linux%s gradle_plugin_light_apk_test|gradle_plugin_light_apk" % ("" if branch == "master" else " " + branch),
+        name = "Linux%s gradle_plugin_light_apk_test|gpla" % ("" if branch == "master" else " " + branch),
         recipe = drone_recipe_name,
         console_view_name = console_view_name,
         triggered_by = [trigger_name],
@@ -178,7 +178,7 @@ def devicelab_prod_config(branch, version, ref):
         ],
     )
     common.linux_prod_builder(
-        name = "Linux%s gradle_r8_test|gradle_r8" % ("" if branch == "master" else " " + branch),
+        name = "Linux%s gradle_r8_test|gr8" % ("" if branch == "master" else " " + branch),
         recipe = drone_recipe_name,
         console_view_name = console_view_name,
         triggered_by = [trigger_name],
@@ -193,7 +193,7 @@ def devicelab_prod_config(branch, version, ref):
         ],
     )
     common.linux_prod_builder(
-        name = "Linux%s module_host_with_custom_build_test|module_host_with_custom_build" % ("" if branch == "master" else " " + branch),
+        name = "Linux%s module_host_with_custom_build_test|mhwcb" % ("" if branch == "master" else " " + branch),
         recipe = drone_recipe_name,
         console_view_name = console_view_name,
         triggered_by = [trigger_name],
@@ -208,7 +208,7 @@ def devicelab_prod_config(branch, version, ref):
         ],
     )
     common.linux_prod_builder(
-        name = "Linux%s module_custom_host_app_name_test|module_custom_host_app_name" % ("" if branch == "master" else " " + branch),
+        name = "Linux%s module_custom_host_app_name_test|mchan" % ("" if branch == "master" else " " + branch),
         recipe = drone_recipe_name,
         console_view_name = console_view_name,
         triggered_by = [trigger_name],
@@ -223,7 +223,7 @@ def devicelab_prod_config(branch, version, ref):
         ],
     )
     common.linux_prod_builder(
-        name = "Linux%s module_test|module" % ("" if branch == "master" else " " + branch),
+        name = "Linux%s module_test|mod" % ("" if branch == "master" else " " + branch),
         recipe = drone_recipe_name,
         console_view_name = console_view_name,
         triggered_by = [trigger_name],
@@ -238,7 +238,7 @@ def devicelab_prod_config(branch, version, ref):
         ],
     )
     common.linux_prod_builder(
-        name = "Linux%s plugin_dependencies_test|plugin_dependencies" % ("" if branch == "master" else " " + branch),
+        name = "Linux%s plugin_dependencies_test|pdep" % ("" if branch == "master" else " " + branch),
         recipe = drone_recipe_name,
         console_view_name = console_view_name,
         triggered_by = [trigger_name],
@@ -268,7 +268,7 @@ def devicelab_prod_config(branch, version, ref):
         ],
     )
     common.linux_prod_builder(
-        name = "Linux%s web_benchmarks_html|web_benchmarks_html" % ("" if branch == "master" else " " + branch),
+        name = "Linux%s web_benchmarks_html|wbh" % ("" if branch == "master" else " " + branch),
         recipe = drone_recipe_name,
         console_view_name = console_view_name,
         triggered_by = [trigger_name],
@@ -285,7 +285,7 @@ def devicelab_prod_config(branch, version, ref):
 
     # Mac prod builders.
     common.mac_prod_builder(
-        name = "Mac%s build_aar_module_test|aar_module" % ("" if branch == "master" else " " + branch),
+        name = "Mac%s build_aar_module_test|aarm" % ("" if branch == "master" else " " + branch),
         recipe = drone_recipe_name,
         console_view_name = console_view_name,
         triggered_by = [trigger_name],
@@ -313,7 +313,7 @@ def devicelab_prod_config(branch, version, ref):
         ],
     )
     common.mac_prod_builder(
-        name = "Mac%s gradle_fast_start_test|gradle_fast_start" % ("" if branch == "master" else " " + branch),
+        name = "Mac%s gradle_fast_start_test|gfs" % ("" if branch == "master" else " " + branch),
         recipe = drone_recipe_name,
         console_view_name = console_view_name,
         triggered_by = [trigger_name],
@@ -341,7 +341,7 @@ def devicelab_prod_config(branch, version, ref):
         ],
     )
     common.mac_prod_builder(
-        name = "Mac%s gradle_jetifier_test|gradle_jetifier" % ("" if branch == "master" else " " + branch),
+        name = "Mac%s gradle_jetifier_test|gjet" % ("" if branch == "master" else " " + branch),
         recipe = drone_recipe_name,
         console_view_name = console_view_name,
         triggered_by = [trigger_name],
@@ -369,7 +369,7 @@ def devicelab_prod_config(branch, version, ref):
         ],
     )
     common.mac_prod_builder(
-        name = "Mac%s gradle_non_android_plugin_test|gradle_non_android_plugin" % ("" if branch == "master" else " " + branch),
+        name = "Mac%s gradle_non_android_plugin_test|gnap" % ("" if branch == "master" else " " + branch),
         recipe = drone_recipe_name,
         console_view_name = console_view_name,
         triggered_by = [trigger_name],
@@ -397,7 +397,7 @@ def devicelab_prod_config(branch, version, ref):
         ],
     )
     common.mac_prod_builder(
-        name = "Mac%s gradle_plugin_bundle_test|gradle_plugin_bundle_test" % ("" if branch == "master" else " " + branch),
+        name = "Mac%s gradle_plugin_bundle_test|gpbt" % ("" if branch == "master" else " " + branch),
         recipe = drone_recipe_name,
         console_view_name = console_view_name,
         triggered_by = [trigger_name],
@@ -425,7 +425,7 @@ def devicelab_prod_config(branch, version, ref):
         ],
     )
     common.mac_prod_builder(
-        name = "Mac%s gradle_plugin_fat_apk_test|gradle_plugin_fat_apk" % ("" if branch == "master" else " " + branch),
+        name = "Mac%s gradle_plugin_fat_apk_test|gpfa" % ("" if branch == "master" else " " + branch),
         recipe = drone_recipe_name,
         console_view_name = console_view_name,
         triggered_by = [trigger_name],
@@ -453,7 +453,7 @@ def devicelab_prod_config(branch, version, ref):
         ],
     )
     common.mac_prod_builder(
-        name = "Mac%s gradle_plugin_light_apk_test|gradle_plugin_light_apk" % ("" if branch == "master" else " " + branch),
+        name = "Mac%s gradle_plugin_light_apk_test|gpla" % ("" if branch == "master" else " " + branch),
         recipe = drone_recipe_name,
         console_view_name = console_view_name,
         triggered_by = [trigger_name],
@@ -481,7 +481,7 @@ def devicelab_prod_config(branch, version, ref):
         ],
     )
     common.mac_prod_builder(
-        name = "Mac%s gradle_r8_test|gradle_r8" % ("" if branch == "master" else " " + branch),
+        name = "Mac%s gradle_r8_test|gr8" % ("" if branch == "master" else " " + branch),
         recipe = drone_recipe_name,
         console_view_name = console_view_name,
         triggered_by = [trigger_name],
@@ -509,7 +509,7 @@ def devicelab_prod_config(branch, version, ref):
         ],
     )
     common.mac_prod_builder(
-        name = "Mac%s module_host_with_custom_build_test|module_host_with_custom_build" % ("" if branch == "master" else " " + branch),
+        name = "Mac%s module_host_with_custom_build_test|mhwcb" % ("" if branch == "master" else " " + branch),
         recipe = drone_recipe_name,
         console_view_name = console_view_name,
         triggered_by = [trigger_name],
@@ -537,7 +537,7 @@ def devicelab_prod_config(branch, version, ref):
         ],
     )
     common.mac_prod_builder(
-        name = "Mac%s module_custom_host_app_name_test|module_custom_host_app_name" % ("" if branch == "master" else " " + branch),
+        name = "Mac%s module_custom_host_app_name_test|mchan" % ("" if branch == "master" else " " + branch),
         recipe = drone_recipe_name,
         console_view_name = console_view_name,
         triggered_by = [trigger_name],
@@ -565,7 +565,7 @@ def devicelab_prod_config(branch, version, ref):
         ],
     )
     common.mac_prod_builder(
-        name = "Mac%s module_test|module" % ("" if branch == "master" else " " + branch),
+        name = "Mac%s module_test|mod" % ("" if branch == "master" else " " + branch),
         recipe = drone_recipe_name,
         console_view_name = console_view_name,
         triggered_by = [trigger_name],
@@ -593,7 +593,7 @@ def devicelab_prod_config(branch, version, ref):
         ],
     )
     common.mac_prod_builder(
-        name = "Mac%s plugin_dependencies_test|plugin_dependencies" % ("" if branch == "master" else " " + branch),
+        name = "Mac%s plugin_dependencies_test|pdep" % ("" if branch == "master" else " " + branch),
         recipe = drone_recipe_name,
         console_view_name = console_view_name,
         triggered_by = [trigger_name],
@@ -621,7 +621,7 @@ def devicelab_prod_config(branch, version, ref):
         ],
     )
     common.mac_prod_builder(
-        name = "Mac%s module_test_ios|module_ios" % ("" if branch == "master" else " " + branch),
+        name = "Mac%s module_test_ios|mios" % ("" if branch == "master" else " " + branch),
         recipe = drone_recipe_name,
         console_view_name = console_view_name,
         triggered_by = [trigger_name],
@@ -649,7 +649,7 @@ def devicelab_prod_config(branch, version, ref):
         ],
     )
     common.mac_prod_builder(
-        name = "Mac%s build_ios_framework_module_test|build_ios_framework_module" % ("" if branch == "master" else " " + branch),
+        name = "Mac%s build_ios_framework_module_test|bifm" % ("" if branch == "master" else " " + branch),
         recipe = drone_recipe_name,
         console_view_name = console_view_name,
         triggered_by = [trigger_name],
@@ -677,7 +677,7 @@ def devicelab_prod_config(branch, version, ref):
         ],
     )
     common.mac_prod_builder(
-        name = "Mac%s plugin_lint_mac|plugin_lint_mac" % ("" if branch == "master" else " " + branch),
+        name = "Mac%s plugin_lint_mac|plm" % ("" if branch == "master" else " " + branch),
         recipe = drone_recipe_name,
         console_view_name = console_view_name,
         triggered_by = [trigger_name],
@@ -735,7 +735,7 @@ def devicelab_prod_config(branch, version, ref):
 
     # Windows prod builders
     common.windows_prod_builder(
-        name = "Windows%s build_aar_module_test|aar_module" % ("" if branch == "master" else " " + branch),
+        name = "Windows%s build_aar_module_test|aarm" % ("" if branch == "master" else " " + branch),
         recipe = drone_recipe_name,
         console_view_name = console_view_name,
         triggered_by = [trigger_name],
@@ -750,7 +750,7 @@ def devicelab_prod_config(branch, version, ref):
         ],
     )
     common.windows_prod_builder(
-        name = "Windows%s gradle_fast_start_test|gradle_fast_start" % ("" if branch == "master" else " " + branch),
+        name = "Windows%s gradle_fast_start_test|gfs" % ("" if branch == "master" else " " + branch),
         recipe = drone_recipe_name,
         console_view_name = console_view_name,
         triggered_by = [trigger_name],
@@ -765,7 +765,7 @@ def devicelab_prod_config(branch, version, ref):
         ],
     )
     common.windows_prod_builder(
-        name = "Windows%s gradle_jetifier_test|gradle_jetifier" % ("" if branch == "master" else " " + branch),
+        name = "Windows%s gradle_jetifier_test|gjet" % ("" if branch == "master" else " " + branch),
         recipe = drone_recipe_name,
         console_view_name = console_view_name,
         triggered_by = [trigger_name],
@@ -780,7 +780,7 @@ def devicelab_prod_config(branch, version, ref):
         ],
     )
     common.windows_prod_builder(
-        name = "Windows%s gradle_non_android_plugin_test|gradle_non_android_plugin" % ("" if branch == "master" else " " + branch),
+        name = "Windows%s gradle_non_android_plugin_test|gnap" % ("" if branch == "master" else " " + branch),
         recipe = drone_recipe_name,
         console_view_name = console_view_name,
         triggered_by = [trigger_name],
@@ -795,7 +795,7 @@ def devicelab_prod_config(branch, version, ref):
         ],
     )
     common.windows_prod_builder(
-        name = "Windows%s gradle_plugin_bundle_test|gradle_plugin_bundle_test" % ("" if branch == "master" else " " + branch),
+        name = "Windows%s gradle_plugin_bundle_test|gpbt" % ("" if branch == "master" else " " + branch),
         recipe = drone_recipe_name,
         console_view_name = console_view_name,
         triggered_by = [trigger_name],
@@ -810,7 +810,7 @@ def devicelab_prod_config(branch, version, ref):
         ],
     )
     common.windows_prod_builder(
-        name = "Windows%s gradle_plugin_fat_apk_test|gradle_plugin_fat_apk" % ("" if branch == "master" else " " + branch),
+        name = "Windows%s gradle_plugin_fat_apk_test|gpfa" % ("" if branch == "master" else " " + branch),
         recipe = drone_recipe_name,
         console_view_name = console_view_name,
         triggered_by = [trigger_name],
@@ -825,7 +825,7 @@ def devicelab_prod_config(branch, version, ref):
         ],
     )
     common.windows_prod_builder(
-        name = "Windows%s gradle_plugin_light_apk_test|gradle_plugin_light_apk" % ("" if branch == "master" else " " + branch),
+        name = "Windows%s gradle_plugin_light_apk_test|gpla" % ("" if branch == "master" else " " + branch),
         recipe = drone_recipe_name,
         console_view_name = console_view_name,
         triggered_by = [trigger_name],
@@ -840,7 +840,7 @@ def devicelab_prod_config(branch, version, ref):
         ],
     )
     common.windows_prod_builder(
-        name = "Windows%s gradle_r8_test|gradle_r8" % ("" if branch == "master" else " " + branch),
+        name = "Windows%s gradle_r8_test|gr8" % ("" if branch == "master" else " " + branch),
         recipe = drone_recipe_name,
         console_view_name = console_view_name,
         triggered_by = [trigger_name],
@@ -855,7 +855,7 @@ def devicelab_prod_config(branch, version, ref):
         ],
     )
     common.windows_prod_builder(
-        name = "Windows%s module_host_with_custom_build_test|module_host_with_custom_build" % ("" if branch == "master" else " " + branch),
+        name = "Windows%s module_host_with_custom_build_test|mhwcb" % ("" if branch == "master" else " " + branch),
         recipe = drone_recipe_name,
         console_view_name = console_view_name,
         triggered_by = [trigger_name],
@@ -870,7 +870,7 @@ def devicelab_prod_config(branch, version, ref):
         ],
     )
     common.windows_prod_builder(
-        name = "Windows%s module_custom_host_app_name_test|module_custom_host_app_name" % ("" if branch == "master" else " " + branch),
+        name = "Windows%s module_custom_host_app_name_test|mchan" % ("" if branch == "master" else " " + branch),
         recipe = drone_recipe_name,
         console_view_name = console_view_name,
         triggered_by = [trigger_name],
@@ -885,7 +885,7 @@ def devicelab_prod_config(branch, version, ref):
         ],
     )
     common.windows_prod_builder(
-        name = "Windows%s module_test|module" % ("" if branch == "master" else " " + branch),
+        name = "Windows%s module_test|mod" % ("" if branch == "master" else " " + branch),
         recipe = drone_recipe_name,
         console_view_name = console_view_name,
         triggered_by = [trigger_name],
@@ -900,7 +900,7 @@ def devicelab_prod_config(branch, version, ref):
         ],
     )
     common.windows_prod_builder(
-        name = "Windows%s plugin_dependencies_test|plugin_dependencies" % ("" if branch == "master" else " " + branch),
+        name = "Windows%s plugin_dependencies_test|pdep" % ("" if branch == "master" else " " + branch),
         recipe = drone_recipe_name,
         console_view_name = console_view_name,
         triggered_by = [trigger_name],
@@ -946,7 +946,7 @@ def devicelab_try_config():
 
     # Linux try builders.
     common.linux_try_builder(
-        name = "Linux build_aar_module_test|aar_module",
+        name = "Linux build_aar_module_test|aarm",
         recipe = drone_recipe_name,
         repo = repos.FLUTTER,
         list_view_name = list_view_name,
@@ -960,7 +960,7 @@ def devicelab_try_config():
         ],
     )
     common.linux_try_builder(
-        name = "Linux gradle_fast_start_test|gradle_fast_start",
+        name = "Linux gradle_fast_start_test|gfs",
         recipe = drone_recipe_name,
         repo = repos.FLUTTER,
         list_view_name = list_view_name,
@@ -974,7 +974,7 @@ def devicelab_try_config():
         ],
     )
     common.linux_try_builder(
-        name = "Linux gradle_jetifier_test|gradle_jetifier",
+        name = "Linux gradle_jetifier_test|gjet",
         recipe = drone_recipe_name,
         repo = repos.FLUTTER,
         list_view_name = list_view_name,
@@ -988,7 +988,7 @@ def devicelab_try_config():
         ],
     )
     common.linux_try_builder(
-        name = "Linux gradle_non_android_plugin_test|gradle_non_android_plugin",
+        name = "Linux gradle_non_android_plugin_test|gnap",
         recipe = drone_recipe_name,
         repo = repos.FLUTTER,
         list_view_name = list_view_name,
@@ -1002,7 +1002,7 @@ def devicelab_try_config():
         ],
     )
     common.linux_try_builder(
-        name = "Linux gradle_plugin_bundle_test|gradle_plugin_bundle_test",
+        name = "Linux gradle_plugin_bundle_test|gpbt",
         recipe = drone_recipe_name,
         repo = repos.FLUTTER,
         list_view_name = list_view_name,
@@ -1016,7 +1016,7 @@ def devicelab_try_config():
         ],
     )
     common.linux_try_builder(
-        name = "Linux gradle_plugin_fat_apk_test|gradle_plugin_fat_apk",
+        name = "Linux gradle_plugin_fat_apk_test|gpfa",
         recipe = drone_recipe_name,
         repo = repos.FLUTTER,
         list_view_name = list_view_name,
@@ -1030,7 +1030,7 @@ def devicelab_try_config():
         ],
     )
     common.linux_try_builder(
-        name = "Linux gradle_plugin_light_apk_test|gradle_plugin_light_apk",
+        name = "Linux gradle_plugin_light_apk_test|gpla",
         recipe = drone_recipe_name,
         repo = repos.FLUTTER,
         list_view_name = list_view_name,
@@ -1044,7 +1044,7 @@ def devicelab_try_config():
         ],
     )
     common.linux_try_builder(
-        name = "Linux gradle_r8_test|gradle_r8",
+        name = "Linux gradle_r8_test|gr8",
         recipe = drone_recipe_name,
         repo = repos.FLUTTER,
         list_view_name = list_view_name,
@@ -1058,7 +1058,7 @@ def devicelab_try_config():
         ],
     )
     common.linux_try_builder(
-        name = "Linux module_host_with_custom_build_test|module_host_with_custom_build",
+        name = "Linux module_host_with_custom_build_test|mhwcb",
         recipe = drone_recipe_name,
         repo = repos.FLUTTER,
         list_view_name = list_view_name,
@@ -1072,7 +1072,7 @@ def devicelab_try_config():
         ],
     )
     common.linux_try_builder(
-        name = "Linux module_custom_host_app_name_test|module_custom_host_app_name",
+        name = "Linux module_custom_host_app_name_test|mchan",
         recipe = drone_recipe_name,
         repo = repos.FLUTTER,
         list_view_name = list_view_name,
@@ -1100,7 +1100,7 @@ def devicelab_try_config():
         ],
     )
     common.linux_try_builder(
-        name = "Linux plugin_dependencies_test|plugin_dependencies",
+        name = "Linux plugin_dependencies_test|pdep",
         recipe = drone_recipe_name,
         repo = repos.FLUTTER,
         list_view_name = list_view_name,
@@ -1128,7 +1128,7 @@ def devicelab_try_config():
         ],
     )
     common.linux_try_builder(
-        name = "Linux web_benchmarks_html|web_benchmarks_html",
+        name = "Linux web_benchmarks_html|wbh",
         recipe = drone_recipe_name,
         repo = repos.FLUTTER,
         list_view_name = list_view_name,
@@ -1144,7 +1144,7 @@ def devicelab_try_config():
 
     # Mac try builders.
     common.mac_try_builder(
-        name = "Mac build_aar_module_test|aar_module",
+        name = "Mac build_aar_module_test|aarm",
         recipe = drone_recipe_name,
         repo = repos.FLUTTER,
         list_view_name = list_view_name,
@@ -1171,7 +1171,7 @@ def devicelab_try_config():
         ],
     )
     common.mac_try_builder(
-        name = "Mac gradle_fast_start_test|gradle_fast_start",
+        name = "Mac gradle_fast_start_test|gfs",
         recipe = drone_recipe_name,
         repo = repos.FLUTTER,
         list_view_name = list_view_name,
@@ -1198,7 +1198,7 @@ def devicelab_try_config():
         ],
     )
     common.mac_try_builder(
-        name = "Mac gradle_jetifier_test|gradle_jetifier",
+        name = "Mac gradle_jetifier_test|gjet",
         recipe = drone_recipe_name,
         repo = repos.FLUTTER,
         list_view_name = list_view_name,
@@ -1225,7 +1225,7 @@ def devicelab_try_config():
         ],
     )
     common.mac_try_builder(
-        name = "Mac gradle_non_android_plugin_test|gradle_non_android_plugin",
+        name = "Mac gradle_non_android_plugin_test|gnap",
         recipe = drone_recipe_name,
         repo = repos.FLUTTER,
         list_view_name = list_view_name,
@@ -1252,7 +1252,7 @@ def devicelab_try_config():
         ],
     )
     common.mac_try_builder(
-        name = "Mac gradle_plugin_bundle_test|gradle_plugin_bundle_test",
+        name = "Mac gradle_plugin_bundle_test|gpbt",
         recipe = drone_recipe_name,
         repo = repos.FLUTTER,
         list_view_name = list_view_name,
@@ -1279,7 +1279,7 @@ def devicelab_try_config():
         ],
     )
     common.mac_try_builder(
-        name = "Mac gradle_plugin_fat_apk_test|gradle_plugin_fat_apk",
+        name = "Mac gradle_plugin_fat_apk_test|gpfa",
         recipe = drone_recipe_name,
         repo = repos.FLUTTER,
         list_view_name = list_view_name,
@@ -1306,7 +1306,7 @@ def devicelab_try_config():
         ],
     )
     common.mac_try_builder(
-        name = "Mac gradle_plugin_light_apk_test|gradle_plugin_light_apk",
+        name = "Mac gradle_plugin_light_apk_test|gpla",
         recipe = drone_recipe_name,
         repo = repos.FLUTTER,
         list_view_name = list_view_name,
@@ -1360,7 +1360,7 @@ def devicelab_try_config():
         ],
     )
     common.mac_try_builder(
-        name = "Mac module_host_with_custom_build_test|module_host_with_custom_build",
+        name = "Mac module_host_with_custom_build_test|mhwcb",
         recipe = drone_recipe_name,
         repo = repos.FLUTTER,
         list_view_name = list_view_name,
@@ -1387,7 +1387,7 @@ def devicelab_try_config():
         ],
     )
     common.mac_try_builder(
-        name = "Mac module_custom_host_app_name_test|module_custom_host_app_name",
+        name = "Mac module_custom_host_app_name_test|mchan",
         recipe = drone_recipe_name,
         repo = repos.FLUTTER,
         list_view_name = list_view_name,
@@ -1414,7 +1414,7 @@ def devicelab_try_config():
         ],
     )
     common.mac_try_builder(
-        name = "Mac module_test|module",
+        name = "Mac module_test|mod",
         recipe = drone_recipe_name,
         repo = repos.FLUTTER,
         list_view_name = list_view_name,
@@ -1441,7 +1441,7 @@ def devicelab_try_config():
         ],
     )
     common.mac_try_builder(
-        name = "Mac plugin_dependencies_test|plugin_dependencies",
+        name = "Mac plugin_dependencies_test|pdep",
         recipe = drone_recipe_name,
         repo = repos.FLUTTER,
         list_view_name = list_view_name,
@@ -1468,7 +1468,7 @@ def devicelab_try_config():
         ],
     )
     common.mac_try_builder(
-        name = "Mac module_test_ios|module_ios",
+        name = "Mac module_test_ios|mios",
         recipe = drone_recipe_name,
         repo = repos.FLUTTER,
         list_view_name = list_view_name,
@@ -1495,7 +1495,7 @@ def devicelab_try_config():
         ],
     )
     common.mac_try_builder(
-        name = "Mac build_ios_framework_module_test|build_ios_framework_module",
+        name = "Mac build_ios_framework_module_test|bifm",
         recipe = drone_recipe_name,
         repo = repos.FLUTTER,
         list_view_name = list_view_name,
@@ -1522,7 +1522,7 @@ def devicelab_try_config():
         ],
     )
     common.mac_try_builder(
-        name = "Mac plugin_lint_mac|plugin_lint_mac",
+        name = "Mac plugin_lint_mac|plm",
         recipe = drone_recipe_name,
         repo = repos.FLUTTER,
         list_view_name = list_view_name,
@@ -1578,7 +1578,7 @@ def devicelab_try_config():
 
     # Windows try builders.
     common.windows_try_builder(
-        name = "Windows build_aar_module_test|aar_module",
+        name = "Windows build_aar_module_test|aarm",
         recipe = drone_recipe_name,
         repo = repos.FLUTTER,
         list_view_name = list_view_name,
@@ -1592,7 +1592,7 @@ def devicelab_try_config():
         ],
     )
     common.windows_try_builder(
-        name = "Windows gradle_fast_start_test|gradle_fast_start",
+        name = "Windows gradle_fast_start_test|gfs",
         recipe = drone_recipe_name,
         repo = repos.FLUTTER,
         list_view_name = list_view_name,
@@ -1606,7 +1606,7 @@ def devicelab_try_config():
         ],
     )
     common.windows_try_builder(
-        name = "Windows gradle_jetifier_test|gradle_jetifier",
+        name = "Windows gradle_jetifier_test|gjet",
         recipe = drone_recipe_name,
         repo = repos.FLUTTER,
         list_view_name = list_view_name,
@@ -1620,7 +1620,7 @@ def devicelab_try_config():
         ],
     )
     common.windows_try_builder(
-        name = "Windows gradle_non_android_plugin_test|gradle_non_android_plugin",
+        name = "Windows gradle_non_android_plugin_test|gnap",
         recipe = drone_recipe_name,
         repo = repos.FLUTTER,
         list_view_name = list_view_name,
@@ -1634,7 +1634,7 @@ def devicelab_try_config():
         ],
     )
     common.windows_try_builder(
-        name = "Windows gradle_plugin_bundle_test|gradle_plugin_bundle_test",
+        name = "Windows gradle_plugin_bundle_test|gpbt",
         recipe = drone_recipe_name,
         repo = repos.FLUTTER,
         list_view_name = list_view_name,
@@ -1648,7 +1648,7 @@ def devicelab_try_config():
         ],
     )
     common.windows_try_builder(
-        name = "Windows gradle_plugin_fat_apk_test|gradle_plugin_fat_apk",
+        name = "Windows gradle_plugin_fat_apk_test|gpfa",
         recipe = drone_recipe_name,
         repo = repos.FLUTTER,
         list_view_name = list_view_name,
@@ -1662,7 +1662,7 @@ def devicelab_try_config():
         ],
     )
     common.windows_try_builder(
-        name = "Windows gradle_plugin_light_apk_test|gradle_plugin_light_apk",
+        name = "Windows gradle_plugin_light_apk_test|gpla",
         recipe = drone_recipe_name,
         repo = repos.FLUTTER,
         list_view_name = list_view_name,
@@ -1676,7 +1676,7 @@ def devicelab_try_config():
         ],
     )
     common.windows_try_builder(
-        name = "Windows gradle_r8_test|gradle_r8",
+        name = "Windows gradle_r8_test|gr8",
         recipe = drone_recipe_name,
         repo = repos.FLUTTER,
         list_view_name = list_view_name,
@@ -1690,7 +1690,7 @@ def devicelab_try_config():
         ],
     )
     common.windows_try_builder(
-        name = "Windows module_host_with_custom_build_test|module_host_with_custom_build",
+        name = "Windows module_host_with_custom_build_test|mhwcb",
         recipe = drone_recipe_name,
         repo = repos.FLUTTER,
         list_view_name = list_view_name,
@@ -1704,7 +1704,7 @@ def devicelab_try_config():
         ],
     )
     common.windows_try_builder(
-        name = "Windows module_custom_host_app_name_test|module_custom_host_app_name",
+        name = "Windows module_custom_host_app_name_test|mchan",
         recipe = drone_recipe_name,
         repo = repos.FLUTTER,
         list_view_name = list_view_name,
@@ -1718,7 +1718,7 @@ def devicelab_try_config():
         ],
     )
     common.windows_try_builder(
-        name = "Windows module_test|module",
+        name = "Windows module_test|mod",
         recipe = drone_recipe_name,
         repo = repos.FLUTTER,
         list_view_name = list_view_name,
@@ -1732,7 +1732,7 @@ def devicelab_try_config():
         ],
     )
     common.windows_try_builder(
-        name = "Windows plugin_dependencies_test|plugin_dependencies",
+        name = "Windows plugin_dependencies_test|pdep",
         recipe = drone_recipe_name,
         repo = repos.FLUTTER,
         list_view_name = list_view_name,
