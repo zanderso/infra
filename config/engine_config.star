@@ -53,7 +53,15 @@ def full_recipe_name(recipe_name, version):
 
 def engine_recipes(version):
     """Creates a luci recipe for a given code version."""
-    for name in ["engine", "web_engine", "engine_builder", "femu_test", "engine/scenarios"]:
+    recipe_list = [
+        "engine",
+        "web_engine",
+        "engine_builder",
+        "femu_test",
+        "engine/scenarios",
+        "engine/web_engine_framework",
+    ]
+    for name in recipe_list:
         luci.recipe(
             name = full_recipe_name(name, version),
             cipd_package =
@@ -74,6 +82,9 @@ def engine_properties(
         build_android_jit_release = False,
         no_bitcode = False,
         no_lto = False,
+        framework = False,
+        shard = "",
+        subshards = [],
         gcs_goldens_bucket = "",
         fuchsia_ctl_version = ""):
     """Creates build properties for engine based on parameters.
@@ -91,6 +102,9 @@ def engine_properties(
       build_android_jit_release(boolean): True if we need to build android jit release version.
       no_bitcode(boolean): True if we need to disable bit code.
       no_lto(boolean): True if we want to build all binaries without LTO.
+      framework(boolen): True if this build needs to use framework tests.
+      shard(str): Name of the shard that framework unit tests will be triggered for. Eg: web_tests
+      subshards(list): List of subshard names. Last one should have `_last` suffix. Eg: ["0", "1_last"],
       gcs_goldens_bucket: Bucket to upload failing golden tests' results for web engine.
       fuchsia_ctl_version(str): The version of the fuchsia controller to use.
 
@@ -121,6 +135,9 @@ def engine_properties(
         properties["jazzy_version"] = "0.9.5"
     if fuchsia_ctl_version:
         properties["fuchsia_ctl_version"] = fuchsia_ctl_version
+    if (framework):
+        properties["shard"] = shard
+        properties["subshards"] = subshards
     return properties
 
 def builder_name(pattern, branch):
@@ -197,6 +214,20 @@ def engine_prod_config(platform_args, branch, version, ref, fuchsia_ctl_version)
         triggering_policy = triggering_policy,
         priority = 30 if branch == "master" else 25,
         **platform_args["windows"]
+    )
+    common.linux_prod_builder(
+        name = builder_name("Linux%s Web Framework tests|web_tests", branch),
+        recipe = "engine/web_engine_framework",
+        properties = engine_properties(
+            framework = True,
+            shard = "web_tests",
+            subshards = ["0", "1", "2", "3", "4", "5", "6", "7_last"],
+        ),
+        console_view_name = console_view_name,
+        triggered_by = [trigger_name],
+        triggering_policy = triggering_policy,
+        priority = 30 if branch == "master" else 25,
+        **platform_args["linux"]
     )
 
     # Defines engine Linux builders
@@ -426,6 +457,19 @@ def engine_try_config(platform_args, fuchsia_ctl_version):
         repo = repos.ENGINE,
         list_view_name = list_view_name,
         **platform_args["windows"]
+    )
+    common.linux_try_builder(
+        name = "Linux Web Framework tests|web_tests",
+        recipe = "engine/web_engine_framework",
+        repo = repos.ENGINE,
+        add_cq = True,
+        list_view_name = list_view_name,
+        properties = engine_properties(
+            framework = True,
+            shard = "web_tests",
+            subshards = ["0", "1", "2", "3", "4", "5", "6", "7_last"],
+        ),
+        **platform_args["linux"]
     )
 
     # Engine Linux try builders.
