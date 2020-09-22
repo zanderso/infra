@@ -126,22 +126,6 @@ def framework_prod_config(branch, version, ref):
         ],
     )
     common.linux_prod_builder(
-        name = "Linux%s hostonly_devicelab_tests|hst_tests" % ("" if branch == "master" else " " + branch),
-        recipe = new_recipe_name,
-        console_view_name = console_view_name,
-        triggered_by = [trigger_name],
-        triggering_policy = triggering_policy,
-        properties = {
-            "shard": "hostonly_devicelab_tests",
-            "subshards": ["0", "1", "2", "3_last"],
-            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "goldctl"}],
-        },
-        caches = [
-            swarming.cache(name = "pub_cache", path = ".pub_cache"),
-            swarming.cache(name = "android_sdk", path = "android29"),
-        ],
-    )
-    common.linux_prod_builder(
         name = "Linux%s tool_tests|tool_tests" % ("" if branch == "master" else " " + branch),
         recipe = new_recipe_name,
         console_view_name = console_view_name,
@@ -302,22 +286,6 @@ def framework_prod_config(branch, version, ref):
         },
         caches = [
             swarming.cache(name = "pub_cache", path = ".pub_cache"),
-        ],
-    )
-    common.windows_prod_builder(
-        name = "Windows%s hostonly_devicelab_tests|hst_tests" % ("" if branch == "master" else " " + branch),
-        recipe = new_recipe_name,
-        console_view_name = console_view_name,
-        triggered_by = [trigger_name],
-        triggering_policy = triggering_policy,
-        properties = {
-            "shard": "hostonly_devicelab_tests",
-            "subshards": ["0", "1", "2", "3_last"],
-            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}, {"dependency": "goldctl"}],
-        },
-        caches = [
-            swarming.cache(name = "pub_cache", path = ".pub_cache"),
-            swarming.cache(name = "android_sdk", path = "android29"),
         ],
     )
     common.windows_prod_builder(
@@ -484,21 +452,6 @@ def framework_try_config():
         },
         caches = [
             swarming.cache(name = "pub_cache", path = ".pub_cache"),
-        ],
-    )
-    common.linux_try_builder(
-        name = "Linux hostonly_devicelab_tests|hst_tests",
-        recipe = "flutter/flutter",
-        repo = repos.FLUTTER,
-        list_view_name = list_view_name,
-        properties = {
-            "shard": "hostonly_devicelab_tests",
-            "subshards": ["0", "1", "2", "3_last"],
-            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "goldctl"}],
-        },
-        caches = [
-            swarming.cache(name = "pub_cache", path = ".pub_cache"),
-            swarming.cache(name = "android_sdk", path = "android29"),
         ],
     )
     common.linux_try_builder(
@@ -737,20 +690,6 @@ def framework_try_config():
             "shard": "framework_tests",
             "subshards": ["libraries", "misc", "widgets"],
             "dependencies": [{"dependency": "goldctl"}],
-        },
-        caches = [
-            swarming.cache(name = "pub_cache", path = ".pub_cache"),
-        ],
-    )
-    common.windows_try_builder(
-        name = "Windows hostonly_devicelab_tests|hst_tests",
-        recipe = "flutter/flutter",
-        repo = repos.FLUTTER,
-        list_view_name = list_view_name,
-        properties = {
-            "shard": "hostonly_devicelab_tests",
-            "subshards": ["0", "1", "2", "3_last"],
-            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "goldctl"}],
         },
         caches = [
             swarming.cache(name = "pub_cache", path = ".pub_cache"),
