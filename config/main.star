@@ -18,6 +18,7 @@ load("//lib/common.star", "common")
 load("//lib/repos.star", "repos")
 load("//cocoon_config.star", "cocoon_config")
 load("//devicelab_config.star", "devicelab_config")
+load("//firebaselab_config.star", "firebaselab_config")
 load("//recipes_config.star", "recipes_config")
 load("//engine_config.star", "engine_config")
 load("//framework_config.star", "framework_config")
@@ -181,6 +182,8 @@ luci.builder.defaults.properties.set({
 cocoon_config.setup()
 
 devicelab_config.setup(BRANCHES)
+
+firebaselab_config.setup(BRANCHES)
 
 engine_config.setup(BRANCHES, FUCHSIA_CTL_VERSION)
 
