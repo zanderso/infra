@@ -275,7 +275,7 @@ def devicelab_prod_config(branch, version, ref):
         triggering_policy = triggering_policy,
         properties = {
             "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}],
-            "task_name": "plugin_test",
+            "task_name": "web_benchmarks_html",
         },
         caches = [
             swarming.cache(name = "pub_cache", path = ".pub_cache"),
@@ -1134,7 +1134,7 @@ def devicelab_try_config():
         list_view_name = list_view_name,
         properties = {
             "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}],
-            "task_name": "plugin_test",
+            "task_name": "web_benchmarks_html",
         },
         caches = [
             swarming.cache(name = "pub_cache", path = ".pub_cache"),
