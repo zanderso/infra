@@ -458,6 +458,7 @@ def framework_try_config():
         name = "Linux tool_tests|tool_tests",
         recipe = "flutter/flutter",
         repo = repos.FLUTTER,
+        add_cq = True,
         list_view_name = list_view_name,
         properties = {
             "shard": "tool_tests",
@@ -551,6 +552,7 @@ def framework_try_config():
         name = "Linux docs|docs",
         recipe = "flutter/flutter",
         repo = repos.FLUTTER,
+        add_cq = True,
         list_view_name = list_view_name,
         properties = {
             "validation": "docs",
@@ -625,6 +627,7 @@ def framework_try_config():
         name = "Mac tool_tests|tool_tests",
         recipe = "flutter/flutter",
         repo = repos.FLUTTER,
+        add_cq = True,
         list_view_name = list_view_name,
         properties = {
             "shard": "tool_tests",
@@ -655,6 +658,7 @@ def framework_try_config():
         name = "Mac customer_testing|cst_test",
         recipe = "flutter/flutter",
         repo = repos.FLUTTER,
+        add_cq = True,
         list_view_name = list_view_name,
         properties = {
             "validation": "customer_testing",
@@ -699,6 +703,7 @@ def framework_try_config():
         name = "Windows tool_tests|tool_tests",
         recipe = "flutter/flutter",
         repo = repos.FLUTTER,
+        add_cq = True,
         list_view_name = list_view_name,
         properties = {
             "shard": "tool_tests",
@@ -726,6 +731,7 @@ def framework_try_config():
         name = "Windows customer_testing|cst_tests",
         recipe = "flutter/flutter",
         repo = repos.FLUTTER,
+        add_cq = True,
         list_view_name = list_view_name,
         properties = {
             "validation": "customer_testing",
