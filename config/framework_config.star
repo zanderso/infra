@@ -609,6 +609,22 @@ def framework_try_config():
             swarming.cache(name = "pub_cache", path = ".pub_cache"),
         ],
     )
+    common.linux_try_builder(
+        name = "Linux deploy_gallery|dg",
+        recipe = "flutter/flutter",
+        repo = repos.FLUTTER,
+        list_view_name = list_view_name,
+        properties = {
+            "validation": "deploy_gallery",
+            "validation_name": "Deploy gallery",
+            "secrets": {"ANDROID_GALLERY_UPLOAD_KEY": "android_gallery_upload_key.encrypted"},
+            "dependencies": [{"dependency": "android_sdk"}],
+        },
+        caches = [
+            swarming.cache(name = "pub_cache", path = ".pub_cache"),
+            swarming.cache(name = "android_sdk", path = "android29"),
+        ],
+    )
 
     # Mac platform
     common.mac_try_builder(
