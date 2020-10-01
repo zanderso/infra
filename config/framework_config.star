@@ -19,17 +19,19 @@ def _setup(branches):
             branch,
             branches[branch]["version"],
             branches[branch]["testing-ref"],
+            branches[branch]["release-ref"],
         )
 
     framework_try_config()
 
-def framework_prod_config(branch, version, ref):
+def framework_prod_config(branch, version, testing_ref, release_ref):
     """Prod configurations for the framework repository.
 
     Args:
       branch(str): The branch name we are creating configurations for.
       version(str): One of dev|beta|stable.
-      ref(str): The git ref we are creating configurations for.
+      testing_ref(str): The git ref we are creating configurations for.
+      release_ref(str): The git ref used for releases.
     """
 
     # TODO(godofredoc): Merge the recipe names once we remove the old one.
@@ -67,7 +69,7 @@ def framework_prod_config(branch, version, ref):
     luci.console_view(
         name = console_view_name,
         repo = repos.FLUTTER,
-        refs = [ref],
+        refs = [testing_ref],
     )
 
     # Defines prod schedulers
@@ -76,7 +78,7 @@ def framework_prod_config(branch, version, ref):
         name = trigger_name,
         bucket = "prod",
         repo = repos.FLUTTER,
-        refs = [ref],
+        refs = [testing_ref],
     )
 
     # Defines triggering policy
@@ -92,6 +94,24 @@ def framework_prod_config(branch, version, ref):
         )
 
     # Defines framework prod builders
+    #
+    # Builders defined only for release refs
+    if release_ref in (r"refs/heads/stable", r"refs/heads/beta", r"refs/heads/dev"):
+        common.linux_prod_builder(
+            name = "Linux%s verify_binaries_codesigned|vbcs" % branch,
+            recipe = new_recipe_name,
+            console_view_name = console_view_name,
+            triggered_by = [trigger_name],
+            triggering_policy = triggering_policy,
+            properties = {
+                "validation": "verify_binaries_codesigned",
+                "validation_name": "Verify binaries codesigned",
+                "dependencies": [{"dependency": "xcode"}],
+            },
+            caches = [
+                swarming.cache(name = "pub_cache", path = ".pub_cache"),
+            ],
+        )
 
     # Linux platform sharded tests
     common.linux_prod_builder(
