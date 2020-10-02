@@ -97,8 +97,8 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
     #
     # Builders defined only for release refs
     if release_ref in (r"refs/heads/stable", r"refs/heads/beta", r"refs/heads/dev"):
-        common.linux_prod_builder(
-            name = "Linux%s verify_binaries_codesigned|vbcs" % branch,
+        common.mac_prod_builder(
+            name = "Mac %s verify_binaries_codesigned|vbcs" % branch,
             recipe = new_recipe_name,
             console_view_name = console_view_name,
             triggered_by = [trigger_name],
