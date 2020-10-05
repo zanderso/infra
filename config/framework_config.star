@@ -101,7 +101,8 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
             name = "Mac %s verify_binaries_codesigned|vbcs" % branch,
             recipe = new_recipe_name,
             console_view_name = console_view_name,
-            triggered_by = [trigger_name],
+            # This is only signed on the release branch, not candidate branch
+            triggered_by = [branch + "-gitiles-trigger-packaging"],
             triggering_policy = triggering_policy,
             properties = {
                 "validation": "verify_binaries_codesigned",
