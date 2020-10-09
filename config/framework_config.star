@@ -277,6 +277,23 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
         ],
     )
 
+    common.linux_prod_builder(
+        name = "Linux%s build_gallery|dg" % ("" if branch == "master" else " " + branch),
+        recipe = new_recipe_name,
+        console_view_name = console_view_name,
+        triggered_by = [trigger_name],
+        triggering_policy = triggering_policy,
+        properties = {
+            "validation": "build_gallery",
+            "validation_name": "Build gallery",
+            "dependencies": [{"dependency": "android_sdk"}],
+        },
+        caches = [
+            swarming.cache(name = "pub_cache", path = ".pub_cache"),
+            swarming.cache(name = "android_sdk", path = "android29"),
+        ],
+    )
+
     # Windows platform
     common.windows_prod_builder(
         name = "Windows%s build_tests|bld_tests" % ("" if branch == "master" else " " + branch),
@@ -427,6 +444,22 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
         properties = {
             "validation": "customer_testing",
             "validation_name": "Customer testing",
+        },
+        caches = [
+            swarming.cache(name = "pub_cache", path = ".pub_cache"),
+        ],
+    )
+
+    common.mac_prod_builder(
+        name = "Mac%s build_gallery|dg_test" % ("" if branch == "master" else " " + branch),
+        recipe = new_recipe_name,
+        console_view_name = console_view_name,
+        triggered_by = [trigger_name],
+        triggering_policy = triggering_policy,
+        properties = {
+            "validation": "build_gallery",
+            "validation_name": "Build gallery",
+            "dependencies": [{"dependency": "xcode"}, {"dependency": "gems"}],
         },
         caches = [
             swarming.cache(name = "pub_cache", path = ".pub_cache"),
@@ -611,14 +644,13 @@ def framework_try_config():
         ],
     )
     common.linux_try_builder(
-        name = "Linux deploy_gallery|dg",
+        name = "Linux build_gallery|dg",
         recipe = "flutter/flutter",
         repo = repos.FLUTTER,
         list_view_name = list_view_name,
         properties = {
-            "validation": "deploy_gallery",
-            "validation_name": "Deploy gallery",
-            "secrets": {"ANDROID_GALLERY_UPLOAD_KEY": "android_gallery_upload_key.encrypted"},
+            "validation": "build_gallery",
+            "validation_name": "Build gallery",
             "dependencies": [{"dependency": "android_sdk"}],
         },
         caches = [
@@ -700,6 +732,21 @@ def framework_try_config():
         properties = {
             "validation": "customer_testing",
             "validation_name": "Customer testing",
+        },
+        caches = [
+            swarming.cache(name = "pub_cache", path = ".pub_cache"),
+        ],
+    )
+
+    common.mac_try_builder(
+        name = "Mac build_gallery|dg",
+        recipe = "flutter/flutter",
+        repo = repos.FLUTTER,
+        list_view_name = list_view_name,
+        properties = {
+            "validation": "build_gallery",
+            "validation_name": "Build gallery",
+            "dependencies": [{"dependency": "xcode"}, {"dependency": "gems"}],
         },
         caches = [
             swarming.cache(name = "pub_cache", path = ".pub_cache"),
