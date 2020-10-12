@@ -131,6 +131,11 @@ def engine_properties(
         properties["ios_profile"] = ios_profile
         properties["ios_release"] = ios_release
         properties["no_bitcode"] = no_bitcode
+        properties["$flutter/flutter_osx_sdk"] = {
+            "iphoneos_sdk": "14.0",
+            "iphonesimulator_sdk": "14.0",
+            "ld": "609",
+        }
     if (needs_jazzy):
         properties["jazzy_version"] = "0.9.5"
     if fuchsia_ctl_version:
