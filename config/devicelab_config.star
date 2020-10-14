@@ -88,36 +88,6 @@ def devicelab_prod_config(branch, version, ref):
         ],
     )
     common.linux_prod_builder(
-        name = "Linux%s gradle_fast_start_test|gfs" % ("" if branch == "master" else " " + branch),
-        recipe = drone_recipe_name,
-        console_view_name = console_view_name,
-        triggered_by = [trigger_name],
-        triggering_policy = triggering_policy,
-        properties = {
-            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}],
-            "task_name": "gradle_fast_start_test",
-        },
-        caches = [
-            swarming.cache(name = "pub_cache", path = ".pub_cache"),
-            swarming.cache(name = "android_sdk", path = "android29"),
-        ],
-    )
-    common.linux_prod_builder(
-        name = "Linux%s gradle_jetifier_test|gjet" % ("" if branch == "master" else " " + branch),
-        recipe = drone_recipe_name,
-        console_view_name = console_view_name,
-        triggered_by = [trigger_name],
-        triggering_policy = triggering_policy,
-        properties = {
-            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}],
-            "task_name": "gradle_jetifier_test",
-        },
-        caches = [
-            swarming.cache(name = "pub_cache", path = ".pub_cache"),
-            swarming.cache(name = "android_sdk", path = "android29"),
-        ],
-    )
-    common.linux_prod_builder(
         name = "Linux%s gradle_non_android_plugin_test|gnap" % ("" if branch == "master" else " " + branch),
         recipe = drone_recipe_name,
         console_view_name = console_view_name,
@@ -178,21 +148,6 @@ def devicelab_prod_config(branch, version, ref):
         ],
     )
     common.linux_prod_builder(
-        name = "Linux%s gradle_r8_test|gr8" % ("" if branch == "master" else " " + branch),
-        recipe = drone_recipe_name,
-        console_view_name = console_view_name,
-        triggered_by = [trigger_name],
-        triggering_policy = triggering_policy,
-        properties = {
-            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}],
-            "task_name": "gradle_r8_test",
-        },
-        caches = [
-            swarming.cache(name = "pub_cache", path = ".pub_cache"),
-            swarming.cache(name = "android_sdk", path = "android29"),
-        ],
-    )
-    common.linux_prod_builder(
         name = "Linux%s module_host_with_custom_build_test|mhwcb" % ("" if branch == "master" else " " + branch),
         recipe = drone_recipe_name,
         console_view_name = console_view_name,
@@ -231,21 +186,6 @@ def devicelab_prod_config(branch, version, ref):
         properties = {
             "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}],
             "task_name": "module_test",
-        },
-        caches = [
-            swarming.cache(name = "pub_cache", path = ".pub_cache"),
-            swarming.cache(name = "android_sdk", path = "android29"),
-        ],
-    )
-    common.linux_prod_builder(
-        name = "Linux%s plugin_dependencies_test|pdep" % ("" if branch == "master" else " " + branch),
-        recipe = drone_recipe_name,
-        console_view_name = console_view_name,
-        triggered_by = [trigger_name],
-        triggering_policy = triggering_policy,
-        properties = {
-            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}],
-            "task_name": "plugin_dependencies_test",
         },
         caches = [
             swarming.cache(name = "pub_cache", path = ".pub_cache"),
@@ -306,62 +246,6 @@ def devicelab_prod_config(branch, version, ref):
                 },
             ],
             "task_name": "build_aar_module_test",
-        },
-        caches = [
-            swarming.cache(name = "pub_cache", path = ".pub_cache"),
-            swarming.cache(name = "android_sdk", path = "android29"),
-        ],
-    )
-    common.mac_prod_builder(
-        name = "Mac%s gradle_fast_start_test|gfs" % ("" if branch == "master" else " " + branch),
-        recipe = drone_recipe_name,
-        console_view_name = console_view_name,
-        triggered_by = [trigger_name],
-        triggering_policy = triggering_policy,
-        properties = {
-            "dependencies": [
-                {
-                    "dependency": "android_sdk",
-                },
-                {
-                    "dependency": "open_jdk",
-                },
-                {
-                    "dependency": "xcode",
-                },
-                {
-                    "dependency": "gems",
-                },
-            ],
-            "task_name": "gradle_fast_start_test",
-        },
-        caches = [
-            swarming.cache(name = "pub_cache", path = ".pub_cache"),
-            swarming.cache(name = "android_sdk", path = "android29"),
-        ],
-    )
-    common.mac_prod_builder(
-        name = "Mac%s gradle_jetifier_test|gjet" % ("" if branch == "master" else " " + branch),
-        recipe = drone_recipe_name,
-        console_view_name = console_view_name,
-        triggered_by = [trigger_name],
-        triggering_policy = triggering_policy,
-        properties = {
-            "dependencies": [
-                {
-                    "dependency": "android_sdk",
-                },
-                {
-                    "dependency": "open_jdk",
-                },
-                {
-                    "dependency": "xcode",
-                },
-                {
-                    "dependency": "gems",
-                },
-            ],
-            "task_name": "gradle_jetifier_test",
         },
         caches = [
             swarming.cache(name = "pub_cache", path = ".pub_cache"),
@@ -481,34 +365,6 @@ def devicelab_prod_config(branch, version, ref):
         ],
     )
     common.mac_prod_builder(
-        name = "Mac%s gradle_r8_test|gr8" % ("" if branch == "master" else " " + branch),
-        recipe = drone_recipe_name,
-        console_view_name = console_view_name,
-        triggered_by = [trigger_name],
-        triggering_policy = triggering_policy,
-        properties = {
-            "dependencies": [
-                {
-                    "dependency": "android_sdk",
-                },
-                {
-                    "dependency": "open_jdk",
-                },
-                {
-                    "dependency": "xcode",
-                },
-                {
-                    "dependency": "gems",
-                },
-            ],
-            "task_name": "gradle_r8_test",
-        },
-        caches = [
-            swarming.cache(name = "pub_cache", path = ".pub_cache"),
-            swarming.cache(name = "android_sdk", path = "android29"),
-        ],
-    )
-    common.mac_prod_builder(
         name = "Mac%s module_host_with_custom_build_test|mhwcb" % ("" if branch == "master" else " " + branch),
         recipe = drone_recipe_name,
         console_view_name = console_view_name,
@@ -586,34 +442,6 @@ def devicelab_prod_config(branch, version, ref):
                 },
             ],
             "task_name": "module_test",
-        },
-        caches = [
-            swarming.cache(name = "pub_cache", path = ".pub_cache"),
-            swarming.cache(name = "android_sdk", path = "android29"),
-        ],
-    )
-    common.mac_prod_builder(
-        name = "Mac%s plugin_dependencies_test|pdep" % ("" if branch == "master" else " " + branch),
-        recipe = drone_recipe_name,
-        console_view_name = console_view_name,
-        triggered_by = [trigger_name],
-        triggering_policy = triggering_policy,
-        properties = {
-            "dependencies": [
-                {
-                    "dependency": "android_sdk",
-                },
-                {
-                    "dependency": "open_jdk",
-                },
-                {
-                    "dependency": "xcode",
-                },
-                {
-                    "dependency": "gems",
-                },
-            ],
-            "task_name": "plugin_dependencies_test",
         },
         caches = [
             swarming.cache(name = "pub_cache", path = ".pub_cache"),
@@ -750,36 +578,6 @@ def devicelab_prod_config(branch, version, ref):
         ],
     )
     common.windows_prod_builder(
-        name = "Windows%s gradle_fast_start_test|gfs" % ("" if branch == "master" else " " + branch),
-        recipe = drone_recipe_name,
-        console_view_name = console_view_name,
-        triggered_by = [trigger_name],
-        triggering_policy = triggering_policy,
-        properties = {
-            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}],
-            "task_name": "gradle_fast_start_test",
-        },
-        caches = [
-            swarming.cache(name = "pub_cache", path = ".pub_cache"),
-            swarming.cache(name = "android_sdk", path = "android29"),
-        ],
-    )
-    common.windows_prod_builder(
-        name = "Windows%s gradle_jetifier_test|gjet" % ("" if branch == "master" else " " + branch),
-        recipe = drone_recipe_name,
-        console_view_name = console_view_name,
-        triggered_by = [trigger_name],
-        triggering_policy = triggering_policy,
-        properties = {
-            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}],
-            "task_name": "gradle_jetifier_test",
-        },
-        caches = [
-            swarming.cache(name = "pub_cache", path = ".pub_cache"),
-            swarming.cache(name = "android_sdk", path = "android29"),
-        ],
-    )
-    common.windows_prod_builder(
         name = "Windows%s gradle_non_android_plugin_test|gnap" % ("" if branch == "master" else " " + branch),
         recipe = drone_recipe_name,
         console_view_name = console_view_name,
@@ -840,21 +638,6 @@ def devicelab_prod_config(branch, version, ref):
         ],
     )
     common.windows_prod_builder(
-        name = "Windows%s gradle_r8_test|gr8" % ("" if branch == "master" else " " + branch),
-        recipe = drone_recipe_name,
-        console_view_name = console_view_name,
-        triggered_by = [trigger_name],
-        triggering_policy = triggering_policy,
-        properties = {
-            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}],
-            "task_name": "gradle_r8_test",
-        },
-        caches = [
-            swarming.cache(name = "pub_cache", path = ".pub_cache"),
-            swarming.cache(name = "android_sdk", path = "android29"),
-        ],
-    )
-    common.windows_prod_builder(
         name = "Windows%s module_host_with_custom_build_test|mhwcb" % ("" if branch == "master" else " " + branch),
         recipe = drone_recipe_name,
         console_view_name = console_view_name,
@@ -900,21 +683,6 @@ def devicelab_prod_config(branch, version, ref):
         ],
     )
     common.windows_prod_builder(
-        name = "Windows%s plugin_dependencies_test|pdep" % ("" if branch == "master" else " " + branch),
-        recipe = drone_recipe_name,
-        console_view_name = console_view_name,
-        triggered_by = [trigger_name],
-        triggering_policy = triggering_policy,
-        properties = {
-            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}],
-            "task_name": "plugin_dependencies_test",
-        },
-        caches = [
-            swarming.cache(name = "pub_cache", path = ".pub_cache"),
-            swarming.cache(name = "android_sdk", path = "android29"),
-        ],
-    )
-    common.windows_prod_builder(
         name = "Windows%s plugin_test|plugin" % ("" if branch == "master" else " " + branch),
         recipe = drone_recipe_name,
         console_view_name = console_view_name,
@@ -953,20 +721,6 @@ def devicelab_try_config():
         properties = {
             "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}],
             "task_name": "build_aar_module_test",
-        },
-        caches = [
-            swarming.cache(name = "pub_cache", path = ".pub_cache"),
-            swarming.cache(name = "android_sdk", path = "android29"),
-        ],
-    )
-    common.linux_try_builder(
-        name = "Linux gradle_fast_start_test|gfs",
-        recipe = drone_recipe_name,
-        repo = repos.FLUTTER,
-        list_view_name = list_view_name,
-        properties = {
-            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}],
-            "task_name": "gradle_fast_start_test",
         },
         caches = [
             swarming.cache(name = "pub_cache", path = ".pub_cache"),
@@ -1044,20 +798,6 @@ def devicelab_try_config():
         ],
     )
     common.linux_try_builder(
-        name = "Linux gradle_r8_test|gr8",
-        recipe = drone_recipe_name,
-        repo = repos.FLUTTER,
-        list_view_name = list_view_name,
-        properties = {
-            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}],
-            "task_name": "gradle_r8_test",
-        },
-        caches = [
-            swarming.cache(name = "pub_cache", path = ".pub_cache"),
-            swarming.cache(name = "android_sdk", path = "android29"),
-        ],
-    )
-    common.linux_try_builder(
         name = "Linux module_host_with_custom_build_test|mhwcb",
         recipe = drone_recipe_name,
         repo = repos.FLUTTER,
@@ -1093,20 +833,6 @@ def devicelab_try_config():
         properties = {
             "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}],
             "task_name": "module_test",
-        },
-        caches = [
-            swarming.cache(name = "pub_cache", path = ".pub_cache"),
-            swarming.cache(name = "android_sdk", path = "android29"),
-        ],
-    )
-    common.linux_try_builder(
-        name = "Linux plugin_dependencies_test|pdep",
-        recipe = drone_recipe_name,
-        repo = repos.FLUTTER,
-        list_view_name = list_view_name,
-        properties = {
-            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}],
-            "task_name": "plugin_dependencies_test",
         },
         caches = [
             swarming.cache(name = "pub_cache", path = ".pub_cache"),
@@ -1164,60 +890,6 @@ def devicelab_try_config():
                 },
             ],
             "task_name": "build_aar_module_test",
-        },
-        caches = [
-            swarming.cache(name = "pub_cache", path = ".pub_cache"),
-            swarming.cache(name = "android_sdk", path = "android29"),
-        ],
-    )
-    common.mac_try_builder(
-        name = "Mac gradle_fast_start_test|gfs",
-        recipe = drone_recipe_name,
-        repo = repos.FLUTTER,
-        list_view_name = list_view_name,
-        properties = {
-            "dependencies": [
-                {
-                    "dependency": "android_sdk",
-                },
-                {
-                    "dependency": "open_jdk",
-                },
-                {
-                    "dependency": "xcode",
-                },
-                {
-                    "dependency": "gems",
-                },
-            ],
-            "task_name": "gradle_fast_start_test",
-        },
-        caches = [
-            swarming.cache(name = "pub_cache", path = ".pub_cache"),
-            swarming.cache(name = "android_sdk", path = "android29"),
-        ],
-    )
-    common.mac_try_builder(
-        name = "Mac gradle_jetifier_test|gjet",
-        recipe = drone_recipe_name,
-        repo = repos.FLUTTER,
-        list_view_name = list_view_name,
-        properties = {
-            "dependencies": [
-                {
-                    "dependency": "android_sdk",
-                },
-                {
-                    "dependency": "open_jdk",
-                },
-                {
-                    "dependency": "xcode",
-                },
-                {
-                    "dependency": "gems",
-                },
-            ],
-            "task_name": "gradle_jetifier_test",
         },
         caches = [
             swarming.cache(name = "pub_cache", path = ".pub_cache"),
@@ -1333,33 +1005,6 @@ def devicelab_try_config():
         ],
     )
     common.mac_try_builder(
-        name = "Mac gradle_r8_test|gradle_r8",
-        recipe = drone_recipe_name,
-        repo = repos.FLUTTER,
-        list_view_name = list_view_name,
-        properties = {
-            "dependencies": [
-                {
-                    "dependency": "android_sdk",
-                },
-                {
-                    "dependency": "open_jdk",
-                },
-                {
-                    "dependency": "xcode",
-                },
-                {
-                    "dependency": "gems",
-                },
-            ],
-            "task_name": "gradle_r8_test",
-        },
-        caches = [
-            swarming.cache(name = "pub_cache", path = ".pub_cache"),
-            swarming.cache(name = "android_sdk", path = "android29"),
-        ],
-    )
-    common.mac_try_builder(
         name = "Mac module_host_with_custom_build_test|mhwcb",
         recipe = drone_recipe_name,
         repo = repos.FLUTTER,
@@ -1434,33 +1079,6 @@ def devicelab_try_config():
                 },
             ],
             "task_name": "module_test",
-        },
-        caches = [
-            swarming.cache(name = "pub_cache", path = ".pub_cache"),
-            swarming.cache(name = "android_sdk", path = "android29"),
-        ],
-    )
-    common.mac_try_builder(
-        name = "Mac plugin_dependencies_test|pdep",
-        recipe = drone_recipe_name,
-        repo = repos.FLUTTER,
-        list_view_name = list_view_name,
-        properties = {
-            "dependencies": [
-                {
-                    "dependency": "android_sdk",
-                },
-                {
-                    "dependency": "open_jdk",
-                },
-                {
-                    "dependency": "xcode",
-                },
-                {
-                    "dependency": "gems",
-                },
-            ],
-            "task_name": "plugin_dependencies_test",
         },
         caches = [
             swarming.cache(name = "pub_cache", path = ".pub_cache"),
@@ -1592,34 +1210,6 @@ def devicelab_try_config():
         ],
     )
     common.windows_try_builder(
-        name = "Windows gradle_fast_start_test|gfs",
-        recipe = drone_recipe_name,
-        repo = repos.FLUTTER,
-        list_view_name = list_view_name,
-        properties = {
-            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}],
-            "task_name": "gradle_fast_start_test",
-        },
-        caches = [
-            swarming.cache(name = "pub_cache", path = ".pub_cache"),
-            swarming.cache(name = "android_sdk", path = "android29"),
-        ],
-    )
-    common.windows_try_builder(
-        name = "Windows gradle_jetifier_test|gjet",
-        recipe = drone_recipe_name,
-        repo = repos.FLUTTER,
-        list_view_name = list_view_name,
-        properties = {
-            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}],
-            "task_name": "gradle_jetifier_test",
-        },
-        caches = [
-            swarming.cache(name = "pub_cache", path = ".pub_cache"),
-            swarming.cache(name = "android_sdk", path = "android29"),
-        ],
-    )
-    common.windows_try_builder(
         name = "Windows gradle_non_android_plugin_test|gnap",
         recipe = drone_recipe_name,
         repo = repos.FLUTTER,
@@ -1676,20 +1266,6 @@ def devicelab_try_config():
         ],
     )
     common.windows_try_builder(
-        name = "Windows gradle_r8_test|gr8",
-        recipe = drone_recipe_name,
-        repo = repos.FLUTTER,
-        list_view_name = list_view_name,
-        properties = {
-            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}],
-            "task_name": "gradle_r8_test",
-        },
-        caches = [
-            swarming.cache(name = "pub_cache", path = ".pub_cache"),
-            swarming.cache(name = "android_sdk", path = "android29"),
-        ],
-    )
-    common.windows_try_builder(
         name = "Windows module_host_with_custom_build_test|mhwcb",
         recipe = drone_recipe_name,
         repo = repos.FLUTTER,
@@ -1725,20 +1301,6 @@ def devicelab_try_config():
         properties = {
             "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}],
             "task_name": "module_test",
-        },
-        caches = [
-            swarming.cache(name = "pub_cache", path = ".pub_cache"),
-            swarming.cache(name = "android_sdk", path = "android29"),
-        ],
-    )
-    common.windows_try_builder(
-        name = "Windows plugin_dependencies_test|pdep",
-        recipe = drone_recipe_name,
-        repo = repos.FLUTTER,
-        list_view_name = list_view_name,
-        properties = {
-            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}],
-            "task_name": "plugin_dependencies_test",
         },
         caches = [
             swarming.cache(name = "pub_cache", path = ".pub_cache"),
