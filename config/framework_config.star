@@ -622,7 +622,6 @@ def framework_try_config():
         name = "Linux docs|docs",
         recipe = "flutter/flutter",
         repo = repos.FLUTTER,
-        add_cq = True,
         list_view_name = list_view_name,
         properties = {
             "validation": "docs",
