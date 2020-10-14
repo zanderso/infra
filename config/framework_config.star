@@ -244,6 +244,7 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
             "validation_name": "Docs",
             "dependencies": [{"dependency": "dashing"}, {"dependency": "firebase"}],
             "firebase_project": "master-docs-flutter-dev" if branch == "master" else "docs-flutter-dev",
+            "release_ref": release_ref or "refs/heads/master",
         },
         caches = [
             swarming.cache(name = "pub_cache", path = ".pub_cache"),
