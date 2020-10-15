@@ -253,6 +253,7 @@ def _flutter_builder(
     if cores != None:
         dimensions["cores"] = cores
     name_parts = name.split("|")
+    exec_timeout = kwargs.pop("execution_timeout", None)
     luci.builder(
         name = name_parts[0],
         bucket = bucket,
@@ -260,7 +261,7 @@ def _flutter_builder(
         properties = properties,
         service_account = "flutter-" + bucket +
                           "-builder@chops-service-accounts.iam.gserviceaccount.com",
-        execution_timeout = timeout.MEDIUM,
+        execution_timeout = exec_timeout or timeout.MEDIUM,
         dimensions = dimensions,
         build_numbers = True,
         task_template_canary_percentage = 0,

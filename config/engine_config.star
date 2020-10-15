@@ -15,6 +15,7 @@ to take advantage of led recipe builder tests.
 
 load("//lib/common.star", "common")
 load("//lib/repos.star", "repos")
+load("//lib/timeout.star", "timeout")
 
 def _setup(branches, fuchsia_ctl_version):
     """Default configurations for branches and repos."""
@@ -24,7 +25,7 @@ def _setup(branches, fuchsia_ctl_version):
         "mac": {
             "caches": [swarming.cache(name = "flutter_cocoapods", path = "cocoapods")],
         },
-        "windows": {},
+        "windows": {"execution_timeout": timeout.LONG},
     }
 
     for branch in branches:
