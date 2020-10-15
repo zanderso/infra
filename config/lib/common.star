@@ -4,6 +4,7 @@
 """Utility methods to create builders."""
 
 load("//lib/helpers.star", "helpers")
+load("//lib/timeout.star", "timeout")
 
 # Regular expressions for files to skip CQ.
 LOCATION_REGEXP_MARKDOWN = r".+/[+]/.*\.md"
@@ -89,8 +90,8 @@ def _builder(
         name,
         builder_group,
         executable,
-        execution_timeout,
         properties,
+        execution_timeout,
         caches = None,
         console_category = None,
         console_short_name = None,
@@ -113,8 +114,8 @@ def _builder(
         name: Passed through to luci.builder.
         builder_group: struct from groups_lib.
         executable: Passed through to luci builder.
-        execution_timeout: Passed through to luci builder.
         properties: Passed through to luci builder, with some defaults applied.
+        execution_timeout: Passed through to luci builder.
         caches: Passed through to luci builder.
             Note, a number of global caches are configured by default:
             https://chrome-internal.googlesource.com/infradata/config/+/master/configs/cr-buildbucket/settings.cfg
@@ -259,7 +260,7 @@ def _flutter_builder(
         properties = properties,
         service_account = "flutter-" + bucket +
                           "-builder@chops-service-accounts.iam.gserviceaccount.com",
-        execution_timeout = 3 * time.hour,
+        execution_timeout = timeout.MEDIUM,
         dimensions = dimensions,
         build_numbers = True,
         task_template_canary_percentage = 0,
