@@ -59,7 +59,7 @@ BRANCHES = {
     },
 }
 
-FUCHSIA_CTL_VERSION = "version:0.0.24"
+FUCHSIA_CTL_VERSION = "version:0.0.26"
 
 lucicfg.config(
     config_dir = "generated/flutter",
