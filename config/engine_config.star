@@ -255,7 +255,7 @@ def engine_prod_config(platform_args, branch, version, ref, fuchsia_ctl_version)
         triggered_by = [trigger_name],
         triggering_policy = triggering_policy,
         priority = 30 if branch == "master" else 25,
-        **platform_args["linux"]
+        execution_timeout = timeout.LONG,
     )
 
     common.linux_prod_builder(
@@ -501,7 +501,7 @@ def engine_try_config(platform_args, fuchsia_ctl_version):
             fuchsia_ctl_version = fuchsia_ctl_version,
             no_lto = True,
         ),
-        **platform_args["linux"]
+        execution_timeout = timeout.LONG,
     )
     common.linux_try_builder(
         name = "Linux Fuchsia FEMU|femu",
