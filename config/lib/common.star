@@ -403,7 +403,6 @@ def _linux_builder(
 def _windows_builder(
         properties = {},
         caches = None,
-        cores = "8",
         category = "Windows",
         **kwargs):
     windows_caches = [
@@ -413,7 +412,6 @@ def _windows_builder(
         windows_caches.extend(caches)
     return _common_builder(
         os = "Windows-10",
-        cores = cores,
         properties = properties,
         caches = windows_caches,
         category = category,
