@@ -11,6 +11,7 @@ which is mirrored from https://github.com/flutter/flutter.
 
 load("//lib/common.star", "common")
 load("//lib/repos.star", "repos")
+load("//lib/timeout.star", "timeout")
 
 def _setup():
     platform_args = {"linux": {"properties": {"fuchsia_ctl_version": None}}}
@@ -36,6 +37,7 @@ def packages_try_config(platform_args):
     # Defines cocoon try builders
     common.linux_try_builder(
         name = "fuchsia_ctl|fctl",
+        execution_timeout = timeout.LONG,
         recipe = "fuchsia_ctl",
         repo = repos.PACKAGES,
         add_cq = True,
