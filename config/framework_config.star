@@ -119,7 +119,7 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
         properties = {
             "shard": "build_tests",
             "subshards": ["0", "1_last"],
-            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}, {"dependency": "goldctl"}],
+            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}, {"dependency": "goldctl"}, {"dependency": "clang"}, {"dependency": "cmake"}, {"dependency": "ninja"}],
         },
         caches = [
             swarming.cache(name = "pub_cache", path = ".pub_cache"),
