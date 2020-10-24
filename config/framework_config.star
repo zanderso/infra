@@ -88,6 +88,13 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
             max_concurrent_invocations = 3,
         )
 
+    # Select which firebase project to upload the docs to.
+    firebase_project = ""
+    if branch == "master":
+        firebase_project = "master-docs-flutter-dev"
+    if branch == "stable":
+        firebase_project = "docs-flutter-dev"
+
     # Defines framework prod builders
     #
     # Builders defined only for release refs
@@ -238,7 +245,7 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
             "validation": "docs",
             "validation_name": "Docs",
             "dependencies": [{"dependency": "dashing"}, {"dependency": "firebase"}],
-            "firebase_project": "master-docs-flutter-dev" if branch == "master" else "docs-flutter-dev",
+            "firebase_project": firebase_project,
             "release_ref": release_ref or "refs/heads/master",
         },
         caches = [
