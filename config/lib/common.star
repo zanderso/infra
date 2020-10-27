@@ -15,8 +15,7 @@ def _repo_url_to_luci_object_name(repo_url):
     """Takes a git repository URL and returns a name for a LUCI object.
 
     Examples:
-        https://foo.googlesource.com/bar/baz -> foo-bar-baz
-        https://foo.other-domain.com/bar/baz -> foo.other-domain_com-bar-baz
+        https://foo.googlesource.com/bar/baz -> bar-baz
 
     Args:
       repo_url(str): The repository url to transform.
@@ -25,12 +24,8 @@ def _repo_url_to_luci_object_name(repo_url):
       A string with the repository name created from the url.
     """
     domain_and_path = repo_url.split("://")[1].split("/")
-    domain = domain_and_path[0]
     path = domain_and_path[1:]
-    prefix = domain
-    if domain.endswith(".googlesource.com"):
-        prefix = domain[:-len(".googlesource.com")] + "-"
-    return prefix + "-".join(path).replace(".", "_")
+    return "-".join(path).replace(".", "_")
 
 def _cq_group_name(repo_url):
     """Returns the name to be passed to cq_group for a repo."""
