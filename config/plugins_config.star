@@ -15,7 +15,6 @@ def _setup():
         "windows": {
             "caches": [swarming.cache(name = "pub_cache", path = ".pub-cache")],
             "os": "Windows-Server",
-            "cores": "32",
         },
     }
     plugins_define_recipes()
