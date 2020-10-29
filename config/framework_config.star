@@ -196,6 +196,22 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
         ],
     )
     common.linux_prod_builder(
+        name = "Linux%s web_long_running_tests|web_long_running_tests" % ("" if branch == "master" else " " + branch),
+        recipe = new_recipe_name,
+        console_view_name = console_view_name,
+        triggered_by = [trigger_name],
+        triggering_policy = triggering_policy,
+        properties = {
+            "shard": "web_long_running_tests",
+            "subshards": ["0", "1", "2_last"],
+            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "goldctl"}],
+        },
+        caches = [
+            swarming.cache(name = "pub_cache", path = ".pub_cache"),
+            swarming.cache(name = "android_sdk", path = "android29"),
+        ],
+    )
+    common.linux_prod_builder(
         name = "Linux%s SDK Drone|frwdrn" % ("" if branch == "master" else " " + branch),
         recipe = drone_recipe_name,
         console_view_name = None,
@@ -552,6 +568,21 @@ def framework_try_config():
         properties = {
             "shard": "web_tests",
             "subshards": ["0", "1", "2", "3", "4", "5", "6", "7_last"],
+            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "goldctl"}],
+        },
+        caches = [
+            swarming.cache(name = "pub_cache", path = ".pub_cache"),
+            swarming.cache(name = "android_sdk", path = "android29"),
+        ],
+    )
+    common.linux_try_builder(
+        name = "Linux web_long_running_tests|web_long_running_tests",
+        recipe = "flutter/flutter",
+        repo = repos.FLUTTER,
+        list_view_name = list_view_name,
+        properties = {
+            "shard": "web_long_running_tests",
+            "subshards": ["0", "1", "2_last"],
             "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "goldctl"}],
         },
         caches = [
