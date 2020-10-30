@@ -59,6 +59,7 @@ def engine_recipes(version):
         "web_engine",
         "engine_builder",
         "femu_test",
+        "engine/engine_metrics",
         "engine/scenarios",
         "engine/web_engine_framework",
     ]
@@ -189,6 +190,19 @@ def engine_prod_config(platform_args, branch, version, ref, fuchsia_ctl_version)
     else:
         triggering_policy = scheduler.greedy_batching(
             max_concurrent_invocations = 3,
+        )
+
+    # Defines master only builders
+    if branch == "master":
+        common.linux_prod_builder(
+            name = builder_name("Linux%s benchmarks|lben", branch),
+            recipe = full_recipe_name("engine/engine_metrics", version),
+            properties = engine_properties(build_host = True),
+            console_view_name = console_view_name,
+            triggered_by = [trigger_name],
+            triggering_policy = triggering_policy,
+            priority = 30,
+            **platform_args["linux"]
         )
 
     # Defines web engine prod builders
