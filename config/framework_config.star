@@ -196,7 +196,7 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
         ],
     )
     common.linux_prod_builder(
-        name = "Linux%s web_long_running_tests|web_long_running_tests" % ("" if branch == "master" else " " + branch),
+        name = "Linux%s web_long_running_tests|web_lrt" % ("" if branch == "master" else " " + branch),
         recipe = new_recipe_name,
         console_view_name = console_view_name,
         triggered_by = [trigger_name],
@@ -576,7 +576,7 @@ def framework_try_config():
         ],
     )
     common.linux_try_builder(
-        name = "Linux web_long_running_tests|web_long_running_tests",
+        name = "Linux web_long_running_tests|web_lrt",
         recipe = "flutter/flutter",
         repo = repos.FLUTTER,
         list_view_name = list_view_name,
