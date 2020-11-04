@@ -717,6 +717,7 @@ def devicelab_try_config():
         name = "Linux build_aar_module_test|aarm",
         recipe = drone_recipe_name,
         repo = repos.FLUTTER,
+        add_cq = True,
         list_view_name = list_view_name,
         properties = {
             "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}],
@@ -873,6 +874,7 @@ def devicelab_try_config():
         name = "Mac build_aar_module_test|aarm",
         recipe = drone_recipe_name,
         repo = repos.FLUTTER,
+        add_cq = True,
         list_view_name = list_view_name,
         properties = {
             "dependencies": [
@@ -1199,6 +1201,7 @@ def devicelab_try_config():
         name = "Windows build_aar_module_test|aarm",
         recipe = drone_recipe_name,
         repo = repos.FLUTTER,
+        add_cq = True,
         list_view_name = list_view_name,
         properties = {
             "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}],
