@@ -576,6 +576,7 @@ def devicelab_prod_config(branch, version, ref):
             swarming.cache(name = "pub_cache", path = ".pub_cache"),
             swarming.cache(name = "android_sdk", path = "android29"),
         ],
+        os = "Windows-Server",
     )
     common.windows_prod_builder(
         name = "Windows%s gradle_non_android_plugin_test|gnap" % ("" if branch == "master" else " " + branch),
@@ -591,6 +592,7 @@ def devicelab_prod_config(branch, version, ref):
             swarming.cache(name = "pub_cache", path = ".pub_cache"),
             swarming.cache(name = "android_sdk", path = "android29"),
         ],
+        os = "Windows-Server",
     )
     common.windows_prod_builder(
         name = "Windows%s gradle_plugin_bundle_test|gpbt" % ("" if branch == "master" else " " + branch),
@@ -606,6 +608,7 @@ def devicelab_prod_config(branch, version, ref):
             swarming.cache(name = "pub_cache", path = ".pub_cache"),
             swarming.cache(name = "android_sdk", path = "android29"),
         ],
+        os = "Windows-Server",
     )
     common.windows_prod_builder(
         name = "Windows%s gradle_plugin_fat_apk_test|gpfa" % ("" if branch == "master" else " " + branch),
@@ -621,6 +624,7 @@ def devicelab_prod_config(branch, version, ref):
             swarming.cache(name = "pub_cache", path = ".pub_cache"),
             swarming.cache(name = "android_sdk", path = "android29"),
         ],
+        os = "Windows-Server",
     )
     common.windows_prod_builder(
         name = "Windows%s gradle_plugin_light_apk_test|gpla" % ("" if branch == "master" else " " + branch),
@@ -636,6 +640,7 @@ def devicelab_prod_config(branch, version, ref):
             swarming.cache(name = "pub_cache", path = ".pub_cache"),
             swarming.cache(name = "android_sdk", path = "android29"),
         ],
+        os = "Windows-Server",
     )
     common.windows_prod_builder(
         name = "Windows%s module_host_with_custom_build_test|mhwcb" % ("" if branch == "master" else " " + branch),
@@ -651,6 +656,7 @@ def devicelab_prod_config(branch, version, ref):
             swarming.cache(name = "pub_cache", path = ".pub_cache"),
             swarming.cache(name = "android_sdk", path = "android29"),
         ],
+        os = "Windows-Server",
     )
     common.windows_prod_builder(
         name = "Windows%s module_custom_host_app_name_test|mchan" % ("" if branch == "master" else " " + branch),
@@ -666,6 +672,7 @@ def devicelab_prod_config(branch, version, ref):
             swarming.cache(name = "pub_cache", path = ".pub_cache"),
             swarming.cache(name = "android_sdk", path = "android29"),
         ],
+        os = "Windows-Server",
     )
     common.windows_prod_builder(
         name = "Windows%s module_test|mod" % ("" if branch == "master" else " " + branch),
@@ -681,6 +688,7 @@ def devicelab_prod_config(branch, version, ref):
             swarming.cache(name = "pub_cache", path = ".pub_cache"),
             swarming.cache(name = "android_sdk", path = "android29"),
         ],
+        os = "Windows-Server",
     )
     common.windows_prod_builder(
         name = "Windows%s plugin_test|plugin" % ("" if branch == "master" else " " + branch),
@@ -696,6 +704,7 @@ def devicelab_prod_config(branch, version, ref):
             swarming.cache(name = "pub_cache", path = ".pub_cache"),
             swarming.cache(name = "android_sdk", path = "android29"),
         ],
+        os = "Windows-Server",
     )
 
 def devicelab_try_config():
@@ -1211,6 +1220,7 @@ def devicelab_try_config():
             swarming.cache(name = "pub_cache", path = ".pub_cache"),
             swarming.cache(name = "android_sdk", path = "android29"),
         ],
+        os = "Windows-Server",
     )
     common.windows_try_builder(
         name = "Windows gradle_non_android_plugin_test|gnap",
@@ -1225,6 +1235,7 @@ def devicelab_try_config():
             swarming.cache(name = "pub_cache", path = ".pub_cache"),
             swarming.cache(name = "android_sdk", path = "android29"),
         ],
+        os = "Windows-Server",
     )
     common.windows_try_builder(
         name = "Windows gradle_plugin_bundle_test|gpbt",
@@ -1239,6 +1250,7 @@ def devicelab_try_config():
             swarming.cache(name = "pub_cache", path = ".pub_cache"),
             swarming.cache(name = "android_sdk", path = "android29"),
         ],
+        os = "Windows-Server",
     )
     common.windows_try_builder(
         name = "Windows gradle_plugin_fat_apk_test|gpfa",
@@ -1253,6 +1265,7 @@ def devicelab_try_config():
             swarming.cache(name = "pub_cache", path = ".pub_cache"),
             swarming.cache(name = "android_sdk", path = "android29"),
         ],
+        os = "Windows-Server",
     )
     common.windows_try_builder(
         name = "Windows gradle_plugin_light_apk_test|gpla",
@@ -1267,6 +1280,7 @@ def devicelab_try_config():
             swarming.cache(name = "pub_cache", path = ".pub_cache"),
             swarming.cache(name = "android_sdk", path = "android29"),
         ],
+        os = "Windows-Server",
     )
     common.windows_try_builder(
         name = "Windows module_host_with_custom_build_test|mhwcb",
@@ -1281,6 +1295,7 @@ def devicelab_try_config():
             swarming.cache(name = "pub_cache", path = ".pub_cache"),
             swarming.cache(name = "android_sdk", path = "android29"),
         ],
+        os = "Windows-Server",
     )
     common.windows_try_builder(
         name = "Windows module_custom_host_app_name_test|mchan",
@@ -1295,6 +1310,7 @@ def devicelab_try_config():
             swarming.cache(name = "pub_cache", path = ".pub_cache"),
             swarming.cache(name = "android_sdk", path = "android29"),
         ],
+        os = "Windows-Server",
     )
     common.windows_try_builder(
         name = "Windows module_test|mod",
@@ -1309,6 +1325,7 @@ def devicelab_try_config():
             swarming.cache(name = "pub_cache", path = ".pub_cache"),
             swarming.cache(name = "android_sdk", path = "android29"),
         ],
+        os = "Windows-Server",
     )
     common.windows_try_builder(
         name = "Windows plugin_test|plugin",
@@ -1323,6 +1340,7 @@ def devicelab_try_config():
             swarming.cache(name = "pub_cache", path = ".pub_cache"),
             swarming.cache(name = "android_sdk", path = "android29"),
         ],
+        os = "Windows-Server",
     )
 
 devicelab_config = struct(setup = _setup)

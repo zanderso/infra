@@ -340,12 +340,12 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
             "shard": "build_tests",
             "subshards": ["0", "1_last"],
             "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}, {"dependency": "goldctl"}],
-            "drone_dimensions": ["os=Windows-Server"],
         },
         caches = [
             swarming.cache(name = "pub_cache", path = ".pub_cache"),
             swarming.cache(name = "android_sdk", path = "android29"),
         ],
+        os = "Windows-Server",
     )
     common.windows_prod_builder(
         name = "Windows%s framework_tests|frwk_tests" % ("" if branch == "master" else " " + branch),
@@ -361,6 +361,7 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
         caches = [
             swarming.cache(name = "pub_cache", path = ".pub_cache"),
         ],
+        os = "Windows-Server",
     )
     common.windows_prod_builder(
         name = "Windows%s tool_tests|tool_tests" % ("" if branch == "master" else " " + branch),
@@ -377,6 +378,7 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
             swarming.cache(name = "pub_cache", path = ".pub_cache"),
             swarming.cache(name = "android_sdk", path = "android29"),
         ],
+        os = "Windows-Server",
     )
     common.windows_prod_builder(
         name = "Windows%s SDK Drone|frwdrn" % ("" if branch == "master" else " " + branch),
@@ -387,6 +389,7 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
             swarming.cache(name = "pub_cache", path = ".pub_cache"),
             swarming.cache(name = "android_sdk", path = "android29"),
         ],
+        os = "Windows-Server",
     )
 
     # Windows adhoc tests
@@ -403,6 +406,7 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
         caches = [
             swarming.cache(name = "pub_cache", path = ".pub_cache"),
         ],
+        os = "Windows-Server",
     )
 
     # Mac builders
@@ -827,12 +831,12 @@ def framework_try_config():
             "shard": "build_tests",
             "subshards": ["0", "1_last"],
             "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}, {"dependency": "goldctl"}],
-            "drone_dimensions": ["os=Windows-Server"],
         },
         caches = [
             swarming.cache(name = "pub_cache", path = ".pub_cache"),
             swarming.cache(name = "android_sdk", path = "android29"),
         ],
+        os = "Windows-Server",
     )
     common.windows_try_builder(
         name = "Windows framework_tests|frwk_tests",
@@ -847,6 +851,7 @@ def framework_try_config():
         caches = [
             swarming.cache(name = "pub_cache", path = ".pub_cache"),
         ],
+        os = "Windows-Server",
     )
     common.windows_try_builder(
         name = "Windows tool_tests|tool_tests",
@@ -863,6 +868,7 @@ def framework_try_config():
             swarming.cache(name = "pub_cache", path = ".pub_cache"),
             swarming.cache(name = "android_sdk", path = "android29"),
         ],
+        os = "Windows-Server",
     )
     common.windows_try_builder(
         name = "Windows SDK Drone|frwkdrn",
@@ -873,6 +879,7 @@ def framework_try_config():
             swarming.cache(name = "pub_cache", path = ".pub_cache"),
             swarming.cache(name = "android_sdk", path = "android29"),
         ],
+        os = "Windows-Server",
     )
 
     # Windows adhoc tests
@@ -889,6 +896,7 @@ def framework_try_config():
         caches = [
             swarming.cache(name = "pub_cache", path = ".pub_cache"),
         ],
+        os = "Windows-Server",
     )
 
 framework_config = struct(setup = _setup)

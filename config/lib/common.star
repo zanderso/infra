@@ -406,7 +406,7 @@ def _windows_builder(
     if caches != None:
         windows_caches.extend(caches)
     return _common_builder(
-        os = "Windows-10",
+        os = kwargs.get("os") or "Windows-10",
         properties = properties,
         caches = windows_caches,
         category = category,
