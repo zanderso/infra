@@ -236,13 +236,11 @@ def _flutter_builder(
     if dimensions:
         dimensions = helpers.merge_dicts({
             "pool": pool,
-            "cpu": "x64",
             "os": os,
         }, dimensions)
     else:
         dimensions = {
             "pool": pool,
-            "cpu": "x64",
             "os": os,
         }
     if cores != None:
@@ -303,7 +301,11 @@ def _prod_builder(
         "gold_tryjob": False,
     })
     bucket = "prod"
-    pool = "luci.flutter.prod"
+    if kwargs.get("pool"):
+        pool = kwargs.get("pool")
+        kwargs.pop("pool")
+    else:
+        pool = "luci.flutter.prod"
     name_parts = name.split("|")
 
     if console_view_name:

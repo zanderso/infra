@@ -18,6 +18,7 @@ load("//lib/common.star", "common")
 load("//lib/repos.star", "repos")
 load("//cocoon_config.star", "cocoon_config")
 load("//devicelab_config.star", "devicelab_config")
+load("//devicelab_staging_config.star", "devicelab_staging_config")
 load("//firebaselab_config.star", "firebaselab_config")
 load("//recipes_config.star", "recipes_config")
 load("//engine_config.star", "engine_config")
@@ -182,6 +183,8 @@ luci.builder.defaults.properties.set({
 cocoon_config.setup()
 
 devicelab_config.setup(BRANCHES)
+
+devicelab_staging_config.setup()
 
 firebaselab_config.setup(BRANCHES)
 
