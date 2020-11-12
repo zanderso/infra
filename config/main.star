@@ -156,7 +156,6 @@ common.cq_group(repos.PACKAGES)
 common.cq_group(repos.PLUGINS)
 
 luci.builder.defaults.dimensions.set({
-    "cpu": common.TARGET_X64,
     "os": "Linux",
 })
 
