@@ -165,6 +165,22 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
         ],
     )
     common.linux_prod_builder(
+        name = "Linux%s web_tool_tests|web_tt" % ("" if branch == "master" else " " + branch),
+        recipe = drone_recipe_name,
+        console_view_name = console_view_name,
+        triggered_by = [trigger_name],
+        triggering_policy = triggering_policy,
+        properties = {
+            "shard": "web_tool_tests",
+            "subshard": "web",
+            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}, {"dependency": "goldctl"}],
+        },
+        caches = [
+            swarming.cache(name = "pub_cache", path = ".pub_cache"),
+            swarming.cache(name = "android_sdk", path = "android29"),
+        ],
+    )
+    common.linux_prod_builder(
         name = "Linux%s web_integration_tests|web_int" % ("" if branch == "master" else " " + branch),
         recipe = "flutter/flutter_drone",
         console_view_name = console_view_name,
@@ -381,6 +397,23 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
         os = "Windows-Server",
     )
     common.windows_prod_builder(
+        name = "Windows%s web_tool_tests|web_tt" % ("" if branch == "master" else " " + branch),
+        recipe = drone_recipe_name,
+        console_view_name = console_view_name,
+        triggered_by = [trigger_name],
+        triggering_policy = triggering_policy,
+        properties = {
+            "shard": "web_tool_tests",
+            "subshard": "web",
+            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}, {"dependency": "goldctl"}],
+        },
+        caches = [
+            swarming.cache(name = "pub_cache", path = ".pub_cache"),
+            swarming.cache(name = "android_sdk", path = "android29"),
+        ],
+        os = "Windows-Server",
+    )
+    common.windows_prod_builder(
         name = "Windows%s SDK Drone|frwdrn" % ("" if branch == "master" else " " + branch),
         recipe = drone_recipe_name,
         console_view_name = None,
@@ -453,6 +486,25 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
         properties = {
             "shard": "tool_tests",
             "subshards": ["general", "commands", "integration"],
+            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}, {"dependency": "xcode"}, {"dependency": "goldctl"}],
+            "$depot_tools/osx_sdk": {
+                "sdk_version": "11E708",
+            },
+        },
+        caches = [
+            swarming.cache(name = "pub_cache", path = ".pub_cache"),
+            swarming.cache(name = "android_sdk", path = "android29"),
+        ],
+    )
+    common.mac_prod_builder(
+        name = "Mac%s web_tool_tests|web_tt" % ("" if branch == "master" else " " + branch),
+        recipe = drone_recipe_name,
+        console_view_name = console_view_name,
+        triggered_by = [trigger_name],
+        triggering_policy = triggering_policy,
+        properties = {
+            "shard": "web_tool_tests",
+            "subshard": "web",
             "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}, {"dependency": "xcode"}, {"dependency": "goldctl"}],
             "$depot_tools/osx_sdk": {
                 "sdk_version": "11E708",
@@ -557,6 +609,22 @@ def framework_try_config():
         properties = {
             "shard": "tool_tests",
             "subshards": ["general", "commands", "integration"],
+            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}, {"dependency": "goldctl"}],
+        },
+        caches = [
+            swarming.cache(name = "pub_cache", path = ".pub_cache"),
+            swarming.cache(name = "android_sdk", path = "android29"),
+        ],
+    )
+    common.linux_try_builder(
+        name = "Linux web_tool_tests|web_tt",
+        recipe = "flutter/flutter_drone",
+        repo = repos.FLUTTER,
+        add_cq = True,
+        list_view_name = list_view_name,
+        properties = {
+            "shard": "web_tool_tests",
+            "subshard": "web",
             "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}, {"dependency": "goldctl"}],
         },
         caches = [
@@ -780,6 +848,25 @@ def framework_try_config():
         ],
     )
     common.mac_try_builder(
+        name = "Mac web_tool_tests|web_tt",
+        recipe = "flutter/flutter_drone",
+        repo = repos.FLUTTER,
+        add_cq = True,
+        list_view_name = list_view_name,
+        properties = {
+            "shard": "web_tool_tests",
+            "subshard": "web",
+            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}, {"dependency": "xcode"}, {"dependency": "goldctl"}],
+            "$depot_tools/osx_sdk": {
+                "sdk_version": "11E708",
+            },
+        },
+        caches = [
+            swarming.cache(name = "pub_cache", path = ".pub_cache"),
+            swarming.cache(name = "android_sdk", path = "android29"),
+        ],
+    )
+    common.mac_try_builder(
         name = "Mac SDK Drone|frwkdrn",
         recipe = "flutter/flutter_drone",
         repo = repos.FLUTTER,
@@ -862,6 +949,23 @@ def framework_try_config():
         properties = {
             "shard": "tool_tests",
             "subshards": ["general", "commands", "integration"],
+            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}, {"dependency": "goldctl"}],
+        },
+        caches = [
+            swarming.cache(name = "pub_cache", path = ".pub_cache"),
+            swarming.cache(name = "android_sdk", path = "android29"),
+        ],
+        os = "Windows-Server",
+    )
+    common.windows_try_builder(
+        name = "Windows web_tool_tests|web_tt",
+        recipe = "flutter/flutter_drone",
+        repo = repos.FLUTTER,
+        add_cq = True,
+        list_view_name = list_view_name,
+        properties = {
+            "shard": "web_tool_tests",
+            "subshard": "web",
             "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}, {"dependency": "goldctl"}],
         },
         caches = [
