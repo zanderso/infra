@@ -103,6 +103,9 @@ def devicelab_staging_prod_config():
             triggered_by = [trigger_name],
             triggering_policy = triggering_policy,
             properties = {
+                "$depot_tools/osx_sdk": {
+                    "sdk_version": "12A7403",  # 12.1
+                },
                 "dependencies": [
                     {
                         "dependency": "xcode",
