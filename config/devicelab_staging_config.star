@@ -12,6 +12,7 @@ which is mirrored from https://github.com/flutter/flutter.
 
 load("//lib/common.star", "common")
 load("//lib/repos.star", "repos")
+load("//lib/timeout.star", "timeout")
 
 def _setup():
     devicelab_staging_prod_config()
@@ -126,6 +127,7 @@ def devicelab_staging_prod_config():
             pool = "luci.flutter.staging",
             os = "Mac-10.15.7",
             dimensions = {"device_os": "14.1"},
+            execution_timeout = timeout.SHORT,
         )
 
 devicelab_staging_config = struct(setup = _setup)
