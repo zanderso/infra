@@ -620,7 +620,6 @@ def framework_try_config():
         name = "Linux web_tool_tests|web_tt",
         recipe = "flutter/flutter_drone",
         repo = repos.FLUTTER,
-        add_cq = True,
         list_view_name = list_view_name,
         properties = {
             "shard": "web_tool_tests",
@@ -851,7 +850,6 @@ def framework_try_config():
         name = "Mac web_tool_tests|web_tt",
         recipe = "flutter/flutter_drone",
         repo = repos.FLUTTER,
-        add_cq = True,
         list_view_name = list_view_name,
         properties = {
             "shard": "web_tool_tests",
@@ -961,7 +959,6 @@ def framework_try_config():
         name = "Windows web_tool_tests|web_tt",
         recipe = "flutter/flutter_drone",
         repo = repos.FLUTTER,
-        add_cq = True,
         list_view_name = list_view_name,
         properties = {
             "shard": "web_tool_tests",
