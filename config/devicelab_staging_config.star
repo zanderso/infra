@@ -57,7 +57,7 @@ def devicelab_staging_prod_config():
     # Defines framework prod builders
 
     # Mac prod builders.
-    tasks = [
+    mac_tasks = [
         "backdrop_filter_perf_ios__timeline_summary",
         "basic_material_app_ios__compile",
         "channels_integration_test_ios",
@@ -96,7 +96,7 @@ def devicelab_staging_prod_config():
         "smoke_catalina_start_up_ios",
         "tiles_scroll_perf_ios__timeline_summary",
     ]
-    for task in tasks:
+    for task in mac_tasks:
         common.mac_prod_builder(
             name = "Mac %s|%s" % (task, short_name(task)),
             recipe = drone_recipe_name,
@@ -128,6 +128,78 @@ def devicelab_staging_prod_config():
             os = "Mac-10.15.7",
             dimensions = {"device_os": "14.1"},
             execution_timeout = timeout.SHORT,
+        )
+
+    # Linux prod builders.
+    linux_tasks = [
+        "complex_layout_android__compile",
+        "basic_material_app_android__compile",
+        "flutter_gallery_android__compile",
+        "complex_layout_android__scroll_smoothness",
+        "platform_views_scroll_perf__timeline_summary",
+        "android_view_scroll_perf__timeline_summary",
+        "cull_opacity_perf__e2e_summary",
+        "multi_widget_construction_perf__timeline_summary",
+        "multi_widget_construction_perf__e2e_summary",
+        "frame_policy_delay_test_android",
+        "picture_cache_perf__e2e_summary",
+        "cubic_bezier_perf__e2e_summary",
+        "cubic_bezier_perf_sksl_warmup__e2e_summary",
+        "backdrop_filter_perf__e2e_summary",
+        "textfield_perf__e2e_summary",
+        "color_filter_and_fade_perf__e2e_summary",
+        "complex_layout_scroll_perf__devtools_memory",
+        "android_defines_test",
+        "android_obfuscate_test",
+        "complex_layout_semantics_perf",
+        "routing_test",
+        "linux_chrome_dev_mode",
+        "web_size__compile_test",
+        "image_list_reported_duration",
+        "image_list_jit_reported_duration",
+        "hot_mode_dev_cycle_linux__benchmark",
+        "flutter_test_performance",
+        "flutter_gallery__start_up",
+        "flutter_gallery__transition_perf",
+        "flutter_gallery__transition_perf_e2e",
+        "flutter_gallery__transition_perf_hybrid",
+        "flutter_gallery_sksl_warmup__transition_perf",
+        "flutter_gallery_sksl_warmup__transition_perf_e2e",
+        "flutter_gallery__transition_perf_with_semantics",
+        "flutter_gallery__memory_nav",
+        "flutter_gallery__back_button_memory",
+        "flutter_gallery__image_cache_memory",
+        "new_gallery__crane_perf",
+        "fast_scroll_heavy_gridview__memory",
+        "large_image_changer_perf_android",
+        "animated_placeholder_perf",
+        "animated_placeholder_perf__e2e_summary",
+        "analyzer_benchmark",
+        "flutter_gallery_v2_chrome_run_test",
+        "flutter_gallery_v2_web_compile_test",
+    ]
+
+    for task in linux_tasks:
+        common.linux_prod_builder(
+            name = "Linux %s|%s" % (task, short_name(task)),
+            recipe = drone_recipe_name,
+            console_view_name = console_view_name,
+            triggered_by = [trigger_name],
+            triggering_policy = triggering_policy,
+            properties = {
+                "dependencies": [
+                    {
+                        "dependency": "android_sdk",
+                    },
+                    {
+                        "dependency": "chrome_and_driver",
+                    },
+                ],
+                "task_name": task,
+            },
+            pool = "luci.flutter.staging",
+            os = "Android",
+            dimensions = {"device_os": "N"},
         )
 
 devicelab_staging_config = struct(setup = _setup)

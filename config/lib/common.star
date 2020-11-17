@@ -378,7 +378,6 @@ def _mac_builder(properties = {}, caches = None, category = "Mac", **kwargs):
 def _linux_builder(
         properties = {},
         caches = None,
-        cores = "8",
         category = "Linux",
         os = None,
         **kwargs):
@@ -390,7 +389,6 @@ def _linux_builder(
         linux_caches.extend(caches)
     return _common_builder(
         os = os or "Linux",
-        cores = cores,
         properties = properties,
         caches = linux_caches,
         category = category,
