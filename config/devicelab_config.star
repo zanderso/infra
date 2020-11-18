@@ -32,6 +32,11 @@ def devicelab_prod_config(branch, version, ref):
       ref(str): The git ref we are creating configurations for.
     """
 
+    # Feature toggle for collecting DeviceLab tests on LUCI. This change landed
+    # in flutter/flutter#70702 and must roll through before enabling for more
+    # branches beyond master (eg dev, beta, stable).
+    UPLOAD_METRICS_CHANNELS = ("master",)
+
     # TODO(godofredoc): Merge the recipe names once we remove the old one.
     drone_recipe_name = ("devicelab/devicelab_drone_" + version if version else "devicelab/devicelab_drone")
     luci.recipe(
@@ -216,6 +221,7 @@ def devicelab_prod_config(branch, version, ref):
         properties = {
             "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}],
             "task_name": "web_benchmarks_html",
+            "upload_metric": branch in UPLOAD_METRICS_CHANNELS,
         },
         caches = [
             swarming.cache(name = "pub_cache", path = ".pub_cache"),
