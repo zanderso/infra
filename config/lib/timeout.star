@@ -9,4 +9,7 @@ timeout = struct(
     MEDIUM = 60 * time.minute,
     LONG = 90 * time.minute,
     XL = 180 * time.minute,
+    # EXPIRATION is used to set builder expiration_timeout, which controls
+    # how long to wait for a build to be picked up before canceling.
+    LONG_EXPIRATION = 12 * 60 * time.minute,
 )

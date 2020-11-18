@@ -128,6 +128,7 @@ def devicelab_staging_prod_config():
             os = "Mac-10.15.7",
             dimensions = {"device_os": "14.1"},
             execution_timeout = timeout.SHORT,
+            expiration_timeout = timeout.LONG_EXPIRATION,
         )
 
     # Linux prod builders.
@@ -200,6 +201,7 @@ def devicelab_staging_prod_config():
             pool = "luci.flutter.staging",
             os = "Android",
             dimensions = {"device_os": "N"},
+            expiration_timeout = timeout.LONG_EXPIRATION,
         )
 
 devicelab_staging_config = struct(setup = _setup)
