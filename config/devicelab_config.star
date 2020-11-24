@@ -221,7 +221,7 @@ def devicelab_prod_config(branch, version, ref):
         properties = {
             "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}],
             "task_name": "web_benchmarks_html",
-            "upload_metric": branch in UPLOAD_METRICS_CHANNELS,
+            "upload_metrics": branch in UPLOAD_METRICS_CHANNELS,
         },
         caches = [
             swarming.cache(name = "pub_cache", path = ".pub_cache"),
