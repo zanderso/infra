@@ -35,7 +35,7 @@ def devicelab_prod_config(branch, version, ref):
     # Feature toggle for collecting DeviceLab tests on LUCI. This change landed
     # in flutter/flutter#70702 and must roll through before enabling for more
     # branches beyond master (eg dev, beta, stable).
-    UPLOAD_METRICS_CHANNELS = ("master",)
+    UPLOAD_METRICS_CHANNELS = ()
 
     # TODO(godofredoc): Merge the recipe names once we remove the old one.
     drone_recipe_name = ("devicelab/devicelab_drone_" + version if version else "devicelab/devicelab_drone")
