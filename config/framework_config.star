@@ -344,6 +344,21 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
             swarming.cache(name = "android_sdk", path = "android29"),
         ],
     )
+    common.linux_prod_builder(
+        name = "Linux%s flutter_plugins|fltplgns" % ("" if branch == "master" else " " + branch),
+        recipe = drone_recipe_name,
+        console_view_name = console_view_name,
+        triggered_by = [trigger_name],
+        triggering_policy = triggering_policy,
+        properties = {
+            "shard": "flutter_plugins",
+            "subshard": "analyze",
+            "dependencies": [],
+        },
+        caches = [
+            swarming.cache(name = "pub_cache", path = ".pub_cache"),
+        ],
+    )
 
     # Windows platform
     common.windows_prod_builder(
@@ -684,6 +699,20 @@ def framework_try_config():
         caches = [
             swarming.cache(name = "pub_cache", path = ".pub_cache"),
             swarming.cache(name = "android_sdk", path = "android29"),
+        ],
+    )
+    common.linux_try_builder(
+        name = "Linux flutter_plugins|fltplgns",
+        recipe = "flutter/flutter_drone",
+        repo = repos.FLUTTER,
+        list_view_name = list_view_name,
+        properties = {
+            "shard": "flutter_plugins",
+            "subshard": "analyze",
+            "dependencies": [],
+        },
+        caches = [
+            swarming.cache(name = "pub_cache", path = ".pub_cache"),
         ],
     )
 
