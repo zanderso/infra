@@ -1,5 +1,5 @@
 {
   "files.associations": {
-    "*.star": "python"
+    "*.star": "starlark"
   }
 }

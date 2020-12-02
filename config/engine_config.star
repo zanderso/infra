@@ -61,6 +61,7 @@ def engine_recipes(version):
         "femu_test",
         "engine/engine_metrics",
         "engine/scenarios",
+        "engine/web_engine_drone",
         "engine/web_engine_framework",
     ]
     for name in recipe_list:
@@ -234,6 +235,15 @@ def engine_prod_config(platform_args, branch, version, ref, fuchsia_ctl_version)
         triggering_policy = triggering_policy,
         priority = 30 if branch == "master" else 25,
         **platform_args["windows"]
+    )
+    common.linux_prod_builder(
+        name = builder_name("Linux%s Web Drone|webdrn", branch),
+        recipe = full_recipe_name("engine/web_engine_drone", version),
+        properties = engine_properties(gcs_goldens_bucket = "flutter_logs"),
+        console_view_name = None,
+        no_notify = True,
+        priority = 28 if branch == "master" else 25,
+        **platform_args["linux"]
     )
     common.linux_prod_builder(
         name = builder_name("Linux%s Web Framework tests|web_tests", branch),
@@ -491,6 +501,17 @@ def engine_try_config(platform_args, fuchsia_ctl_version):
             framework = True,
             shard = "web_tests",
             subshards = ["0", "1", "2", "3", "4", "5", "6", "7_last"],
+        ),
+        **platform_args["linux"]
+    )
+    common.linux_try_builder(
+        name = "Linux Web Drone|webdrn",
+        recipe = "engine/web_engine_drone",
+        repo = repos.ENGINE,
+        list_view_name = list_view_name,
+        properties = engine_properties(
+            gcs_goldens_bucket = "flutter_logs",
+            no_lto = True,
         ),
         **platform_args["linux"]
     )
