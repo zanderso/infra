@@ -126,7 +126,7 @@ def devicelab_staging_prod_config():
             },
             pool = "luci.flutter.staging",
             os = "Mac-10.15.7",
-            dimensions = {"device_os": "14.1"},
+            dimensions = {"device_os": "iOS"},
             execution_timeout = timeout.SHORT,
             expiration_timeout = timeout.LONG_EXPIRATION,
         )
