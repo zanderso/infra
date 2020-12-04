@@ -213,6 +213,23 @@ def devicelab_prod_config(branch, version, ref):
         ],
     )
     common.linux_prod_builder(
+        name = "Linux%s web_benchmarks_canvaskit|wbc" % ("" if branch == "master" else " " + branch),
+        recipe = drone_recipe_name,
+        console_view_name = console_view_name,
+        triggered_by = [trigger_name],
+        triggering_policy = triggering_policy,
+        properties = {
+            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}],
+            "task_name": "web_benchmarks_canvaskit",
+            # TODO(https://github.com/flutter/flutter/issues/71749): Dynamically assign
+            "upload_metrics": True,
+        },
+        caches = [
+            swarming.cache(name = "pub_cache", path = ".pub_cache"),
+            swarming.cache(name = "android_sdk", path = "android29"),
+        ],
+    )
+    common.linux_prod_builder(
         name = "Linux%s web_benchmarks_html|wbh" % ("" if branch == "master" else " " + branch),
         recipe = drone_recipe_name,
         console_view_name = console_view_name,
