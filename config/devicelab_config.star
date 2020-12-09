@@ -548,6 +548,9 @@ def devicelab_prod_config(branch, version, ref):
                     "dependency": "gems",
                 },
             ],
+            "$depot_tools/osx_sdk": {
+                "sdk_version": "11E708",
+            },
             "task_name": "plugin_lint_mac",
         },
         caches = [
@@ -1193,6 +1196,9 @@ def devicelab_try_config():
                     "dependency": "gems",
                 },
             ],
+            "$depot_tools/osx_sdk": {
+                "sdk_version": "11E708",
+            },
             "task_name": "plugin_lint_mac",
         },
         caches = [
