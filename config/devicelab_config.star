@@ -528,6 +528,27 @@ def devicelab_prod_config(branch, version, ref):
         ],
     )
     common.mac_prod_builder(
+        name = "Mac%s ios_content_validation_test|icvt" % ("" if branch == "master" else " " + branch),
+        recipe = drone_recipe_name,
+        console_view_name = console_view_name,
+        triggered_by = [trigger_name],
+        triggering_policy = triggering_policy,
+        properties = {
+            "dependencies": [
+                {
+                    "dependency": "xcode",
+                },
+                {
+                    "dependency": "gems",
+                },
+            ],
+            "task_name": "ios_content_validation_test",
+        },
+        caches = [
+            swarming.cache(name = "pub_cache", path = ".pub_cache"),
+        ],
+    )
+    common.mac_prod_builder(
         name = "Mac%s plugin_lint_mac|plm" % ("" if branch == "master" else " " + branch),
         recipe = drone_recipe_name,
         console_view_name = console_view_name,
@@ -1176,6 +1197,27 @@ def devicelab_try_config():
             swarming.cache(name = "android_sdk", path = "android29"),
         ],
     )
+    common.mac_try_builder(
+        name = "Mac ios_content_validation_test|icvt",
+        recipe = drone_recipe_name,
+        repo = repos.FLUTTER,
+        list_view_name = list_view_name,
+        properties = {
+            "dependencies": [
+                {
+                    "dependency": "xcode",
+                },
+                {
+                    "dependency": "gems",
+                },
+            ],
+            "task_name": "ios_content_validation_test",
+        },
+        caches = [
+            swarming.cache(name = "pub_cache", path = ".pub_cache"),
+        ],
+    )
+
     common.mac_try_builder(
         name = "Mac plugin_lint_mac|plm",
         recipe = drone_recipe_name,
