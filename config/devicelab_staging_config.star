@@ -195,6 +195,9 @@ def devicelab_staging_prod_config():
                     {
                         "dependency": "chrome_and_driver",
                     },
+                    {
+                        "dependency": "open_jdk",
+                    },
                 ],
                 "task_name": task,
             },
