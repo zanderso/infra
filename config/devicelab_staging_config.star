@@ -78,6 +78,7 @@ def devicelab_staging_prod_config():
         "integration_ui_ios_screenshot",
         "integration_ui_ios_textfield",
         "ios_app_with_extensions_test",
+        "ios_content_validation_test",
         "ios_defines_test",
         "ios_platform_view_tests",
         "large_image_changer_perf_ios",
