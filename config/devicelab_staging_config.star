@@ -203,6 +203,7 @@ def devicelab_staging_prod_config():
             },
             pool = "luci.flutter.staging",
             os = "Android",
+            dimensions = {"device_os": "N"},
             expiration_timeout = timeout.LONG_EXPIRATION,
         )
 
