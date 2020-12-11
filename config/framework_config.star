@@ -501,7 +501,7 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
         properties = {
             "shard": "tool_tests",
             "subshards": ["general", "commands", "integration"],
-            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}, {"dependency": "xcode"}, {"dependency": "goldctl"}],
+            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}, {"dependency": "xcode"}, {"dependency": "gems"}, {"dependency": "goldctl"}],
             "$depot_tools/osx_sdk": {
                 "sdk_version": "11E708",
             },
@@ -865,7 +865,7 @@ def framework_try_config():
         properties = {
             "shard": "tool_tests",
             "subshards": ["general", "commands", "integration"],
-            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}, {"dependency": "xcode"}, {"dependency": "goldctl"}],
+            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}, {"dependency": "xcode"}, {"dependency": "gems"}, {"dependency": "goldctl"}],
             "$depot_tools/osx_sdk": {
                 "sdk_version": "11E708",
             },
