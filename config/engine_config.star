@@ -215,7 +215,6 @@ def engine_prod_config(platform_args, branch, version, ref, fuchsia_ctl_version)
         triggered_by = [trigger_name],
         triggering_policy = triggering_policy,
         priority = 30 if branch == "master" else 25,
-        execution_timeout = timeout.LONG,
         **platform_args["linux"]
     )
     common.mac_prod_builder(
@@ -472,7 +471,6 @@ def engine_try_config(platform_args, fuchsia_ctl_version):
             gcs_goldens_bucket = "flutter_logs",
             no_lto = True,
         ),
-        execution_timeout = timeout.LONG,
         **platform_args["linux"]
     )
     common.mac_try_builder(
