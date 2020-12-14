@@ -23,6 +23,12 @@ def _setup(branches):
 
     devicelab_try_config()
 
+def short_name(task_name):
+    """Create a short name for task name."""
+    task_name = task_name.replace("__", "_")
+    words = task_name.split("_")
+    return "".join([w[0] for w in words])[:5]
+
 def devicelab_prod_config(branch, version, ref):
     """Prod configurations for the framework repository.
 
@@ -35,7 +41,7 @@ def devicelab_prod_config(branch, version, ref):
     # Feature toggle for collecting DeviceLab tests on LUCI. This change landed
     # in flutter/flutter#70702 and must roll through before enabling for more
     # branches beyond master (eg dev, beta, stable).
-    UPLOAD_METRICS_CHANNELS = ()
+    UPLOAD_METRICS_CHANNELS = ("master")
 
     # TODO(godofredoc): Merge the recipe names once we remove the old one.
     drone_recipe_name = ("devicelab/devicelab_drone_" + version if version else "devicelab/devicelab_drone")
@@ -212,39 +218,38 @@ def devicelab_prod_config(branch, version, ref):
             swarming.cache(name = "android_sdk", path = "android29"),
         ],
     )
-    common.linux_prod_builder(
-        name = "Linux%s web_benchmarks_canvaskit|wbc" % ("" if branch == "master" else " " + branch),
-        recipe = drone_recipe_name,
-        console_view_name = console_view_name,
-        triggered_by = [trigger_name],
-        triggering_policy = triggering_policy,
-        properties = {
-            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}],
-            "task_name": "web_benchmarks_canvaskit",
-            # TODO(https://github.com/flutter/flutter/issues/71749): Dynamically assign
-            "upload_metrics": True,
-        },
-        caches = [
-            swarming.cache(name = "pub_cache", path = ".pub_cache"),
-            swarming.cache(name = "android_sdk", path = "android29"),
-        ],
-    )
-    common.linux_prod_builder(
-        name = "Linux%s web_benchmarks_html|wbh" % ("" if branch == "master" else " " + branch),
-        recipe = drone_recipe_name,
-        console_view_name = console_view_name,
-        triggered_by = [trigger_name],
-        triggering_policy = triggering_policy,
-        properties = {
-            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}],
-            "task_name": "web_benchmarks_html",
-            "upload_metrics": branch in UPLOAD_METRICS_CHANNELS,
-        },
-        caches = [
-            swarming.cache(name = "pub_cache", path = ".pub_cache"),
-            swarming.cache(name = "android_sdk", path = "android29"),
-        ],
-    )
+
+    # Linux prod builders.
+    linux_vm_tasks = [
+        "web_benchmarks_canvaskit",
+        "web_benchmarks_html",
+    ]
+    branched_builder_prefix = "" if branch == "master" else " " + branch
+    for task in linux_vm_tasks:
+        common.linux_prod_builder(
+            name = "Linux%s %s|%s" % (branched_builder_prefix, task, short_name(task)),
+            recipe = drone_recipe_name,
+            console_view_name = console_view_name,
+            triggered_by = [trigger_name],
+            triggering_policy = triggering_policy,
+            properties = {
+                "dependencies": [
+                    {
+                        "dependency": "android_sdk",
+                    },
+                    {
+                        "dependency": "chrome_and_driver",
+                    },
+                ],
+                "task_name": task,
+                "upload_metrics": branch in UPLOAD_METRICS_CHANNELS,
+            },
+            caches = [
+                swarming.cache(name = "pub_cache", path = ".pub_cache"),
+                swarming.cache(name = "android_sdk", path = "android29"),
+            ],
+            os = "Linux",
+        )
 
     # Mac prod builders.
     common.mac_prod_builder(
