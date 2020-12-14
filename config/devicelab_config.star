@@ -273,6 +273,9 @@ def devicelab_prod_config(branch, version, ref):
                     "dependency": "gems",
                 },
             ],
+            "$depot_tools/osx_sdk": {
+                "sdk_version": "11E708",
+            },
             "task_name": "build_aar_module_test",
         },
         caches = [
@@ -301,6 +304,9 @@ def devicelab_prod_config(branch, version, ref):
                     "dependency": "gems",
                 },
             ],
+            "$depot_tools/osx_sdk": {
+                "sdk_version": "11E708",
+            },
             "task_name": "gradle_non_android_plugin_test",
         },
         caches = [
@@ -329,6 +335,9 @@ def devicelab_prod_config(branch, version, ref):
                     "dependency": "gems",
                 },
             ],
+            "$depot_tools/osx_sdk": {
+                "sdk_version": "11E708",
+            },
             "task_name": "gradle_plugin_bundle_test",
         },
         caches = [
@@ -357,6 +366,9 @@ def devicelab_prod_config(branch, version, ref):
                     "dependency": "gems",
                 },
             ],
+            "$depot_tools/osx_sdk": {
+                "sdk_version": "11E708",
+            },
             "task_name": "gradle_plugin_fat_apk_test",
         },
         caches = [
@@ -385,6 +397,9 @@ def devicelab_prod_config(branch, version, ref):
                     "dependency": "gems",
                 },
             ],
+            "$depot_tools/osx_sdk": {
+                "sdk_version": "11E708",
+            },
             "task_name": "gradle_plugin_light_apk_test",
         },
         caches = [
@@ -413,6 +428,9 @@ def devicelab_prod_config(branch, version, ref):
                     "dependency": "gems",
                 },
             ],
+            "$depot_tools/osx_sdk": {
+                "sdk_version": "11E708",
+            },
             "task_name": "module_host_with_custom_build_test",
         },
         caches = [
@@ -441,6 +459,9 @@ def devicelab_prod_config(branch, version, ref):
                     "dependency": "gems",
                 },
             ],
+            "$depot_tools/osx_sdk": {
+                "sdk_version": "11E708",
+            },
             "task_name": "module_custom_host_app_name_test",
         },
         caches = [
@@ -469,6 +490,9 @@ def devicelab_prod_config(branch, version, ref):
                     "dependency": "gems",
                 },
             ],
+            "$depot_tools/osx_sdk": {
+                "sdk_version": "11E708",
+            },
             "task_name": "module_test",
         },
         caches = [
@@ -528,6 +552,9 @@ def devicelab_prod_config(branch, version, ref):
                     "dependency": "gems",
                 },
             ],
+            "$depot_tools/osx_sdk": {
+                "sdk_version": "11E708",
+            },
             "task_name": "build_ios_framework_module_test",
         },
         caches = [
@@ -611,6 +638,9 @@ def devicelab_prod_config(branch, version, ref):
                     "dependency": "gems",
                 },
             ],
+            "$depot_tools/osx_sdk": {
+                "sdk_version": "11E708",
+            },
             "task_name": "plugin_test",
         },
         caches = [
