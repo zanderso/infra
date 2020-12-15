@@ -224,6 +224,8 @@ def devicelab_prod_config(branch, version, ref):
 
     # Linux prod builders.
     linux_vm_tasks = [
+        "dartdocs",
+        "technical_debt__cost",
         "web_benchmarks_canvaskit",
         "web_benchmarks_html",
     ]

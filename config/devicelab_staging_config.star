@@ -149,7 +149,6 @@ def devicelab_staging_prod_config():
         "cubic_bezier_perf__e2e_summary",
         "cubic_bezier_perf_sksl_warmup__e2e_summary",
         "cull_opacity_perf__e2e_summary",
-        "dartdocs",
         "fast_scroll_heavy_gridview__memory",
         "flutter_gallery__back_button_memory",
         "flutter_gallery__image_cache_memory",
@@ -177,7 +176,6 @@ def devicelab_staging_prod_config():
         "picture_cache_perf__e2e_summary",
         "platform_views_scroll_perf__timeline_summary",
         "routing_test",
-        "technical_debt__cost",
         "textfield_perf__e2e_summary",
         "web_size__compile_test",
     ]
