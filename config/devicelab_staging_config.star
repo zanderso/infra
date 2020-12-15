@@ -104,8 +104,8 @@ def devicelab_staging_prod_config():
             triggered_by = [trigger_name],
             triggering_policy = triggering_policy,
             properties = {
-                "$depot_tools/osx_sdk": {
-                    "sdk_version": "12B5044c",  # 12.2
+                "$flutter/osx_sdk": {
+                    "sdk_version": "12c5020f",  # 12.3
                 },
                 "dependencies": [
                     {
