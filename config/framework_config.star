@@ -13,6 +13,9 @@ which is mirrored from https://github.com/flutter/flutter.
 load("//lib/common.star", "common")
 load("//lib/repos.star", "repos")
 
+# Global xcode version for flutter/devicelab tests.
+XCODE_VERSION = "11e708"
+
 def _setup(branches):
     for branch in branches:
         framework_prod_config(
@@ -110,6 +113,12 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
                 "validation": "verify_binaries_codesigned",
                 "validation_name": "Verify binaries codesigned",
                 "dependencies": [{"dependency": "xcode"}],
+                "$depot_tools/osx_sdk": {
+                    "sdk_version": XCODE_VERSION,
+                },
+                "$flutter/osx_sdk": {
+                    "sdk_version": XCODE_VERSION,
+                },
             },
             caches = [
                 swarming.cache(name = "pub_cache", path = ".pub_cache"),
@@ -469,7 +478,10 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
             "subshards": ["0", "1_last"],
             "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}, {"dependency": "xcode"}, {"dependency": "gems"}, {"dependency": "goldctl"}],
             "$depot_tools/osx_sdk": {
-                "sdk_version": "11E708",
+                "sdk_version": XCODE_VERSION,
+            },
+            "$flutter/osx_sdk": {
+                "sdk_version": XCODE_VERSION,
             },
         },
         caches = [
@@ -487,6 +499,12 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
             "shard": "framework_tests",
             "subshards": ["libraries", "misc", "widgets"],
             "dependencies": [{"dependency": "goldctl"}],
+            "$depot_tools/osx_sdk": {
+                "sdk_version": XCODE_VERSION,
+            },
+            "$flutter/osx_sdk": {
+                "sdk_version": XCODE_VERSION,
+            },
         },
         caches = [
             swarming.cache(name = "pub_cache", path = ".pub_cache"),
@@ -503,7 +521,10 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
             "subshards": ["general", "commands", "integration"],
             "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}, {"dependency": "xcode"}, {"dependency": "gems"}, {"dependency": "goldctl"}],
             "$depot_tools/osx_sdk": {
-                "sdk_version": "11E708",
+                "sdk_version": XCODE_VERSION,
+            },
+            "$flutter/osx_sdk": {
+                "sdk_version": XCODE_VERSION,
             },
         },
         caches = [
@@ -522,7 +543,10 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
             "subshard": "web",
             "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}, {"dependency": "xcode"}, {"dependency": "goldctl"}],
             "$depot_tools/osx_sdk": {
-                "sdk_version": "11E708",
+                "sdk_version": XCODE_VERSION,
+            },
+            "$flutter/osx_sdk": {
+                "sdk_version": XCODE_VERSION,
             },
         },
         caches = [
@@ -551,6 +575,12 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
         properties = {
             "validation": "customer_testing",
             "validation_name": "Customer testing",
+            "$depot_tools/osx_sdk": {
+                "sdk_version": XCODE_VERSION,
+            },
+            "$flutter/osx_sdk": {
+                "sdk_version": XCODE_VERSION,
+            },
         },
         caches = [
             swarming.cache(name = "pub_cache", path = ".pub_cache"),
@@ -567,6 +597,12 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
             "validation": "build_gallery",
             "validation_name": "Build gallery",
             "dependencies": [{"dependency": "xcode"}, {"dependency": "gems"}],
+            "$depot_tools/osx_sdk": {
+                "sdk_version": XCODE_VERSION,
+            },
+            "$flutter/osx_sdk": {
+                "sdk_version": XCODE_VERSION,
+            },
         },
         caches = [
             swarming.cache(name = "pub_cache", path = ".pub_cache"),
@@ -834,7 +870,10 @@ def framework_try_config():
             "subshards": ["0", "1_last"],
             "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}, {"dependency": "xcode"}, {"dependency": "gems"}, {"dependency": "goldctl"}],
             "$depot_tools/osx_sdk": {
-                "sdk_version": "11E708",
+                "sdk_version": XCODE_VERSION,
+            },
+            "$flutter/osx_sdk": {
+                "sdk_version": XCODE_VERSION,
             },
         },
         caches = [
@@ -851,6 +890,12 @@ def framework_try_config():
             "shard": "framework_tests",
             "subshards": ["libraries", "misc", "widgets"],
             "dependencies": [{"dependency": "goldctl"}],
+            "$depot_tools/osx_sdk": {
+                "sdk_version": XCODE_VERSION,
+            },
+            "$flutter/osx_sdk": {
+                "sdk_version": XCODE_VERSION,
+            },
         },
         caches = [
             swarming.cache(name = "pub_cache", path = ".pub_cache"),
@@ -867,7 +912,10 @@ def framework_try_config():
             "subshards": ["general", "commands", "integration"],
             "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}, {"dependency": "xcode"}, {"dependency": "gems"}, {"dependency": "goldctl"}],
             "$depot_tools/osx_sdk": {
-                "sdk_version": "11E708",
+                "sdk_version": XCODE_VERSION,
+            },
+            "$flutter/osx_sdk": {
+                "sdk_version": XCODE_VERSION,
             },
         },
         caches = [
@@ -885,7 +933,10 @@ def framework_try_config():
             "subshard": "web",
             "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}, {"dependency": "xcode"}, {"dependency": "goldctl"}],
             "$depot_tools/osx_sdk": {
-                "sdk_version": "11E708",
+                "sdk_version": XCODE_VERSION,
+            },
+            "$flutter/osx_sdk": {
+                "sdk_version": XCODE_VERSION,
             },
         },
         caches = [
@@ -914,6 +965,12 @@ def framework_try_config():
         properties = {
             "validation": "customer_testing",
             "validation_name": "Customer testing",
+            "$depot_tools/osx_sdk": {
+                "sdk_version": XCODE_VERSION,
+            },
+            "$flutter/osx_sdk": {
+                "sdk_version": XCODE_VERSION,
+            },
         },
         caches = [
             swarming.cache(name = "pub_cache", path = ".pub_cache"),
@@ -929,6 +986,12 @@ def framework_try_config():
             "validation": "build_gallery",
             "validation_name": "Build gallery",
             "dependencies": [{"dependency": "xcode"}, {"dependency": "gems"}],
+            "$depot_tools/osx_sdk": {
+                "sdk_version": XCODE_VERSION,
+            },
+            "$flutter/osx_sdk": {
+                "sdk_version": XCODE_VERSION,
+            },
         },
         caches = [
             swarming.cache(name = "pub_cache", path = ".pub_cache"),
