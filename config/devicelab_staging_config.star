@@ -98,7 +98,7 @@ def devicelab_staging_prod_config():
     ]
     for task in mac_tasks:
         common.mac_prod_builder(
-            name = "Mac %s|%s" % (task, short_name(task)),
+            name = "Mac_staging %s|%s" % (task, short_name(task)),
             recipe = drone_recipe_name,
             console_view_name = console_view_name,
             triggered_by = [trigger_name],
@@ -182,7 +182,7 @@ def devicelab_staging_prod_config():
 
     for task in linux_tasks:
         common.linux_prod_builder(
-            name = "Linux %s|%s" % (task, short_name(task)),
+            name = "Linux_staging %s|%s" % (task, short_name(task)),
             recipe = drone_recipe_name,
             console_view_name = console_view_name,
             triggered_by = [trigger_name],

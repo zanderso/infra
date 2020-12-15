@@ -12,6 +12,7 @@ which is mirrored from https://github.com/flutter/flutter.
 
 load("//lib/common.star", "common")
 load("//lib/repos.star", "repos")
+load("//lib/timeout.star", "timeout")
 
 # Global xcode version for flutter/devicelab tests.
 XCODE_VERSION = "11e708"
@@ -45,6 +46,8 @@ def devicelab_prod_config(branch, version, ref):
     # in flutter/flutter#70702 and must roll through before enabling for more
     # branches beyond master (eg dev, beta, stable).
     UPLOAD_METRICS_CHANNELS = ("master")
+
+    branched_builder_prefix = "" if branch == "master" else " " + branch
 
     # TODO(godofredoc): Merge the recipe names once we remove the old one.
     drone_recipe_name = ("devicelab/devicelab_drone_" + version if version else "devicelab/devicelab_drone")
@@ -222,6 +225,85 @@ def devicelab_prod_config(branch, version, ref):
         ],
     )
 
+    # Linux prod builders with a device.
+    linux_tasks = [
+        "analyzer_benchmark",
+        "android_defines_test",
+        "android_obfuscate_test",
+        "android_view_scroll_perf__timeline_summary",
+        "animated_placeholder_perf__e2e_summary",
+        "animated_placeholder_perf",
+        "backdrop_filter_perf__e2e_summary",
+        "basic_material_app_android__compile",
+        "color_filter_and_fade_perf__e2e_summary",
+        "complex_layout_android__compile",
+        "complex_layout_android__scroll_smoothness",
+        "complex_layout_scroll_perf__devtools_memory",
+        "complex_layout_semantics_perf",
+        "cubic_bezier_perf__e2e_summary",
+        "cubic_bezier_perf_sksl_warmup__e2e_summary",
+        "cull_opacity_perf__e2e_summary",
+        "fast_scroll_heavy_gridview__memory",
+        "flutter_gallery__back_button_memory",
+        "flutter_gallery__image_cache_memory",
+        "flutter_gallery__memory_nav",
+        "flutter_gallery__start_up",
+        "flutter_gallery__transition_perf_e2e",
+        "flutter_gallery__transition_perf_hybrid",
+        "flutter_gallery__transition_perf_with_semantics",
+        "flutter_gallery__transition_perf",
+        "flutter_gallery_android__compile",
+        "flutter_gallery_sksl_warmup__transition_perf_e2e",
+        "flutter_gallery_sksl_warmup__transition_perf",
+        "flutter_gallery_v2_chrome_run_test",
+        "flutter_gallery_v2_web_compile_test",
+        "flutter_test_performance",
+        "frame_policy_delay_test_android",
+        "hot_mode_dev_cycle_linux__benchmark",
+        "image_list_jit_reported_duration",
+        "image_list_reported_duration",
+        "large_image_changer_perf_android",
+        "linux_chrome_dev_mode",
+        "multi_widget_construction_perf__e2e_summary",
+        "multi_widget_construction_perf__timeline_summary",
+        "new_gallery__crane_perf",
+        "picture_cache_perf__e2e_summary",
+        "platform_views_scroll_perf__timeline_summary",
+        "routing_test",
+        "textfield_perf__e2e_summary",
+        "web_size__compile_test",
+    ]
+
+    for task in linux_tasks:
+        common.linux_prod_builder(
+            name = "Linux%s %s|%s" % (branched_builder_prefix, task, short_name(task)),
+            recipe = drone_recipe_name,
+            console_view_name = console_view_name,
+            triggered_by = [trigger_name],
+            triggering_policy = triggering_policy,
+            properties = {
+                "dependencies": [
+                    {
+                        "dependency": "android_sdk",
+                    },
+                    {
+                        "dependency": "chrome_and_driver",
+                    },
+                    {
+                        "dependency": "open_jdk",
+                    },
+                ],
+                "task_name": task,
+                "upload_metrics": branch in UPLOAD_METRICS_CHANNELS,
+            },
+            pool = "luci.flutter.prod",
+            os = "Android",
+            dimensions = {"device_os": "N"},
+            # TODO(keyonghan): adjust the timeout when devicelab linux tasks are stable:
+            # https://github.com/flutter/flutter/issues/72383.
+            expiration_timeout = timeout.LONG_EXPIRATION,
+        )
+
     # Linux prod builders.
     linux_vm_tasks = [
         "dartdocs",
@@ -229,7 +311,6 @@ def devicelab_prod_config(branch, version, ref):
         "web_benchmarks_canvaskit",
         "web_benchmarks_html",
     ]
-    branched_builder_prefix = "" if branch == "master" else " " + branch
     for task in linux_vm_tasks:
         common.linux_prod_builder(
             name = "Linux%s %s|%s" % (branched_builder_prefix, task, short_name(task)),
