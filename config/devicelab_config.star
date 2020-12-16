@@ -78,7 +78,7 @@ def devicelab_prod_config(branch, version, ref):
     if branch == "master":
         triggering_policy = scheduler.greedy_batching(
             max_batch_size = 3,
-            max_concurrent_invocations = 3,
+            max_concurrent_invocations = 1,
         )
     else:
         triggering_policy = scheduler.greedy_batching(
