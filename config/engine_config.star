@@ -17,8 +17,6 @@ load("//lib/common.star", "common")
 load("//lib/repos.star", "repos")
 load("//lib/timeout.star", "timeout")
 
-XCODE_VERSION = "11e708"
-
 def _setup(branches, fuchsia_ctl_version):
     """Default configurations for branches and repos."""
     platform_args = {
@@ -125,12 +123,6 @@ def engine_properties(
         "build_ios": build_ios,
         "build_android_jit_release": build_android_jit_release,
         "gcs_goldens_bucket": gcs_goldens_bucket,
-        "$depot_tools/osx_sdk": {
-            "sdk_version": XCODE_VERSION,
-        },
-        "$flutter/osx_sdk": {
-            "sdk_version": XCODE_VERSION,
-        },
     }
     if any([build_android_debug or build_android_aot or build_android_vulkan or build_android_jit_release]):
         properties["android_sdk_license"] = "\n24333f8a63b6825ea9c5514f83c2829b004d1fee"
@@ -142,6 +134,11 @@ def engine_properties(
         properties["ios_profile"] = ios_profile
         properties["ios_release"] = ios_release
         properties["no_bitcode"] = no_bitcode
+        properties["$flutter/flutter_osx_sdk"] = {
+            "iphoneos_sdk": "14.0",
+            "iphonesimulator_sdk": "14.0",
+            "ld": "609",
+        }
     if (needs_jazzy):
         properties["jazzy_version"] = "0.9.5"
     if fuchsia_ctl_version:
