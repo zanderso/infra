@@ -117,10 +117,6 @@ def devicelab_staging_prod_config():
                     {
                         "dependency": "ios_signing",
                     },
-                    {
-                        "dependency": "swift",
-                        "version": "mcKOF86ehMsd3HNodm9m11lOTQ04p58iHeQ5uK-d8C4C",
-                    },
                 ],
                 "task_name": task,
             },
