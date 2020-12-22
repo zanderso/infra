@@ -355,22 +355,9 @@ def _common_builder(**common_kwargs):
     return try_job, prod_job
 
 def _mac_builder(properties = {}, caches = None, category = "Mac", **kwargs):
-    # see https://chrome-infra-packages.appspot.com/p/infra_internal/ios/xcode/mac/+/
-    properties = helpers.merge_dicts(
-        {
-            "$depot_tools/osx_sdk": {
-                "sdk_version": "11a420a",  # 11.0
-            },
-        },
-        properties,
-    )
-    mac_caches = [swarming.cache("xcode_binary"), swarming.cache("osx_sdk")]
-    if caches != None:
-        mac_caches.extend(caches)
     return _common_builder(
         os = "Mac-10.15",
         properties = properties,
-        caches = mac_caches,
         category = category,
         **kwargs
     )
@@ -381,16 +368,10 @@ def _linux_builder(
         category = "Linux",
         os = None,
         **kwargs):
-    linux_caches = [
-        swarming.cache(name = "flutter_openjdk_install", path = "java"),
-    ]
     properties["fuchsia_ctl_version"] = FUCHSIA_CTL_VERSION
-    if caches != None:
-        linux_caches.extend(caches)
     return _common_builder(
         os = os or "Linux",
         properties = properties,
-        caches = linux_caches,
         category = category,
         **kwargs
     )
@@ -400,15 +381,9 @@ def _windows_builder(
         caches = None,
         category = "Windows",
         **kwargs):
-    windows_caches = [
-        swarming.cache(name = "flutter_openjdk_install", path = "java"),
-    ]
-    if caches != None:
-        windows_caches.extend(caches)
     return _common_builder(
         os = kwargs.get("os") or "Windows-10",
         properties = properties,
-        caches = windows_caches,
         category = category,
         **kwargs
     )

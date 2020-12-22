@@ -161,6 +161,18 @@ def devicelab_staging_prod_config():
             os = "Android",
             dimensions = {"device_os": "N"},
             expiration_timeout = timeout.LONG_EXPIRATION,
+            caches = [
+                # Android SDK
+                swarming.cache(name = "android_sdk", path = "android"),
+                # Chrome
+                swarming.cache(name = "chrome_and_driver", path = "chrome"),
+                # OpenJDK
+                swarming.cache(name = "openjdk", path = "java"),
+                # PubCache
+                swarming.cache(name = "pub_cache", path = ".pub-cache"),
+                # Flutter SDK code
+                swarming.cache(name = "flutter_sdk", path = "flutter sdk"),
+            ],
         )
 
 devicelab_staging_config = struct(setup = _setup)
