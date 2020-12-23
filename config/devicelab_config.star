@@ -17,6 +17,51 @@ load("//lib/timeout.star", "timeout")
 # Global xcode version for flutter/devicelab tests.
 XCODE_VERSION = "11e708"
 
+# Linux caches
+LINUX_DEFAULT_CACHES = [
+    # Android SDK
+    swarming.cache(name = "android_sdk", path = "android"),
+    # Chrome
+    swarming.cache(name = "chrome_and_driver", path = "chrome"),
+    # OpenJDK
+    swarming.cache(name = "openjdk", path = "java"),
+    # PubCache
+    swarming.cache(name = "pub_cache", path = ".pub-cache"),
+    # Flutter SDK code
+    swarming.cache(name = "flutter_sdk", path = "flutter sdk"),
+]
+
+# Mac caches
+MAC_DEFAULT_CACHES = [
+    # Android SDK
+    swarming.cache(name = "android_sdk", path = "android"),
+    # Chrome
+    swarming.cache(name = "chrome_and_driver", path = "chrome"),
+    # OpenJDK
+    swarming.cache(name = "openjdk", path = "java"),
+    # PubCache
+    swarming.cache(name = "pub_cache", path = ".pub-cache"),
+    # Flutter SDK code
+    swarming.cache(name = "flutter_sdk", path = "flutter sdk"),
+    # Xcode
+    swarming.cache("xcode_binary"),
+    swarming.cache("osx_sdk"),
+]
+
+# Windows caches
+WIN_DEFAULT_CACHES = [
+    # Android SDK
+    swarming.cache(name = "android_sdk", path = "android"),
+    # Chrome
+    swarming.cache(name = "chrome_and_driver", path = "chrome"),
+    # OpenJDK
+    swarming.cache(name = "openjdk", path = "java"),
+    # PubCache
+    swarming.cache(name = "pub_cache", path = ".pub-cache"),
+    # Flutter SDK code
+    swarming.cache(name = "flutter_sdk", path = "flutter sdk"),
+]
+
 def _setup(branches):
     for branch in branches:
         devicelab_prod_config(
@@ -99,10 +144,7 @@ def devicelab_prod_config(branch, version, ref):
             "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}],
             "task_name": "build_aar_module_test",
         },
-        caches = [
-            swarming.cache(name = "pub_cache", path = ".pub_cache"),
-            swarming.cache(name = "android_sdk", path = "android29"),
-        ],
+        caches = LINUX_DEFAULT_CACHES,
     )
     common.linux_prod_builder(
         name = "Linux%s gradle_non_android_plugin_test|gnap" % ("" if branch == "master" else " " + branch),
@@ -114,10 +156,7 @@ def devicelab_prod_config(branch, version, ref):
             "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}],
             "task_name": "gradle_non_android_plugin_test",
         },
-        caches = [
-            swarming.cache(name = "pub_cache", path = ".pub_cache"),
-            swarming.cache(name = "android_sdk", path = "android29"),
-        ],
+        caches = LINUX_DEFAULT_CACHES,
     )
     common.linux_prod_builder(
         name = "Linux%s gradle_plugin_bundle_test|gpb" % ("" if branch == "master" else " " + branch),
@@ -129,10 +168,7 @@ def devicelab_prod_config(branch, version, ref):
             "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}],
             "task_name": "gradle_plugin_bundle_test",
         },
-        caches = [
-            swarming.cache(name = "pub_cache", path = ".pub_cache"),
-            swarming.cache(name = "android_sdk", path = "android29"),
-        ],
+        caches = LINUX_DEFAULT_CACHES,
     )
     common.linux_prod_builder(
         name = "Linux%s gradle_plugin_fat_apk_test|gpfa" % ("" if branch == "master" else " " + branch),
@@ -144,10 +180,7 @@ def devicelab_prod_config(branch, version, ref):
             "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}],
             "task_name": "gradle_plugin_fat_apk_test",
         },
-        caches = [
-            swarming.cache(name = "pub_cache", path = ".pub_cache"),
-            swarming.cache(name = "android_sdk", path = "android29"),
-        ],
+        caches = LINUX_DEFAULT_CACHES,
     )
     common.linux_prod_builder(
         name = "Linux%s gradle_plugin_light_apk_test|gpla" % ("" if branch == "master" else " " + branch),
@@ -159,10 +192,7 @@ def devicelab_prod_config(branch, version, ref):
             "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}],
             "task_name": "gradle_plugin_light_apk_test",
         },
-        caches = [
-            swarming.cache(name = "pub_cache", path = ".pub_cache"),
-            swarming.cache(name = "android_sdk", path = "android29"),
-        ],
+        caches = LINUX_DEFAULT_CACHES,
     )
     common.linux_prod_builder(
         name = "Linux%s module_host_with_custom_build_test|mhwcb" % ("" if branch == "master" else " " + branch),
@@ -174,10 +204,7 @@ def devicelab_prod_config(branch, version, ref):
             "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}],
             "task_name": "module_host_with_custom_build_test",
         },
-        caches = [
-            swarming.cache(name = "pub_cache", path = ".pub_cache"),
-            swarming.cache(name = "android_sdk", path = "android29"),
-        ],
+        caches = LINUX_DEFAULT_CACHES,
     )
     common.linux_prod_builder(
         name = "Linux%s module_custom_host_app_name_test|mchan" % ("" if branch == "master" else " " + branch),
@@ -189,10 +216,7 @@ def devicelab_prod_config(branch, version, ref):
             "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}],
             "task_name": "module_custom_host_app_name_test",
         },
-        caches = [
-            swarming.cache(name = "pub_cache", path = ".pub_cache"),
-            swarming.cache(name = "android_sdk", path = "android29"),
-        ],
+        caches = LINUX_DEFAULT_CACHES,
     )
     common.linux_prod_builder(
         name = "Linux%s module_test|mod" % ("" if branch == "master" else " " + branch),
@@ -204,10 +228,7 @@ def devicelab_prod_config(branch, version, ref):
             "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}],
             "task_name": "module_test",
         },
-        caches = [
-            swarming.cache(name = "pub_cache", path = ".pub_cache"),
-            swarming.cache(name = "android_sdk", path = "android29"),
-        ],
+        caches = LINUX_DEFAULT_CACHES,
     )
     common.linux_prod_builder(
         name = "Linux%s plugin_test|plugin" % ("" if branch == "master" else " " + branch),
@@ -219,10 +240,7 @@ def devicelab_prod_config(branch, version, ref):
             "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}],
             "task_name": "plugin_test",
         },
-        caches = [
-            swarming.cache(name = "pub_cache", path = ".pub_cache"),
-            swarming.cache(name = "android_sdk", path = "android29"),
-        ],
+        caches = LINUX_DEFAULT_CACHES,
     )
 
     # Linux prod builders with a device.
@@ -302,6 +320,7 @@ def devicelab_prod_config(branch, version, ref):
             # TODO(keyonghan): adjust the timeout when devicelab linux tasks are stable:
             # https://github.com/flutter/flutter/issues/72383.
             expiration_timeout = timeout.LONG_EXPIRATION,
+            caches = LINUX_DEFAULT_CACHES,
         )
 
     # Linux prod builders.
@@ -330,10 +349,7 @@ def devicelab_prod_config(branch, version, ref):
                 "task_name": task,
                 "upload_metrics": branch in UPLOAD_METRICS_CHANNELS,
             },
-            caches = [
-                swarming.cache(name = "pub_cache", path = ".pub_cache"),
-                swarming.cache(name = "android_sdk", path = "android29"),
-            ],
+            caches = LINUX_DEFAULT_CACHES,
             os = "Linux",
         )
 
@@ -367,10 +383,7 @@ def devicelab_prod_config(branch, version, ref):
             },
             "task_name": "build_aar_module_test",
         },
-        caches = [
-            swarming.cache(name = "pub_cache", path = ".pub_cache"),
-            swarming.cache(name = "android_sdk", path = "android29"),
-        ],
+        caches = MAC_DEFAULT_CACHES,
     )
     common.mac_prod_builder(
         name = "Mac%s gradle_non_android_plugin_test|gnap" % ("" if branch == "master" else " " + branch),
@@ -401,10 +414,7 @@ def devicelab_prod_config(branch, version, ref):
             },
             "task_name": "gradle_non_android_plugin_test",
         },
-        caches = [
-            swarming.cache(name = "pub_cache", path = ".pub_cache"),
-            swarming.cache(name = "android_sdk", path = "android29"),
-        ],
+        caches = MAC_DEFAULT_CACHES,
     )
     common.mac_prod_builder(
         name = "Mac%s gradle_plugin_bundle_test|gpbt" % ("" if branch == "master" else " " + branch),
@@ -435,10 +445,7 @@ def devicelab_prod_config(branch, version, ref):
             },
             "task_name": "gradle_plugin_bundle_test",
         },
-        caches = [
-            swarming.cache(name = "pub_cache", path = ".pub_cache"),
-            swarming.cache(name = "android_sdk", path = "android29"),
-        ],
+        caches = MAC_DEFAULT_CACHES,
     )
     common.mac_prod_builder(
         name = "Mac%s gradle_plugin_fat_apk_test|gpfa" % ("" if branch == "master" else " " + branch),
@@ -469,10 +476,7 @@ def devicelab_prod_config(branch, version, ref):
             },
             "task_name": "gradle_plugin_fat_apk_test",
         },
-        caches = [
-            swarming.cache(name = "pub_cache", path = ".pub_cache"),
-            swarming.cache(name = "android_sdk", path = "android29"),
-        ],
+        caches = MAC_DEFAULT_CACHES,
     )
     common.mac_prod_builder(
         name = "Mac%s gradle_plugin_light_apk_test|gpla" % ("" if branch == "master" else " " + branch),
@@ -503,10 +507,7 @@ def devicelab_prod_config(branch, version, ref):
             },
             "task_name": "gradle_plugin_light_apk_test",
         },
-        caches = [
-            swarming.cache(name = "pub_cache", path = ".pub_cache"),
-            swarming.cache(name = "android_sdk", path = "android29"),
-        ],
+        caches = MAC_DEFAULT_CACHES,
     )
     common.mac_prod_builder(
         name = "Mac%s module_host_with_custom_build_test|mhwcb" % ("" if branch == "master" else " " + branch),
@@ -537,10 +538,7 @@ def devicelab_prod_config(branch, version, ref):
             },
             "task_name": "module_host_with_custom_build_test",
         },
-        caches = [
-            swarming.cache(name = "pub_cache", path = ".pub_cache"),
-            swarming.cache(name = "android_sdk", path = "android29"),
-        ],
+        caches = MAC_DEFAULT_CACHES,
     )
     common.mac_prod_builder(
         name = "Mac%s module_custom_host_app_name_test|mchan" % ("" if branch == "master" else " " + branch),
@@ -571,10 +569,7 @@ def devicelab_prod_config(branch, version, ref):
             },
             "task_name": "module_custom_host_app_name_test",
         },
-        caches = [
-            swarming.cache(name = "pub_cache", path = ".pub_cache"),
-            swarming.cache(name = "android_sdk", path = "android29"),
-        ],
+        caches = MAC_DEFAULT_CACHES,
     )
     common.mac_prod_builder(
         name = "Mac%s module_test|mod" % ("" if branch == "master" else " " + branch),
@@ -605,10 +600,7 @@ def devicelab_prod_config(branch, version, ref):
             },
             "task_name": "module_test",
         },
-        caches = [
-            swarming.cache(name = "pub_cache", path = ".pub_cache"),
-            swarming.cache(name = "android_sdk", path = "android29"),
-        ],
+        caches = MAC_DEFAULT_CACHES,
     )
     common.mac_prod_builder(
         name = "Mac%s module_test_ios|mios" % ("" if branch == "master" else " " + branch),
@@ -639,10 +631,7 @@ def devicelab_prod_config(branch, version, ref):
             },
             "task_name": "module_test_ios",
         },
-        caches = [
-            swarming.cache(name = "pub_cache", path = ".pub_cache"),
-            swarming.cache(name = "android_sdk", path = "android29"),
-        ],
+        caches = MAC_DEFAULT_CACHES,
     )
     common.mac_prod_builder(
         name = "Mac%s build_ios_framework_module_test|bifm" % ("" if branch == "master" else " " + branch),
@@ -673,10 +662,7 @@ def devicelab_prod_config(branch, version, ref):
             },
             "task_name": "build_ios_framework_module_test",
         },
-        caches = [
-            swarming.cache(name = "pub_cache", path = ".pub_cache"),
-            swarming.cache(name = "android_sdk", path = "android29"),
-        ],
+        caches = MAC_DEFAULT_CACHES,
     )
 
     common.mac_prod_builder(
@@ -708,10 +694,7 @@ def devicelab_prod_config(branch, version, ref):
             },
             "task_name": "plugin_lint_mac",
         },
-        caches = [
-            swarming.cache(name = "pub_cache", path = ".pub_cache"),
-            swarming.cache(name = "android_sdk", path = "android29"),
-        ],
+        caches = MAC_DEFAULT_CACHES,
     )
     common.mac_prod_builder(
         name = "Mac%s plugin_test|plugin" % ("" if branch == "master" else " " + branch),
@@ -742,10 +725,7 @@ def devicelab_prod_config(branch, version, ref):
             },
             "task_name": "plugin_test",
         },
-        caches = [
-            swarming.cache(name = "pub_cache", path = ".pub_cache"),
-            swarming.cache(name = "android_sdk", path = "android29"),
-        ],
+        caches = MAC_DEFAULT_CACHES,
     )
 
     # Windows prod builders
@@ -759,10 +739,7 @@ def devicelab_prod_config(branch, version, ref):
             "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}],
             "task_name": "build_aar_module_test",
         },
-        caches = [
-            swarming.cache(name = "pub_cache", path = ".pub_cache"),
-            swarming.cache(name = "android_sdk", path = "android29"),
-        ],
+        caches = WIN_DEFAULT_CACHES,
         os = "Windows-Server",
     )
     common.windows_prod_builder(
@@ -775,10 +752,7 @@ def devicelab_prod_config(branch, version, ref):
             "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}],
             "task_name": "gradle_non_android_plugin_test",
         },
-        caches = [
-            swarming.cache(name = "pub_cache", path = ".pub_cache"),
-            swarming.cache(name = "android_sdk", path = "android29"),
-        ],
+        caches = WIN_DEFAULT_CACHES,
         os = "Windows-Server",
     )
     common.windows_prod_builder(
@@ -791,10 +765,7 @@ def devicelab_prod_config(branch, version, ref):
             "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}],
             "task_name": "gradle_plugin_bundle_test",
         },
-        caches = [
-            swarming.cache(name = "pub_cache", path = ".pub_cache"),
-            swarming.cache(name = "android_sdk", path = "android29"),
-        ],
+        caches = WIN_DEFAULT_CACHES,
         os = "Windows-Server",
     )
     common.windows_prod_builder(
@@ -807,10 +778,7 @@ def devicelab_prod_config(branch, version, ref):
             "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}],
             "task_name": "gradle_plugin_fat_apk_test",
         },
-        caches = [
-            swarming.cache(name = "pub_cache", path = ".pub_cache"),
-            swarming.cache(name = "android_sdk", path = "android29"),
-        ],
+        caches = WIN_DEFAULT_CACHES,
         os = "Windows-Server",
     )
     common.windows_prod_builder(
@@ -823,10 +791,7 @@ def devicelab_prod_config(branch, version, ref):
             "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}],
             "task_name": "gradle_plugin_light_apk_test",
         },
-        caches = [
-            swarming.cache(name = "pub_cache", path = ".pub_cache"),
-            swarming.cache(name = "android_sdk", path = "android29"),
-        ],
+        caches = WIN_DEFAULT_CACHES,
         os = "Windows-Server",
     )
     common.windows_prod_builder(
@@ -839,10 +804,7 @@ def devicelab_prod_config(branch, version, ref):
             "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}],
             "task_name": "module_host_with_custom_build_test",
         },
-        caches = [
-            swarming.cache(name = "pub_cache", path = ".pub_cache"),
-            swarming.cache(name = "android_sdk", path = "android29"),
-        ],
+        caches = WIN_DEFAULT_CACHES,
         os = "Windows-Server",
     )
     common.windows_prod_builder(
@@ -855,10 +817,7 @@ def devicelab_prod_config(branch, version, ref):
             "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}],
             "task_name": "module_custom_host_app_name_test",
         },
-        caches = [
-            swarming.cache(name = "pub_cache", path = ".pub_cache"),
-            swarming.cache(name = "android_sdk", path = "android29"),
-        ],
+        caches = WIN_DEFAULT_CACHES,
         os = "Windows-Server",
     )
     common.windows_prod_builder(
@@ -871,10 +830,7 @@ def devicelab_prod_config(branch, version, ref):
             "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}],
             "task_name": "module_test",
         },
-        caches = [
-            swarming.cache(name = "pub_cache", path = ".pub_cache"),
-            swarming.cache(name = "android_sdk", path = "android29"),
-        ],
+        caches = WIN_DEFAULT_CACHES,
         os = "Windows-Server",
     )
     common.windows_prod_builder(
@@ -887,10 +843,7 @@ def devicelab_prod_config(branch, version, ref):
             "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}],
             "task_name": "plugin_test",
         },
-        caches = [
-            swarming.cache(name = "pub_cache", path = ".pub_cache"),
-            swarming.cache(name = "android_sdk", path = "android29"),
-        ],
+        caches = WIN_DEFAULT_CACHES,
         os = "Windows-Server",
     )
 
@@ -919,10 +872,7 @@ def devicelab_try_config():
             "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}],
             "task_name": "build_aar_module_test",
         },
-        caches = [
-            swarming.cache(name = "pub_cache", path = ".pub_cache"),
-            swarming.cache(name = "android_sdk", path = "android29"),
-        ],
+        caches = LINUX_DEFAULT_CACHES,
     )
     common.linux_try_builder(
         name = "Linux gradle_jetifier_test|gjet",
@@ -933,10 +883,7 @@ def devicelab_try_config():
             "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}],
             "task_name": "gradle_jetifier_test",
         },
-        caches = [
-            swarming.cache(name = "pub_cache", path = ".pub_cache"),
-            swarming.cache(name = "android_sdk", path = "android29"),
-        ],
+        caches = LINUX_DEFAULT_CACHES,
     )
     common.linux_try_builder(
         name = "Linux gradle_non_android_plugin_test|gnap",
@@ -947,10 +894,7 @@ def devicelab_try_config():
             "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}],
             "task_name": "gradle_non_android_plugin_test",
         },
-        caches = [
-            swarming.cache(name = "pub_cache", path = ".pub_cache"),
-            swarming.cache(name = "android_sdk", path = "android29"),
-        ],
+        caches = LINUX_DEFAULT_CACHES,
     )
     common.linux_try_builder(
         name = "Linux gradle_plugin_bundle_test|gpbt",
@@ -961,10 +905,7 @@ def devicelab_try_config():
             "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}],
             "task_name": "gradle_plugin_bundle_test",
         },
-        caches = [
-            swarming.cache(name = "pub_cache", path = ".pub_cache"),
-            swarming.cache(name = "android_sdk", path = "android29"),
-        ],
+        caches = LINUX_DEFAULT_CACHES,
     )
     common.linux_try_builder(
         name = "Linux gradle_plugin_fat_apk_test|gpfa",
@@ -975,10 +916,7 @@ def devicelab_try_config():
             "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}],
             "task_name": "gradle_plugin_fat_apk_test",
         },
-        caches = [
-            swarming.cache(name = "pub_cache", path = ".pub_cache"),
-            swarming.cache(name = "android_sdk", path = "android29"),
-        ],
+        caches = LINUX_DEFAULT_CACHES,
     )
     common.linux_try_builder(
         name = "Linux gradle_plugin_light_apk_test|gpla",
@@ -989,10 +927,7 @@ def devicelab_try_config():
             "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}],
             "task_name": "gradle_plugin_light_apk_test",
         },
-        caches = [
-            swarming.cache(name = "pub_cache", path = ".pub_cache"),
-            swarming.cache(name = "android_sdk", path = "android29"),
-        ],
+        caches = LINUX_DEFAULT_CACHES,
     )
     common.linux_try_builder(
         name = "Linux module_host_with_custom_build_test|mhwcb",
@@ -1003,10 +938,7 @@ def devicelab_try_config():
             "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}],
             "task_name": "module_host_with_custom_build_test",
         },
-        caches = [
-            swarming.cache(name = "pub_cache", path = ".pub_cache"),
-            swarming.cache(name = "android_sdk", path = "android29"),
-        ],
+        caches = LINUX_DEFAULT_CACHES,
     )
     common.linux_try_builder(
         name = "Linux module_custom_host_app_name_test|mchan",
@@ -1017,10 +949,7 @@ def devicelab_try_config():
             "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}],
             "task_name": "module_custom_host_app_name_test",
         },
-        caches = [
-            swarming.cache(name = "pub_cache", path = ".pub_cache"),
-            swarming.cache(name = "android_sdk", path = "android29"),
-        ],
+        caches = LINUX_DEFAULT_CACHES,
     )
     common.linux_try_builder(
         name = "Linux module_test|module",
@@ -1031,10 +960,7 @@ def devicelab_try_config():
             "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}],
             "task_name": "module_test",
         },
-        caches = [
-            swarming.cache(name = "pub_cache", path = ".pub_cache"),
-            swarming.cache(name = "android_sdk", path = "android29"),
-        ],
+        caches = LINUX_DEFAULT_CACHES,
     )
     common.linux_try_builder(
         name = "Linux plugin_test|plugin",
@@ -1045,10 +971,7 @@ def devicelab_try_config():
             "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}],
             "task_name": "plugin_test",
         },
-        caches = [
-            swarming.cache(name = "pub_cache", path = ".pub_cache"),
-            swarming.cache(name = "android_sdk", path = "android29"),
-        ],
+        caches = LINUX_DEFAULT_CACHES,
     )
     common.linux_try_builder(
         name = "Linux web_benchmarks_html|wbh",
@@ -1059,10 +982,7 @@ def devicelab_try_config():
             "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}],
             "task_name": "web_benchmarks_html",
         },
-        caches = [
-            swarming.cache(name = "pub_cache", path = ".pub_cache"),
-            swarming.cache(name = "android_sdk", path = "android29"),
-        ],
+        caches = LINUX_DEFAULT_CACHES,
     )
 
     # Mac try builders.
@@ -1095,10 +1015,7 @@ def devicelab_try_config():
             },
             "task_name": "build_aar_module_test",
         },
-        caches = [
-            swarming.cache(name = "pub_cache", path = ".pub_cache"),
-            swarming.cache(name = "android_sdk", path = "android29"),
-        ],
+        caches = MAC_DEFAULT_CACHES,
     )
     common.mac_try_builder(
         name = "Mac gradle_non_android_plugin_test|gnap",
@@ -1128,10 +1045,7 @@ def devicelab_try_config():
             },
             "task_name": "gradle_non_android_plugin_test",
         },
-        caches = [
-            swarming.cache(name = "pub_cache", path = ".pub_cache"),
-            swarming.cache(name = "android_sdk", path = "android29"),
-        ],
+        caches = MAC_DEFAULT_CACHES,
     )
     common.mac_try_builder(
         name = "Mac gradle_plugin_bundle_test|gpbt",
@@ -1161,10 +1075,7 @@ def devicelab_try_config():
             },
             "task_name": "gradle_plugin_bundle_test",
         },
-        caches = [
-            swarming.cache(name = "pub_cache", path = ".pub_cache"),
-            swarming.cache(name = "android_sdk", path = "android29"),
-        ],
+        caches = MAC_DEFAULT_CACHES,
     )
     common.mac_try_builder(
         name = "Mac gradle_plugin_fat_apk_test|gpfa",
@@ -1194,10 +1105,7 @@ def devicelab_try_config():
             },
             "task_name": "gradle_plugin_fat_apk_test",
         },
-        caches = [
-            swarming.cache(name = "pub_cache", path = ".pub_cache"),
-            swarming.cache(name = "android_sdk", path = "android29"),
-        ],
+        caches = MAC_DEFAULT_CACHES,
     )
     common.mac_try_builder(
         name = "Mac gradle_plugin_light_apk_test|gpla",
@@ -1227,10 +1135,7 @@ def devicelab_try_config():
             },
             "task_name": "gradle_plugin_light_apk_test",
         },
-        caches = [
-            swarming.cache(name = "pub_cache", path = ".pub_cache"),
-            swarming.cache(name = "android_sdk", path = "android29"),
-        ],
+        caches = MAC_DEFAULT_CACHES,
     )
     common.mac_try_builder(
         name = "Mac module_host_with_custom_build_test|mhwcb",
@@ -1260,10 +1165,7 @@ def devicelab_try_config():
             },
             "task_name": "module_host_with_custom_build_test",
         },
-        caches = [
-            swarming.cache(name = "pub_cache", path = ".pub_cache"),
-            swarming.cache(name = "android_sdk", path = "android29"),
-        ],
+        caches = MAC_DEFAULT_CACHES,
     )
     common.mac_try_builder(
         name = "Mac module_custom_host_app_name_test|mchan",
@@ -1293,10 +1195,7 @@ def devicelab_try_config():
             },
             "task_name": "module_custom_host_app_name_test",
         },
-        caches = [
-            swarming.cache(name = "pub_cache", path = ".pub_cache"),
-            swarming.cache(name = "android_sdk", path = "android29"),
-        ],
+        caches = MAC_DEFAULT_CACHES,
     )
     common.mac_try_builder(
         name = "Mac module_test|mod",
@@ -1326,10 +1225,7 @@ def devicelab_try_config():
             },
             "task_name": "module_test",
         },
-        caches = [
-            swarming.cache(name = "pub_cache", path = ".pub_cache"),
-            swarming.cache(name = "android_sdk", path = "android29"),
-        ],
+        caches = MAC_DEFAULT_CACHES,
     )
     common.mac_try_builder(
         name = "Mac module_test_ios|mios",
@@ -1359,10 +1255,7 @@ def devicelab_try_config():
             },
             "task_name": "module_test_ios",
         },
-        caches = [
-            swarming.cache(name = "pub_cache", path = ".pub_cache"),
-            swarming.cache(name = "android_sdk", path = "android29"),
-        ],
+        caches = MAC_DEFAULT_CACHES,
     )
     common.mac_try_builder(
         name = "Mac build_ios_framework_module_test|bifm",
@@ -1392,10 +1285,7 @@ def devicelab_try_config():
             },
             "task_name": "build_ios_framework_module_test",
         },
-        caches = [
-            swarming.cache(name = "pub_cache", path = ".pub_cache"),
-            swarming.cache(name = "android_sdk", path = "android29"),
-        ],
+        caches = MAC_DEFAULT_CACHES,
     )
 
     common.mac_try_builder(
@@ -1426,10 +1316,7 @@ def devicelab_try_config():
             },
             "task_name": "plugin_lint_mac",
         },
-        caches = [
-            swarming.cache(name = "pub_cache", path = ".pub_cache"),
-            swarming.cache(name = "android_sdk", path = "android29"),
-        ],
+        caches = MAC_DEFAULT_CACHES,
     )
     common.mac_try_builder(
         name = "Mac plugin_test|plugin",
@@ -1459,10 +1346,7 @@ def devicelab_try_config():
             },
             "task_name": "plugin_test",
         },
-        caches = [
-            swarming.cache(name = "pub_cache", path = ".pub_cache"),
-            swarming.cache(name = "android_sdk", path = "android29"),
-        ],
+        caches = MAC_DEFAULT_CACHES,
     )
 
     # Windows try builders.
@@ -1476,10 +1360,7 @@ def devicelab_try_config():
             "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}],
             "task_name": "build_aar_module_test",
         },
-        caches = [
-            swarming.cache(name = "pub_cache", path = ".pub_cache"),
-            swarming.cache(name = "android_sdk", path = "android29"),
-        ],
+        caches = WIN_DEFAULT_CACHES,
         os = "Windows-Server",
     )
     common.windows_try_builder(
@@ -1491,10 +1372,7 @@ def devicelab_try_config():
             "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}],
             "task_name": "gradle_non_android_plugin_test",
         },
-        caches = [
-            swarming.cache(name = "pub_cache", path = ".pub_cache"),
-            swarming.cache(name = "android_sdk", path = "android29"),
-        ],
+        caches = WIN_DEFAULT_CACHES,
         os = "Windows-Server",
     )
     common.windows_try_builder(
@@ -1506,10 +1384,7 @@ def devicelab_try_config():
             "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}],
             "task_name": "gradle_plugin_bundle_test",
         },
-        caches = [
-            swarming.cache(name = "pub_cache", path = ".pub_cache"),
-            swarming.cache(name = "android_sdk", path = "android29"),
-        ],
+        caches = WIN_DEFAULT_CACHES,
         os = "Windows-Server",
     )
     common.windows_try_builder(
@@ -1521,10 +1396,7 @@ def devicelab_try_config():
             "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}],
             "task_name": "gradle_plugin_fat_apk_test",
         },
-        caches = [
-            swarming.cache(name = "pub_cache", path = ".pub_cache"),
-            swarming.cache(name = "android_sdk", path = "android29"),
-        ],
+        caches = WIN_DEFAULT_CACHES,
         os = "Windows-Server",
     )
     common.windows_try_builder(
@@ -1536,10 +1408,7 @@ def devicelab_try_config():
             "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}],
             "task_name": "gradle_plugin_light_apk_test",
         },
-        caches = [
-            swarming.cache(name = "pub_cache", path = ".pub_cache"),
-            swarming.cache(name = "android_sdk", path = "android29"),
-        ],
+        caches = WIN_DEFAULT_CACHES,
         os = "Windows-Server",
     )
     common.windows_try_builder(
@@ -1551,10 +1420,7 @@ def devicelab_try_config():
             "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}],
             "task_name": "module_host_with_custom_build_test",
         },
-        caches = [
-            swarming.cache(name = "pub_cache", path = ".pub_cache"),
-            swarming.cache(name = "android_sdk", path = "android29"),
-        ],
+        caches = WIN_DEFAULT_CACHES,
         os = "Windows-Server",
     )
     common.windows_try_builder(
@@ -1566,10 +1432,7 @@ def devicelab_try_config():
             "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}],
             "task_name": "module_custom_host_app_name_test",
         },
-        caches = [
-            swarming.cache(name = "pub_cache", path = ".pub_cache"),
-            swarming.cache(name = "android_sdk", path = "android29"),
-        ],
+        caches = WIN_DEFAULT_CACHES,
         os = "Windows-Server",
     )
     common.windows_try_builder(
@@ -1581,10 +1444,7 @@ def devicelab_try_config():
             "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}],
             "task_name": "module_test",
         },
-        caches = [
-            swarming.cache(name = "pub_cache", path = ".pub_cache"),
-            swarming.cache(name = "android_sdk", path = "android29"),
-        ],
+        caches = WIN_DEFAULT_CACHES,
         os = "Windows-Server",
     )
     common.windows_try_builder(
@@ -1596,10 +1456,7 @@ def devicelab_try_config():
             "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}],
             "task_name": "plugin_test",
         },
-        caches = [
-            swarming.cache(name = "pub_cache", path = ".pub_cache"),
-            swarming.cache(name = "android_sdk", path = "android29"),
-        ],
+        caches = WIN_DEFAULT_CACHES,
         os = "Windows-Server",
     )
 
