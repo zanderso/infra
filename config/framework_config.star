@@ -15,6 +15,7 @@ load("//lib/repos.star", "repos")
 
 # Global xcode version for flutter/devicelab tests.
 XCODE_VERSION = "11e708"
+NEW_XCODE_VERSION = "12c5020f"
 
 def _setup(branches):
     for branch in branches:
@@ -481,7 +482,7 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
                 "sdk_version": XCODE_VERSION,
             },
             "$flutter/osx_sdk": {
-                "sdk_version": XCODE_VERSION,
+                "sdk_version": NEW_XCODE_VERSION,
             },
         },
         caches = [
