@@ -14,6 +14,31 @@ load("//lib/common.star", "common")
 load("//lib/repos.star", "repos")
 load("//lib/timeout.star", "timeout")
 
+# Default caches for Linux builders
+LINUX_DEFAULT_CACHES = [
+    # Android SDK
+    swarming.cache(name = "android_sdk", path = "android"),
+    # Chrome
+    swarming.cache(name = "chrome_and_driver", path = "chrome"),
+    # OpenJDK
+    swarming.cache(name = "openjdk", path = "java"),
+    # PubCache
+    swarming.cache(name = "pub_cache", path = ".pub-cache"),
+    # Flutter SDK code
+    swarming.cache(name = "flutter_sdk", path = "flutter sdk"),
+]
+
+# Default caches for Mac builders
+MAC_DEFAULT_CACHES = [
+    # Pub cache
+    swarming.cache(name = "pub_cache", path = ".pub-cache"),
+    # Flutter SDK code
+    swarming.cache(name = "flutter_sdk", path = "flutter sdk"),
+    # Xcode
+    swarming.cache("xcode_binary"),
+    swarming.cache("osx_sdk"),
+]
+
 def _setup():
     devicelab_staging_prod_config()
 
@@ -125,6 +150,7 @@ def devicelab_staging_prod_config():
             dimensions = {"device_os": "iOS"},
             execution_timeout = timeout.SHORT,
             expiration_timeout = timeout.LONG_EXPIRATION,
+            caches = MAC_DEFAULT_CACHES,
         )
 
     # Linux prod builders.
@@ -161,18 +187,7 @@ def devicelab_staging_prod_config():
             os = "Android",
             dimensions = {"device_os": "N"},
             expiration_timeout = timeout.LONG_EXPIRATION,
-            caches = [
-                # Android SDK
-                swarming.cache(name = "android_sdk", path = "android"),
-                # Chrome
-                swarming.cache(name = "chrome_and_driver", path = "chrome"),
-                # OpenJDK
-                swarming.cache(name = "openjdk", path = "java"),
-                # PubCache
-                swarming.cache(name = "pub_cache", path = ".pub-cache"),
-                # Flutter SDK code
-                swarming.cache(name = "flutter_sdk", path = "flutter sdk"),
-            ],
+            caches = LINUX_DEFAULT_CACHES,
         )
 
 devicelab_staging_config = struct(setup = _setup)
