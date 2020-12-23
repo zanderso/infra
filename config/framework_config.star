@@ -17,6 +17,54 @@ load("//lib/repos.star", "repos")
 XCODE_VERSION = "11e708"
 NEW_XCODE_VERSION = "12c5020f"
 
+# Linux caches
+LINUX_DEFAULT_CACHES = [
+    # Android SDK
+    swarming.cache(name = "android_sdk", path = "android"),
+    # Chrome
+    swarming.cache(name = "chrome_and_driver", path = "chrome"),
+    # OpenJDK
+    swarming.cache(name = "openjdk", path = "java"),
+    # PubCache
+    swarming.cache(name = "pub_cache", path = ".pub-cache"),
+    # Flutter SDK code
+    swarming.cache(name = "flutter_sdk", path = "flutter sdk"),
+]
+
+# Mac caches
+MAC_CORE_CACHES = [
+    # Android SDK
+    swarming.cache(name = "android_sdk", path = "android"),
+    # Chrome
+    swarming.cache(name = "chrome_and_driver", path = "chrome"),
+    # OpenJDK
+    swarming.cache(name = "openjdk", path = "java"),
+    # PubCache
+    swarming.cache(name = "pub_cache", path = ".pub-cache"),
+    # Flutter SDK code
+    swarming.cache(name = "flutter_sdk", path = "flutter sdk"),
+    # Xcode
+    swarming.cache("xcode_binary"),
+]
+
+# This is to support two versions of xcode efficiently.
+MAC_DEFAULT_CACHES = MAC_CORE_CACHES + [swarming.cache(name = "osx_sdk", path = "osx_sdk")]
+MAC_NEWXCODE_CACHES = MAC_CORE_CACHES + [swarming.cache(name = "new_osx_sdk", path = "osx_sdk")]
+
+# Windows caches
+WIN_DEFAULT_CACHES = [
+    # Android SDK
+    swarming.cache(name = "android_sdk", path = "android"),
+    # Chrome
+    swarming.cache(name = "chrome_and_driver", path = "chrome"),
+    # OpenJDK
+    swarming.cache(name = "openjdk", path = "java"),
+    # PubCache
+    swarming.cache(name = "pub_cache", path = ".pub-cache"),
+    # Flutter SDK code
+    swarming.cache(name = "flutter_sdk", path = "flutter sdk"),
+]
+
 def _setup(branches):
     for branch in branches:
         framework_prod_config(
@@ -138,10 +186,7 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
             "subshards": ["0", "1_last"],
             "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}, {"dependency": "goldctl"}, {"dependency": "clang"}, {"dependency": "cmake"}, {"dependency": "ninja"}],
         },
-        caches = [
-            swarming.cache(name = "pub_cache", path = ".pub_cache"),
-            swarming.cache(name = "android_sdk", path = "android29"),
-        ],
+        caches = LINUX_DEFAULT_CACHES,
     )
     common.linux_prod_builder(
         name = "Linux%s framework_tests|frwk_tests" % ("" if branch == "master" else " " + branch),
@@ -154,9 +199,7 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
             "subshards": ["libraries", "misc", "widgets"],
             "dependencies": [{"dependency": "goldctl"}],
         },
-        caches = [
-            swarming.cache(name = "pub_cache", path = ".pub_cache"),
-        ],
+        caches = LINUX_DEFAULT_CACHES,
     )
     common.linux_prod_builder(
         name = "Linux%s tool_tests|tool_tests" % ("" if branch == "master" else " " + branch),
@@ -169,10 +212,7 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
             "subshards": ["general", "commands", "integration"],
             "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}, {"dependency": "goldctl"}],
         },
-        caches = [
-            swarming.cache(name = "pub_cache", path = ".pub_cache"),
-            swarming.cache(name = "android_sdk", path = "android29"),
-        ],
+        caches = LINUX_DEFAULT_CACHES,
     )
     common.linux_prod_builder(
         name = "Linux%s web_tool_tests|web_tt" % ("" if branch == "master" else " " + branch),
@@ -185,10 +225,7 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
             "subshard": "web",
             "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}, {"dependency": "goldctl"}],
         },
-        caches = [
-            swarming.cache(name = "pub_cache", path = ".pub_cache"),
-            swarming.cache(name = "android_sdk", path = "android29"),
-        ],
+        caches = LINUX_DEFAULT_CACHES,
     )
     common.linux_prod_builder(
         name = "Linux%s web_integration_tests|web_int" % ("" if branch == "master" else " " + branch),
@@ -201,9 +238,7 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
             "subshards": [],
             "dependencies": [{"dependency": "chrome_and_driver"}, {"dependency": "goldctl"}],
         },
-        caches = [
-            swarming.cache(name = "pub_cache", path = ".pub_cache"),
-        ],
+        caches = LINUX_DEFAULT_CACHES,
     )
     common.linux_prod_builder(
         name = "Linux%s web_tests|web_tests" % ("" if branch == "master" else " " + branch),
@@ -216,10 +251,7 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
             "subshards": ["0", "1", "2", "3", "4", "5", "6", "7_last"],
             "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "goldctl"}],
         },
-        caches = [
-            swarming.cache(name = "pub_cache", path = ".pub_cache"),
-            swarming.cache(name = "android_sdk", path = "android29"),
-        ],
+        caches = LINUX_DEFAULT_CACHES,
     )
     common.linux_prod_builder(
         name = "Linux%s web_long_running_tests|web_lrt" % ("" if branch == "master" else " " + branch),
@@ -232,20 +264,14 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
             "subshards": ["0", "1", "2_last"],
             "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "goldctl"}],
         },
-        caches = [
-            swarming.cache(name = "pub_cache", path = ".pub_cache"),
-            swarming.cache(name = "android_sdk", path = "android29"),
-        ],
+        caches = LINUX_DEFAULT_CACHES,
     )
     common.linux_prod_builder(
         name = "Linux%s SDK Drone|frwdrn" % ("" if branch == "master" else " " + branch),
         recipe = drone_recipe_name,
         console_view_name = None,
         no_notify = True,
-        caches = [
-            swarming.cache(name = "pub_cache", path = ".pub_cache"),
-            swarming.cache(name = "android_sdk", path = "android29"),
-        ],
+        caches = LINUX_DEFAULT_CACHES,
     )
 
     # Linux platform adhoc tests
@@ -259,9 +285,7 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
             "validation": "analyze",
             "validation_name": "Analyze",
         },
-        caches = [
-            swarming.cache(name = "pub_cache", path = ".pub_cache"),
-        ],
+        caches = LINUX_DEFAULT_CACHES,
     )
     common.linux_prod_builder(
         name = "Linux%s customer_testing|cst_test" % ("" if branch == "master" else " " + branch),
@@ -273,9 +297,7 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
             "validation": "customer_testing",
             "validation_name": "Customer testing",
         },
-        caches = [
-            swarming.cache(name = "pub_cache", path = ".pub_cache"),
-        ],
+        caches = LINUX_DEFAULT_CACHES,
     )
     common.linux_prod_builder(
         name = "Linux%s docs|docs" % ("" if branch == "master" else " " + branch),
@@ -290,9 +312,7 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
             "firebase_project": firebase_project,
             "release_ref": release_ref or "refs/heads/master",
         },
-        caches = [
-            swarming.cache(name = "pub_cache", path = ".pub_cache"),
-        ],
+        caches = LINUX_DEFAULT_CACHES,
     )
     common.linux_prod_builder(
         name = "Linux%s fuchsia_precache|pcache" % ("" if branch == "master" else " " + branch),
@@ -304,9 +324,7 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
             "validation": "fuchsia_precache",
             "validation_name": "Fuchsia precache",
         },
-        caches = [
-            swarming.cache(name = "pub_cache", path = ".pub_cache"),
-        ],
+        caches = LINUX_DEFAULT_CACHES,
     )
     common.linux_prod_builder(
         name = "Linux%s web_e2e_test|web_e2e" % ("" if branch == "master" else " " + branch),
@@ -319,9 +337,7 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
             "validation_name": "Web e2e tests",
             "dependencies": [{"dependency": "chrome_and_driver"}],
         },
-        caches = [
-            swarming.cache(name = "pub_cache", path = ".pub_cache"),
-        ],
+        caches = LINUX_DEFAULT_CACHES,
     )
     common.linux_prod_builder(
         name = "Linux%s web_smoke_test|web_smk" % ("" if branch == "master" else " " + branch),
@@ -334,9 +350,7 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
             "validation_name": "Web smoke tests",
             "dependencies": [{"dependency": "chrome_and_driver"}],
         },
-        caches = [
-            swarming.cache(name = "pub_cache", path = ".pub_cache"),
-        ],
+        caches = LINUX_DEFAULT_CACHES,
     )
     common.linux_prod_builder(
         name = "Linux%s build_gallery|dg" % ("" if branch == "master" else " " + branch),
@@ -349,10 +363,7 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
             "validation_name": "Build gallery",
             "dependencies": [{"dependency": "android_sdk"}],
         },
-        caches = [
-            swarming.cache(name = "pub_cache", path = ".pub_cache"),
-            swarming.cache(name = "android_sdk", path = "android29"),
-        ],
+        caches = LINUX_DEFAULT_CACHES,
     )
     common.linux_prod_builder(
         name = "Linux%s flutter_plugins|fltplgns" % ("" if branch == "master" else " " + branch),
@@ -365,9 +376,7 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
             "subshard": "analyze",
             "dependencies": [],
         },
-        caches = [
-            swarming.cache(name = "pub_cache", path = ".pub_cache"),
-        ],
+        caches = LINUX_DEFAULT_CACHES,
     )
 
     # Windows platform
@@ -382,10 +391,7 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
             "subshards": ["0", "1_last"],
             "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}, {"dependency": "goldctl"}],
         },
-        caches = [
-            swarming.cache(name = "pub_cache", path = ".pub_cache"),
-            swarming.cache(name = "android_sdk", path = "android29"),
-        ],
+        caches = WIN_DEFAULT_CACHES,
         os = "Windows-Server",
     )
     common.windows_prod_builder(
@@ -399,9 +405,7 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
             "subshards": ["libraries", "misc", "widgets"],
             "dependencies": [{"dependency": "goldctl"}],
         },
-        caches = [
-            swarming.cache(name = "pub_cache", path = ".pub_cache"),
-        ],
+        caches = WIN_DEFAULT_CACHES,
         os = "Windows-Server",
     )
     common.windows_prod_builder(
@@ -415,10 +419,7 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
             "subshards": ["general", "commands", "integration"],
             "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}, {"dependency": "goldctl"}],
         },
-        caches = [
-            swarming.cache(name = "pub_cache", path = ".pub_cache"),
-            swarming.cache(name = "android_sdk", path = "android29"),
-        ],
+        caches = WIN_DEFAULT_CACHES,
         os = "Windows-Server",
     )
     common.windows_prod_builder(
@@ -432,10 +433,7 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
             "subshard": "web",
             "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}, {"dependency": "goldctl"}],
         },
-        caches = [
-            swarming.cache(name = "pub_cache", path = ".pub_cache"),
-            swarming.cache(name = "android_sdk", path = "android29"),
-        ],
+        caches = WIN_DEFAULT_CACHES,
         os = "Windows-Server",
     )
     common.windows_prod_builder(
@@ -443,10 +441,7 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
         recipe = drone_recipe_name,
         console_view_name = None,
         no_notify = True,
-        caches = [
-            swarming.cache(name = "pub_cache", path = ".pub_cache"),
-            swarming.cache(name = "android_sdk", path = "android29"),
-        ],
+        caches = WIN_DEFAULT_CACHES,
         os = "Windows-Server",
     )
 
@@ -461,9 +456,7 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
             "validation": "customer_testing",
             "validation_name": "Customer testing",
         },
-        caches = [
-            swarming.cache(name = "pub_cache", path = ".pub_cache"),
-        ],
+        caches = WIN_DEFAULT_CACHES,
         os = "Windows-Server",
     )
 
@@ -485,10 +478,7 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
                 "sdk_version": NEW_XCODE_VERSION,
             },
         },
-        caches = [
-            swarming.cache(name = "pub_cache", path = ".pub_cache"),
-            swarming.cache(name = "android_sdk", path = "android29"),
-        ],
+        caches = MAC_NEWXCODE_CACHES,
     )
     common.mac_prod_builder(
         name = "Mac%s framework_tests|frwk_tests" % ("" if branch == "master" else " " + branch),
@@ -507,9 +497,7 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
                 "sdk_version": XCODE_VERSION,
             },
         },
-        caches = [
-            swarming.cache(name = "pub_cache", path = ".pub_cache"),
-        ],
+        caches = MAC_DEFAULT_CACHES,
     )
     common.mac_prod_builder(
         name = "Mac%s tool_tests|tool_tests" % ("" if branch == "master" else " " + branch),
@@ -528,10 +516,7 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
                 "sdk_version": XCODE_VERSION,
             },
         },
-        caches = [
-            swarming.cache(name = "pub_cache", path = ".pub_cache"),
-            swarming.cache(name = "android_sdk", path = "android29"),
-        ],
+        caches = MAC_DEFAULT_CACHES,
     )
     common.mac_prod_builder(
         name = "Mac%s web_tool_tests|web_tt" % ("" if branch == "master" else " " + branch),
@@ -550,20 +535,14 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
                 "sdk_version": XCODE_VERSION,
             },
         },
-        caches = [
-            swarming.cache(name = "pub_cache", path = ".pub_cache"),
-            swarming.cache(name = "android_sdk", path = "android29"),
-        ],
+        caches = MAC_DEFAULT_CACHES,
     )
     common.mac_prod_builder(
         name = "Mac%s SDK Drone|frwdrn" % ("" if branch == "master" else " " + branch),
         recipe = drone_recipe_name,
         console_view_name = None,
         no_notify = True,
-        caches = [
-            swarming.cache(name = "pub_cache", path = ".pub_cache"),
-            swarming.cache(name = "android_sdk", path = "android29"),
-        ],
+        caches = MAC_DEFAULT_CACHES,
     )
 
     # Mac adhoc tests
@@ -583,9 +562,7 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
                 "sdk_version": XCODE_VERSION,
             },
         },
-        caches = [
-            swarming.cache(name = "pub_cache", path = ".pub_cache"),
-        ],
+        caches = MAC_DEFAULT_CACHES,
     )
 
     common.mac_prod_builder(
@@ -605,9 +582,7 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
                 "sdk_version": XCODE_VERSION,
             },
         },
-        caches = [
-            swarming.cache(name = "pub_cache", path = ".pub_cache"),
-        ],
+        caches = MAC_DEFAULT_CACHES,
     )
 
 def framework_try_config():
@@ -633,10 +608,7 @@ def framework_try_config():
             "subshards": ["0", "1_last"],
             "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}, {"dependency": "goldctl"}, {"dependency": "clang"}, {"dependency": "cmake"}, {"dependency": "ninja"}],
         },
-        caches = [
-            swarming.cache(name = "pub_cache", path = ".pub_cache"),
-            swarming.cache(name = "android_sdk", path = "android29"),
-        ],
+        caches = LINUX_DEFAULT_CACHES,
     )
     common.linux_try_builder(
         name = "Linux framework_tests|frwk_tests",
@@ -648,9 +620,7 @@ def framework_try_config():
             "subshards": ["libraries", "misc", "widgets"],
             "dependencies": [{"dependency": "goldctl"}],
         },
-        caches = [
-            swarming.cache(name = "pub_cache", path = ".pub_cache"),
-        ],
+        caches = LINUX_DEFAULT_CACHES,
     )
     common.linux_try_builder(
         name = "Linux tool_tests|tool_tests",
@@ -663,10 +633,7 @@ def framework_try_config():
             "subshards": ["general", "commands", "integration"],
             "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}, {"dependency": "goldctl"}],
         },
-        caches = [
-            swarming.cache(name = "pub_cache", path = ".pub_cache"),
-            swarming.cache(name = "android_sdk", path = "android29"),
-        ],
+        caches = LINUX_DEFAULT_CACHES,
     )
     common.linux_try_builder(
         name = "Linux web_tool_tests|web_tt",
@@ -678,10 +645,7 @@ def framework_try_config():
             "subshard": "web",
             "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}, {"dependency": "goldctl"}],
         },
-        caches = [
-            swarming.cache(name = "pub_cache", path = ".pub_cache"),
-            swarming.cache(name = "android_sdk", path = "android29"),
-        ],
+        caches = LINUX_DEFAULT_CACHES,
     )
     common.linux_try_builder(
         name = "Linux web_tests|web_tests",
@@ -693,10 +657,7 @@ def framework_try_config():
             "subshards": ["0", "1", "2", "3", "4", "5", "6", "7_last"],
             "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "goldctl"}],
         },
-        caches = [
-            swarming.cache(name = "pub_cache", path = ".pub_cache"),
-            swarming.cache(name = "android_sdk", path = "android29"),
-        ],
+        caches = LINUX_DEFAULT_CACHES,
     )
     common.linux_try_builder(
         name = "Linux web_long_running_tests|web_lrt",
@@ -708,10 +669,7 @@ def framework_try_config():
             "subshards": ["0", "1", "2_last"],
             "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "goldctl"}],
         },
-        caches = [
-            swarming.cache(name = "pub_cache", path = ".pub_cache"),
-            swarming.cache(name = "android_sdk", path = "android29"),
-        ],
+        caches = LINUX_DEFAULT_CACHES,
     )
     common.linux_try_builder(
         name = "Linux web_integration_tests|web_int",
@@ -723,20 +681,14 @@ def framework_try_config():
             "subshards": [],
             "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "goldctl"}],
         },
-        caches = [
-            swarming.cache(name = "pub_cache", path = ".pub_cache"),
-            swarming.cache(name = "android_sdk", path = "android29"),
-        ],
+        caches = LINUX_DEFAULT_CACHES,
     )
     common.linux_try_builder(
         name = "Linux SDK Drone|frwkdrn",
         recipe = "flutter/flutter_drone",
         repo = repos.FLUTTER,
         list_view_name = list_view_name,
-        caches = [
-            swarming.cache(name = "pub_cache", path = ".pub_cache"),
-            swarming.cache(name = "android_sdk", path = "android29"),
-        ],
+        caches = LINUX_DEFAULT_CACHES,
     )
     common.linux_try_builder(
         name = "Linux flutter_plugins|fltplgns",
@@ -748,19 +700,7 @@ def framework_try_config():
             "subshard": "analyze",
             "dependencies": [],
         },
-        caches = [
-            swarming.cache(name = "pub_cache", path = ".pub_cache"),
-        ],
-    )
-
-    # Only runs the devicelab tasks (in the manifest.yaml) that are not benchmarks.
-    common.try_builder(
-        name = "testonly_devicelab_tests|tst_tests",
-        recipe = "devicelab",
-        os = "Linux",
-        repo = repos.FLUTTER,
-        list_view_name = list_view_name,
-        properties = {"role": "scheduler"},
+        caches = LINUX_DEFAULT_CACHES,
     )
 
     # Linux platform adhoc tests
@@ -773,9 +713,7 @@ def framework_try_config():
             "validation": "analyze",
             "validation_name": "Analyze",
         },
-        caches = [
-            swarming.cache(name = "pub_cache", path = ".pub_cache"),
-        ],
+        caches = LINUX_DEFAULT_CACHES,
     )
     common.linux_try_builder(
         name = "Linux customer_testing|cst_tests",
@@ -786,9 +724,7 @@ def framework_try_config():
             "validation": "customer_testing",
             "validation_name": "Customer testing",
         },
-        caches = [
-            swarming.cache(name = "pub_cache", path = ".pub_cache"),
-        ],
+        caches = LINUX_DEFAULT_CACHES,
     )
     common.linux_try_builder(
         name = "Linux docs|docs",
@@ -799,9 +735,7 @@ def framework_try_config():
             "validation": "docs",
             "validation_name": "Docs",
         },
-        caches = [
-            swarming.cache(name = "pub_cache", path = ".pub_cache"),
-        ],
+        caches = LINUX_DEFAULT_CACHES,
     )
     common.linux_try_builder(
         name = "Linux fuchsia_precache|pcache",
@@ -812,9 +746,7 @@ def framework_try_config():
             "validation": "fuchsia_precache",
             "validation_name": "Fuchsia precache",
         },
-        caches = [
-            swarming.cache(name = "pub_cache", path = ".pub_cache"),
-        ],
+        caches = LINUX_DEFAULT_CACHES,
     )
     common.linux_try_builder(
         name = "Linux web_e2e_test|web_e2e",
@@ -826,9 +758,7 @@ def framework_try_config():
             "validation_name": "Web e2e tests",
             "dependencies": [{"dependency": "chrome_and_driver"}],
         },
-        caches = [
-            swarming.cache(name = "pub_cache", path = ".pub_cache"),
-        ],
+        caches = LINUX_DEFAULT_CACHES,
     )
     common.linux_try_builder(
         name = "Linux web_smoke_test|web_smk",
@@ -840,9 +770,7 @@ def framework_try_config():
             "validation_name": "Web smoke tests",
             "dependencies": [{"dependency": "chrome_and_driver"}],
         },
-        caches = [
-            swarming.cache(name = "pub_cache", path = ".pub_cache"),
-        ],
+        caches = LINUX_DEFAULT_CACHES,
     )
     common.linux_try_builder(
         name = "Linux build_gallery|dg",
@@ -854,10 +782,7 @@ def framework_try_config():
             "validation_name": "Build gallery",
             "dependencies": [{"dependency": "android_sdk"}],
         },
-        caches = [
-            swarming.cache(name = "pub_cache", path = ".pub_cache"),
-            swarming.cache(name = "android_sdk", path = "android29"),
-        ],
+        caches = LINUX_DEFAULT_CACHES,
     )
 
     # Mac platform
@@ -878,10 +803,7 @@ def framework_try_config():
                 "sdk_version": XCODE_VERSION,
             },
         },
-        caches = [
-            swarming.cache(name = "pub_cache", path = ".pub_cache"),
-            swarming.cache(name = "android_sdk", path = "android29"),
-        ],
+        caches = MAC_DEFAULT_CACHES,
     )
     common.mac_try_builder(
         name = "Mac framework_tests|frwk_tests",
@@ -899,9 +821,7 @@ def framework_try_config():
                 "sdk_version": XCODE_VERSION,
             },
         },
-        caches = [
-            swarming.cache(name = "pub_cache", path = ".pub_cache"),
-        ],
+        caches = MAC_DEFAULT_CACHES,
     )
     common.mac_try_builder(
         name = "Mac tool_tests|tool_tests",
@@ -920,10 +840,7 @@ def framework_try_config():
                 "sdk_version": XCODE_VERSION,
             },
         },
-        caches = [
-            swarming.cache(name = "pub_cache", path = ".pub_cache"),
-            swarming.cache(name = "android_sdk", path = "android29"),
-        ],
+        caches = MAC_DEFAULT_CACHES,
     )
     common.mac_try_builder(
         name = "Mac web_tool_tests|web_tt",
@@ -941,20 +858,14 @@ def framework_try_config():
                 "sdk_version": XCODE_VERSION,
             },
         },
-        caches = [
-            swarming.cache(name = "pub_cache", path = ".pub_cache"),
-            swarming.cache(name = "android_sdk", path = "android29"),
-        ],
+        caches = MAC_DEFAULT_CACHES,
     )
     common.mac_try_builder(
         name = "Mac SDK Drone|frwkdrn",
         recipe = "flutter/flutter_drone",
         repo = repos.FLUTTER,
         list_view_name = list_view_name,
-        caches = [
-            swarming.cache(name = "pub_cache", path = ".pub_cache"),
-            swarming.cache(name = "android_sdk", path = "android29"),
-        ],
+        caches = MAC_DEFAULT_CACHES,
     )
 
     # Mac adhoc test
@@ -974,9 +885,7 @@ def framework_try_config():
                 "sdk_version": XCODE_VERSION,
             },
         },
-        caches = [
-            swarming.cache(name = "pub_cache", path = ".pub_cache"),
-        ],
+        caches = MAC_DEFAULT_CACHES,
     )
 
     common.mac_try_builder(
@@ -995,9 +904,7 @@ def framework_try_config():
                 "sdk_version": XCODE_VERSION,
             },
         },
-        caches = [
-            swarming.cache(name = "pub_cache", path = ".pub_cache"),
-        ],
+        caches = MAC_DEFAULT_CACHES,
     )
 
     # Windows platform
@@ -1011,10 +918,7 @@ def framework_try_config():
             "subshards": ["0", "1_last"],
             "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}, {"dependency": "goldctl"}],
         },
-        caches = [
-            swarming.cache(name = "pub_cache", path = ".pub_cache"),
-            swarming.cache(name = "android_sdk", path = "android29"),
-        ],
+        caches = WIN_DEFAULT_CACHES,
         os = "Windows-Server",
     )
     common.windows_try_builder(
@@ -1027,9 +931,7 @@ def framework_try_config():
             "subshards": ["libraries", "misc", "widgets"],
             "dependencies": [{"dependency": "goldctl"}],
         },
-        caches = [
-            swarming.cache(name = "pub_cache", path = ".pub_cache"),
-        ],
+        caches = WIN_DEFAULT_CACHES,
         os = "Windows-Server",
     )
     common.windows_try_builder(
@@ -1043,10 +945,7 @@ def framework_try_config():
             "subshards": ["general", "commands", "integration"],
             "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}, {"dependency": "goldctl"}],
         },
-        caches = [
-            swarming.cache(name = "pub_cache", path = ".pub_cache"),
-            swarming.cache(name = "android_sdk", path = "android29"),
-        ],
+        caches = WIN_DEFAULT_CACHES,
         os = "Windows-Server",
     )
     common.windows_try_builder(
@@ -1059,10 +958,7 @@ def framework_try_config():
             "subshard": "web",
             "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}, {"dependency": "goldctl"}],
         },
-        caches = [
-            swarming.cache(name = "pub_cache", path = ".pub_cache"),
-            swarming.cache(name = "android_sdk", path = "android29"),
-        ],
+        caches = WIN_DEFAULT_CACHES,
         os = "Windows-Server",
     )
     common.windows_try_builder(
@@ -1070,10 +966,7 @@ def framework_try_config():
         recipe = "flutter/flutter_drone",
         repo = repos.FLUTTER,
         list_view_name = list_view_name,
-        caches = [
-            swarming.cache(name = "pub_cache", path = ".pub_cache"),
-            swarming.cache(name = "android_sdk", path = "android29"),
-        ],
+        caches = WIN_DEFAULT_CACHES,
         os = "Windows-Server",
     )
 
@@ -1088,9 +981,7 @@ def framework_try_config():
             "validation": "customer_testing",
             "validation_name": "Customer testing",
         },
-        caches = [
-            swarming.cache(name = "pub_cache", path = ".pub_cache"),
-        ],
+        caches = WIN_DEFAULT_CACHES,
         os = "Windows-Server",
     )
 
