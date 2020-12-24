@@ -125,11 +125,19 @@ def devicelab_prod_config(branch, version, ref):
             max_batch_size = 3,
             max_concurrent_invocations = 1,
         )
+
+        # DeviceLab has limited resources and we want to bundle
+        # as much as possible to ensure we are always testing ToT.
+        devicelab_triggering_policy = scheduler.greedy_batching(
+            max_batch_size = 20,
+            max_concurrent_invocations = 1,
+        )
     else:
         triggering_policy = scheduler.greedy_batching(
             max_batch_size = 1,
             max_concurrent_invocations = 3,
         )
+        devicelab_triggering_policy = triggering_policy
 
     # Defines framework prod builders
 
@@ -298,7 +306,7 @@ def devicelab_prod_config(branch, version, ref):
             recipe = drone_recipe_name,
             console_view_name = console_view_name,
             triggered_by = [trigger_name],
-            triggering_policy = triggering_policy,
+            triggering_policy = devicelab_triggering_policy,
             properties = {
                 "dependencies": [
                     {
