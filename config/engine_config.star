@@ -61,6 +61,7 @@ def engine_recipes(version):
         "web_engine",
         "engine_builder",
         "femu_test",
+        "engine/engine_arm",
         "engine/engine_metrics",
         "engine/scenarios",
         "engine/web_engine_drone",
@@ -272,6 +273,17 @@ def engine_prod_config(platform_args, branch, version, ref, fuchsia_ctl_version)
         triggered_by = [trigger_name],
         triggering_policy = triggering_policy,
         priority = 30 if branch == "master" else 25,
+        **platform_args["linux"]
+    )
+    common.linux_prod_builder(
+        name = builder_name("Linux%s Arm Host Engine|lah", branch),
+        recipe = full_recipe_name("engine/engine_arm", version),
+        console_view_name = console_view_name,
+        properties = engine_properties(build_host = True),
+        triggered_by = [trigger_name],
+        triggering_policy = triggering_policy,
+        priority = 30 if branch == "master" else 25,
+        execution_timeout = timeout.LONG,
         **platform_args["linux"]
     )
     common.linux_prod_builder(
@@ -530,6 +542,19 @@ def engine_try_config(platform_args, fuchsia_ctl_version):
             build_host = True,
             no_lto = True,
         ),
+        **platform_args["linux"]
+    )
+    common.linux_try_builder(
+        name = "Linux Arm Host Engine|lah",
+        recipe = "engine/engine_arm",
+        repo = repos.ENGINE,
+        add_cq = True,
+        list_view_name = list_view_name,
+        properties = engine_properties(
+            build_host = True,
+            no_lto = True,
+        ),
+        execution_timeout = timeout.LONG,
         **platform_args["linux"]
     )
     common.linux_try_builder(
