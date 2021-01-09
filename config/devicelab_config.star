@@ -16,6 +16,7 @@ load("//lib/timeout.star", "timeout")
 
 # Global xcode version for flutter/devicelab tests.
 XCODE_VERSION = "11e708"
+NEW_XCODE_VERSION = "12c5020f"
 
 # Linux caches
 LINUX_DEFAULT_CACHES = [
@@ -636,7 +637,7 @@ def devicelab_prod_config(branch, version, ref):
                 "sdk_version": XCODE_VERSION,
             },
             "$flutter/osx_sdk": {
-                "sdk_version": XCODE_VERSION,
+                "sdk_version": NEW_XCODE_VERSION,
             },
             "task_name": "module_test_ios",
         },
@@ -667,7 +668,7 @@ def devicelab_prod_config(branch, version, ref):
                 "sdk_version": XCODE_VERSION,
             },
             "$flutter/osx_sdk": {
-                "sdk_version": XCODE_VERSION,
+                "sdk_version": NEW_XCODE_VERSION,
             },
             "task_name": "build_ios_framework_module_test",
         },
@@ -699,7 +700,7 @@ def devicelab_prod_config(branch, version, ref):
                 "sdk_version": XCODE_VERSION,
             },
             "$flutter/osx_sdk": {
-                "sdk_version": XCODE_VERSION,
+                "sdk_version": NEW_XCODE_VERSION,
             },
             "task_name": "plugin_lint_mac",
         },
@@ -1260,7 +1261,7 @@ def devicelab_try_config():
                 "sdk_version": XCODE_VERSION,
             },
             "$flutter/osx_sdk": {
-                "sdk_version": XCODE_VERSION,
+                "sdk_version": NEW_XCODE_VERSION,
             },
             "task_name": "module_test_ios",
         },
@@ -1290,7 +1291,7 @@ def devicelab_try_config():
                 "sdk_version": XCODE_VERSION,
             },
             "$flutter/osx_sdk": {
-                "sdk_version": XCODE_VERSION,
+                "sdk_version": NEW_XCODE_VERSION,
             },
             "task_name": "build_ios_framework_module_test",
         },
@@ -1321,7 +1322,7 @@ def devicelab_try_config():
                 "sdk_version": XCODE_VERSION,
             },
             "$flutter/osx_sdk": {
-                "sdk_version": XCODE_VERSION,
+                "sdk_version": NEW_XCODE_VERSION,
             },
             "task_name": "plugin_lint_mac",
         },
