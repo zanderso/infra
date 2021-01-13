@@ -348,6 +348,7 @@ def engine_prod_config(platform_args, branch, version, ref, fuchsia_ctl_version)
         triggered_by = [trigger_name],
         triggering_policy = triggering_policy,
         priority = 30 if branch == "master" else 25,
+        execution_timeout = timeout.MEDIUM_LONG,
         **platform_args["mac"]
     )
     common.mac_prod_builder(

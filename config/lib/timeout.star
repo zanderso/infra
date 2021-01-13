@@ -7,6 +7,7 @@
 timeout = struct(
     SHORT = 30 * time.minute,
     MEDIUM = 60 * time.minute,
+    MEDIUM_LONG = 75 * time.minute,
     LONG = 90 * time.minute,
     XL = 180 * time.minute,
     # EXPIRATION is used to set builder expiration_timeout, which controls
