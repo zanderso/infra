@@ -1522,7 +1522,7 @@ def devicelab_try_config():
 
     # Desktop Windows try builders
     windows_desktop_tasks = [
-        "hot_mode_dev_cycle_windows_target__benchmark",
+        "hot_mode_dev_cycle_win_target__benchmark",
     ]
     for task in windows_desktop_tasks:
         common.windows_try_builder(
