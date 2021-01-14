@@ -1018,6 +1018,33 @@ def devicelab_try_config():
         caches = LINUX_DEFAULT_CACHES,
     )
 
+    # Desktop Linux try builders
+    linux_desktop_tasks = [
+        "hot_mode_dev_cycle_linux_target__benchmark",
+    ]
+    for task in linux_desktop_tasks:
+        common.linux_try_builder(
+            name = "Linux %s|%s" % (task, short_name(task)),
+            recipe = drone_recipe_name,
+            repo = repos.FLUTTER,
+            list_view_name = list_view_name,
+            properties = {
+                "dependencies": [
+                    {
+                        "dependency": "clang",
+                    },
+                    {
+                        "dependency": "cmake",
+                    },
+                    {
+                        "dependency": "ninja",
+                    },
+                ],
+                "task_name": task,
+            },
+            caches = LINUX_DEFAULT_CACHES,
+        )
+
     # Mac try builders.
     common.mac_try_builder(
         name = "Mac build_aar_module_test|aarm",
@@ -1492,5 +1519,22 @@ def devicelab_try_config():
         caches = WIN_DEFAULT_CACHES,
         os = "Windows-Server",
     )
+
+    # Desktop Windows try builders
+    windows_desktop_tasks = [
+        "hot_mode_dev_cycle_windows_target__benchmark",
+    ]
+    for task in windows_desktop_tasks:
+        common.windows_try_builder(
+            name = "Windows %s|%s" % (task, short_name(task)),
+            recipe = drone_recipe_name,
+            repo = repos.FLUTTER,
+            list_view_name = list_view_name,
+            properties = {
+                "task_name": task,
+            },
+            caches = WIN_DEFAULT_CACHES,
+            os = "Windows-Server",
+        )
 
 devicelab_config = struct(setup = _setup)
