@@ -28,6 +28,20 @@ LINUX_DEFAULT_CACHES = [
     swarming.cache(name = "flutter_sdk", path = "flutter sdk"),
 ]
 
+# Default caches for Mac android builders
+MAC_ANDROID_DEFAULT_CACHES = [
+    # Android SDK
+    swarming.cache(name = "android_sdk", path = "android"),
+    # Chrome
+    swarming.cache(name = "chrome_and_driver", path = "chrome"),
+    # OpenJDK
+    swarming.cache(name = "openjdk", path = "java"),
+    # PubCache
+    swarming.cache(name = "pub_cache", path = ".pub-cache"),
+    # Flutter SDK code
+    swarming.cache(name = "flutter_sdk", path = "flutter sdk"),
+]
+
 # Default caches for Mac builders
 MAC_DEFAULT_CACHES = [
     # Pub cache
@@ -77,12 +91,12 @@ def devicelab_staging_prod_config():
     # Defines triggering policy
     triggering_policy = scheduler.greedy_batching(
         max_batch_size = 20,
-        max_concurrent_invocations = 2,
+        max_concurrent_invocations = 1,
     )
     # Defines framework prod builders
 
     # Mac prod builders.
-    mac_tasks = [
+    mac_ios_tasks = [
         "backdrop_filter_perf_ios__timeline_summary",
         "basic_material_app_ios__compile",
         "channels_integration_test_ios",
@@ -121,7 +135,7 @@ def devicelab_staging_prod_config():
         "smoke_catalina_start_up_ios",
         "tiles_scroll_perf_ios__timeline_summary",
     ]
-    for task in mac_tasks:
+    for task in mac_ios_tasks:
         common.mac_prod_builder(
             name = "Mac_staging %s|%s" % (task, short_name(task)),
             recipe = drone_recipe_name,
@@ -151,6 +165,78 @@ def devicelab_staging_prod_config():
             execution_timeout = timeout.SHORT,
             expiration_timeout = timeout.LONG_EXPIRATION,
             caches = MAC_DEFAULT_CACHES,
+        )
+
+    mac_android_tasks = [
+        "android_plugin_example_app_build_test",
+        "android_semantics_integration_test",
+        "backdrop_filter_perf__timeline_summary",
+        "channels_integration_test",
+        "color_filter_and_fade_perf__timeline_summary",
+        "complex_layout_scroll_perf__memory",
+        "complex_layout_scroll_perf__timeline_summary",
+        "complex_layout__start_up",
+        "cubic_bezier_perf_sksl_warmup__timeline_summary",
+        "cubic_bezier_perf__timeline_summary",
+        "cull_opacity_perf__timeline_summary",
+        "drive_perf_debug_warning",
+        "embedded_android_views_integration_test",
+        "external_ui_integration_test",
+        "fading_child_animation_perf__timeline_summary",
+        "fast_scroll_large_images__memory",
+        "flavors_test",
+        "flutter_view__start_up",
+        "fullscreen_textfield_perf__timeline_summary",
+        "hello_world_android__compile",
+        "hello_world__memory",
+        "home_scroll_perf__timeline_summary",
+        "hot_mode_dev_cycle__benchmark",
+        "hybrid_android_views_integration_test",
+        "imagefiltered_transform_animation_perf__timeline_summary",
+        "integration_ui_driver",
+        "integration_ui_keyboard_resize",
+        "integration_ui_screenshot",
+        "integration_ui_textfield",
+        "microbenchmarks",
+        "new_gallery__transition_perf",
+        "picture_cache_perf__timeline_summary",
+        "platform_channel_sample_test",
+        "platform_interaction_test",
+        "platform_view__start_up",
+        "run_release_test",
+        "service_extensions_test",
+        "textfield_perf__timeline_summary",
+        "tiles_scroll_perf__timeline_summary",
+    ]
+
+    for task in mac_android_tasks:
+        common.mac_prod_builder(
+            name = "Mac_android %s|%s" % (task, short_name(task)),
+            recipe = drone_recipe_name,
+            console_view_name = console_view_name,
+            triggered_by = [trigger_name],
+            triggering_policy = triggering_policy,
+            properties = {
+                "dependencies": [
+                    {
+                        "dependency": "android_sdk",
+                    },
+                    {
+                        "dependency": "chrome_and_driver",
+                    },
+                    {
+                        "dependency": "open_jdk",
+                    },
+                ],
+                "task_name": task,
+            },
+            pool = "luci.flutter.staging",
+            os = "Mac",
+            category = "Mac_android",
+            dimensions = {"device_os": "N"},
+            expiration_timeout = timeout.LONG_EXPIRATION,
+            execution_timeout = timeout.SHORT,
+            caches = MAC_ANDROID_DEFAULT_CACHES,
         )
 
     # Linux prod builders.
