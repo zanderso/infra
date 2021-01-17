@@ -132,7 +132,6 @@ def devicelab_staging_prod_config():
         "post_backdrop_filter_perf_ios__timeline_summary",
         "simple_animation_perf_ios",
         "smoke_catalina_hot_mode_dev_cycle_ios__benchmark",
-        "smoke_catalina_start_up_ios",
         "tiles_scroll_perf_ios__timeline_summary",
     ]
     for task in mac_ios_tasks:
@@ -144,7 +143,7 @@ def devicelab_staging_prod_config():
             triggering_policy = triggering_policy,
             properties = {
                 "$flutter/osx_sdk": {
-                    "sdk_version": "12c5020f",  # 12.3
+                    "sdk_version": "12c33",  # 12.3
                 },
                 "dependencies": [
                     {
