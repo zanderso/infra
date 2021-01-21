@@ -210,7 +210,7 @@ def devicelab_staging_prod_config():
 
     for task in mac_android_tasks:
         common.mac_prod_builder(
-            name = "Mac_android %s|%s" % (task, short_name(task)),
+            name = "Mac_android_staging %s|%s" % (task, short_name(task)),
             recipe = drone_recipe_name,
             console_view_name = console_view_name,
             triggered_by = [trigger_name],
