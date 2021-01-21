@@ -452,6 +452,7 @@ def devicelab_prod_config(branch, version, ref):
                     },
                 ],
                 "task_name": task,
+                "upload_metrics": branch in UPLOAD_METRICS_CHANNELS,
             },
             pool = "luci.flutter.prod",
             os = "Mac",
