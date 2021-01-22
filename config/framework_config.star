@@ -353,19 +353,6 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
         caches = LINUX_DEFAULT_CACHES,
     )
     common.linux_prod_builder(
-        name = "Linux%s build_gallery|dg" % ("" if branch == "master" else " " + branch),
-        recipe = new_recipe_name,
-        console_view_name = console_view_name,
-        triggered_by = [trigger_name],
-        triggering_policy = triggering_policy,
-        properties = {
-            "validation": "build_gallery",
-            "validation_name": "Build gallery",
-            "dependencies": [{"dependency": "android_sdk"}],
-        },
-        caches = LINUX_DEFAULT_CACHES,
-    )
-    common.linux_prod_builder(
         name = "Linux%s flutter_plugins|fltplgns" % ("" if branch == "master" else " " + branch),
         recipe = drone_recipe_name,
         console_view_name = console_view_name,
@@ -565,26 +552,6 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
         caches = MAC_DEFAULT_CACHES,
     )
 
-    common.mac_prod_builder(
-        name = "Mac%s build_gallery|dg_test" % ("" if branch == "master" else " " + branch),
-        recipe = new_recipe_name,
-        console_view_name = console_view_name,
-        triggered_by = [trigger_name],
-        triggering_policy = triggering_policy,
-        properties = {
-            "validation": "build_gallery",
-            "validation_name": "Build gallery",
-            "dependencies": [{"dependency": "xcode"}, {"dependency": "gems"}],
-            "$depot_tools/osx_sdk": {
-                "sdk_version": XCODE_VERSION,
-            },
-            "$flutter/osx_sdk": {
-                "sdk_version": XCODE_VERSION,
-            },
-        },
-        caches = MAC_DEFAULT_CACHES,
-    )
-
 def framework_try_config():
     """Try configurations for the framework repository."""
 
@@ -772,18 +739,6 @@ def framework_try_config():
         },
         caches = LINUX_DEFAULT_CACHES,
     )
-    common.linux_try_builder(
-        name = "Linux build_gallery|dg",
-        recipe = "flutter/flutter",
-        repo = repos.FLUTTER,
-        list_view_name = list_view_name,
-        properties = {
-            "validation": "build_gallery",
-            "validation_name": "Build gallery",
-            "dependencies": [{"dependency": "android_sdk"}],
-        },
-        caches = LINUX_DEFAULT_CACHES,
-    )
 
     # Mac platform
     common.mac_try_builder(
@@ -878,25 +833,6 @@ def framework_try_config():
         properties = {
             "validation": "customer_testing",
             "validation_name": "Customer testing",
-            "$depot_tools/osx_sdk": {
-                "sdk_version": XCODE_VERSION,
-            },
-            "$flutter/osx_sdk": {
-                "sdk_version": XCODE_VERSION,
-            },
-        },
-        caches = MAC_DEFAULT_CACHES,
-    )
-
-    common.mac_try_builder(
-        name = "Mac build_gallery|dg",
-        recipe = "flutter/flutter",
-        repo = repos.FLUTTER,
-        list_view_name = list_view_name,
-        properties = {
-            "validation": "build_gallery",
-            "validation_name": "Build gallery",
-            "dependencies": [{"dependency": "xcode"}, {"dependency": "gems"}],
             "$depot_tools/osx_sdk": {
                 "sdk_version": XCODE_VERSION,
             },
