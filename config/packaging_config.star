@@ -32,17 +32,31 @@ def _setup(branches):
     }
 
     packaging_recipe("ios-usb-dependencies", "")
-    for branch in branches:
-        # Skip packaging for master branch.
-        if branch == "master" or branch == None:
-            continue
-        packaging_recipe("flutter", branches[branch]["version"])
-        packaging_prod_config(
-            platform_args,
-            branch,
-            branches[branch]["version"],
-            branches[branch]["release-ref"],
-        )
+
+    # Skip packaging for master branch.
+    packaging_recipe("flutter", branches.stable.version)
+    packaging_prod_config(
+        platform_args,
+        "stable",
+        branches.stable.version,
+        branches.stable.release_ref,
+    )
+
+    packaging_recipe("flutter", branches.beta.version)
+    packaging_prod_config(
+        platform_args,
+        "beta",
+        branches.beta.version,
+        branches.beta.release_ref,
+    )
+
+    packaging_recipe("flutter", branches.dev.version)
+    packaging_prod_config(
+        platform_args,
+        "dev",
+        branches.dev.version,
+        branches.dev.release_ref,
+    )
 
 def recipe_name(name, version):
     return "%s%s" % (name, "_%s" % version if version else "")

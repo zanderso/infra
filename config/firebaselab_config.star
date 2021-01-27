@@ -14,12 +14,26 @@ load("//lib/common.star", "common")
 load("//lib/repos.star", "repos")
 
 def _setup(branches):
-    for branch in branches:
-        firebaselab_prod_config(
-            branch,
-            branches[branch]["version"],
-            branches[branch]["testing-ref"],
-        )
+    firebaselab_prod_config(
+        "stable",
+        branches.stable.version,
+        branches.stable.testing_ref,
+    )
+    firebaselab_prod_config(
+        "beta",
+        branches.beta.version,
+        branches.beta.testing_ref,
+    )
+    firebaselab_prod_config(
+        "dev",
+        branches.dev.version,
+        branches.dev.testing_ref,
+    )
+    firebaselab_prod_config(
+        "master",
+        branches.master.version,
+        branches.master.testing_ref,
+    )
 
     firebaselab_try_config()
 

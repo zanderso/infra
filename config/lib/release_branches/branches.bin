@@ -1,0 +1,14 @@
+
+Û
+branches.protorelease_branches"d
+Branch
+testing_ref (	R
+testingRef
+release_ref (	R
+releaseRef
+version (	Rversion"È
+Branches0
+stable (2.release_branches.BranchRstable,
+beta (2.release_branches.BranchRbeta*
+dev (2.release_branches.BranchRdev0
+master (2.release_branches.BranchRmasterbproto3

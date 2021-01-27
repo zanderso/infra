@@ -66,13 +66,30 @@ WIN_DEFAULT_CACHES = [
 ]
 
 def _setup(branches):
-    for branch in branches:
-        framework_prod_config(
-            branch,
-            branches[branch]["version"],
-            branches[branch]["testing-ref"],
-            branches[branch]["release-ref"],
-        )
+    framework_prod_config(
+        "stable",
+        branches.stable.version,
+        branches.stable.testing_ref,
+        branches.stable.release_ref,
+    )
+    framework_prod_config(
+        "beta",
+        branches.beta.version,
+        branches.beta.testing_ref,
+        branches.beta.release_ref,
+    )
+    framework_prod_config(
+        "dev",
+        branches.dev.version,
+        branches.dev.testing_ref,
+        branches.dev.release_ref,
+    )
+    framework_prod_config(
+        "master",
+        branches.master.version,
+        branches.master.testing_ref,
+        branches.master.release_ref,
+    )
 
     framework_try_config()
 

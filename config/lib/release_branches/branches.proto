@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package release_branches;
+
+message Branch {
+  string testing_ref = 1;
+  string release_ref = 2;
+  string version = 3;
+}
+
+message Branches {
+  Branch stable = 1;
+  Branch beta = 2;
+  Branch dev = 3;
+  Branch master = 4;
+}

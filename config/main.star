@@ -16,6 +16,7 @@ https://chromium.googlesource.com/infra/luci/luci-go/+/refs/heads/master/lucicfg
 
 load("//lib/common.star", "common")
 load("//lib/repos.star", "repos")
+load("//lib/release_branches/release_branches.star", "release_branches")
 load("//cocoon_config.star", "cocoon_config")
 load("//devicelab_config.star", "devicelab_config")
 load("//devicelab_staging_config.star", "devicelab_staging_config")
@@ -31,34 +32,6 @@ load("//plugins_config.star", "plugins_config")
 # Avoid jumping back and forth with configs being updated by lower version
 # lucicfg.
 lucicfg.check_version("1.17.0")
-
-BRANCHES = {
-    "stable": {
-        # This ref is used to trigger testing
-        "testing-ref": r"refs/heads/flutter-1\.22-candidate\.12",
-        # This ref is used to trigger packaging builds
-        "release-ref": r"refs/heads/stable",
-        # To be interpolated into recipe names e.g. 'flutter/flutter_' + BRANCHES['stable']['version']
-        "version": "1_22_0",
-    },
-    "beta": {
-        "testing-ref": r"refs/heads/flutter-1\.25-candidate\.8",
-        "release-ref": r"refs/heads/beta",
-        "version": "1_25_0",
-    },
-    "dev": {
-        # Don't match the last number of the branch name or else this will have
-        # to be updated for every dev release.
-        "testing-ref": r"refs/heads/flutter-1\.26-candidate\..+",
-        "release-ref": r"refs/heads/dev",
-        "version": None,
-    },
-    "master": {
-        "testing-ref": r"refs/heads/master",
-        "release-ref": None,
-        "version": None,
-    },
-}
 
 FUCHSIA_CTL_VERSION = "version:0.0.27"
 
@@ -181,21 +154,21 @@ luci.builder.defaults.properties.set({
 ############################ End Global Defaults ############################
 cocoon_config.setup()
 
-devicelab_config.setup(BRANCHES)
+devicelab_config.setup(release_branches)
 
 devicelab_staging_config.setup()
 
-firebaselab_config.setup(BRANCHES)
+firebaselab_config.setup(release_branches)
 
-engine_config.setup(BRANCHES, FUCHSIA_CTL_VERSION)
+engine_config.setup(release_branches, FUCHSIA_CTL_VERSION)
 
-framework_config.setup(BRANCHES)
+framework_config.setup(release_branches)
 
 iostools_config.setup()
 
 packages_config.setup()
 
-packaging_config.setup(BRANCHES)
+packaging_config.setup(release_branches)
 
 recipes_config.setup()
 

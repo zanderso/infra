@@ -78,12 +78,10 @@ WIN_DEFAULT_CACHES = [
 ]
 
 def _setup(branches):
-    for branch in branches:
-        devicelab_prod_config(
-            branch,
-            branches[branch]["version"],
-            branches[branch]["testing-ref"],
-        )
+    devicelab_prod_config("stable", branches.stable.version, branches.stable.testing_ref)
+    devicelab_prod_config("beta", branches.beta.version, branches.beta.testing_ref)
+    devicelab_prod_config("dev", branches.dev.version, branches.dev.testing_ref)
+    devicelab_prod_config("master", branches.master.version, branches.master.testing_ref)
 
     devicelab_try_config()
 

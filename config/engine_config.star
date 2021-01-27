@@ -30,15 +30,41 @@ def _setup(branches, fuchsia_ctl_version):
         "windows": {"execution_timeout": timeout.LONG},
     }
 
-    for branch in branches:
-        engine_recipes(branches[branch]["version"])
-        engine_prod_config(
-            platform_args,
-            branch,
-            branches[branch]["version"],
-            branches[branch]["testing-ref"],
-            fuchsia_ctl_version,
-        )
+    engine_recipes(branches.stable.version)
+    engine_prod_config(
+        platform_args,
+        "stable",
+        branches.stable.version,
+        branches.stable.testing_ref,
+        fuchsia_ctl_version,
+    )
+
+    engine_recipes(branches.beta.version)
+    engine_prod_config(
+        platform_args,
+        "beta",
+        branches.beta.version,
+        branches.beta.testing_ref,
+        fuchsia_ctl_version,
+    )
+
+    engine_recipes(branches.dev.version)
+    engine_prod_config(
+        platform_args,
+        "dev",
+        branches.dev.version,
+        branches.dev.testing_ref,
+        fuchsia_ctl_version,
+    )
+
+    engine_recipes(branches.master.version)
+    engine_prod_config(
+        platform_args,
+        "master",
+        branches.master.version,
+        branches.master.testing_ref,
+        fuchsia_ctl_version,
+    )
 
     engine_try_config(platform_args, fuchsia_ctl_version)
 
