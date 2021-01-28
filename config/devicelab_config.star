@@ -389,7 +389,6 @@ def devicelab_prod_config(branch, version, ref):
 
     # Mac host with android phones
     mac_android_tasks = [
-        "android_plugin_example_app_build_test",
         "android_semantics_integration_test",
         "backdrop_filter_perf__timeline_summary",
         "channels_integration_test",
