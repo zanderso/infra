@@ -954,6 +954,26 @@ def devicelab_prod_config(branch, version, ref):
         os = "Windows-Server",
     )
 
+    # Desktop Windows prod builders
+    # Currently Windows is only supported on master and dev.
+    if ref in (r"refs/heads/master", r"refs/heads/dev"):
+        windows_desktop_tasks = [
+            "hot_mode_dev_cycle_win_target__benchmark",
+        ]
+        for task in windows_desktop_tasks:
+            common.windows_prod_builder(
+                name = "Windows%s %s|%s" % (branched_builder_prefix, task, short_name(task)),
+                recipe = drone_recipe_name,
+                console_view_name = console_view_name,
+                triggered_by = [trigger_name],
+                triggering_policy = triggering_policy,
+                properties = {
+                    "task_name": task,
+                },
+                caches = WIN_DEFAULT_CACHES,
+                os = "Windows-Server",
+            )
+
 def devicelab_try_config():
     """Try configurations for the framework repository."""
 
