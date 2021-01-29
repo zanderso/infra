@@ -12,6 +12,7 @@ which is mirrored from https://github.com/flutter/flutter.
 
 load("//lib/common.star", "common")
 load("//lib/repos.star", "repos")
+load("//lib/timeout.star", "timeout")
 
 # Global xcode version for flutter/devicelab tests.
 XCODE_VERSION = "11e708"
@@ -425,6 +426,8 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
         },
         caches = WIN_DEFAULT_CACHES,
         os = "Windows-Server",
+        # TODO(fujino): https://github.com/flutter/flutter/issues/75003
+        execution_timeout = timeout.LONG,
     )
     common.windows_prod_builder(
         name = "Windows%s web_tool_tests|web_tt" % ("" if branch == "master" else " " + branch),
@@ -900,6 +903,8 @@ def framework_try_config():
         },
         caches = WIN_DEFAULT_CACHES,
         os = "Windows-Server",
+        # TODO(fujino): https://github.com/flutter/flutter/issues/75003
+        execution_timeout = timeout.LONG,
     )
     common.windows_try_builder(
         name = "Windows web_tool_tests|web_tt",
