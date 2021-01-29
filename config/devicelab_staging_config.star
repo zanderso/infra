@@ -159,9 +159,44 @@ def devicelab_staging_prod_config():
                 "task_name": task,
             },
             pool = "luci.flutter.staging",
-            os = "Mac-10.15.7",
-            dimensions = {"device_os": "iOS"},
-            execution_timeout = timeout.SHORT,
+            os = "iOS-14.3",
+            execution_timeout = timeout.LONG,
+            expiration_timeout = timeout.LONG_EXPIRATION,
+            caches = MAC_DEFAULT_CACHES,
+        )
+
+    mac_ios32_tasks = [
+        "flutter_gallery_ios32__start_up",
+        "flutter_gallery__transition_perf_e2e_ios32",
+        "flutter_gallery_sksl_warmup__transition_perf_e2e_ios32",
+    ]
+    for task in mac_ios32_tasks:
+        common.mac_prod_builder(
+            name = "Mac_staging %s|%s" % (task, short_name(task)),
+            recipe = drone_recipe_name,
+            console_view_name = console_view_name,
+            triggered_by = [trigger_name],
+            triggering_policy = triggering_policy,
+            properties = {
+                "$flutter/osx_sdk": {
+                    "sdk_version": "12c33",  # 12.3
+                },
+                "dependencies": [
+                    {
+                        "dependency": "xcode",
+                    },
+                    {
+                        "dependency": "gems",
+                    },
+                    {
+                        "dependency": "ios_signing",
+                    },
+                ],
+                "task_name": task,
+            },
+            pool = "luci.flutter.staging",
+            os = "iOS-9.3.6",
+            execution_timeout = timeout.LONG,
             expiration_timeout = timeout.LONG_EXPIRATION,
             caches = MAC_DEFAULT_CACHES,
         )
