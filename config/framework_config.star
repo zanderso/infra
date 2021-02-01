@@ -233,6 +233,43 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
         caches = LINUX_DEFAULT_CACHES,
     )
     common.linux_prod_builder(
+        name = "Linux%s tool_general_tests|tool_tests_gen" % ("" if branch == "master" else " " + branch),
+        recipe = new_recipe_name,
+        console_view_name = console_view_name,
+        triggered_by = [trigger_name],
+        triggering_policy = triggering_policy,
+        properties = {
+            "shard": "tool_general_tests",
+            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}, {"dependency": "goldctl"}],
+        },
+        caches = LINUX_DEFAULT_CACHES,
+    )
+    common.linux_prod_builder(
+        name = "Linux%s tool_command_tests|tool_tests_comm" % ("" if branch == "master" else " " + branch),
+        recipe = new_recipe_name,
+        console_view_name = console_view_name,
+        triggered_by = [trigger_name],
+        triggering_policy = triggering_policy,
+        properties = {
+            "shard": "tool_command_tests",
+            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}, {"dependency": "goldctl"}],
+        },
+        caches = LINUX_DEFAULT_CACHES,
+    )
+    common.linux_prod_builder(
+        name = "Linux%s tool_integration_tests|tool_tests_int" % ("" if branch == "master" else " " + branch),
+        recipe = new_recipe_name,
+        console_view_name = console_view_name,
+        triggered_by = [trigger_name],
+        triggering_policy = triggering_policy,
+        properties = {
+            "shard": "tool_integration_tests",
+            "subshards": ["1_3", "2_3", "3_3"],
+            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}, {"dependency": "goldctl"}],
+        },
+        caches = LINUX_DEFAULT_CACHES,
+    )
+    common.linux_prod_builder(
         name = "Linux%s web_tool_tests|web_tt" % ("" if branch == "master" else " " + branch),
         recipe = drone_recipe_name,
         console_view_name = console_view_name,
@@ -430,6 +467,48 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
         execution_timeout = timeout.LONG,
     )
     common.windows_prod_builder(
+        name = "Windows%s tool_general_tests|tool_tests_gen" % ("" if branch == "master" else " " + branch),
+        recipe = new_recipe_name,
+        console_view_name = console_view_name,
+        triggered_by = [trigger_name],
+        triggering_policy = triggering_policy,
+        properties = {
+            "shard": "tool_general_tests",
+            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}, {"dependency": "goldctl"}],
+        },
+        caches = WIN_DEFAULT_CACHES,
+        os = "Windows-Server",
+    )
+    common.windows_prod_builder(
+        name = "Windows%s tool_command_tests|tool_tests_comm" % ("" if branch == "master" else " " + branch),
+        recipe = new_recipe_name,
+        console_view_name = console_view_name,
+        triggered_by = [trigger_name],
+        triggering_policy = triggering_policy,
+        properties = {
+            "shard": "tool_command_tests",
+            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}, {"dependency": "goldctl"}],
+        },
+        caches = WIN_DEFAULT_CACHES,
+        os = "Windows-Server",
+    )
+    common.windows_prod_builder(
+        name = "Windows%s tool_integration_tests|tool_tests_int" % ("" if branch == "master" else " " + branch),
+        recipe = new_recipe_name,
+        console_view_name = console_view_name,
+        triggered_by = [trigger_name],
+        triggering_policy = triggering_policy,
+        properties = {
+            "shard": "tool_integration_tests",
+            "subshards": ["1_3", "2_3", "3_3"],
+            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}, {"dependency": "goldctl"}],
+        },
+        caches = WIN_DEFAULT_CACHES,
+        os = "Windows-Server",
+        # TODO(fujino): https://github.com/flutter/flutter/issues/75003
+        execution_timeout = timeout.LONG,
+    )
+    common.windows_prod_builder(
         name = "Windows%s web_tool_tests|web_tt" % ("" if branch == "master" else " " + branch),
         recipe = drone_recipe_name,
         console_view_name = console_view_name,
@@ -515,6 +594,61 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
         properties = {
             "shard": "tool_tests",
             "subshards": ["general", "commands", "integration"],
+            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}, {"dependency": "xcode"}, {"dependency": "gems"}, {"dependency": "goldctl"}],
+            "$depot_tools/osx_sdk": {
+                "sdk_version": XCODE_VERSION,
+            },
+            "$flutter/osx_sdk": {
+                "sdk_version": XCODE_VERSION,
+            },
+        },
+        caches = MAC_DEFAULT_CACHES,
+    )
+    common.mac_prod_builder(
+        name = "Mac%s tool_general_tests|tool_tests_gen" % ("" if branch == "master" else " " + branch),
+        recipe = new_recipe_name,
+        console_view_name = console_view_name,
+        triggered_by = [trigger_name],
+        triggering_policy = triggering_policy,
+        properties = {
+            "shard": "tool_general_tests",
+            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}, {"dependency": "xcode"}, {"dependency": "gems"}, {"dependency": "goldctl"}],
+            "$depot_tools/osx_sdk": {
+                "sdk_version": XCODE_VERSION,
+            },
+            "$flutter/osx_sdk": {
+                "sdk_version": XCODE_VERSION,
+            },
+        },
+        caches = MAC_DEFAULT_CACHES,
+    )
+    common.mac_prod_builder(
+        name = "Mac%s tool_command_tests|tool_tests_comm" % ("" if branch == "master" else " " + branch),
+        recipe = new_recipe_name,
+        console_view_name = console_view_name,
+        triggered_by = [trigger_name],
+        triggering_policy = triggering_policy,
+        properties = {
+            "shard": "tool_command_tests",
+            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}, {"dependency": "xcode"}, {"dependency": "gems"}, {"dependency": "goldctl"}],
+            "$depot_tools/osx_sdk": {
+                "sdk_version": XCODE_VERSION,
+            },
+            "$flutter/osx_sdk": {
+                "sdk_version": XCODE_VERSION,
+            },
+        },
+        caches = MAC_DEFAULT_CACHES,
+    )
+    common.mac_prod_builder(
+        name = "Mac%s tool_integration_tests|tool_tests_int" % ("" if branch == "master" else " " + branch),
+        recipe = new_recipe_name,
+        console_view_name = console_view_name,
+        triggered_by = [trigger_name],
+        triggering_policy = triggering_policy,
+        properties = {
+            "shard": "tool_integration_tests",
+            "subshards": ["1_3", "2_3", "3_3"],
             "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}, {"dependency": "xcode"}, {"dependency": "gems"}, {"dependency": "goldctl"}],
             "$depot_tools/osx_sdk": {
                 "sdk_version": XCODE_VERSION,
@@ -618,6 +752,43 @@ def framework_try_config():
         properties = {
             "shard": "tool_tests",
             "subshards": ["general", "commands", "integration"],
+            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}, {"dependency": "goldctl"}],
+        },
+        caches = LINUX_DEFAULT_CACHES,
+    )
+    common.linux_try_builder(
+        name = "Linux tool_general_tests|tool_tests_gen",
+        recipe = "flutter/flutter",
+        repo = repos.FLUTTER,
+        add_cq = True,
+        list_view_name = list_view_name,
+        properties = {
+            "shard": "tool_general_tests",
+            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}, {"dependency": "goldctl"}],
+        },
+        caches = LINUX_DEFAULT_CACHES,
+    )
+    common.linux_try_builder(
+        name = "Linux tool_command_tests|tool_tests_comm",
+        recipe = "flutter/flutter",
+        repo = repos.FLUTTER,
+        add_cq = True,
+        list_view_name = list_view_name,
+        properties = {
+            "shard": "tool_command_tests",
+            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}, {"dependency": "goldctl"}],
+        },
+        caches = LINUX_DEFAULT_CACHES,
+    )
+    common.linux_try_builder(
+        name = "Linux tool_integration_tests|tool_tests_int",
+        recipe = "flutter/flutter",
+        repo = repos.FLUTTER,
+        add_cq = True,
+        list_view_name = list_view_name,
+        properties = {
+            "shard": "tool_integration_tests",
+            "subshards": ["1_3", "2_3", "3_3"],
             "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}, {"dependency": "goldctl"}],
         },
         caches = LINUX_DEFAULT_CACHES,
@@ -818,6 +989,61 @@ def framework_try_config():
         caches = MAC_DEFAULT_CACHES,
     )
     common.mac_try_builder(
+        name = "Mac tool_general_tests|tool_tests_gen",
+        recipe = "flutter/flutter",
+        repo = repos.FLUTTER,
+        add_cq = True,
+        list_view_name = list_view_name,
+        properties = {
+            "shard": "tool_general_tests",
+            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}, {"dependency": "xcode"}, {"dependency": "gems"}, {"dependency": "goldctl"}],
+            "$depot_tools/osx_sdk": {
+                "sdk_version": XCODE_VERSION,
+            },
+            "$flutter/osx_sdk": {
+                "sdk_version": XCODE_VERSION,
+            },
+        },
+        caches = MAC_DEFAULT_CACHES,
+    )
+    common.mac_try_builder(
+        name = "Mac tool_command_tests|tool_tests_comm",
+        recipe = "flutter/flutter",
+        repo = repos.FLUTTER,
+        add_cq = True,
+        list_view_name = list_view_name,
+        properties = {
+            "shard": "tool_command_tests",
+            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}, {"dependency": "xcode"}, {"dependency": "gems"}, {"dependency": "goldctl"}],
+            "$depot_tools/osx_sdk": {
+                "sdk_version": XCODE_VERSION,
+            },
+            "$flutter/osx_sdk": {
+                "sdk_version": XCODE_VERSION,
+            },
+        },
+        caches = MAC_DEFAULT_CACHES,
+    )
+    common.mac_try_builder(
+        name = "Mac tool_integration_tests|tool_tests_int",
+        recipe = "flutter/flutter",
+        repo = repos.FLUTTER,
+        add_cq = True,
+        list_view_name = list_view_name,
+        properties = {
+            "shard": "tool_integration_tests",
+            "subshards": ["1_3", "2_3", "3_3"],
+            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}, {"dependency": "xcode"}, {"dependency": "gems"}, {"dependency": "goldctl"}],
+            "$depot_tools/osx_sdk": {
+                "sdk_version": XCODE_VERSION,
+            },
+            "$flutter/osx_sdk": {
+                "sdk_version": XCODE_VERSION,
+            },
+        },
+        caches = MAC_DEFAULT_CACHES,
+    )
+    common.mac_try_builder(
         name = "Mac web_tool_tests|web_tt",
         recipe = "flutter/flutter_drone",
         repo = repos.FLUTTER,
@@ -899,6 +1125,48 @@ def framework_try_config():
         properties = {
             "shard": "tool_tests",
             "subshards": ["general", "commands", "integration"],
+            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}, {"dependency": "goldctl"}],
+        },
+        caches = WIN_DEFAULT_CACHES,
+        os = "Windows-Server",
+        # TODO(fujino): https://github.com/flutter/flutter/issues/75003
+        execution_timeout = timeout.LONG,
+    )
+    common.windows_try_builder(
+        name = "Windows tool_general_tests|tool_tests_gen",
+        recipe = "flutter/flutter",
+        repo = repos.FLUTTER,
+        add_cq = True,
+        list_view_name = list_view_name,
+        properties = {
+            "shard": "tool_general_tests",
+            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}, {"dependency": "goldctl"}],
+        },
+        caches = WIN_DEFAULT_CACHES,
+        os = "Windows-Server",
+    )
+    common.windows_try_builder(
+        name = "Windows tool_command_tests|tool_tests_comm",
+        recipe = "flutter/flutter",
+        repo = repos.FLUTTER,
+        add_cq = True,
+        list_view_name = list_view_name,
+        properties = {
+            "shard": "tool_command_tests",
+            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}, {"dependency": "goldctl"}],
+        },
+        caches = WIN_DEFAULT_CACHES,
+        os = "Windows-Server",
+    )
+    common.windows_try_builder(
+        name = "Windows tool_integration_tests|tool_tests_int",
+        recipe = "flutter/flutter",
+        repo = repos.FLUTTER,
+        add_cq = True,
+        list_view_name = list_view_name,
+        properties = {
+            "shard": "tool_integration_tests",
+            "subshards": ["1_3", "2_3", "3_3"],
             "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}, {"dependency": "goldctl"}],
         },
         caches = WIN_DEFAULT_CACHES,
