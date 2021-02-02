@@ -201,7 +201,7 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
         triggering_policy = triggering_policy,
         properties = {
             "shard": "build_tests",
-            "subshards": ["0", "1_last"],
+            "subshards": ["1_2", "2_2"],
             "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}, {"dependency": "goldctl"}, {"dependency": "clang"}, {"dependency": "cmake"}, {"dependency": "ninja"}],
         },
         caches = LINUX_DEFAULT_CACHES,
@@ -279,7 +279,7 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
         triggering_policy = triggering_policy,
         properties = {
             "shard": "web_tests",
-            "subshards": ["0", "1", "2", "3", "4", "5", "6", "7_last"],
+            "subshards": ["1_8", "2_8", "3_8", "4_8", "5_8", "6_8", "7_8", "8_8"],
             "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "goldctl"}],
         },
         caches = LINUX_DEFAULT_CACHES,
@@ -292,7 +292,7 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
         triggering_policy = triggering_policy,
         properties = {
             "shard": "web_long_running_tests",
-            "subshards": ["0", "1", "2_last"],
+            "subshards": ["1_3", "2_3", "3_3"],
             "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "goldctl"}],
         },
         caches = LINUX_DEFAULT_CACHES,
@@ -406,7 +406,7 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
         triggering_policy = triggering_policy,
         properties = {
             "shard": "build_tests",
-            "subshards": ["0", "1_last"],
+            "subshards": ["1_3", "2_3", "3_3"],
             "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}, {"dependency": "goldctl"}],
         },
         caches = WIN_DEFAULT_CACHES,
@@ -505,7 +505,7 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
         triggering_policy = triggering_policy,
         properties = {
             "shard": "build_tests",
-            "subshards": ["0", "1_last"],
+            "subshards": ["1_3", "2_3", "3_3"],
             "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}, {"dependency": "xcode"}, {"dependency": "gems"}, {"dependency": "goldctl"}],
             "$depot_tools/osx_sdk": {
                 "sdk_version": XCODE_VERSION,
@@ -640,7 +640,7 @@ def framework_try_config():
         list_view_name = list_view_name,
         properties = {
             "shard": "build_tests",
-            "subshards": ["0", "1_last"],
+            "subshards": ["1_2", "2_2"],
             "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}, {"dependency": "goldctl"}, {"dependency": "clang"}, {"dependency": "cmake"}, {"dependency": "ninja"}],
         },
         caches = LINUX_DEFAULT_CACHES,
@@ -702,7 +702,7 @@ def framework_try_config():
         list_view_name = list_view_name,
         properties = {
             "shard": "web_tests",
-            "subshards": ["0", "1", "2", "3", "4", "5", "6", "7_last"],
+            "subshards": ["1_8", "2_8", "3_8", "4_8", "5_8", "6_8", "7_8", "8_8"],
             "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "goldctl"}],
         },
         caches = LINUX_DEFAULT_CACHES,
@@ -714,7 +714,7 @@ def framework_try_config():
         list_view_name = list_view_name,
         properties = {
             "shard": "web_long_running_tests",
-            "subshards": ["0", "1", "2_last"],
+            "subshards": ["1_3", "2_3", "3_3"],
             "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "goldctl"}],
         },
         caches = LINUX_DEFAULT_CACHES,
@@ -830,7 +830,7 @@ def framework_try_config():
         list_view_name = list_view_name,
         properties = {
             "shard": "build_tests",
-            "subshards": ["0", "1_last"],
+            "subshards": ["1_3", "2_3", "3_3"],
             "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}, {"dependency": "xcode"}, {"dependency": "gems"}, {"dependency": "goldctl"}],
             "$depot_tools/osx_sdk": {
                 "sdk_version": XCODE_VERSION,
@@ -951,7 +951,7 @@ def framework_try_config():
         list_view_name = list_view_name,
         properties = {
             "shard": "build_tests",
-            "subshards": ["0", "1_last"],
+            "subshards": ["1_3", "2_3", "3_3"],
             "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}, {"dependency": "goldctl"}],
         },
         caches = WIN_DEFAULT_CACHES,
