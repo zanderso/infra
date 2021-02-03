@@ -491,6 +491,7 @@ def devicelab_prod_config(branch, version, ref):
             "task_name": "build_aar_module_test",
         },
         caches = MAC_DEFAULT_CACHES,
+        dimensions = {"device_type": "none"},
     )
     common.mac_prod_builder(
         name = "Mac%s gradle_non_android_plugin_test|gnap" % ("" if branch == "master" else " " + branch),
@@ -522,6 +523,7 @@ def devicelab_prod_config(branch, version, ref):
             "task_name": "gradle_non_android_plugin_test",
         },
         caches = MAC_DEFAULT_CACHES,
+        dimensions = {"device_type": "none"},
     )
     common.mac_prod_builder(
         name = "Mac%s gradle_plugin_bundle_test|gpbt" % ("" if branch == "master" else " " + branch),
@@ -553,6 +555,7 @@ def devicelab_prod_config(branch, version, ref):
             "task_name": "gradle_plugin_bundle_test",
         },
         caches = MAC_DEFAULT_CACHES,
+        dimensions = {"device_type": "none"},
     )
     common.mac_prod_builder(
         name = "Mac%s gradle_plugin_fat_apk_test|gpfa" % ("" if branch == "master" else " " + branch),
@@ -584,6 +587,7 @@ def devicelab_prod_config(branch, version, ref):
             "task_name": "gradle_plugin_fat_apk_test",
         },
         caches = MAC_DEFAULT_CACHES,
+        dimensions = {"device_type": "none"},
     )
     common.mac_prod_builder(
         name = "Mac%s gradle_plugin_light_apk_test|gpla" % ("" if branch == "master" else " " + branch),
@@ -615,6 +619,7 @@ def devicelab_prod_config(branch, version, ref):
             "task_name": "gradle_plugin_light_apk_test",
         },
         caches = MAC_DEFAULT_CACHES,
+        dimensions = {"device_type": "none"},
     )
     common.mac_prod_builder(
         name = "Mac%s module_host_with_custom_build_test|mhwcb" % ("" if branch == "master" else " " + branch),
@@ -646,6 +651,7 @@ def devicelab_prod_config(branch, version, ref):
             "task_name": "module_host_with_custom_build_test",
         },
         caches = MAC_DEFAULT_CACHES,
+        dimensions = {"device_type": "none"},
     )
     common.mac_prod_builder(
         name = "Mac%s module_custom_host_app_name_test|mchan" % ("" if branch == "master" else " " + branch),
@@ -677,6 +683,7 @@ def devicelab_prod_config(branch, version, ref):
             "task_name": "module_custom_host_app_name_test",
         },
         caches = MAC_DEFAULT_CACHES,
+        dimensions = {"device_type": "none"},
     )
     common.mac_prod_builder(
         name = "Mac%s module_test|mod" % ("" if branch == "master" else " " + branch),
@@ -708,6 +715,7 @@ def devicelab_prod_config(branch, version, ref):
             "task_name": "module_test",
         },
         caches = MAC_DEFAULT_CACHES,
+        dimensions = {"device_type": "none"},
     )
     common.mac_prod_builder(
         name = "Mac%s module_test_ios|mios" % ("" if branch == "master" else " " + branch),
@@ -739,6 +747,7 @@ def devicelab_prod_config(branch, version, ref):
             "task_name": "module_test_ios",
         },
         caches = MAC_DEFAULT_CACHES,
+        dimensions = {"device_type": "none"},
     )
     common.mac_prod_builder(
         name = "Mac%s build_ios_framework_module_test|bifm" % ("" if branch == "master" else " " + branch),
@@ -770,6 +779,7 @@ def devicelab_prod_config(branch, version, ref):
             "task_name": "build_ios_framework_module_test",
         },
         caches = MAC_DEFAULT_CACHES,
+        dimensions = {"device_type": "none"},
     )
 
     common.mac_prod_builder(
@@ -802,6 +812,7 @@ def devicelab_prod_config(branch, version, ref):
             "task_name": "plugin_lint_mac",
         },
         caches = MAC_DEFAULT_CACHES,
+        dimensions = {"device_type": "none"},
     )
     common.mac_prod_builder(
         name = "Mac%s plugin_test|plugin" % ("" if branch == "master" else " " + branch),
@@ -833,6 +844,7 @@ def devicelab_prod_config(branch, version, ref):
             "task_name": "plugin_test",
         },
         caches = MAC_DEFAULT_CACHES,
+        dimensions = {"device_type": "none"},
     )
 
     # Windows prod builders
@@ -1181,6 +1193,7 @@ def devicelab_try_config():
             "task_name": "build_aar_module_test",
         },
         caches = MAC_DEFAULT_CACHES,
+        dimensions = {"device_type": "none"},
     )
     common.mac_try_builder(
         name = "Mac gradle_non_android_plugin_test|gnap",
@@ -1211,6 +1224,7 @@ def devicelab_try_config():
             "task_name": "gradle_non_android_plugin_test",
         },
         caches = MAC_DEFAULT_CACHES,
+        dimensions = {"device_type": "none"},
     )
     common.mac_try_builder(
         name = "Mac gradle_plugin_bundle_test|gpbt",
@@ -1241,6 +1255,7 @@ def devicelab_try_config():
             "task_name": "gradle_plugin_bundle_test",
         },
         caches = MAC_DEFAULT_CACHES,
+        dimensions = {"device_type": "none"},
     )
     common.mac_try_builder(
         name = "Mac gradle_plugin_fat_apk_test|gpfa",
@@ -1271,6 +1286,7 @@ def devicelab_try_config():
             "task_name": "gradle_plugin_fat_apk_test",
         },
         caches = MAC_DEFAULT_CACHES,
+        dimensions = {"device_type": "none"},
     )
     common.mac_try_builder(
         name = "Mac gradle_plugin_light_apk_test|gpla",
@@ -1301,6 +1317,7 @@ def devicelab_try_config():
             "task_name": "gradle_plugin_light_apk_test",
         },
         caches = MAC_DEFAULT_CACHES,
+        dimensions = {"device_type": "none"},
     )
     common.mac_try_builder(
         name = "Mac module_host_with_custom_build_test|mhwcb",
@@ -1331,6 +1348,7 @@ def devicelab_try_config():
             "task_name": "module_host_with_custom_build_test",
         },
         caches = MAC_DEFAULT_CACHES,
+        dimensions = {"device_type": "none"},
     )
     common.mac_try_builder(
         name = "Mac module_custom_host_app_name_test|mchan",
@@ -1361,6 +1379,7 @@ def devicelab_try_config():
             "task_name": "module_custom_host_app_name_test",
         },
         caches = MAC_DEFAULT_CACHES,
+        dimensions = {"device_type": "none"},
     )
     common.mac_try_builder(
         name = "Mac module_test|mod",
@@ -1391,6 +1410,7 @@ def devicelab_try_config():
             "task_name": "module_test",
         },
         caches = MAC_DEFAULT_CACHES,
+        dimensions = {"device_type": "none"},
     )
     common.mac_try_builder(
         name = "Mac module_test_ios|mios",
@@ -1421,6 +1441,7 @@ def devicelab_try_config():
             "task_name": "module_test_ios",
         },
         caches = MAC_DEFAULT_CACHES,
+        dimensions = {"device_type": "none"},
     )
     common.mac_try_builder(
         name = "Mac build_ios_framework_module_test|bifm",
@@ -1451,6 +1472,7 @@ def devicelab_try_config():
             "task_name": "build_ios_framework_module_test",
         },
         caches = MAC_DEFAULT_CACHES,
+        dimensions = {"device_type": "none"},
     )
 
     common.mac_try_builder(
@@ -1482,6 +1504,7 @@ def devicelab_try_config():
             "task_name": "plugin_lint_mac",
         },
         caches = MAC_DEFAULT_CACHES,
+        dimensions = {"device_type": "none"},
     )
     common.mac_try_builder(
         name = "Mac plugin_test|plugin",
@@ -1512,6 +1535,7 @@ def devicelab_try_config():
             "task_name": "plugin_test",
         },
         caches = MAC_DEFAULT_CACHES,
+        dimensions = {"device_type": "none"},
     )
 
     # Windows try builders.

@@ -255,7 +255,7 @@ def engine_prod_config(platform_args, branch, version, ref, fuchsia_ctl_version)
         triggered_by = [trigger_name],
         triggering_policy = triggering_policy,
         priority = 30 if branch == "master" else 25,
-        dimensions = {"mac_model": "Macmini8,1"},
+        dimensions = {"mac_model": "Macmini8,1", "device_type": "none"},
         **platform_args["mac"]
     )
     common.windows_prod_builder(
@@ -375,7 +375,7 @@ def engine_prod_config(platform_args, branch, version, ref, fuchsia_ctl_version)
         triggered_by = [trigger_name],
         triggering_policy = triggering_policy,
         priority = 30 if branch == "master" else 25,
-        dimensions = {"mac_model": "Macmini8,1"},
+        dimensions = {"mac_model": "Macmini8,1", "device_type": "none"},
         execution_timeout = timeout.MEDIUM_LONG,
         **platform_args["mac"]
     )
@@ -390,7 +390,7 @@ def engine_prod_config(platform_args, branch, version, ref, fuchsia_ctl_version)
         triggered_by = [trigger_name],
         triggering_policy = triggering_policy,
         priority = 30 if branch == "master" else 25,
-        dimensions = {"mac_model": "Macmini8,1"},
+        dimensions = {"mac_model": "Macmini8,1", "device_type": "none"},
         **platform_args["mac"]
     )
     common.mac_prod_builder(
@@ -401,7 +401,7 @@ def engine_prod_config(platform_args, branch, version, ref, fuchsia_ctl_version)
         triggered_by = [trigger_name],
         triggering_policy = triggering_policy,
         priority = 30 if branch == "master" else 25,
-        dimensions = {"mac_model": "Macmini8,1"},
+        dimensions = {"mac_model": "Macmini8,1", "device_type": "none"},
         **platform_args["mac"]
     )
     common.mac_prod_builder(
@@ -416,7 +416,7 @@ def engine_prod_config(platform_args, branch, version, ref, fuchsia_ctl_version)
         triggered_by = [trigger_name],
         triggering_policy = triggering_policy,
         priority = 30 if branch == "master" else 25,
-        dimensions = {"mac_model": "Macmini8,1"},
+        dimensions = {"mac_model": "Macmini8,1", "device_type": "none"},
         execution_timeout = timeout.LONG,
         **platform_args["mac"]
     )
@@ -432,7 +432,7 @@ def engine_prod_config(platform_args, branch, version, ref, fuchsia_ctl_version)
         triggered_by = [trigger_name],
         triggering_policy = triggering_policy,
         priority = 30 if branch == "master" else 25,
-        dimensions = {"mac_model": "Macmini8,1"},
+        dimensions = {"mac_model": "Macmini8,1", "device_type": "none"},
         execution_timeout = timeout.LONG,
         **platform_args["mac"]
     )
@@ -448,7 +448,7 @@ def engine_prod_config(platform_args, branch, version, ref, fuchsia_ctl_version)
         triggered_by = [trigger_name],
         triggering_policy = triggering_policy,
         priority = 30 if branch == "master" else 25,
-        dimensions = {"mac_model": "Macmini8,1"},
+        dimensions = {"mac_model": "Macmini8,1", "device_type": "none"},
         execution_timeout = timeout.LONG,
         **platform_args["mac"]
     )
@@ -458,6 +458,7 @@ def engine_prod_config(platform_args, branch, version, ref, fuchsia_ctl_version)
         console_view_name = None,
         no_notify = True,
         priority = 30 if branch == "master" else 25,
+        dimensions = {"device_type": "none"},
     )
 
     # Defines engine Windows builders
@@ -531,6 +532,7 @@ def engine_try_config(platform_args, fuchsia_ctl_version):
             gcs_goldens_bucket = "flutter_logs",
             no_lto = True,
         ),
+        dimensions = {"mac_model": "Macmini8,1", "device_type": "none"},
         **platform_args["mac"]
     )
     common.windows_try_builder(
@@ -670,7 +672,7 @@ def engine_try_config(platform_args, fuchsia_ctl_version):
             build_host = True,
             no_lto = True,
         ),
-        dimensions = {"mac_model": "Macmini8,1"},
+        dimensions = {"mac_model": "Macmini8,1", "device_type": "none"},
         **platform_args["mac"]
     )
     common.mac_try_builder(
@@ -683,7 +685,7 @@ def engine_try_config(platform_args, fuchsia_ctl_version):
             build_android_vulkan = True,
             no_lto = True,
         ),
-        dimensions = {"mac_model": "Macmini8,1"},
+        dimensions = {"mac_model": "Macmini8,1", "device_type": "none"},
         **platform_args["mac"]
     )
     common.mac_try_builder(
@@ -695,7 +697,7 @@ def engine_try_config(platform_args, fuchsia_ctl_version):
             build_android_aot = True,
             no_lto = True,
         ),
-        dimensions = {"mac_model": "Macmini8,1"},
+        dimensions = {"mac_model": "Macmini8,1", "device_type": "none"},
         **platform_args["mac"]
     )
     common.mac_try_builder(
@@ -710,7 +712,7 @@ def engine_try_config(platform_args, fuchsia_ctl_version):
             no_bitcode = True,
             no_lto = True,
         ),
-        dimensions = {"mac_model": "Macmini8,1"},
+        dimensions = {"mac_model": "Macmini8,1", "device_type": "none"},
         **platform_args["mac"]
     )
     common.mac_try_builder(
@@ -718,6 +720,7 @@ def engine_try_config(platform_args, fuchsia_ctl_version):
         recipe = "engine_builder",
         repo = repos.ENGINE,
         list_view_name = list_view_name,
+        dimensions = {"device_type": "none"},
         **platform_args["mac"]
     )
 

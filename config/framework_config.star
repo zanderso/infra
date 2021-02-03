@@ -514,6 +514,7 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
                 "sdk_version": NEW_XCODE_VERSION,
             },
         },
+        dimensions = {"device_type": "none"},
         caches = MAC_NEWXCODE_CACHES,
     )
     common.mac_prod_builder(
@@ -533,6 +534,7 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
                 "sdk_version": XCODE_VERSION,
             },
         },
+        dimensions = {"device_type": "none"},
         caches = MAC_DEFAULT_CACHES,
     )
     common.mac_prod_builder(
@@ -552,6 +554,7 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
                 "sdk_version": XCODE_VERSION,
             },
         },
+        dimensions = {"device_type": "none"},
         caches = MAC_DEFAULT_CACHES,
     )
     common.mac_prod_builder(
@@ -571,6 +574,7 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
                 "sdk_version": XCODE_VERSION,
             },
         },
+        dimensions = {"device_type": "none"},
         caches = MAC_DEFAULT_CACHES,
     )
     common.mac_prod_builder(
@@ -590,6 +594,7 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
                 "sdk_version": XCODE_VERSION,
             },
         },
+        dimensions = {"device_type": "none"},
         caches = MAC_DEFAULT_CACHES,
     )
     common.mac_prod_builder(
@@ -598,6 +603,7 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
         console_view_name = None,
         no_notify = True,
         caches = MAC_DEFAULT_CACHES,
+        dimensions = {"device_type": "none"},
     )
 
     # Mac adhoc tests
@@ -617,6 +623,7 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
                 "sdk_version": XCODE_VERSION,
             },
         },
+        dimensions = {"device_type": "none"},
         caches = MAC_DEFAULT_CACHES,
     )
 
@@ -839,6 +846,7 @@ def framework_try_config():
                 "sdk_version": NEW_XCODE_VERSION,
             },
         },
+        dimensions = {"device_type": "none"},
         caches = MAC_NEWXCODE_CACHES,
     )
     common.mac_try_builder(
@@ -857,6 +865,7 @@ def framework_try_config():
                 "sdk_version": XCODE_VERSION,
             },
         },
+        dimensions = {"device_type": "none"},
         caches = MAC_DEFAULT_CACHES,
     )
     common.mac_try_builder(
@@ -876,6 +885,7 @@ def framework_try_config():
                 "sdk_version": XCODE_VERSION,
             },
         },
+        dimensions = {"device_type": "none"},
         caches = MAC_DEFAULT_CACHES,
     )
     common.mac_try_builder(
@@ -895,6 +905,7 @@ def framework_try_config():
                 "sdk_version": XCODE_VERSION,
             },
         },
+        dimensions = {"device_type": "none"},
         caches = MAC_DEFAULT_CACHES,
     )
     common.mac_try_builder(
@@ -913,6 +924,7 @@ def framework_try_config():
                 "sdk_version": XCODE_VERSION,
             },
         },
+        dimensions = {"device_type": "none"},
         caches = MAC_DEFAULT_CACHES,
     )
     common.mac_try_builder(
@@ -921,6 +933,7 @@ def framework_try_config():
         repo = repos.FLUTTER,
         list_view_name = list_view_name,
         caches = MAC_DEFAULT_CACHES,
+        dimensions = {"device_type": "none"},
     )
 
     # Mac adhoc test
@@ -940,6 +953,7 @@ def framework_try_config():
                 "sdk_version": XCODE_VERSION,
             },
         },
+        dimensions = {"device_type": "none"},
         caches = MAC_DEFAULT_CACHES,
     )
 
