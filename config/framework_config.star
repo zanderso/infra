@@ -190,6 +190,7 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
             caches = [
                 swarming.cache(name = "pub_cache", path = ".pub_cache"),
             ],
+            dimensions = {"device_type": "none"},
         )
 
     # Linux platform sharded tests
@@ -515,6 +516,7 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
             },
         },
         caches = MAC_NEWXCODE_CACHES,
+        dimensions = {"device_type": "none"},
     )
     common.mac_prod_builder(
         name = "Mac%s framework_tests|frwk_tests" % ("" if branch == "master" else " " + branch),
@@ -534,6 +536,7 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
             },
         },
         caches = MAC_DEFAULT_CACHES,
+        dimensions = {"device_type": "none"},
     )
     common.mac_prod_builder(
         name = "Mac%s tool_tests|tool_tests" % ("" if branch == "master" else " " + branch),
@@ -553,6 +556,7 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
             },
         },
         caches = MAC_DEFAULT_CACHES,
+        dimensions = {"device_type": "none"},
     )
     common.mac_prod_builder(
         name = "Mac%s tool_integration_tests|tool_tests_int" % ("" if branch == "master" else " " + branch),
@@ -572,6 +576,7 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
             },
         },
         caches = MAC_DEFAULT_CACHES,
+        dimensions = {"device_type": "none"},
     )
     common.mac_prod_builder(
         name = "Mac%s web_tool_tests|web_tt" % ("" if branch == "master" else " " + branch),
@@ -591,6 +596,7 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
             },
         },
         caches = MAC_DEFAULT_CACHES,
+        dimensions = {"device_type": "none"},
     )
     common.mac_prod_builder(
         name = "Mac%s SDK Drone|frwdrn" % ("" if branch == "master" else " " + branch),
@@ -598,6 +604,7 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
         console_view_name = None,
         no_notify = True,
         caches = MAC_DEFAULT_CACHES,
+        dimensions = {"device_type": "none"},
     )
 
     # Mac adhoc tests
@@ -618,6 +625,7 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
             },
         },
         caches = MAC_DEFAULT_CACHES,
+        dimensions = {"device_type": "none"},
     )
 
 def framework_try_config():
@@ -840,6 +848,7 @@ def framework_try_config():
             },
         },
         caches = MAC_NEWXCODE_CACHES,
+        dimensions = {"device_type": "none"},
     )
     common.mac_try_builder(
         name = "Mac framework_tests|frwk_tests",
@@ -858,6 +867,7 @@ def framework_try_config():
             },
         },
         caches = MAC_DEFAULT_CACHES,
+        dimensions = {"device_type": "none"},
     )
     common.mac_try_builder(
         name = "Mac tool_tests|tool_tests",
@@ -877,6 +887,7 @@ def framework_try_config():
             },
         },
         caches = MAC_DEFAULT_CACHES,
+        dimensions = {"device_type": "none"},
     )
     common.mac_try_builder(
         name = "Mac tool_integration_tests|tool_tests_int",
@@ -896,6 +907,7 @@ def framework_try_config():
             },
         },
         caches = MAC_DEFAULT_CACHES,
+        dimensions = {"device_type": "none"},
     )
     common.mac_try_builder(
         name = "Mac web_tool_tests|web_tt",
@@ -914,6 +926,7 @@ def framework_try_config():
             },
         },
         caches = MAC_DEFAULT_CACHES,
+        dimensions = {"device_type": "none"},
     )
     common.mac_try_builder(
         name = "Mac SDK Drone|frwkdrn",
@@ -921,6 +934,7 @@ def framework_try_config():
         repo = repos.FLUTTER,
         list_view_name = list_view_name,
         caches = MAC_DEFAULT_CACHES,
+        dimensions = {"device_type": "none"},
     )
 
     # Mac adhoc test
@@ -941,6 +955,7 @@ def framework_try_config():
             },
         },
         caches = MAC_DEFAULT_CACHES,
+        dimensions = {"device_type": "none"},
     )
 
     # Windows platform
