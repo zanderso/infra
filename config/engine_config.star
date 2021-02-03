@@ -538,7 +538,6 @@ def engine_try_config(platform_args, fuchsia_ctl_version):
         recipe = "web_engine",
         repo = repos.ENGINE,
         list_view_name = list_view_name,
-        dimensions = {"mac_model": "Macmini8,1"},
         **platform_args["windows"]
     )
     common.linux_try_builder(
