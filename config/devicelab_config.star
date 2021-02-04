@@ -281,6 +281,7 @@ def devicelab_prod_config(branch, version, ref):
         "analyzer_benchmark",
         "android_defines_test",
         "android_obfuscate_test",
+        "android_stack_size_test",
         "android_view_scroll_perf__timeline_summary",
         "animated_placeholder_perf__e2e_summary",
         "animated_placeholder_perf",
