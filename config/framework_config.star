@@ -228,7 +228,7 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
         properties = {
             "shard": "tool_tests",
             "subshards": ["general", "commands"],
-            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}, {"dependency": "goldctl"}],
+            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "open_jdk"}],
         },
         caches = LINUX_DEFAULT_CACHES,
     )
@@ -435,7 +435,7 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
         properties = {
             "shard": "tool_tests",
             "subshards": ["general", "commands"],
-            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}, {"dependency": "goldctl"}],
+            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "open_jdk"}],
         },
         caches = WIN_DEFAULT_CACHES,
         os = "Windows-Server",
@@ -546,7 +546,7 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
         properties = {
             "shard": "tool_tests",
             "subshards": ["general", "commands"],
-            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}, {"dependency": "xcode"}, {"dependency": "gems"}, {"dependency": "goldctl"}],
+            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "open_jdk"}],
             "$depot_tools/osx_sdk": {
                 "sdk_version": XCODE_VERSION,
             },
@@ -673,7 +673,7 @@ def framework_try_config():
         properties = {
             "shard": "tool_tests",
             "subshards": ["general", "commands"],
-            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}, {"dependency": "goldctl"}],
+            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "open_jdk"}],
         },
         caches = LINUX_DEFAULT_CACHES,
     )
@@ -877,7 +877,7 @@ def framework_try_config():
         properties = {
             "shard": "tool_tests",
             "subshards": ["general", "commands"],
-            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}, {"dependency": "xcode"}, {"dependency": "gems"}, {"dependency": "goldctl"}],
+            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "open_jdk"}],
             "$depot_tools/osx_sdk": {
                 "sdk_version": XCODE_VERSION,
             },
@@ -993,7 +993,7 @@ def framework_try_config():
         properties = {
             "shard": "tool_tests",
             "subshards": ["general", "commands"],
-            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}, {"dependency": "goldctl"}],
+            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "open_jdk"}],
         },
         caches = WIN_DEFAULT_CACHES,
         os = "Windows-Server",
