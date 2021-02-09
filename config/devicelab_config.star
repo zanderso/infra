@@ -296,6 +296,7 @@ def devicelab_prod_config(branch, version, ref):
         "cubic_bezier_perf_sksl_warmup__e2e_summary",
         "cull_opacity_perf__e2e_summary",
         "fast_scroll_heavy_gridview__memory",
+        "flutter_engine_group_performance",
         "flutter_gallery__back_button_memory",
         "flutter_gallery__image_cache_memory",
         "flutter_gallery__memory_nav",
