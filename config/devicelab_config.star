@@ -357,6 +357,7 @@ def devicelab_prod_config(branch, version, ref):
             expiration_timeout = timeout.XL,
             execution_timeout = timeout.SHORT,
             caches = LINUX_DEFAULT_CACHES,
+            category = "Linux_android",
         )
 
     # Linux prod builders.
