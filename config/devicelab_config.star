@@ -428,6 +428,7 @@ def devicelab_prod_config(branch, version, ref):
         "platform_view__start_up",
         "run_release_test",
         "service_extensions_test",
+        "smoke_catalina_start_up",
         "textfield_perf__timeline_summary",
         "tiles_scroll_perf__timeline_summary",
     ]
