@@ -184,6 +184,9 @@ def devicelab_staging_prod_config():
                 "$flutter/osx_sdk": {
                     "sdk_version": "12c33",  # 12.3
                 },
+                "$flutter/devicelab_osx_sdk": {
+                    "sdk_version": "12c33",  # 12.3
+                },
                 "dependencies": [
                     {
                         "dependency": "xcode",
