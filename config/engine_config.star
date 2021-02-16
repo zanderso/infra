@@ -65,6 +65,13 @@ def _setup(branches, fuchsia_ctl_version):
         branches.master.testing_ref,
         fuchsia_ctl_version,
     )
+    engine_prod_config(
+        platform_args,
+        "fuchsia_f1",
+        branches.fuchsia_f1.version,
+        branches.fuchsia_f1.testing_ref,
+        fuchsia_ctl_version,
+    )
 
     engine_try_config(platform_args, fuchsia_ctl_version)
 
@@ -235,6 +242,22 @@ def engine_prod_config(platform_args, branch, version, ref, fuchsia_ctl_version)
             priority = 30,
             **platform_args["linux"]
         )
+
+    # Branch specific builders
+    if branch == "fuchsia_f1":
+        common.linux_prod_builder(
+            name = builder_name("Linux%s Fuchsia|fsc", branch),
+            recipe = full_recipe_name("engine", version),
+            console_view_name = console_view_name,
+            properties = engine_properties(fuchsia_ctl_version = fuchsia_ctl_version),
+            triggered_by = [trigger_name],
+            triggering_policy = triggering_policy,
+            priority = 30 if branch == "master" else 25,
+            execution_timeout = timeout.LONG,
+        )
+
+        # For specific branches we only create builders within the body of this if clause.
+        return
 
     # Defines web engine prod builders
     common.linux_prod_builder(

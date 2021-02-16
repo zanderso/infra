@@ -1,14 +1,16 @@
 
-€
+î
 branches.protorelease_branches"d
 Branch
 testing_ref (	R
 testingRef
 release_ref (	R
 releaseRef
-version (	Rversion"»
+version (	Rversion"Å
 Branches0
 stable (2.release_branches.BranchRstable,
 beta (2.release_branches.BranchRbeta*
 dev (2.release_branches.BranchRdev0
-master (2.release_branches.BranchRmasterbproto3
+master (2.release_branches.BranchRmaster7
+
+fuchsia_f1 (2.release_branches.BranchR	fuchsiaF1bproto3

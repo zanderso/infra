@@ -13,4 +13,5 @@ message Branches {
   Branch beta = 2;
   Branch dev = 3;
   Branch master = 4;
+  Branch fuchsia_f1 = 5;
 }

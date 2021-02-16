@@ -15,5 +15,8 @@
     },
     "master": {
         "testing_ref": "refs/heads/master"
+    },
+    "fuchsia_f1": {
+        "testing_ref": "refs/heads/fuchsia_f1"
     }
 }
