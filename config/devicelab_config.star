@@ -15,8 +15,7 @@ load("//lib/repos.star", "repos")
 load("//lib/timeout.star", "timeout")
 
 # Global xcode version for flutter/devicelab tests.
-XCODE_VERSION = "11e708"
-NEW_XCODE_VERSION = "12c5020f"
+XCODE_VERSION = "12c33"
 
 # Linux caches
 LINUX_DEFAULT_CACHES = [
@@ -486,9 +485,6 @@ def devicelab_prod_config(branch, version, ref):
                     "dependency": "gems",
                 },
             ],
-            "$depot_tools/osx_sdk": {
-                "sdk_version": XCODE_VERSION,
-            },
             "$flutter/osx_sdk": {
                 "sdk_version": XCODE_VERSION,
             },
@@ -518,9 +514,6 @@ def devicelab_prod_config(branch, version, ref):
                     "dependency": "gems",
                 },
             ],
-            "$depot_tools/osx_sdk": {
-                "sdk_version": XCODE_VERSION,
-            },
             "$flutter/osx_sdk": {
                 "sdk_version": XCODE_VERSION,
             },
@@ -550,9 +543,6 @@ def devicelab_prod_config(branch, version, ref):
                     "dependency": "gems",
                 },
             ],
-            "$depot_tools/osx_sdk": {
-                "sdk_version": XCODE_VERSION,
-            },
             "$flutter/osx_sdk": {
                 "sdk_version": XCODE_VERSION,
             },
@@ -582,9 +572,6 @@ def devicelab_prod_config(branch, version, ref):
                     "dependency": "gems",
                 },
             ],
-            "$depot_tools/osx_sdk": {
-                "sdk_version": XCODE_VERSION,
-            },
             "$flutter/osx_sdk": {
                 "sdk_version": XCODE_VERSION,
             },
@@ -614,9 +601,6 @@ def devicelab_prod_config(branch, version, ref):
                     "dependency": "gems",
                 },
             ],
-            "$depot_tools/osx_sdk": {
-                "sdk_version": XCODE_VERSION,
-            },
             "$flutter/osx_sdk": {
                 "sdk_version": XCODE_VERSION,
             },
@@ -646,9 +630,6 @@ def devicelab_prod_config(branch, version, ref):
                     "dependency": "gems",
                 },
             ],
-            "$depot_tools/osx_sdk": {
-                "sdk_version": XCODE_VERSION,
-            },
             "$flutter/osx_sdk": {
                 "sdk_version": XCODE_VERSION,
             },
@@ -678,9 +659,6 @@ def devicelab_prod_config(branch, version, ref):
                     "dependency": "gems",
                 },
             ],
-            "$depot_tools/osx_sdk": {
-                "sdk_version": XCODE_VERSION,
-            },
             "$flutter/osx_sdk": {
                 "sdk_version": XCODE_VERSION,
             },
@@ -710,9 +688,6 @@ def devicelab_prod_config(branch, version, ref):
                     "dependency": "gems",
                 },
             ],
-            "$depot_tools/osx_sdk": {
-                "sdk_version": XCODE_VERSION,
-            },
             "$flutter/osx_sdk": {
                 "sdk_version": XCODE_VERSION,
             },
@@ -742,11 +717,8 @@ def devicelab_prod_config(branch, version, ref):
                     "dependency": "gems",
                 },
             ],
-            "$depot_tools/osx_sdk": {
-                "sdk_version": XCODE_VERSION,
-            },
             "$flutter/osx_sdk": {
-                "sdk_version": NEW_XCODE_VERSION,
+                "sdk_version": XCODE_VERSION,
             },
             "task_name": "module_test_ios",
         },
@@ -774,11 +746,8 @@ def devicelab_prod_config(branch, version, ref):
                     "dependency": "gems",
                 },
             ],
-            "$depot_tools/osx_sdk": {
-                "sdk_version": XCODE_VERSION,
-            },
             "$flutter/osx_sdk": {
-                "sdk_version": NEW_XCODE_VERSION,
+                "sdk_version": XCODE_VERSION,
             },
             "task_name": "build_ios_framework_module_test",
         },
@@ -807,11 +776,8 @@ def devicelab_prod_config(branch, version, ref):
                     "dependency": "gems",
                 },
             ],
-            "$depot_tools/osx_sdk": {
-                "sdk_version": XCODE_VERSION,
-            },
             "$flutter/osx_sdk": {
-                "sdk_version": NEW_XCODE_VERSION,
+                "sdk_version": XCODE_VERSION,
             },
             "task_name": "plugin_lint_mac",
         },
@@ -839,9 +805,6 @@ def devicelab_prod_config(branch, version, ref):
                     "dependency": "gems",
                 },
             ],
-            "$depot_tools/osx_sdk": {
-                "sdk_version": XCODE_VERSION,
-            },
             "$flutter/osx_sdk": {
                 "sdk_version": XCODE_VERSION,
             },
@@ -1188,9 +1151,6 @@ def devicelab_try_config():
                     "dependency": "gems",
                 },
             ],
-            "$depot_tools/osx_sdk": {
-                "sdk_version": XCODE_VERSION,
-            },
             "$flutter/osx_sdk": {
                 "sdk_version": XCODE_VERSION,
             },
@@ -1219,9 +1179,6 @@ def devicelab_try_config():
                     "dependency": "gems",
                 },
             ],
-            "$depot_tools/osx_sdk": {
-                "sdk_version": XCODE_VERSION,
-            },
             "$flutter/osx_sdk": {
                 "sdk_version": XCODE_VERSION,
             },
@@ -1250,9 +1207,6 @@ def devicelab_try_config():
                     "dependency": "gems",
                 },
             ],
-            "$depot_tools/osx_sdk": {
-                "sdk_version": XCODE_VERSION,
-            },
             "$flutter/osx_sdk": {
                 "sdk_version": XCODE_VERSION,
             },
@@ -1281,9 +1235,6 @@ def devicelab_try_config():
                     "dependency": "gems",
                 },
             ],
-            "$depot_tools/osx_sdk": {
-                "sdk_version": XCODE_VERSION,
-            },
             "$flutter/osx_sdk": {
                 "sdk_version": XCODE_VERSION,
             },
@@ -1312,9 +1263,6 @@ def devicelab_try_config():
                     "dependency": "gems",
                 },
             ],
-            "$depot_tools/osx_sdk": {
-                "sdk_version": XCODE_VERSION,
-            },
             "$flutter/osx_sdk": {
                 "sdk_version": XCODE_VERSION,
             },
@@ -1343,9 +1291,6 @@ def devicelab_try_config():
                     "dependency": "gems",
                 },
             ],
-            "$depot_tools/osx_sdk": {
-                "sdk_version": XCODE_VERSION,
-            },
             "$flutter/osx_sdk": {
                 "sdk_version": XCODE_VERSION,
             },
@@ -1374,9 +1319,6 @@ def devicelab_try_config():
                     "dependency": "gems",
                 },
             ],
-            "$depot_tools/osx_sdk": {
-                "sdk_version": XCODE_VERSION,
-            },
             "$flutter/osx_sdk": {
                 "sdk_version": XCODE_VERSION,
             },
@@ -1405,9 +1347,6 @@ def devicelab_try_config():
                     "dependency": "gems",
                 },
             ],
-            "$depot_tools/osx_sdk": {
-                "sdk_version": XCODE_VERSION,
-            },
             "$flutter/osx_sdk": {
                 "sdk_version": XCODE_VERSION,
             },
@@ -1436,11 +1375,8 @@ def devicelab_try_config():
                     "dependency": "gems",
                 },
             ],
-            "$depot_tools/osx_sdk": {
-                "sdk_version": XCODE_VERSION,
-            },
             "$flutter/osx_sdk": {
-                "sdk_version": NEW_XCODE_VERSION,
+                "sdk_version": XCODE_VERSION,
             },
             "task_name": "module_test_ios",
         },
@@ -1467,11 +1403,8 @@ def devicelab_try_config():
                     "dependency": "gems",
                 },
             ],
-            "$depot_tools/osx_sdk": {
-                "sdk_version": XCODE_VERSION,
-            },
             "$flutter/osx_sdk": {
-                "sdk_version": NEW_XCODE_VERSION,
+                "sdk_version": XCODE_VERSION,
             },
             "task_name": "build_ios_framework_module_test",
         },
@@ -1499,11 +1432,8 @@ def devicelab_try_config():
                     "dependency": "gems",
                 },
             ],
-            "$depot_tools/osx_sdk": {
-                "sdk_version": XCODE_VERSION,
-            },
             "$flutter/osx_sdk": {
-                "sdk_version": NEW_XCODE_VERSION,
+                "sdk_version": XCODE_VERSION,
             },
             "task_name": "plugin_lint_mac",
         },
@@ -1530,9 +1460,6 @@ def devicelab_try_config():
                     "dependency": "gems",
                 },
             ],
-            "$depot_tools/osx_sdk": {
-                "sdk_version": XCODE_VERSION,
-            },
             "$flutter/osx_sdk": {
                 "sdk_version": XCODE_VERSION,
             },

@@ -14,9 +14,8 @@ load("//lib/common.star", "common")
 load("//lib/repos.star", "repos")
 load("//lib/timeout.star", "timeout")
 
-# Global xcode version for flutter/devicelab tests.
-XCODE_VERSION = "11e708"
-NEW_XCODE_VERSION = "12c5020f"
+# Global xcode versions.
+XCODE_VERSION = "12c33"
 
 # Linux caches
 LINUX_DEFAULT_CACHES = [
@@ -180,9 +179,6 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
                 "validation": "verify_binaries_codesigned",
                 "validation_name": "Verify binaries codesigned",
                 "dependencies": [{"dependency": "xcode"}],
-                "$depot_tools/osx_sdk": {
-                    "sdk_version": XCODE_VERSION,
-                },
                 "$flutter/osx_sdk": {
                     "sdk_version": XCODE_VERSION,
                 },
@@ -507,11 +503,8 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
             "shard": "build_tests",
             "subshards": ["1_3", "2_3", "3_3"],
             "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}, {"dependency": "xcode"}, {"dependency": "gems"}, {"dependency": "goldctl"}],
-            "$depot_tools/osx_sdk": {
-                "sdk_version": XCODE_VERSION,
-            },
             "$flutter/osx_sdk": {
-                "sdk_version": NEW_XCODE_VERSION,
+                "sdk_version": XCODE_VERSION,
             },
         },
         dimensions = {"device_type": "none"},
@@ -527,9 +520,6 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
             "shard": "framework_tests",
             "subshards": ["libraries", "misc", "widgets"],
             "dependencies": [{"dependency": "goldctl"}],
-            "$depot_tools/osx_sdk": {
-                "sdk_version": XCODE_VERSION,
-            },
             "$flutter/osx_sdk": {
                 "sdk_version": XCODE_VERSION,
             },
@@ -547,9 +537,6 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
             "shard": "tool_tests",
             "subshards": ["general", "commands"],
             "dependencies": [{"dependency": "android_sdk"}, {"dependency": "open_jdk"}],
-            "$depot_tools/osx_sdk": {
-                "sdk_version": XCODE_VERSION,
-            },
             "$flutter/osx_sdk": {
                 "sdk_version": XCODE_VERSION,
             },
@@ -567,9 +554,6 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
             "shard": "tool_integration_tests",
             "subshards": ["1_3", "2_3", "3_3"],
             "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}, {"dependency": "xcode"}, {"dependency": "gems"}, {"dependency": "goldctl"}],
-            "$depot_tools/osx_sdk": {
-                "sdk_version": XCODE_VERSION,
-            },
             "$flutter/osx_sdk": {
                 "sdk_version": XCODE_VERSION,
             },
@@ -587,9 +571,6 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
             "shard": "web_tool_tests",
             "subshard": "web",
             "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}, {"dependency": "xcode"}, {"dependency": "goldctl"}],
-            "$depot_tools/osx_sdk": {
-                "sdk_version": XCODE_VERSION,
-            },
             "$flutter/osx_sdk": {
                 "sdk_version": XCODE_VERSION,
             },
@@ -616,9 +597,6 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
         properties = {
             "validation": "customer_testing",
             "validation_name": "Customer testing",
-            "$depot_tools/osx_sdk": {
-                "sdk_version": XCODE_VERSION,
-            },
             "$flutter/osx_sdk": {
                 "sdk_version": XCODE_VERSION,
             },
@@ -839,11 +817,8 @@ def framework_try_config():
             "shard": "build_tests",
             "subshards": ["1_3", "2_3", "3_3"],
             "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}, {"dependency": "xcode"}, {"dependency": "gems"}, {"dependency": "goldctl"}],
-            "$depot_tools/osx_sdk": {
-                "sdk_version": XCODE_VERSION,
-            },
             "$flutter/osx_sdk": {
-                "sdk_version": NEW_XCODE_VERSION,
+                "sdk_version": XCODE_VERSION,
             },
         },
         dimensions = {"device_type": "none"},
@@ -858,9 +833,6 @@ def framework_try_config():
             "shard": "framework_tests",
             "subshards": ["libraries", "misc", "widgets"],
             "dependencies": [{"dependency": "goldctl"}],
-            "$depot_tools/osx_sdk": {
-                "sdk_version": XCODE_VERSION,
-            },
             "$flutter/osx_sdk": {
                 "sdk_version": XCODE_VERSION,
             },
@@ -878,9 +850,6 @@ def framework_try_config():
             "shard": "tool_tests",
             "subshards": ["general", "commands"],
             "dependencies": [{"dependency": "android_sdk"}, {"dependency": "open_jdk"}],
-            "$depot_tools/osx_sdk": {
-                "sdk_version": XCODE_VERSION,
-            },
             "$flutter/osx_sdk": {
                 "sdk_version": XCODE_VERSION,
             },
@@ -898,9 +867,6 @@ def framework_try_config():
             "shard": "tool_integration_tests",
             "subshards": ["1_3", "2_3", "3_3"],
             "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}, {"dependency": "xcode"}, {"dependency": "gems"}, {"dependency": "goldctl"}],
-            "$depot_tools/osx_sdk": {
-                "sdk_version": XCODE_VERSION,
-            },
             "$flutter/osx_sdk": {
                 "sdk_version": XCODE_VERSION,
             },
@@ -917,9 +883,6 @@ def framework_try_config():
             "shard": "web_tool_tests",
             "subshard": "web",
             "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}, {"dependency": "xcode"}, {"dependency": "goldctl"}],
-            "$depot_tools/osx_sdk": {
-                "sdk_version": XCODE_VERSION,
-            },
             "$flutter/osx_sdk": {
                 "sdk_version": XCODE_VERSION,
             },
@@ -946,9 +909,6 @@ def framework_try_config():
         properties = {
             "validation": "customer_testing",
             "validation_name": "Customer testing",
-            "$depot_tools/osx_sdk": {
-                "sdk_version": XCODE_VERSION,
-            },
             "$flutter/osx_sdk": {
                 "sdk_version": XCODE_VERSION,
             },
