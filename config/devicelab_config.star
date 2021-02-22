@@ -461,6 +461,83 @@ def devicelab_prod_config(branch, version, ref):
             caches = MAC_ANDROID_DEFAULT_CACHES,
         )
 
+    ##############
+
+    # Mac host with ios phones
+    mac_ios_tasks = [
+        "backdrop_filter_perf_ios__timeline_summary",
+        "basic_material_app_ios__compile",
+        "channels_integration_test_ios",
+        "complex_layout_ios__compile",
+        "complex_layout_ios__start_up",
+        "complex_layout_scroll_perf_ios__timeline_summary",
+        "external_ui_integration_test_ios",
+        "flavors_test_ios",
+        "flutter_gallery__transition_perf_e2e_ios",
+        "flutter_gallery_ios__compile",
+        "flutter_gallery_ios__start_up",
+        "flutter_gallery_ios__transition_perf",
+        "flutter_view_ios__start_up",
+        "hello_world_ios__compile",
+        "hot_mode_dev_cycle_macos_target__benchmark",
+        "integration_ui_ios_driver",
+        "integration_ui_ios_keyboard_resize",
+        "integration_ui_ios_screenshot",
+        "integration_ui_ios_textfield",
+        "ios_app_with_extensions_test",
+        "ios_content_validation_test",
+        "ios_defines_test",
+        "ios_platform_view_tests",
+        "large_image_changer_perf_ios",
+        "macos_chrome_dev_mode",
+        "microbenchmarks_ios",
+        "new_gallery_ios__transition_perf",
+        "platform_channel_sample_test_ios",
+        "platform_channel_sample_test_swift",
+        "platform_interaction_test_ios",
+        "platform_view_ios__start_up",
+        "platform_views_scroll_perf_ios__timeline_summary",
+        "post_backdrop_filter_perf_ios__timeline_summary",
+        "simple_animation_perf_ios",
+        "smoke_catalina_hot_mode_dev_cycle_ios__benchmark",
+        "tiles_scroll_perf_ios__timeline_summary",
+    ]
+
+    for task in mac_ios_tasks:
+        common.mac_prod_builder(
+            name = "Mac_ios%s %s|%s" % (branched_builder_prefix, task, short_name(task)),
+            recipe = drone_recipe_name,
+            console_view_name = console_view_name,
+            triggered_by = [trigger_name],
+            triggering_policy = triggering_policy,
+            properties = {
+                "$flutter/osx_sdk": {
+                    "sdk_version": NEW_XCODE_VERSION,
+                },
+                "$flutter/devicelab_osx_sdk": {
+                    "sdk_version": NEW_XCODE_VERSION,
+                },
+                "dependencies": [
+                    {
+                        "dependency": "xcode",
+                    },
+                    {
+                        "dependency": "gems",
+                    },
+                    {
+                        "dependency": "ios_signing",
+                    },
+                ],
+                "task_name": task,
+            },
+            pool = "luci.flutter.prod",
+            os = "iOS-14.3",
+            category = "Mac_ios",
+            execution_timeout = timeout.SHORT,
+            expiration_timeout = timeout.LONG_EXPIRATION,
+            caches = MAC_DEFAULT_CACHES,
+        )
+
     # Mac prod builders.
     common.mac_prod_builder(
         name = "Mac%s build_aar_module_test|aarm" % ("" if branch == "master" else " " + branch),
