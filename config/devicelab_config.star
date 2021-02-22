@@ -511,11 +511,8 @@ def devicelab_prod_config(branch, version, ref):
             triggered_by = [trigger_name],
             triggering_policy = triggering_policy,
             properties = {
-                "$flutter/osx_sdk": {
-                    "sdk_version": NEW_XCODE_VERSION,
-                },
                 "$flutter/devicelab_osx_sdk": {
-                    "sdk_version": NEW_XCODE_VERSION,
+                    "sdk_version": XCODE_VERSION,
                 },
                 "dependencies": [
                     {
