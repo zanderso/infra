@@ -461,8 +461,6 @@ def devicelab_prod_config(branch, version, ref):
             caches = MAC_ANDROID_DEFAULT_CACHES,
         )
 
-    ##############
-
     # Mac host with ios phones
     mac_ios_tasks = [
         "backdrop_filter_perf_ios__timeline_summary",
@@ -526,6 +524,7 @@ def devicelab_prod_config(branch, version, ref):
                     },
                 ],
                 "task_name": task,
+                "upload_metrics": branch in UPLOAD_METRICS_CHANNELS,
             },
             pool = "luci.flutter.prod",
             os = "iOS-14.3",
