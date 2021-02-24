@@ -157,6 +157,9 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
             max_concurrent_invocations = 3,
         )
 
+    # Defines build priority, release builds should be prioritized.
+    priority = 30 if branch == "master" else 29
+
     # Select which firebase project to upload the docs to.
     firebase_project = ""
     if branch == "master":
@@ -175,6 +178,7 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
             # This is only signed on the release branch, not candidate branch
             triggered_by = [branch + "-gitiles-trigger-packaging"],
             triggering_policy = triggering_policy,
+            priority = priority,
             properties = {
                 "validation": "verify_binaries_codesigned",
                 "validation_name": "Verify binaries codesigned",
@@ -195,6 +199,7 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
         console_view_name = console_view_name,
         triggered_by = [trigger_name],
         triggering_policy = triggering_policy,
+        priority = priority,
         properties = {
             "shard": "build_tests",
             "subshards": ["1_2", "2_2"],
@@ -208,6 +213,7 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
         console_view_name = console_view_name,
         triggered_by = [trigger_name],
         triggering_policy = triggering_policy,
+        priority = priority,
         properties = {
             "shard": "framework_tests",
             "subshards": ["libraries", "misc", "widgets"],
@@ -221,6 +227,7 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
         console_view_name = console_view_name,
         triggered_by = [trigger_name],
         triggering_policy = triggering_policy,
+        priority = priority,
         properties = {
             "shard": "tool_tests",
             "subshards": ["general", "commands"],
@@ -234,6 +241,7 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
         console_view_name = console_view_name,
         triggered_by = [trigger_name],
         triggering_policy = triggering_policy,
+        priority = priority,
         properties = {
             "shard": "tool_integration_tests",
             "subshards": ["1_3", "2_3", "3_3"],
@@ -247,6 +255,7 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
         console_view_name = console_view_name,
         triggered_by = [trigger_name],
         triggering_policy = triggering_policy,
+        priority = priority,
         properties = {
             "shard": "web_tool_tests",
             "subshard": "web",
@@ -260,6 +269,7 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
         console_view_name = console_view_name,
         triggered_by = [trigger_name],
         triggering_policy = triggering_policy,
+        priority = priority,
         properties = {
             "shard": "web_integration_tests",
             "subshards": [],
@@ -273,6 +283,7 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
         console_view_name = console_view_name,
         triggered_by = [trigger_name],
         triggering_policy = triggering_policy,
+        priority = priority,
         properties = {
             "shard": "web_tests",
             "subshards": ["0", "1", "2", "3", "4", "5", "6", "7_last"],
@@ -308,6 +319,7 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
         console_view_name = console_view_name,
         triggered_by = [trigger_name],
         triggering_policy = triggering_policy,
+        priority = priority,
         properties = {
             "validation": "analyze",
             "validation_name": "Analyze",
@@ -320,6 +332,7 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
         console_view_name = console_view_name,
         triggered_by = [trigger_name],
         triggering_policy = triggering_policy,
+        priority = priority,
         properties = {
             "validation": "customer_testing",
             "validation_name": "Customer testing",
@@ -332,6 +345,7 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
         console_view_name = console_view_name,
         triggered_by = [trigger_name],
         triggering_policy = triggering_policy,
+        priority = priority,
         properties = {
             "validation": "docs",
             "validation_name": "Docs",
@@ -347,6 +361,7 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
         console_view_name = console_view_name,
         triggered_by = [trigger_name],
         triggering_policy = triggering_policy,
+        priority = priority,
         properties = {
             "validation": "fuchsia_precache",
             "validation_name": "Fuchsia precache",
@@ -359,6 +374,7 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
         console_view_name = console_view_name,
         triggered_by = [trigger_name],
         triggering_policy = triggering_policy,
+        priority = priority,
         properties = {
             "validation": "web_e2e_test",
             "validation_name": "Web e2e tests",
@@ -372,6 +388,7 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
         console_view_name = console_view_name,
         triggered_by = [trigger_name],
         triggering_policy = triggering_policy,
+        priority = priority,
         properties = {
             "validation": "web_smoke_test",
             "validation_name": "Web smoke tests",
@@ -385,6 +402,7 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
         console_view_name = console_view_name,
         triggered_by = [trigger_name],
         triggering_policy = triggering_policy,
+        priority = priority,
         properties = {
             "shard": "flutter_plugins",
             "subshard": "analyze",
@@ -400,6 +418,7 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
         console_view_name = console_view_name,
         triggered_by = [trigger_name],
         triggering_policy = triggering_policy,
+        priority = priority,
         properties = {
             "shard": "build_tests",
             "subshards": ["1_3", "2_3", "3_3"],
@@ -414,6 +433,7 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
         console_view_name = console_view_name,
         triggered_by = [trigger_name],
         triggering_policy = triggering_policy,
+        priority = priority,
         properties = {
             "shard": "framework_tests",
             "subshards": ["libraries", "misc", "widgets"],
@@ -428,6 +448,7 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
         console_view_name = console_view_name,
         triggered_by = [trigger_name],
         triggering_policy = triggering_policy,
+        priority = priority,
         properties = {
             "shard": "tool_tests",
             "subshards": ["general", "commands"],
@@ -444,6 +465,7 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
         console_view_name = console_view_name,
         triggered_by = [trigger_name],
         triggering_policy = triggering_policy,
+        priority = priority,
         properties = {
             "shard": "tool_integration_tests",
             "subshards": ["1_3", "2_3", "3_3"],
@@ -460,6 +482,7 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
         console_view_name = console_view_name,
         triggered_by = [trigger_name],
         triggering_policy = triggering_policy,
+        priority = priority,
         properties = {
             "shard": "web_tool_tests",
             "subshard": "web",
@@ -484,6 +507,7 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
         console_view_name = console_view_name,
         triggered_by = [trigger_name],
         triggering_policy = triggering_policy,
+        priority = priority,
         properties = {
             "validation": "customer_testing",
             "validation_name": "Customer testing",
@@ -499,6 +523,7 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
         console_view_name = console_view_name,
         triggered_by = [trigger_name],
         triggering_policy = triggering_policy,
+        priority = priority,
         properties = {
             "shard": "build_tests",
             "subshards": ["1_4", "2_4", "3_4", "4_4"],
@@ -516,6 +541,7 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
         console_view_name = console_view_name,
         triggered_by = [trigger_name],
         triggering_policy = triggering_policy,
+        priority = priority,
         properties = {
             "shard": "framework_tests",
             "subshards": ["libraries", "misc", "widgets"],
@@ -533,6 +559,7 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
         console_view_name = console_view_name,
         triggered_by = [trigger_name],
         triggering_policy = triggering_policy,
+        priority = priority,
         properties = {
             "shard": "tool_tests",
             "subshards": ["general", "commands"],
@@ -550,6 +577,7 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
         console_view_name = console_view_name,
         triggered_by = [trigger_name],
         triggering_policy = triggering_policy,
+        priority = priority,
         properties = {
             "shard": "tool_integration_tests",
             "subshards": ["1_3", "2_3", "3_3"],
@@ -567,6 +595,7 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
         console_view_name = console_view_name,
         triggered_by = [trigger_name],
         triggering_policy = triggering_policy,
+        priority = priority,
         properties = {
             "shard": "web_tool_tests",
             "subshard": "web",
@@ -594,6 +623,7 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
         console_view_name = console_view_name,
         triggered_by = [trigger_name],
         triggering_policy = triggering_policy,
+        priority = priority,
         properties = {
             "validation": "customer_testing",
             "validation_name": "Customer testing",

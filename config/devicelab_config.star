@@ -144,12 +144,14 @@ def devicelab_prod_config(branch, version, ref):
             max_batch_size = 20,
             max_concurrent_invocations = 1,
         )
+        priority = 30
     else:
         triggering_policy = scheduler.greedy_batching(
             max_batch_size = 1,
             max_concurrent_invocations = 3,
         )
         devicelab_triggering_policy = triggering_policy
+        priority = 29
 
     # Defines framework prod builders
 
@@ -160,6 +162,7 @@ def devicelab_prod_config(branch, version, ref):
         console_view_name = console_view_name,
         triggered_by = [trigger_name],
         triggering_policy = triggering_policy,
+        priority = priority,
         properties = {
             "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}],
             "task_name": "build_aar_module_test",
@@ -172,6 +175,7 @@ def devicelab_prod_config(branch, version, ref):
         console_view_name = console_view_name,
         triggered_by = [trigger_name],
         triggering_policy = triggering_policy,
+        priority = priority,
         properties = {
             "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}],
             "task_name": "gradle_non_android_plugin_test",
@@ -184,6 +188,7 @@ def devicelab_prod_config(branch, version, ref):
         console_view_name = console_view_name,
         triggered_by = [trigger_name],
         triggering_policy = triggering_policy,
+        priority = priority,
         properties = {
             "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}],
             "task_name": "gradle_desugar_classes_test",
@@ -196,6 +201,7 @@ def devicelab_prod_config(branch, version, ref):
         console_view_name = console_view_name,
         triggered_by = [trigger_name],
         triggering_policy = triggering_policy,
+        priority = priority,
         properties = {
             "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}],
             "task_name": "gradle_plugin_bundle_test",
@@ -208,6 +214,7 @@ def devicelab_prod_config(branch, version, ref):
         console_view_name = console_view_name,
         triggered_by = [trigger_name],
         triggering_policy = triggering_policy,
+        priority = priority,
         properties = {
             "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}],
             "task_name": "gradle_plugin_fat_apk_test",
@@ -220,6 +227,7 @@ def devicelab_prod_config(branch, version, ref):
         console_view_name = console_view_name,
         triggered_by = [trigger_name],
         triggering_policy = triggering_policy,
+        priority = priority,
         properties = {
             "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}],
             "task_name": "gradle_plugin_light_apk_test",
@@ -232,6 +240,7 @@ def devicelab_prod_config(branch, version, ref):
         console_view_name = console_view_name,
         triggered_by = [trigger_name],
         triggering_policy = triggering_policy,
+        priority = priority,
         properties = {
             "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}],
             "task_name": "module_host_with_custom_build_test",
@@ -244,6 +253,7 @@ def devicelab_prod_config(branch, version, ref):
         console_view_name = console_view_name,
         triggered_by = [trigger_name],
         triggering_policy = triggering_policy,
+        priority = priority,
         properties = {
             "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}],
             "task_name": "module_custom_host_app_name_test",
@@ -256,6 +266,7 @@ def devicelab_prod_config(branch, version, ref):
         console_view_name = console_view_name,
         triggered_by = [trigger_name],
         triggering_policy = triggering_policy,
+        priority = priority,
         properties = {
             "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}],
             "task_name": "module_test",
@@ -268,6 +279,7 @@ def devicelab_prod_config(branch, version, ref):
         console_view_name = console_view_name,
         triggered_by = [trigger_name],
         triggering_policy = triggering_policy,
+        priority = priority,
         properties = {
             "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}],
             "task_name": "plugin_test",
@@ -371,6 +383,7 @@ def devicelab_prod_config(branch, version, ref):
             console_view_name = console_view_name,
             triggered_by = [trigger_name],
             triggering_policy = triggering_policy,
+            priority = priority,
             properties = {
                 "dependencies": [
                     {
@@ -437,6 +450,7 @@ def devicelab_prod_config(branch, version, ref):
             console_view_name = console_view_name,
             triggered_by = [trigger_name],
             triggering_policy = triggering_policy,
+            priority = priority,
             properties = {
                 "dependencies": [
                     {
@@ -541,6 +555,7 @@ def devicelab_prod_config(branch, version, ref):
         console_view_name = console_view_name,
         triggered_by = [trigger_name],
         triggering_policy = triggering_policy,
+        priority = priority,
         properties = {
             "dependencies": [
                 {
@@ -570,6 +585,7 @@ def devicelab_prod_config(branch, version, ref):
         console_view_name = console_view_name,
         triggered_by = [trigger_name],
         triggering_policy = triggering_policy,
+        priority = priority,
         properties = {
             "dependencies": [
                 {
@@ -599,6 +615,7 @@ def devicelab_prod_config(branch, version, ref):
         console_view_name = console_view_name,
         triggered_by = [trigger_name],
         triggering_policy = triggering_policy,
+        priority = priority,
         properties = {
             "dependencies": [
                 {
@@ -628,6 +645,7 @@ def devicelab_prod_config(branch, version, ref):
         console_view_name = console_view_name,
         triggered_by = [trigger_name],
         triggering_policy = triggering_policy,
+        priority = priority,
         properties = {
             "dependencies": [
                 {
@@ -657,6 +675,7 @@ def devicelab_prod_config(branch, version, ref):
         console_view_name = console_view_name,
         triggered_by = [trigger_name],
         triggering_policy = triggering_policy,
+        priority = priority,
         properties = {
             "dependencies": [
                 {
@@ -686,6 +705,7 @@ def devicelab_prod_config(branch, version, ref):
         console_view_name = console_view_name,
         triggered_by = [trigger_name],
         triggering_policy = triggering_policy,
+        priority = priority,
         properties = {
             "dependencies": [
                 {
@@ -715,6 +735,7 @@ def devicelab_prod_config(branch, version, ref):
         console_view_name = console_view_name,
         triggered_by = [trigger_name],
         triggering_policy = triggering_policy,
+        priority = priority,
         properties = {
             "dependencies": [
                 {
@@ -744,6 +765,7 @@ def devicelab_prod_config(branch, version, ref):
         console_view_name = console_view_name,
         triggered_by = [trigger_name],
         triggering_policy = triggering_policy,
+        priority = priority,
         properties = {
             "dependencies": [
                 {
@@ -773,6 +795,7 @@ def devicelab_prod_config(branch, version, ref):
         console_view_name = console_view_name,
         triggered_by = [trigger_name],
         triggering_policy = triggering_policy,
+        priority = priority,
         properties = {
             "dependencies": [
                 {
@@ -802,6 +825,7 @@ def devicelab_prod_config(branch, version, ref):
         console_view_name = console_view_name,
         triggered_by = [trigger_name],
         triggering_policy = triggering_policy,
+        priority = priority,
         properties = {
             "dependencies": [
                 {
@@ -832,6 +856,7 @@ def devicelab_prod_config(branch, version, ref):
         console_view_name = console_view_name,
         triggered_by = [trigger_name],
         triggering_policy = triggering_policy,
+        priority = priority,
         properties = {
             "dependencies": [
                 {
@@ -861,6 +886,7 @@ def devicelab_prod_config(branch, version, ref):
         console_view_name = console_view_name,
         triggered_by = [trigger_name],
         triggering_policy = triggering_policy,
+        priority = priority,
         properties = {
             "dependencies": [
                 {
@@ -915,6 +941,7 @@ def devicelab_prod_config(branch, version, ref):
         console_view_name = console_view_name,
         triggered_by = [trigger_name],
         triggering_policy = triggering_policy,
+        priority = priority,
         properties = {
             "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}],
             "task_name": "build_aar_module_test",
@@ -928,6 +955,7 @@ def devicelab_prod_config(branch, version, ref):
         console_view_name = console_view_name,
         triggered_by = [trigger_name],
         triggering_policy = triggering_policy,
+        priority = priority,
         properties = {
             "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}],
             "task_name": "gradle_non_android_plugin_test",
@@ -941,6 +969,7 @@ def devicelab_prod_config(branch, version, ref):
         console_view_name = console_view_name,
         triggered_by = [trigger_name],
         triggering_policy = triggering_policy,
+        priority = priority,
         properties = {
             "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}],
             "task_name": "gradle_plugin_bundle_test",
@@ -954,6 +983,7 @@ def devicelab_prod_config(branch, version, ref):
         console_view_name = console_view_name,
         triggered_by = [trigger_name],
         triggering_policy = triggering_policy,
+        priority = priority,
         properties = {
             "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}],
             "task_name": "gradle_plugin_fat_apk_test",
@@ -967,6 +997,7 @@ def devicelab_prod_config(branch, version, ref):
         console_view_name = console_view_name,
         triggered_by = [trigger_name],
         triggering_policy = triggering_policy,
+        priority = priority,
         properties = {
             "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}],
             "task_name": "gradle_plugin_light_apk_test",
@@ -980,6 +1011,7 @@ def devicelab_prod_config(branch, version, ref):
         console_view_name = console_view_name,
         triggered_by = [trigger_name],
         triggering_policy = triggering_policy,
+        priority = priority,
         properties = {
             "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}],
             "task_name": "module_host_with_custom_build_test",
@@ -993,6 +1025,7 @@ def devicelab_prod_config(branch, version, ref):
         console_view_name = console_view_name,
         triggered_by = [trigger_name],
         triggering_policy = triggering_policy,
+        priority = priority,
         properties = {
             "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}],
             "task_name": "module_custom_host_app_name_test",
@@ -1006,6 +1039,7 @@ def devicelab_prod_config(branch, version, ref):
         console_view_name = console_view_name,
         triggered_by = [trigger_name],
         triggering_policy = triggering_policy,
+        priority = priority,
         properties = {
             "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}],
             "task_name": "module_test",
@@ -1019,6 +1053,7 @@ def devicelab_prod_config(branch, version, ref):
         console_view_name = console_view_name,
         triggered_by = [trigger_name],
         triggering_policy = triggering_policy,
+        priority = priority,
         properties = {
             "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}],
             "task_name": "plugin_test",
@@ -1040,6 +1075,7 @@ def devicelab_prod_config(branch, version, ref):
                 console_view_name = console_view_name,
                 triggered_by = [trigger_name],
                 triggering_policy = triggering_policy,
+                priority = priority,
                 properties = {
                     "task_name": task,
                 },
