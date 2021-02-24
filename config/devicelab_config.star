@@ -884,6 +884,29 @@ def devicelab_prod_config(branch, version, ref):
         caches = MAC_DEFAULT_CACHES,
         dimensions = {"device_type": "none"},
     )
+    common.mac_prod_builder(
+        name = "Mac%s dart_plugin_registry_test|dart_plugin" % ("" if branch == "master" else " " + branch),
+        recipe = drone_recipe_name,
+        console_view_name = console_view_name,
+        triggered_by = [trigger_name],
+        triggering_policy = triggering_policy,
+        properties = {
+            "dependencies": [
+                {
+                    "dependency": "xcode",
+                },
+                {
+                    "dependency": "gems",
+                },
+            ],
+            "$flutter/osx_sdk": {
+                "sdk_version": XCODE_VERSION,
+            },
+            "task_name": "dart_plugin_registry_test",
+        },
+        caches = MAC_DEFAULT_CACHES,
+        dimensions = {"device_type": "none"},
+    )
 
     # Windows prod builders
     common.windows_prod_builder(
@@ -1535,6 +1558,28 @@ def devicelab_try_config():
                 "sdk_version": XCODE_VERSION,
             },
             "task_name": "plugin_test",
+        },
+        caches = MAC_DEFAULT_CACHES,
+        dimensions = {"device_type": "none"},
+    )
+    common.mac_try_builder(
+        name = "Mac dart_plugin_registry_test|dart_plugin",
+        recipe = drone_recipe_name,
+        repo = repos.FLUTTER,
+        list_view_name = list_view_name,
+        properties = {
+            "dependencies": [
+                {
+                    "dependency": "xcode",
+                },
+                {
+                    "dependency": "gems",
+                },
+            ],
+            "$flutter/osx_sdk": {
+                "sdk_version": XCODE_VERSION,
+            },
+            "task_name": "dart_plugin_registry_test",
         },
         caches = MAC_DEFAULT_CACHES,
         dimensions = {"device_type": "none"},
