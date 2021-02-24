@@ -162,7 +162,7 @@ def devicelab_staging_prod_config():
                 "task_name": task,
             },
             pool = "luci.flutter.staging",
-            os = "iOS-14.3",
+            os = "iOS-14.4",
             execution_timeout = timeout.LONG,
             expiration_timeout = timeout.LONG_EXPIRATION,
             caches = MAC_DEFAULT_CACHES,
