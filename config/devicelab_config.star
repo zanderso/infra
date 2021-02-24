@@ -527,7 +527,7 @@ def devicelab_prod_config(branch, version, ref):
                 "upload_metrics": branch in UPLOAD_METRICS_CHANNELS,
             },
             pool = "luci.flutter.prod",
-            os = "iOS-14.3",
+            os = "iOS-14.4",
             category = "Mac_ios",
             execution_timeout = timeout.SHORT,
             expiration_timeout = timeout.LONG_EXPIRATION,
