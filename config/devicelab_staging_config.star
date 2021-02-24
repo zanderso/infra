@@ -169,6 +169,7 @@ def devicelab_staging_prod_config():
         )
 
     mac_ios32_tasks = [
+        "native_ui_tests_ios32",
         "flutter_gallery_ios32__start_up",
         "flutter_gallery__transition_perf_e2e_ios32",
         "flutter_gallery_sksl_warmup__transition_perf_e2e_ios32",
