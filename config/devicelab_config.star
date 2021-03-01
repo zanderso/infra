@@ -548,6 +548,42 @@ def devicelab_prod_config(branch, version, ref):
             caches = MAC_DEFAULT_CACHES,
         )
 
+    # Mac host with ios32
+    mac_ios32_tasks = [
+        "native_ui_tests_ios32",
+        "flutter_gallery__transition_perf_e2e_ios32",
+    ]
+    for task in mac_ios32_tasks:
+        common.mac_prod_builder(
+            name = "Mac_ios%s %s|%s" % (branched_builder_prefix, task, short_name(task)),
+            recipe = drone_recipe_name,
+            console_view_name = console_view_name,
+            triggered_by = [trigger_name],
+            triggering_policy = triggering_policy,
+            properties = {
+                "$flutter/devicelab_osx_sdk": {
+                    "sdk_version": XCODE_VERSION,
+                },
+                "dependencies": [
+                    {
+                        "dependency": "xcode",
+                    },
+                    {
+                        "dependency": "gems",
+                    },
+                    {
+                        "dependency": "ios_signing",
+                    },
+                ],
+                "task_name": task,
+            },
+            pool = "luci.flutter.prod",
+            os = "iOS-9.3.6",
+            execution_timeout = timeout.LONG,
+            expiration_timeout = timeout.LONG_EXPIRATION,
+            caches = MAC_DEFAULT_CACHES,
+        )
+
     # Mac prod builders.
     common.mac_prod_builder(
         name = "Mac%s build_aar_module_test|aarm" % ("" if branch == "master" else " " + branch),
