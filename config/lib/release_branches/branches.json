@@ -1,8 +1,8 @@
 {
     "stable": {
-        "testing_ref": "refs/heads/flutter-1\\.22-candidate\\.12",
+        "testing_ref": "refs/heads/flutter-1\\.26-candidate\\.17",
         "release_ref": "refs/heads/stable",
-        "version": "1_22_0"
+        "version": "1_26_0"
     },
     "beta": {
         "testing_ref": "refs/heads/flutter-1\\.26-candidate\\.17",
