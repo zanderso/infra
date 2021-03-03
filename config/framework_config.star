@@ -203,7 +203,7 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
         properties = {
             "shard": "build_tests",
             "subshards": ["1_2", "2_2"],
-            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}, {"dependency": "goldctl"}, {"dependency": "clang"}, {"dependency": "cmake"}, {"dependency": "ninja"}],
+            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}, {"dependency": "goldctl"}, {"dependency": "clang"}, {"dependency": "cmake"}, {"dependency": "ninja"}, {"dependency": "curl"}],
         },
         caches = LINUX_DEFAULT_CACHES,
     )
@@ -217,7 +217,7 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
         properties = {
             "shard": "framework_tests",
             "subshards": ["libraries", "misc", "widgets"],
-            "dependencies": [{"dependency": "goldctl"}],
+            "dependencies": [{"dependency": "goldctl"}, {"dependency": "curl"}],
         },
         caches = LINUX_DEFAULT_CACHES,
     )
@@ -231,7 +231,7 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
         properties = {
             "shard": "tool_tests",
             "subshards": ["general", "commands"],
-            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "open_jdk"}],
+            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "open_jdk"}, {"dependency": "curl"}],
         },
         caches = LINUX_DEFAULT_CACHES,
     )
@@ -245,7 +245,7 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
         properties = {
             "shard": "tool_integration_tests",
             "subshards": ["1_3", "2_3", "3_3"],
-            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}, {"dependency": "goldctl"}],
+            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}, {"dependency": "goldctl"}, {"dependency": "curl"}],
         },
         caches = LINUX_DEFAULT_CACHES,
     )
@@ -259,7 +259,7 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
         properties = {
             "shard": "web_tool_tests",
             "subshard": "web",
-            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}, {"dependency": "goldctl"}],
+            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}, {"dependency": "goldctl"}, {"dependency": "curl"}],
         },
         caches = LINUX_DEFAULT_CACHES,
     )
@@ -273,7 +273,7 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
         properties = {
             "shard": "web_integration_tests",
             "subshards": [],
-            "dependencies": [{"dependency": "chrome_and_driver"}, {"dependency": "goldctl"}],
+            "dependencies": [{"dependency": "chrome_and_driver"}, {"dependency": "goldctl"}, {"dependency": "curl"}],
         },
         caches = LINUX_DEFAULT_CACHES,
     )
@@ -287,7 +287,7 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
         properties = {
             "shard": "web_tests",
             "subshards": ["0", "1", "2", "3", "4", "5", "6", "7_last"],
-            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "goldctl"}],
+            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "goldctl"}, {"dependency": "curl"}],
         },
         caches = LINUX_DEFAULT_CACHES,
     )
@@ -300,7 +300,7 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
         properties = {
             "shard": "web_long_running_tests",
             "subshards": ["1_3", "2_3", "3_3"],
-            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "goldctl"}],
+            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "goldctl"}, {"dependency": "curl"}],
         },
         caches = LINUX_DEFAULT_CACHES,
     )
@@ -323,6 +323,7 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
         properties = {
             "validation": "analyze",
             "validation_name": "Analyze",
+            "dependencies": [{"dependency": "curl"}],
         },
         caches = LINUX_DEFAULT_CACHES,
     )
@@ -336,6 +337,7 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
         properties = {
             "validation": "customer_testing",
             "validation_name": "Customer testing",
+            "dependencies": [{"dependency": "curl"}],
         },
         caches = LINUX_DEFAULT_CACHES,
     )
@@ -349,7 +351,7 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
         properties = {
             "validation": "docs",
             "validation_name": "Docs",
-            "dependencies": [{"dependency": "dashing"}, {"dependency": "firebase"}],
+            "dependencies": [{"dependency": "dashing"}, {"dependency": "firebase"}, {"dependency": "curl"}],
             "firebase_project": firebase_project,
             "release_ref": release_ref or "refs/heads/master",
         },
@@ -365,6 +367,7 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
         properties = {
             "validation": "fuchsia_precache",
             "validation_name": "Fuchsia precache",
+            "dependencies": [{"dependency": "curl"}],
         },
         caches = LINUX_DEFAULT_CACHES,
     )
@@ -378,7 +381,7 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
         properties = {
             "validation": "web_e2e_test",
             "validation_name": "Web e2e tests",
-            "dependencies": [{"dependency": "chrome_and_driver"}],
+            "dependencies": [{"dependency": "chrome_and_driver"}, {"dependency": "curl"}],
         },
         caches = LINUX_DEFAULT_CACHES,
     )
@@ -392,7 +395,7 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
         properties = {
             "validation": "web_smoke_test",
             "validation_name": "Web smoke tests",
-            "dependencies": [{"dependency": "chrome_and_driver"}],
+            "dependencies": [{"dependency": "chrome_and_driver"}, {"dependency": "curl"}],
         },
         caches = LINUX_DEFAULT_CACHES,
     )
@@ -406,7 +409,7 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
         properties = {
             "shard": "flutter_plugins",
             "subshard": "analyze",
-            "dependencies": [],
+            "dependencies": [{"dependency": "curl"}],
         },
         caches = LINUX_DEFAULT_CACHES,
     )
@@ -656,7 +659,7 @@ def framework_try_config():
         properties = {
             "shard": "build_tests",
             "subshards": ["1_2", "2_2"],
-            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}, {"dependency": "goldctl"}, {"dependency": "clang"}, {"dependency": "cmake"}, {"dependency": "ninja"}],
+            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}, {"dependency": "goldctl"}, {"dependency": "clang"}, {"dependency": "cmake"}, {"dependency": "ninja"}, {"dependency": "curl"}],
         },
         caches = LINUX_DEFAULT_CACHES,
     )
@@ -668,7 +671,7 @@ def framework_try_config():
         properties = {
             "shard": "framework_tests",
             "subshards": ["libraries", "misc", "widgets"],
-            "dependencies": [{"dependency": "goldctl"}],
+            "dependencies": [{"dependency": "goldctl"}, {"dependency": "curl"}],
         },
         caches = LINUX_DEFAULT_CACHES,
     )
@@ -681,7 +684,7 @@ def framework_try_config():
         properties = {
             "shard": "tool_tests",
             "subshards": ["general", "commands"],
-            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "open_jdk"}],
+            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "open_jdk"}, {"dependency": "curl"}],
         },
         caches = LINUX_DEFAULT_CACHES,
     )
@@ -694,7 +697,7 @@ def framework_try_config():
         properties = {
             "shard": "tool_integration_tests",
             "subshards": ["1_3", "2_3", "3_3"],
-            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}, {"dependency": "goldctl"}],
+            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}, {"dependency": "goldctl"}, {"dependency": "curl"}],
         },
         caches = LINUX_DEFAULT_CACHES,
     )
@@ -706,7 +709,7 @@ def framework_try_config():
         properties = {
             "shard": "web_tool_tests",
             "subshard": "web",
-            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}, {"dependency": "goldctl"}],
+            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}, {"dependency": "goldctl"}, {"dependency": "curl"}],
         },
         caches = LINUX_DEFAULT_CACHES,
     )
@@ -718,7 +721,7 @@ def framework_try_config():
         properties = {
             "shard": "web_tests",
             "subshards": ["0", "1", "2", "3", "4", "5", "6", "7_last"],
-            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "goldctl"}],
+            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "goldctl"}, {"dependency": "curl"}],
         },
         caches = LINUX_DEFAULT_CACHES,
     )
@@ -730,7 +733,7 @@ def framework_try_config():
         properties = {
             "shard": "web_long_running_tests",
             "subshards": ["1_3", "2_3", "3_3"],
-            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "goldctl"}],
+            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "goldctl"}, {"dependency": "curl"}],
         },
         caches = LINUX_DEFAULT_CACHES,
     )
@@ -742,7 +745,7 @@ def framework_try_config():
         properties = {
             "shard": "web_integration_tests",
             "subshards": [],
-            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "goldctl"}],
+            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "goldctl"}, {"dependency": "curl"}],
         },
         caches = LINUX_DEFAULT_CACHES,
     )
@@ -761,7 +764,7 @@ def framework_try_config():
         properties = {
             "shard": "flutter_plugins",
             "subshard": "analyze",
-            "dependencies": [],
+            "dependencies": [{"dependency": "curl"}],
         },
         caches = LINUX_DEFAULT_CACHES,
     )
@@ -775,6 +778,7 @@ def framework_try_config():
         properties = {
             "validation": "analyze",
             "validation_name": "Analyze",
+            "dependencies": [{"dependency": "curl"}],
         },
         caches = LINUX_DEFAULT_CACHES,
     )
@@ -786,6 +790,7 @@ def framework_try_config():
         properties = {
             "validation": "customer_testing",
             "validation_name": "Customer testing",
+            "dependencies": [{"dependency": "curl"}],
         },
         caches = LINUX_DEFAULT_CACHES,
     )
@@ -797,6 +802,7 @@ def framework_try_config():
         properties = {
             "validation": "docs",
             "validation_name": "Docs",
+            "dependencies": [{"dependency": "curl"}],
         },
         caches = LINUX_DEFAULT_CACHES,
     )
@@ -808,6 +814,7 @@ def framework_try_config():
         properties = {
             "validation": "fuchsia_precache",
             "validation_name": "Fuchsia precache",
+            "dependencies": [{"dependency": "curl"}],
         },
         caches = LINUX_DEFAULT_CACHES,
     )
@@ -819,7 +826,7 @@ def framework_try_config():
         properties = {
             "validation": "web_e2e_test",
             "validation_name": "Web e2e tests",
-            "dependencies": [{"dependency": "chrome_and_driver"}],
+            "dependencies": [{"dependency": "chrome_and_driver"}, {"dependency": "curl"}],
         },
         caches = LINUX_DEFAULT_CACHES,
     )
@@ -831,7 +838,7 @@ def framework_try_config():
         properties = {
             "validation": "web_smoke_test",
             "validation_name": "Web smoke tests",
-            "dependencies": [{"dependency": "chrome_and_driver"}],
+            "dependencies": [{"dependency": "chrome_and_driver"}, {"dependency": "curl"}],
         },
         caches = LINUX_DEFAULT_CACHES,
     )
