@@ -12,6 +12,20 @@ which is mirrored from https://github.com/flutter/flutter.
 load("//lib/common.star", "common")
 load("//lib/repos.star", "repos")
 
+# Linux caches
+LINUX_DEFAULT_CACHES = [
+    # Android SDK
+    swarming.cache(name = "android_sdk", path = "android"),
+    # Chrome
+    swarming.cache(name = "chrome_and_driver", path = "chrome"),
+    # OpenJDK
+    swarming.cache(name = "openjdk", path = "java"),
+    # PubCache
+    swarming.cache(name = "pub_cache", path = ".pub-cache"),
+    # Flutter SDK code
+    swarming.cache(name = "flutter_sdk", path = "flutter sdk"),
+]
+
 def _setup(branches):
     platform_args = {
         "linux": {
@@ -33,7 +47,6 @@ def _setup(branches):
 
     packaging_recipe("ios-usb-dependencies", "")
 
-    # Skip packaging for master branch.
     packaging_recipe("flutter", branches.stable.version)
     packaging_prod_config(
         platform_args,
@@ -56,6 +69,15 @@ def _setup(branches):
         "dev",
         branches.dev.version,
         branches.dev.release_ref,
+    )
+
+    packaging_prod_config(
+        platform_args,
+        "master",
+        branches.master.version,
+        # Note for master, there is no distinction between testing_ref &
+        # release_ref
+        "refs/heads/master",
     )
 
 def recipe_name(name, version):
@@ -81,12 +103,6 @@ def packaging_prod_config(platform_args, branch, version, ref):
       version(str): One of dev|beta|stable.
       ref(str): The git ref we are creating configurations for.
     """
-
-    # Packaging should only build from release branches and never from master. This
-    # is to prevent using excesive amount of resources to package something we will
-    # never use.
-    if branch == "master" or branch == None:
-        fail("Packaging builders should not run on master changes")
 
     # Defines console views for prod builders
     console_view_name = ("packaging" if branch == "master" else "%s_packaging" % branch)
@@ -115,33 +131,63 @@ def packaging_prod_config(platform_args, branch, version, ref):
             max_concurrent_invocations = 3,
         )
 
-    # Defines framework prod builders
-    common.linux_prod_builder(
-        name = builder_name("Linux Flutter %s Packaging|%s", branch),
-        recipe = recipe_name("flutter", version),
-        console_view_name = console_view_name,
-        triggered_by = [trigger_name],
-        triggering_policy = triggering_policy,
-        priority = 30 if branch == "master" else 25,
-        **platform_args["linux"]
-    )
-    common.mac_prod_builder(
-        name = builder_name("Mac Flutter %s Packaging|%s", branch),
-        recipe = recipe_name("flutter", version),
-        console_view_name = console_view_name,
-        triggered_by = [trigger_name],
-        triggering_policy = triggering_policy,
-        priority = 30 if branch == "master" else 25,
-        **platform_args["mac"]
-    )
-    common.windows_prod_builder(
-        name = builder_name("Windows Flutter %s Packaging|%s", branch),
-        recipe = recipe_name("flutter", version),
-        console_view_name = console_view_name,
-        triggered_by = [trigger_name],
-        triggering_policy = triggering_policy,
-        priority = 30 if branch == "master" else 25,
-        **platform_args["windows"]
-    )
+    # Select which firebase project to upload the docs to.
+    firebase_project = ""
+    if branch == "master":
+        firebase_project = "master-docs-flutter-dev"
+    if branch == "stable":
+        firebase_project = "docs-flutter-dev"
+
+    # Docs builds are only done on master and stable channels
+    if branch in ("master", "stable"):
+        common.linux_prod_builder(
+            name = "Linux%s docs_publish|docs" % ("" if branch == "master" else " " + branch),
+            recipe = "flutter/flutter%s" % ("" if branch == "master" else "_" + version),
+            console_view_name = console_view_name,
+            triggered_by = [trigger_name],
+            triggering_policy = triggering_policy,
+            properties = {
+                "validation": "docs",
+                "validation_name": "Docs",
+                "dependencies": [{"dependency": "dashing"}, {"dependency": "firebase"}, {"dependency": "curl"}],
+                "firebase_project": firebase_project,
+                # This determines which release channel docs to deploy
+                "release_ref": ref,
+            },
+            caches = LINUX_DEFAULT_CACHES,
+        )
+
+    # Packaging should only build from release branches and never from master. This
+    # is to prevent using excesive amount of resources to package something we will
+    # never use.
+    if branch in ("dev", "beta", "stable"):
+        # Defines framework prod builders
+        common.linux_prod_builder(
+            name = builder_name("Linux Flutter %s Packaging|%s", branch),
+            recipe = recipe_name("flutter", version),
+            console_view_name = console_view_name,
+            triggered_by = [trigger_name],
+            triggering_policy = triggering_policy,
+            priority = 30 if branch == "master" else 25,
+            **platform_args["linux"]
+        )
+        common.mac_prod_builder(
+            name = builder_name("Mac Flutter %s Packaging|%s", branch),
+            recipe = recipe_name("flutter", version),
+            console_view_name = console_view_name,
+            triggered_by = [trigger_name],
+            triggering_policy = triggering_policy,
+            priority = 30 if branch == "master" else 25,
+            **platform_args["mac"]
+        )
+        common.windows_prod_builder(
+            name = builder_name("Windows Flutter %s Packaging|%s", branch),
+            recipe = recipe_name("flutter", version),
+            console_view_name = console_view_name,
+            triggered_by = [trigger_name],
+            triggering_policy = triggering_policy,
+            priority = 30 if branch == "master" else 25,
+            **platform_args["windows"]
+        )
 
 packaging_config = struct(setup = _setup)

@@ -160,13 +160,6 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
     # Defines build priority, release builds should be prioritized.
     priority = 30 if branch == "master" else 29
 
-    # Select which firebase project to upload the docs to.
-    firebase_project = ""
-    if branch == "master":
-        firebase_project = "master-docs-flutter-dev"
-    if branch == "stable":
-        firebase_project = "docs-flutter-dev"
-
     # Defines framework prod builders
     #
     # Builders defined only for release refs
@@ -342,7 +335,7 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
         caches = LINUX_DEFAULT_CACHES,
     )
     common.linux_prod_builder(
-        name = "Linux%s docs|docs" % ("" if branch == "master" else " " + branch),
+        name = "Linux%s docs_test|docs" % ("" if branch == "master" else " " + branch),
         recipe = new_recipe_name,
         console_view_name = console_view_name,
         triggered_by = [trigger_name],
@@ -351,9 +344,11 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
         properties = {
             "validation": "docs",
             "validation_name": "Docs",
-            "dependencies": [{"dependency": "dashing"}, {"dependency": "firebase"}, {"dependency": "curl"}],
-            "firebase_project": firebase_project,
-            "release_ref": release_ref or "refs/heads/master",
+            "dependencies": [{"dependency": "dashing"}, {"dependency": "curl"}],
+            # Test only, the following two keys should be blank, only required
+            # for publishing docs.
+            "firebase_project": "",
+            "release_ref": "",
         },
         caches = LINUX_DEFAULT_CACHES,
     )
