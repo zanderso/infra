@@ -16,7 +16,10 @@ def _setup():
     platform_args = {
         "linux": {
             "caches": [swarming.cache(name = "dart_pub_cache", path = ".pub-cache")],
+            "os": "Linux",
         },
+        "windows": {"os": "Windows-Server"},
+        "mac": {"os": "Mac-10.15"},
     }
     cocoon_recipes()
     cocoon_try_config(platform_args)
@@ -60,6 +63,7 @@ def cocoon_try_config(platform_args):
         list_view_name = list_view_name,
         repo = repos.COCOON,
         add_cq = True,
+        **platform_args["linux"]
     )
 
     # Defines cocoon mac try builders
@@ -69,6 +73,7 @@ def cocoon_try_config(platform_args):
         list_view_name = list_view_name,
         repo = repos.COCOON,
         add_cq = True,
+        **platform_args["mac"]
     )
 
     # Defines cocoon windows try builders
@@ -78,6 +83,7 @@ def cocoon_try_config(platform_args):
         list_view_name = list_view_name,
         repo = repos.COCOON,
         add_cq = True,
+        **platform_args["windows"]
     )
 
 cocoon_config = struct(setup = _setup)

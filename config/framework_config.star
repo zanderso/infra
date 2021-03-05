@@ -17,6 +17,11 @@ load("//lib/timeout.star", "timeout")
 # Global xcode versions.
 XCODE_VERSION = "12c33"
 
+# Global OS variables
+LINUX_OS = "Linux"
+WINDOWS_OS = "Windows-Server"
+MAC_OS = "Mac-10.15"
+
 # Linux caches
 LINUX_DEFAULT_CACHES = [
     # Android SDK
@@ -183,6 +188,7 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
             caches = [
                 swarming.cache(name = "pub_cache", path = ".pub_cache"),
             ],
+            os = MAC_OS,
         )
 
     # Linux platform sharded tests
@@ -199,6 +205,7 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
             "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}, {"dependency": "goldctl"}, {"dependency": "clang"}, {"dependency": "cmake"}, {"dependency": "ninja"}, {"dependency": "curl"}],
         },
         caches = LINUX_DEFAULT_CACHES,
+        os = LINUX_OS,
     )
     common.linux_prod_builder(
         name = "Linux%s framework_tests|frwk_tests" % ("" if branch == "master" else " " + branch),
@@ -213,6 +220,7 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
             "dependencies": [{"dependency": "goldctl"}, {"dependency": "curl"}],
         },
         caches = LINUX_DEFAULT_CACHES,
+        os = LINUX_OS,
     )
     common.linux_prod_builder(
         name = "Linux%s tool_tests|tool_tests" % ("" if branch == "master" else " " + branch),
@@ -227,6 +235,7 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
             "dependencies": [{"dependency": "android_sdk"}, {"dependency": "open_jdk"}, {"dependency": "curl"}],
         },
         caches = LINUX_DEFAULT_CACHES,
+        os = LINUX_OS,
     )
     common.linux_prod_builder(
         name = "Linux%s tool_integration_tests|tool_tests_int" % ("" if branch == "master" else " " + branch),
@@ -241,6 +250,7 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
             "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}, {"dependency": "goldctl"}, {"dependency": "curl"}],
         },
         caches = LINUX_DEFAULT_CACHES,
+        os = LINUX_OS,
     )
     common.linux_prod_builder(
         name = "Linux%s web_tool_tests|web_tt" % ("" if branch == "master" else " " + branch),
@@ -255,6 +265,7 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
             "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}, {"dependency": "goldctl"}, {"dependency": "curl"}],
         },
         caches = LINUX_DEFAULT_CACHES,
+        os = LINUX_OS,
     )
     common.linux_prod_builder(
         name = "Linux%s web_integration_tests|web_int" % ("" if branch == "master" else " " + branch),
@@ -269,6 +280,7 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
             "dependencies": [{"dependency": "chrome_and_driver"}, {"dependency": "goldctl"}, {"dependency": "curl"}],
         },
         caches = LINUX_DEFAULT_CACHES,
+        os = LINUX_OS,
     )
     common.linux_prod_builder(
         name = "Linux%s web_tests|web_tests" % ("" if branch == "master" else " " + branch),
@@ -283,6 +295,7 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
             "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "goldctl"}, {"dependency": "curl"}],
         },
         caches = LINUX_DEFAULT_CACHES,
+        os = LINUX_OS,
     )
     common.linux_prod_builder(
         name = "Linux%s web_long_running_tests|web_lrt" % ("" if branch == "master" else " " + branch),
@@ -296,6 +309,7 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
             "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "goldctl"}, {"dependency": "curl"}],
         },
         caches = LINUX_DEFAULT_CACHES,
+        os = LINUX_OS,
     )
     common.linux_prod_builder(
         name = "Linux%s SDK Drone|frwdrn" % ("" if branch == "master" else " " + branch),
@@ -303,6 +317,7 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
         console_view_name = None,
         no_notify = True,
         caches = LINUX_DEFAULT_CACHES,
+        os = LINUX_OS,
     )
 
     # Linux platform adhoc tests
@@ -319,6 +334,7 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
             "dependencies": [{"dependency": "curl"}],
         },
         caches = LINUX_DEFAULT_CACHES,
+        os = LINUX_OS,
     )
     common.linux_prod_builder(
         name = "Linux%s customer_testing|cst_test" % ("" if branch == "master" else " " + branch),
@@ -333,6 +349,7 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
             "dependencies": [{"dependency": "curl"}],
         },
         caches = LINUX_DEFAULT_CACHES,
+        os = LINUX_OS,
     )
     common.linux_prod_builder(
         name = "Linux%s docs_test|docs" % ("" if branch == "master" else " " + branch),
@@ -351,6 +368,7 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
             "release_ref": "",
         },
         caches = LINUX_DEFAULT_CACHES,
+        os = LINUX_OS,
     )
     common.linux_prod_builder(
         name = "Linux%s fuchsia_precache|pcache" % ("" if branch == "master" else " " + branch),
@@ -365,6 +383,7 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
             "dependencies": [{"dependency": "curl"}],
         },
         caches = LINUX_DEFAULT_CACHES,
+        os = LINUX_OS,
     )
     common.linux_prod_builder(
         name = "Linux%s web_e2e_test|web_e2e" % ("" if branch == "master" else " " + branch),
@@ -379,6 +398,7 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
             "dependencies": [{"dependency": "chrome_and_driver"}, {"dependency": "curl"}],
         },
         caches = LINUX_DEFAULT_CACHES,
+        os = LINUX_OS,
     )
     common.linux_prod_builder(
         name = "Linux%s web_smoke_test|web_smk" % ("" if branch == "master" else " " + branch),
@@ -393,6 +413,7 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
             "dependencies": [{"dependency": "chrome_and_driver"}, {"dependency": "curl"}],
         },
         caches = LINUX_DEFAULT_CACHES,
+        os = LINUX_OS,
     )
     common.linux_prod_builder(
         name = "Linux%s flutter_plugins|fltplgns" % ("" if branch == "master" else " " + branch),
@@ -407,6 +428,7 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
             "dependencies": [{"dependency": "curl"}],
         },
         caches = LINUX_DEFAULT_CACHES,
+        os = LINUX_OS,
     )
 
     # Windows platform
@@ -423,7 +445,7 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
             "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}, {"dependency": "goldctl"}],
         },
         caches = WIN_DEFAULT_CACHES,
-        os = "Windows-Server",
+        os = WINDOWS_OS,
     )
     common.windows_prod_builder(
         name = "Windows%s framework_tests|frwk_tests" % ("" if branch == "master" else " " + branch),
@@ -438,7 +460,7 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
             "dependencies": [{"dependency": "goldctl"}],
         },
         caches = WIN_DEFAULT_CACHES,
-        os = "Windows-Server",
+        os = WINDOWS_OS,
     )
     common.windows_prod_builder(
         name = "Windows%s tool_tests|tool_tests" % ("" if branch == "master" else " " + branch),
@@ -453,7 +475,7 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
             "dependencies": [{"dependency": "android_sdk"}, {"dependency": "open_jdk"}],
         },
         caches = WIN_DEFAULT_CACHES,
-        os = "Windows-Server",
+        os = WINDOWS_OS,
         # TODO(fujino): https://github.com/flutter/flutter/issues/75003
         execution_timeout = timeout.LONG,
     )
@@ -470,7 +492,7 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
             "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}, {"dependency": "goldctl"}],
         },
         caches = WIN_DEFAULT_CACHES,
-        os = "Windows-Server",
+        os = WINDOWS_OS,
         # TODO(fujino): https://github.com/flutter/flutter/issues/75003
         execution_timeout = timeout.LONG,
     )
@@ -487,7 +509,7 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
             "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}, {"dependency": "goldctl"}],
         },
         caches = WIN_DEFAULT_CACHES,
-        os = "Windows-Server",
+        os = WINDOWS_OS,
     )
     common.windows_prod_builder(
         name = "Windows%s SDK Drone|frwdrn" % ("" if branch == "master" else " " + branch),
@@ -495,7 +517,7 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
         console_view_name = None,
         no_notify = True,
         caches = WIN_DEFAULT_CACHES,
-        os = "Windows-Server",
+        os = WINDOWS_OS,
     )
 
     # Windows adhoc tests
@@ -511,7 +533,7 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
             "validation_name": "Customer testing",
         },
         caches = WIN_DEFAULT_CACHES,
-        os = "Windows-Server",
+        os = WINDOWS_OS,
     )
 
     # Mac builders
@@ -532,6 +554,7 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
         },
         dimensions = {"device_type": "none"},
         caches = MAC_NEWXCODE_CACHES,
+        os = MAC_OS,
     )
     common.mac_prod_builder(
         name = "Mac%s framework_tests|frwk_tests" % ("" if branch == "master" else " " + branch),
@@ -550,6 +573,7 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
         },
         dimensions = {"device_type": "none"},
         caches = MAC_DEFAULT_CACHES,
+        os = MAC_OS,
     )
     common.mac_prod_builder(
         name = "Mac%s tool_tests|tool_tests" % ("" if branch == "master" else " " + branch),
@@ -568,6 +592,7 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
         },
         dimensions = {"device_type": "none"},
         caches = MAC_DEFAULT_CACHES,
+        os = MAC_OS,
     )
     common.mac_prod_builder(
         name = "Mac%s tool_integration_tests|tool_tests_int" % ("" if branch == "master" else " " + branch),
@@ -586,6 +611,7 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
         },
         dimensions = {"device_type": "none"},
         caches = MAC_DEFAULT_CACHES,
+        os = MAC_OS,
     )
     common.mac_prod_builder(
         name = "Mac%s web_tool_tests|web_tt" % ("" if branch == "master" else " " + branch),
@@ -604,6 +630,7 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
         },
         dimensions = {"device_type": "none"},
         caches = MAC_DEFAULT_CACHES,
+        os = MAC_OS,
     )
     common.mac_prod_builder(
         name = "Mac%s SDK Drone|frwdrn" % ("" if branch == "master" else " " + branch),
@@ -612,6 +639,7 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
         no_notify = True,
         caches = MAC_DEFAULT_CACHES,
         dimensions = {"device_type": "none"},
+        os = MAC_OS,
     )
 
     # Mac adhoc tests
@@ -631,6 +659,7 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
         },
         dimensions = {"device_type": "none"},
         caches = MAC_DEFAULT_CACHES,
+        os = MAC_OS,
     )
 
 def framework_try_config():
@@ -657,6 +686,7 @@ def framework_try_config():
             "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}, {"dependency": "goldctl"}, {"dependency": "clang"}, {"dependency": "cmake"}, {"dependency": "ninja"}, {"dependency": "curl"}],
         },
         caches = LINUX_DEFAULT_CACHES,
+        os = LINUX_OS,
     )
     common.linux_try_builder(
         name = "Linux framework_tests|frwk_tests",
@@ -669,6 +699,7 @@ def framework_try_config():
             "dependencies": [{"dependency": "goldctl"}, {"dependency": "curl"}],
         },
         caches = LINUX_DEFAULT_CACHES,
+        os = LINUX_OS,
     )
     common.linux_try_builder(
         name = "Linux tool_tests|tool_tests",
@@ -682,6 +713,7 @@ def framework_try_config():
             "dependencies": [{"dependency": "android_sdk"}, {"dependency": "open_jdk"}, {"dependency": "curl"}],
         },
         caches = LINUX_DEFAULT_CACHES,
+        os = LINUX_OS,
     )
     common.linux_try_builder(
         name = "Linux tool_integration_tests|tool_tests_int",
@@ -695,6 +727,7 @@ def framework_try_config():
             "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}, {"dependency": "goldctl"}, {"dependency": "curl"}],
         },
         caches = LINUX_DEFAULT_CACHES,
+        os = LINUX_OS,
     )
     common.linux_try_builder(
         name = "Linux web_tool_tests|web_tt",
@@ -707,6 +740,7 @@ def framework_try_config():
             "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}, {"dependency": "goldctl"}, {"dependency": "curl"}],
         },
         caches = LINUX_DEFAULT_CACHES,
+        os = LINUX_OS,
     )
     common.linux_try_builder(
         name = "Linux web_tests|web_tests",
@@ -719,6 +753,7 @@ def framework_try_config():
             "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "goldctl"}, {"dependency": "curl"}],
         },
         caches = LINUX_DEFAULT_CACHES,
+        os = LINUX_OS,
     )
     common.linux_try_builder(
         name = "Linux web_long_running_tests|web_lrt",
@@ -731,6 +766,7 @@ def framework_try_config():
             "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "goldctl"}, {"dependency": "curl"}],
         },
         caches = LINUX_DEFAULT_CACHES,
+        os = LINUX_OS,
     )
     common.linux_try_builder(
         name = "Linux web_integration_tests|web_int",
@@ -743,6 +779,7 @@ def framework_try_config():
             "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "goldctl"}, {"dependency": "curl"}],
         },
         caches = LINUX_DEFAULT_CACHES,
+        os = LINUX_OS,
     )
     common.linux_try_builder(
         name = "Linux SDK Drone|frwkdrn",
@@ -750,6 +787,7 @@ def framework_try_config():
         repo = repos.FLUTTER,
         list_view_name = list_view_name,
         caches = LINUX_DEFAULT_CACHES,
+        os = LINUX_OS,
     )
     common.linux_try_builder(
         name = "Linux flutter_plugins|fltplgns",
@@ -762,6 +800,7 @@ def framework_try_config():
             "dependencies": [{"dependency": "curl"}],
         },
         caches = LINUX_DEFAULT_CACHES,
+        os = LINUX_OS,
     )
 
     # Linux platform adhoc tests
@@ -776,6 +815,7 @@ def framework_try_config():
             "dependencies": [{"dependency": "curl"}],
         },
         caches = LINUX_DEFAULT_CACHES,
+        os = LINUX_OS,
     )
     common.linux_try_builder(
         name = "Linux customer_testing|cst_tests",
@@ -788,6 +828,7 @@ def framework_try_config():
             "dependencies": [{"dependency": "curl"}],
         },
         caches = LINUX_DEFAULT_CACHES,
+        os = LINUX_OS,
     )
     common.linux_try_builder(
         name = "Linux docs|docs",
@@ -800,6 +841,7 @@ def framework_try_config():
             "dependencies": [{"dependency": "curl"}],
         },
         caches = LINUX_DEFAULT_CACHES,
+        os = LINUX_OS,
     )
     common.linux_try_builder(
         name = "Linux fuchsia_precache|pcache",
@@ -812,6 +854,7 @@ def framework_try_config():
             "dependencies": [{"dependency": "curl"}],
         },
         caches = LINUX_DEFAULT_CACHES,
+        os = LINUX_OS,
     )
     common.linux_try_builder(
         name = "Linux web_e2e_test|web_e2e",
@@ -824,6 +867,7 @@ def framework_try_config():
             "dependencies": [{"dependency": "chrome_and_driver"}, {"dependency": "curl"}],
         },
         caches = LINUX_DEFAULT_CACHES,
+        os = LINUX_OS,
     )
     common.linux_try_builder(
         name = "Linux web_smoke_test|web_smk",
@@ -836,6 +880,7 @@ def framework_try_config():
             "dependencies": [{"dependency": "chrome_and_driver"}, {"dependency": "curl"}],
         },
         caches = LINUX_DEFAULT_CACHES,
+        os = LINUX_OS,
     )
 
     # Mac platform
@@ -855,6 +900,7 @@ def framework_try_config():
         },
         dimensions = {"device_type": "none"},
         caches = MAC_NEWXCODE_CACHES,
+        os = MAC_OS,
     )
     common.mac_try_builder(
         name = "Mac framework_tests|frwk_tests",
@@ -871,6 +917,7 @@ def framework_try_config():
         },
         dimensions = {"device_type": "none"},
         caches = MAC_DEFAULT_CACHES,
+        os = MAC_OS,
     )
     common.mac_try_builder(
         name = "Mac tool_tests|tool_tests",
@@ -888,6 +935,7 @@ def framework_try_config():
         },
         dimensions = {"device_type": "none"},
         caches = MAC_DEFAULT_CACHES,
+        os = MAC_OS,
     )
     common.mac_try_builder(
         name = "Mac tool_integration_tests|tool_tests_int",
@@ -905,6 +953,7 @@ def framework_try_config():
         },
         dimensions = {"device_type": "none"},
         caches = MAC_DEFAULT_CACHES,
+        os = MAC_OS,
     )
     common.mac_try_builder(
         name = "Mac web_tool_tests|web_tt",
@@ -921,6 +970,7 @@ def framework_try_config():
         },
         dimensions = {"device_type": "none"},
         caches = MAC_DEFAULT_CACHES,
+        os = MAC_OS,
     )
     common.mac_try_builder(
         name = "Mac SDK Drone|frwkdrn",
@@ -929,6 +979,7 @@ def framework_try_config():
         list_view_name = list_view_name,
         caches = MAC_DEFAULT_CACHES,
         dimensions = {"device_type": "none"},
+        os = MAC_OS,
     )
 
     # Mac adhoc test
@@ -947,6 +998,7 @@ def framework_try_config():
         },
         dimensions = {"device_type": "none"},
         caches = MAC_DEFAULT_CACHES,
+        os = MAC_OS,
     )
 
     # Windows platform
@@ -961,7 +1013,7 @@ def framework_try_config():
             "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}, {"dependency": "goldctl"}],
         },
         caches = WIN_DEFAULT_CACHES,
-        os = "Windows-Server",
+        os = WINDOWS_OS,
     )
     common.windows_try_builder(
         name = "Windows framework_tests|frwk_tests",
@@ -974,7 +1026,7 @@ def framework_try_config():
             "dependencies": [{"dependency": "goldctl"}],
         },
         caches = WIN_DEFAULT_CACHES,
-        os = "Windows-Server",
+        os = WINDOWS_OS,
     )
     common.windows_try_builder(
         name = "Windows tool_tests|tool_tests",
@@ -988,7 +1040,7 @@ def framework_try_config():
             "dependencies": [{"dependency": "android_sdk"}, {"dependency": "open_jdk"}],
         },
         caches = WIN_DEFAULT_CACHES,
-        os = "Windows-Server",
+        os = WINDOWS_OS,
         # TODO(fujino): https://github.com/flutter/flutter/issues/75003
         execution_timeout = timeout.LONG,
     )
@@ -1004,7 +1056,7 @@ def framework_try_config():
             "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}, {"dependency": "goldctl"}],
         },
         caches = WIN_DEFAULT_CACHES,
-        os = "Windows-Server",
+        os = WINDOWS_OS,
         # TODO(fujino): https://github.com/flutter/flutter/issues/75003
         execution_timeout = timeout.LONG,
     )
@@ -1019,7 +1071,7 @@ def framework_try_config():
             "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}, {"dependency": "goldctl"}],
         },
         caches = WIN_DEFAULT_CACHES,
-        os = "Windows-Server",
+        os = WINDOWS_OS,
     )
     common.windows_try_builder(
         name = "Windows SDK Drone|frwkdrn",
@@ -1027,7 +1079,7 @@ def framework_try_config():
         repo = repos.FLUTTER,
         list_view_name = list_view_name,
         caches = WIN_DEFAULT_CACHES,
-        os = "Windows-Server",
+        os = WINDOWS_OS,
     )
 
     # Windows adhoc tests
@@ -1042,7 +1094,7 @@ def framework_try_config():
             "validation_name": "Customer testing",
         },
         caches = WIN_DEFAULT_CACHES,
-        os = "Windows-Server",
+        os = WINDOWS_OS,
     )
 
 framework_config = struct(setup = _setup)

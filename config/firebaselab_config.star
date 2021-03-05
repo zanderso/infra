@@ -13,6 +13,9 @@ which is mirrored from https://github.com/flutter/flutter.
 load("//lib/common.star", "common")
 load("//lib/repos.star", "repos")
 
+# Global OS variables
+LINUX_OS = "Linux"
+
 def _setup(branches):
     firebaselab_prod_config(
         "stable",
@@ -100,6 +103,7 @@ def firebaselab_prod_config(branch, version, ref):
             swarming.cache(name = "pub_cache", path = ".pub_cache"),
             swarming.cache(name = "android_sdk", path = "android29"),
         ],
+        os = LINUX_OS,
     )
     common.linux_prod_builder(
         name = "Linux%s firebase_abstract_method_smoke_test|fast" % ("" if branch == "master" else " " + branch),
@@ -115,6 +119,7 @@ def firebaselab_prod_config(branch, version, ref):
             swarming.cache(name = "pub_cache", path = ".pub_cache"),
             swarming.cache(name = "android_sdk", path = "android29"),
         ],
+        os = LINUX_OS,
     )
     common.linux_prod_builder(
         name = "Linux%s firebase_android_embedding_v2_smoke_test|faevst" % ("" if branch == "master" else " " + branch),
@@ -130,6 +135,7 @@ def firebaselab_prod_config(branch, version, ref):
             swarming.cache(name = "pub_cache", path = ".pub_cache"),
             swarming.cache(name = "android_sdk", path = "android29"),
         ],
+        os = LINUX_OS,
     )
 
 def firebaselab_try_config():
@@ -160,6 +166,7 @@ def firebaselab_try_config():
             swarming.cache(name = "pub_cache", path = ".pub_cache"),
             swarming.cache(name = "android_sdk", path = "android29"),
         ],
+        os = LINUX_OS,
     )
     common.linux_try_builder(
         name = "Linux firebase_abstract_method_smoke_test|fast",
@@ -174,6 +181,7 @@ def firebaselab_try_config():
             swarming.cache(name = "pub_cache", path = ".pub_cache"),
             swarming.cache(name = "android_sdk", path = "android29"),
         ],
+        os = LINUX_OS,
     )
     common.linux_try_builder(
         name = "Linux firebase_android_embedding_v2_smoke_test|faevst",
@@ -188,6 +196,7 @@ def firebaselab_try_config():
             swarming.cache(name = "pub_cache", path = ".pub_cache"),
             swarming.cache(name = "android_sdk", path = "android29"),
         ],
+        os = LINUX_OS,
     )
 
 firebaselab_config = struct(setup = _setup)

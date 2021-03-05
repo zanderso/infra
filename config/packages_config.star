@@ -13,8 +13,11 @@ load("//lib/common.star", "common")
 load("//lib/repos.star", "repos")
 load("//lib/timeout.star", "timeout")
 
+# Global OS variables
+LINUX_OS = "Linux"
+
 def _setup():
-    platform_args = {"linux": {"properties": {"fuchsia_ctl_version": None}}}
+    platform_args = {"linux": {"properties": {"fuchsia_ctl_version": None}, "os": LINUX_OS}}
     packages_define_recipes()
     packages_try_config(platform_args)
 

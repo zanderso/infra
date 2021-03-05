@@ -23,11 +23,13 @@ def _setup(branches, fuchsia_ctl_version):
     """Default configurations for branches and repos."""
     platform_args = {
         "linux": {
+            "os": "Linux",
         },
         "mac": {
             "caches": [swarming.cache(name = "flutter_cocoapods", path = "cocoapods")],
+            "os": "Mac-10.15",
         },
-        "windows": {"execution_timeout": timeout.LONG},
+        "windows": {"execution_timeout": timeout.LONG, "os": "Windows-Server"},
     }
 
     engine_recipes(branches.stable.version)
@@ -254,6 +256,7 @@ def engine_prod_config(platform_args, branch, version, ref, fuchsia_ctl_version)
             triggering_policy = triggering_policy,
             priority = 30 if branch == "master" else 25,
             execution_timeout = timeout.LONG,
+            **platform_args["linux"]
         )
 
         # For specific branches we only create builders within the body of this if clause.
@@ -345,6 +348,7 @@ def engine_prod_config(platform_args, branch, version, ref, fuchsia_ctl_version)
         triggering_policy = triggering_policy,
         priority = 30 if branch == "master" else 25,
         execution_timeout = timeout.LONG,
+        **platform_args["linux"]
     )
 
     common.linux_prod_builder(
@@ -387,6 +391,7 @@ def engine_prod_config(platform_args, branch, version, ref, fuchsia_ctl_version)
         console_view_name = None,
         no_notify = True,
         priority = 30 if branch == "master" else 25,
+        **platform_args["linux"]
     )
 
     # Defines engine mac builders.
@@ -482,6 +487,7 @@ def engine_prod_config(platform_args, branch, version, ref, fuchsia_ctl_version)
         no_notify = True,
         priority = 30 if branch == "master" else 25,
         dimensions = {"device_type": "none"},
+        **platform_args["mac"]
     )
 
     # Defines engine Windows builders
@@ -517,6 +523,7 @@ def engine_prod_config(platform_args, branch, version, ref, fuchsia_ctl_version)
         console_view_name = None,
         no_notify = True,
         priority = 30 if branch == "master" else 25,
+        **platform_args["windows"]
     )
 
 def engine_try_config(platform_args, fuchsia_ctl_version):
@@ -627,6 +634,7 @@ def engine_try_config(platform_args, fuchsia_ctl_version):
             no_lto = True,
         ),
         execution_timeout = timeout.LONG,
+        **platform_args["linux"]
     )
     common.linux_try_builder(
         name = "Linux Fuchsia FEMU|femu",
@@ -775,6 +783,7 @@ def engine_try_config(platform_args, fuchsia_ctl_version):
         recipe = "engine_builder",
         repo = repos.ENGINE,
         list_view_name = list_view_name,
+        **platform_args["windows"]
     )
 
 engine_config = struct(setup = _setup)

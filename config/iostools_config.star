@@ -13,6 +13,9 @@ load("//lib/common.star", "common")
 load("//lib/consoles.star", "consoles")
 load("//lib/repos.star", "repos")
 
+# Global OS variables
+MAC_OS = "Mac-10.15"
+
 def _setup():
     luci.recipe(
         name = "ios-usb-dependencies",
@@ -47,6 +50,7 @@ def ios_tools_builder(name, repo):
         triggering_policy = scheduler.greedy_batching(
             max_concurrent_invocations = 1,
         ),
+        os = MAC_OS,
     )
 
 def iostools_prod_config():

@@ -136,15 +136,12 @@ def devicelab_staging_prod_config():
     ]
     for task in mac_ios_tasks:
         common.mac_prod_builder(
-            name = "Mac_staging %s|%s" % (task, short_name(task)),
+            name = "Mac_ios_staging %s|%s" % (task, short_name(task)),
             recipe = drone_recipe_name,
             console_view_name = console_view_name,
             triggered_by = [trigger_name],
             triggering_policy = triggering_policy,
             properties = {
-                "$flutter/osx_sdk": {
-                    "sdk_version": "12c33",  # 12.3
-                },
                 "$flutter/devicelab_osx_sdk": {
                     "sdk_version": "12c33",  # 12.3
                 },

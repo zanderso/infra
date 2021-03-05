@@ -128,10 +128,6 @@ common.cq_group(repos.FLUTTER_RECIPES)
 common.cq_group(repos.PACKAGES)
 common.cq_group(repos.PLUGINS)
 
-luci.builder.defaults.dimensions.set({
-    "os": "Linux",
-})
-
 luci.builder.defaults.properties.set({
     "$kitchen": {
         "emulate_gce": True,

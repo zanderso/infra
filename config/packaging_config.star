@@ -12,6 +12,11 @@ which is mirrored from https://github.com/flutter/flutter.
 load("//lib/common.star", "common")
 load("//lib/repos.star", "repos")
 
+# Global OS variables
+LINUX_OS = "Linux"
+WINDOWS_OS = "Windows-Server"
+MAC_OS = "Mac-10.15"
+
 # Linux caches
 LINUX_DEFAULT_CACHES = [
     # Android SDK
@@ -32,16 +37,19 @@ def _setup(branches):
             "properties": {
                 "shard": "framework_tests",
             },
+            "os": LINUX_OS,
         },
         "mac": {
             "properties": {
                 "shard": "framework_tests",
             },
+            "os": MAC_OS,
         },
         "windows": {
             "properties": {
                 "shard": "framework_tests",
             },
+            "os": WINDOWS_OS,
         },
     }
 
@@ -155,6 +163,7 @@ def packaging_prod_config(platform_args, branch, version, ref):
                 "release_ref": ref,
             },
             caches = LINUX_DEFAULT_CACHES,
+            os = LINUX_OS,
         )
 
     # Packaging should only build from release branches and never from master. This

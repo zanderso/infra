@@ -354,9 +354,9 @@ def _common_builder(**common_kwargs):
 
     return try_job, prod_job
 
-def _mac_builder(properties = {}, caches = None, category = "Mac", **kwargs):
+def _mac_builder(properties = {}, caches = None, category = "Mac", os = None, **kwargs):
     return _common_builder(
-        os = "Mac-10.15",
+        os = os,
         properties = properties,
         category = category,
         **kwargs
@@ -370,7 +370,7 @@ def _linux_builder(
         **kwargs):
     properties["fuchsia_ctl_version"] = FUCHSIA_CTL_VERSION
     return _common_builder(
-        os = os or "Linux",
+        os = os,
         properties = properties,
         category = category,
         **kwargs
@@ -380,9 +380,10 @@ def _windows_builder(
         properties = {},
         caches = None,
         category = "Windows",
+        os = None,
         **kwargs):
     return _common_builder(
-        os = kwargs.get("os") or "Windows-10",
+        os = os,
         properties = properties,
         category = category,
         **kwargs
