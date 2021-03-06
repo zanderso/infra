@@ -16,14 +16,23 @@ def _setup():
             "caches": [swarming.cache(name = "pub_cache", path = ".pub-cache")],
             "os": "Windows-Server",
         },
+        "linux": {
+            "os": "Linux",
+        },
     }
     plugins_define_recipes()
     plugins_try_config(platform_args)
+    plugins_product_tagged_config_setup(platform_args)
 
 def plugins_define_recipes():
     """Defines recipes for plugins repo."""
     luci.recipe(
         name = "plugins/plugins",
+        cipd_package = "flutter/recipe_bundles/flutter.googlesource.com/recipes",
+        cipd_version = "refs/heads/master",
+    )
+    luci.recipe(
+        name = "plugins/plugins_publish",
         cipd_package = "flutter/recipe_bundles/flutter.googlesource.com/recipes",
         cipd_version = "refs/heads/master",
     )
@@ -55,6 +64,48 @@ def plugins_try_config(platform_args):
         list_view_name = list_view_name,
         repo = repos.PLUGINS,
         **platform_args["windows"]
+    )
+
+def plugins_product_tagged_config_setup(platform_args):
+    """Builder configures for prod tasks, which were only triggered with tag changes.
+
+    Args:
+        platform_args (dict): The platform arguments passed to luci builders.
+            For example:
+            {
+                "linux": {
+                    "os": "Linux",
+                },
+            }
+    """
+
+    trigger_name = "gitiles-trigger-plugins-tagged"
+    ref = "refs/tags/.+"
+
+    # poll for any tags change
+    luci.gitiles_poller(
+        name = trigger_name,
+        bucket = "prod",
+        repo = repos.PLUGINS,
+        refs = [ref],
+    )
+
+    console_view_name = "plugins_tagged"
+    luci.console_view(
+        name = console_view_name,
+        repo = repos.PLUGINS,
+        refs = [ref],
+    )
+
+    publish_recipe_name = "plugins/plugins_publish"
+
+    # Defines builders
+    common.linux_prod_builder(
+        name = "Linux Publish Plugins|publish",
+        recipe = publish_recipe_name,
+        console_view_name = console_view_name,
+        triggered_by = [trigger_name],
+        **platform_args["linux"]
     )
 
 plugins_config = struct(setup = _setup)
