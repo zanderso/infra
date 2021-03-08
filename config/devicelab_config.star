@@ -169,7 +169,7 @@ def devicelab_prod_config(branch, version, ref):
         triggering_policy = triggering_policy,
         priority = priority,
         properties = {
-            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}],
+            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "curl"}],
             "task_name": "build_aar_module_test",
         },
         caches = LINUX_DEFAULT_CACHES,
@@ -183,7 +183,7 @@ def devicelab_prod_config(branch, version, ref):
         triggering_policy = triggering_policy,
         priority = priority,
         properties = {
-            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}],
+            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "curl"}],
             "task_name": "gradle_non_android_plugin_test",
         },
         caches = LINUX_DEFAULT_CACHES,
@@ -197,7 +197,7 @@ def devicelab_prod_config(branch, version, ref):
         triggering_policy = triggering_policy,
         priority = priority,
         properties = {
-            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}],
+            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "curl"}],
             "task_name": "gradle_desugar_classes_test",
         },
         caches = LINUX_DEFAULT_CACHES,
@@ -211,7 +211,7 @@ def devicelab_prod_config(branch, version, ref):
         triggering_policy = triggering_policy,
         priority = priority,
         properties = {
-            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}],
+            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "curl"}],
             "task_name": "gradle_plugin_bundle_test",
         },
         caches = LINUX_DEFAULT_CACHES,
@@ -225,7 +225,7 @@ def devicelab_prod_config(branch, version, ref):
         triggering_policy = triggering_policy,
         priority = priority,
         properties = {
-            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}],
+            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "curl"}],
             "task_name": "gradle_plugin_fat_apk_test",
         },
         caches = LINUX_DEFAULT_CACHES,
@@ -239,7 +239,7 @@ def devicelab_prod_config(branch, version, ref):
         triggering_policy = triggering_policy,
         priority = priority,
         properties = {
-            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}],
+            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "curl"}],
             "task_name": "gradle_plugin_light_apk_test",
         },
         caches = LINUX_DEFAULT_CACHES,
@@ -253,7 +253,7 @@ def devicelab_prod_config(branch, version, ref):
         triggering_policy = triggering_policy,
         priority = priority,
         properties = {
-            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}],
+            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "curl"}],
             "task_name": "module_host_with_custom_build_test",
         },
         caches = LINUX_DEFAULT_CACHES,
@@ -267,7 +267,7 @@ def devicelab_prod_config(branch, version, ref):
         triggering_policy = triggering_policy,
         priority = priority,
         properties = {
-            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}],
+            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "curl"}],
             "task_name": "module_custom_host_app_name_test",
         },
         caches = LINUX_DEFAULT_CACHES,
@@ -281,7 +281,7 @@ def devicelab_prod_config(branch, version, ref):
         triggering_policy = triggering_policy,
         priority = priority,
         properties = {
-            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}],
+            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "curl"}],
             "task_name": "module_test",
         },
         caches = LINUX_DEFAULT_CACHES,
@@ -295,7 +295,7 @@ def devicelab_prod_config(branch, version, ref):
         triggering_policy = triggering_policy,
         priority = priority,
         properties = {
-            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}],
+            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "curl"}],
             "task_name": "plugin_test",
         },
         caches = LINUX_DEFAULT_CACHES,
@@ -369,6 +369,9 @@ def devicelab_prod_config(branch, version, ref):
                     {
                         "dependency": "open_jdk",
                     },
+                    {
+                        "dependency": "curl",
+                    },
                 ],
                 "task_name": task,
                 "upload_metrics": branch in UPLOAD_METRICS_CHANNELS,
@@ -406,6 +409,9 @@ def devicelab_prod_config(branch, version, ref):
                     },
                     {
                         "dependency": "chrome_and_driver",
+                    },
+                    {
+                        "dependency": "curl",
                     },
                 ],
                 "task_name": task,
@@ -1170,7 +1176,7 @@ def devicelab_try_config():
         add_cq = True,
         list_view_name = list_view_name,
         properties = {
-            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}],
+            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "curl"}],
             "task_name": "build_aar_module_test",
         },
         caches = LINUX_DEFAULT_CACHES,
@@ -1182,7 +1188,7 @@ def devicelab_try_config():
         repo = repos.FLUTTER,
         list_view_name = list_view_name,
         properties = {
-            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}],
+            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "curl"}],
             "task_name": "gradle_desugar_classes_test",
         },
         caches = LINUX_DEFAULT_CACHES,
@@ -1194,7 +1200,7 @@ def devicelab_try_config():
         repo = repos.FLUTTER,
         list_view_name = list_view_name,
         properties = {
-            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}],
+            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "curl"}],
             "task_name": "gradle_jetifier_test",
         },
         caches = LINUX_DEFAULT_CACHES,
@@ -1206,7 +1212,7 @@ def devicelab_try_config():
         repo = repos.FLUTTER,
         list_view_name = list_view_name,
         properties = {
-            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}],
+            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "curl"}],
             "task_name": "gradle_non_android_plugin_test",
         },
         caches = LINUX_DEFAULT_CACHES,
@@ -1218,7 +1224,7 @@ def devicelab_try_config():
         repo = repos.FLUTTER,
         list_view_name = list_view_name,
         properties = {
-            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}],
+            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "curl"}],
             "task_name": "gradle_plugin_bundle_test",
         },
         caches = LINUX_DEFAULT_CACHES,
@@ -1230,7 +1236,7 @@ def devicelab_try_config():
         repo = repos.FLUTTER,
         list_view_name = list_view_name,
         properties = {
-            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}],
+            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "curl"}],
             "task_name": "gradle_plugin_fat_apk_test",
         },
         caches = LINUX_DEFAULT_CACHES,
@@ -1242,7 +1248,7 @@ def devicelab_try_config():
         repo = repos.FLUTTER,
         list_view_name = list_view_name,
         properties = {
-            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}],
+            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "curl"}],
             "task_name": "gradle_plugin_light_apk_test",
         },
         caches = LINUX_DEFAULT_CACHES,
@@ -1254,7 +1260,7 @@ def devicelab_try_config():
         repo = repos.FLUTTER,
         list_view_name = list_view_name,
         properties = {
-            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}],
+            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "curl"}],
             "task_name": "module_host_with_custom_build_test",
         },
         caches = LINUX_DEFAULT_CACHES,
@@ -1266,7 +1272,7 @@ def devicelab_try_config():
         repo = repos.FLUTTER,
         list_view_name = list_view_name,
         properties = {
-            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}],
+            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "curl"}],
             "task_name": "module_custom_host_app_name_test",
         },
         caches = LINUX_DEFAULT_CACHES,
@@ -1278,7 +1284,7 @@ def devicelab_try_config():
         repo = repos.FLUTTER,
         list_view_name = list_view_name,
         properties = {
-            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}],
+            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "curl"}],
             "task_name": "module_test",
         },
         caches = LINUX_DEFAULT_CACHES,
@@ -1290,7 +1296,7 @@ def devicelab_try_config():
         repo = repos.FLUTTER,
         list_view_name = list_view_name,
         properties = {
-            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}],
+            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "curl"}],
             "task_name": "plugin_test",
         },
         caches = LINUX_DEFAULT_CACHES,
@@ -1302,7 +1308,7 @@ def devicelab_try_config():
         repo = repos.FLUTTER,
         list_view_name = list_view_name,
         properties = {
-            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}],
+            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "curl"}],
             "task_name": "web_benchmarks_html",
         },
         caches = LINUX_DEFAULT_CACHES,
@@ -1329,6 +1335,9 @@ def devicelab_try_config():
                     },
                     {
                         "dependency": "ninja",
+                    },
+                    {
+                        "dependency": "curl",
                     },
                 ],
                 "task_name": task,

@@ -264,6 +264,9 @@ def devicelab_staging_prod_config():
                     {
                         "dependency": "open_jdk",
                     },
+                    {
+                        "dependency": "curl",
+                    },
                 ],
                 "task_name": task,
             },
