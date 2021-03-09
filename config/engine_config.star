@@ -161,9 +161,6 @@ def engine_properties(
         "build_ios": build_ios,
         "build_android_jit_release": build_android_jit_release,
         "gcs_goldens_bucket": gcs_goldens_bucket,
-        "$depot_tools/osx_sdk": {
-            "sdk_version": XCODE_VERSION,
-        },
         "$flutter/osx_sdk": {
             "sdk_version": XCODE_VERSION,
         },
