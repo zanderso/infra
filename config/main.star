@@ -168,5 +168,5 @@ packaging_config.setup(release_branches)
 
 recipes_config.setup()
 
-plugins_config.setup()
+plugins_config.setup(release_branches)
 ######################### Console Definitions #################################
