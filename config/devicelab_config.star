@@ -89,12 +89,6 @@ def _setup(branches):
 
     devicelab_try_config()
 
-def short_name(task_name):
-    """Create a short name for task name."""
-    task_name = task_name.replace("__", "_")
-    words = task_name.split("_")
-    return "".join([w[0] for w in words])[:5]
-
 def devicelab_prod_config(branch, version, ref):
     """Prod configurations for the framework repository.
 
@@ -353,7 +347,7 @@ def devicelab_prod_config(branch, version, ref):
 
     for task in linux_tasks:
         common.linux_prod_builder(
-            name = "Linux%s %s|%s" % (branched_builder_prefix, task, short_name(task)),
+            name = "Linux%s %s|%s" % (branched_builder_prefix, task, common.short_name(task)),
             recipe = drone_recipe_name,
             console_view_name = console_view_name,
             triggered_by = [trigger_name],
@@ -396,7 +390,7 @@ def devicelab_prod_config(branch, version, ref):
     ]
     for task in linux_vm_tasks:
         common.linux_prod_builder(
-            name = "Linux%s %s|%s" % (branched_builder_prefix, task, short_name(task)),
+            name = "Linux%s %s|%s" % (branched_builder_prefix, task, common.short_name(task)),
             recipe = drone_recipe_name,
             console_view_name = console_view_name,
             triggered_by = [trigger_name],
@@ -466,7 +460,7 @@ def devicelab_prod_config(branch, version, ref):
 
     for task in mac_android_tasks:
         common.mac_prod_builder(
-            name = "Mac_android%s %s|%s" % (branched_builder_prefix, task, short_name(task)),
+            name = "Mac_android%s %s|%s" % (branched_builder_prefix, task, common.short_name(task)),
             recipe = drone_recipe_name,
             console_view_name = console_view_name,
             triggered_by = [trigger_name],
@@ -538,7 +532,7 @@ def devicelab_prod_config(branch, version, ref):
 
     for task in mac_ios_tasks:
         common.mac_prod_builder(
-            name = "Mac_ios%s %s|%s" % (branched_builder_prefix, task, short_name(task)),
+            name = "Mac_ios%s %s|%s" % (branched_builder_prefix, task, common.short_name(task)),
             recipe = drone_recipe_name,
             console_view_name = console_view_name,
             triggered_by = [trigger_name],
@@ -576,7 +570,7 @@ def devicelab_prod_config(branch, version, ref):
     ]
     for task in mac_ios32_tasks:
         common.mac_prod_builder(
-            name = "Mac_ios%s %s|%s" % (branched_builder_prefix, task, short_name(task)),
+            name = "Mac_ios%s %s|%s" % (branched_builder_prefix, task, common.short_name(task)),
             recipe = drone_recipe_name,
             console_view_name = console_view_name,
             triggered_by = [trigger_name],
@@ -1141,7 +1135,7 @@ def devicelab_prod_config(branch, version, ref):
         ]
         for task in windows_desktop_tasks:
             common.windows_prod_builder(
-                name = "Windows%s %s|%s" % (branched_builder_prefix, task, short_name(task)),
+                name = "Windows%s %s|%s" % (branched_builder_prefix, task, common.short_name(task)),
                 recipe = drone_recipe_name,
                 console_view_name = console_view_name,
                 triggered_by = [trigger_name],
@@ -1321,7 +1315,7 @@ def devicelab_try_config():
     ]
     for task in linux_desktop_tasks:
         common.linux_try_builder(
-            name = "Linux %s|%s" % (task, short_name(task)),
+            name = "Linux %s|%s" % (task, common.short_name(task)),
             recipe = drone_recipe_name,
             repo = repos.FLUTTER,
             list_view_name = list_view_name,
@@ -1838,7 +1832,7 @@ def devicelab_try_config():
     ]
     for task in windows_desktop_tasks:
         common.windows_try_builder(
-            name = "Windows %s|%s" % (task, short_name(task)),
+            name = "Windows %s|%s" % (task, common.short_name(task)),
             recipe = drone_recipe_name,
             repo = repos.FLUTTER,
             list_view_name = list_view_name,

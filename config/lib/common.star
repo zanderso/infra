@@ -393,6 +393,42 @@ _linux_try_builder, _linux_prod_builder = _linux_builder()
 _mac_try_builder, _mac_prod_builder = _mac_builder()
 _windows_try_builder, _windows_prod_builder = _windows_builder()
 
+def _short_name(task_name):
+    """Create a short name for task name."""
+    task_name = task_name.replace("__", "_")
+    words = task_name.split("_")
+    return "".join([w[0] for w in words])[:5]
+
+def _builder_with_subshards(
+        name = None,
+        properties = {},
+        bucket = None,
+        os = None,
+        **kwargs):
+    """Create separate builder config for any subshard in properties["subshards"].
+
+    Args:
+      name(str): The name of the builder.
+      bucket(str): The pool to run builder: "try" or "prod".
+      os(str): The host os to run builder.
+      properties(dict): Properties passed through to luci builder.
+      **kwargs: Other kwargs, like repo, caches, recipe, etc.
+
+    Returns:
+      A list of builder configs for all subshards.
+    """
+
+    for subshard in properties.pop("subshards"):
+        buildername = "%s_%s" % (properties["shard"], subshard)
+        properties["subshard"] = subshard
+        if bucket == "try" and os.startswith("Linux"):
+            _linux_try_builder(
+                name = "Linux %s|%s" % (buildername, _short_name(buildername)),
+                properties = properties,
+                os = os,
+                **kwargs
+            )
+
 common = struct(
     builder = _builder,
     LOCATION_REGEXP_MARKDOWN = LOCATION_REGEXP_MARKDOWN,
@@ -401,10 +437,12 @@ common = struct(
     cq_group_name = _cq_group_name,
     poller_name = _poller_name,
     TARGET_X64 = "x64",
+    builder_with_subshards = _builder_with_subshards,
     linux_try_builder = _linux_try_builder,
     linux_prod_builder = _linux_prod_builder,
     mac_try_builder = _mac_try_builder,
     mac_prod_builder = _mac_prod_builder,
+    short_name = _short_name,
     windows_try_builder = _windows_try_builder,
     windows_prod_builder = _windows_prod_builder,
     try_builder = _try_builder,
