@@ -98,7 +98,7 @@ def _setup():
                 "infra/recipe_bundles/chromium.googlesource.com/infra/infra",
             cipd_version = "git_revision:905c1df843d7771bf3adc0cf21f58eb9498ff063",
         ),
-        execution_timeout = 20 * time.minute,
+        execution_timeout = 60 * time.minute,
         properties = {
             "db_gcs_bucket": "flutter-recipe-roller-db",
             "projects": {
