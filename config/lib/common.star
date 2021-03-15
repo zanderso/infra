@@ -435,6 +435,13 @@ def _builder_with_subshards(
                 os = os,
                 **kwargs
             )
+        elif bucket == "try" and os.startswith("Windows"):
+            _windows_try_builder(
+                name = "Windows %s|%s" % (buildername, _short_name(buildername)),
+                properties = properties,
+                os = os,
+                **kwargs
+            )
 
 common = struct(
     builder = _builder,

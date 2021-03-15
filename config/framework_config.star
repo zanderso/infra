@@ -12,7 +12,6 @@ which is mirrored from https://github.com/flutter/flutter.
 
 load("//lib/common.star", "common")
 load("//lib/repos.star", "repos")
-load("//lib/timeout.star", "timeout")
 
 # Global xcode versions.
 XCODE_VERSION = "12c33"
@@ -476,8 +475,6 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
         },
         caches = WIN_DEFAULT_CACHES,
         os = WINDOWS_OS,
-        # TODO(fujino): https://github.com/flutter/flutter/issues/75003
-        execution_timeout = timeout.LONG,
     )
     common.windows_prod_builder(
         name = "Windows%s tool_integration_tests|tool_tests_int" % ("" if branch == "master" else " " + branch),
@@ -493,8 +490,6 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
         },
         caches = WIN_DEFAULT_CACHES,
         os = WINDOWS_OS,
-        # TODO(fujino): https://github.com/flutter/flutter/issues/75003
-        execution_timeout = timeout.LONG,
     )
     common.windows_prod_builder(
         name = "Windows%s web_tool_tests|web_tt" % ("" if branch == "master" else " " + branch),
@@ -1171,6 +1166,20 @@ def framework_try_config():
     )
 
     # Windows platform
+    common.builder_with_subshards(
+        name = "Windows build_tests|bld_tests",
+        recipe = "flutter/flutter_drone",
+        repo = repos.FLUTTER,
+        list_view_name = list_view_name,
+        properties = {
+            "shard": "build_tests",
+            "subshards": ["1_3", "2_3", "3_3"],
+            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}, {"dependency": "goldctl"}],
+        },
+        caches = WIN_DEFAULT_CACHES,
+        os = WINDOWS_OS,
+        bucket = "try",
+    )
     common.windows_try_builder(
         name = "Windows build_tests|bld_tests",
         recipe = "flutter/flutter",
@@ -1183,6 +1192,20 @@ def framework_try_config():
         },
         caches = WIN_DEFAULT_CACHES,
         os = WINDOWS_OS,
+    )
+    common.builder_with_subshards(
+        name = "Windows framework_tests|frwk_tests",
+        recipe = "flutter/flutter_drone",
+        repo = repos.FLUTTER,
+        list_view_name = list_view_name,
+        properties = {
+            "shard": "framework_tests",
+            "subshards": ["libraries", "misc", "widgets"],
+            "dependencies": [{"dependency": "goldctl"}],
+        },
+        caches = WIN_DEFAULT_CACHES,
+        os = WINDOWS_OS,
+        bucket = "try",
     )
     common.windows_try_builder(
         name = "Windows framework_tests|frwk_tests",
@@ -1197,6 +1220,21 @@ def framework_try_config():
         caches = WIN_DEFAULT_CACHES,
         os = WINDOWS_OS,
     )
+    common.builder_with_subshards(
+        name = "Windows tool_tests|tool_tests",
+        recipe = "flutter/flutter_drone",
+        repo = repos.FLUTTER,
+        add_cq = True,
+        list_view_name = list_view_name,
+        properties = {
+            "shard": "tool_tests",
+            "subshards": ["general", "commands"],
+            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "open_jdk"}],
+        },
+        caches = WIN_DEFAULT_CACHES,
+        os = WINDOWS_OS,
+        bucket = "try",
+    )
     common.windows_try_builder(
         name = "Windows tool_tests|tool_tests",
         recipe = "flutter/flutter",
@@ -1210,8 +1248,21 @@ def framework_try_config():
         },
         caches = WIN_DEFAULT_CACHES,
         os = WINDOWS_OS,
-        # TODO(fujino): https://github.com/flutter/flutter/issues/75003
-        execution_timeout = timeout.LONG,
+    )
+    common.builder_with_subshards(
+        name = "Windows tool_integration_tests|tool_tests_int",
+        recipe = "flutter/flutter_drone",
+        repo = repos.FLUTTER,
+        add_cq = True,
+        list_view_name = list_view_name,
+        properties = {
+            "shard": "tool_integration_tests",
+            "subshards": ["1_3", "2_3", "3_3"],
+            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}, {"dependency": "goldctl"}],
+        },
+        caches = WIN_DEFAULT_CACHES,
+        os = WINDOWS_OS,
+        bucket = "try",
     )
     common.windows_try_builder(
         name = "Windows tool_integration_tests|tool_tests_int",
@@ -1226,8 +1277,6 @@ def framework_try_config():
         },
         caches = WIN_DEFAULT_CACHES,
         os = WINDOWS_OS,
-        # TODO(fujino): https://github.com/flutter/flutter/issues/75003
-        execution_timeout = timeout.LONG,
     )
     common.windows_try_builder(
         name = "Windows web_tool_tests|web_tt",
