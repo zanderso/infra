@@ -428,6 +428,13 @@ def _builder_with_subshards(
                 os = os,
                 **kwargs
             )
+        elif bucket == "try" and os.startswith("Mac"):
+            _mac_try_builder(
+                name = "Mac %s|%s" % (buildername, _short_name(buildername)),
+                properties = properties,
+                os = os,
+                **kwargs
+            )
 
 common = struct(
     builder = _builder,
