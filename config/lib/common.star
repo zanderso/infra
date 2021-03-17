@@ -451,6 +451,20 @@ def _builder_with_subshards(
                 os = os,
                 **kwargs
             )
+        elif bucket == "prod" and os.startswith("Mac"):
+            _mac_prod_builder(
+                name = "Mac%s %s|%s" % (branch_name, buildername, _short_name(buildername)),
+                properties = properties,
+                os = os,
+                **kwargs
+            )
+        elif bucket == "prod" and os.startswith("Windows"):
+            _windows_prod_builder(
+                name = "Windows%s %s|%s" % (branch_name, buildername, _short_name(buildername)),
+                properties = properties,
+                os = os,
+                **kwargs
+            )
 
 common = struct(
     builder = _builder,
