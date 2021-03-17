@@ -400,10 +400,11 @@ def _short_name(task_name):
     return "".join([w[0] for w in words])[:5]
 
 def _builder_with_subshards(
-        name = None,
-        properties = {},
-        bucket = None,
-        os = None,
+        name,
+        properties,
+        bucket,
+        os,
+        branch_name,
         **kwargs):
     """Create separate builder config for any subshard in properties["subshards"].
 
@@ -412,6 +413,7 @@ def _builder_with_subshards(
       bucket(str): The pool to run builder: "try" or "prod".
       os(str): The host os to run builder.
       properties(dict): Properties passed through to luci builder.
+      branch_name(str): The branch for prod builders.
       **kwargs: Other kwargs, like repo, caches, recipe, etc.
 
     Returns:
@@ -438,6 +440,13 @@ def _builder_with_subshards(
         elif bucket == "try" and os.startswith("Windows"):
             _windows_try_builder(
                 name = "Windows %s|%s" % (buildername, _short_name(buildername)),
+                properties = properties,
+                os = os,
+                **kwargs
+            )
+        elif bucket == "prod" and os.startswith("Linux"):
+            _linux_prod_builder(
+                name = "Linux%s %s|%s" % (branch_name, buildername, _short_name(buildername)),
                 properties = properties,
                 os = os,
                 **kwargs
