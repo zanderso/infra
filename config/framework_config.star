@@ -208,21 +208,6 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
         bucket = "prod",
         branch_name = "" if branch == "master" else " " + branch,
     )
-    common.linux_prod_builder(
-        name = "Linux%s build_tests|bld_tests" % ("" if branch == "master" else " " + branch),
-        recipe = new_recipe_name,
-        console_view_name = console_view_name,
-        triggered_by = [trigger_name],
-        triggering_policy = triggering_policy,
-        priority = priority,
-        properties = {
-            "shard": "build_tests",
-            "subshards": ["1_2", "2_2"],
-            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}, {"dependency": "goldctl"}, {"dependency": "clang"}, {"dependency": "cmake"}, {"dependency": "ninja"}, {"dependency": "curl"}],
-        },
-        caches = LINUX_DEFAULT_CACHES,
-        os = LINUX_OS,
-    )
     common.builder_with_subshards(
         name = "Linux%s framework_tests|frwk_tests" % ("" if branch == "master" else " " + branch),
         recipe = drone_recipe_name,
@@ -239,21 +224,6 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
         os = LINUX_OS,
         bucket = "prod",
         branch_name = "" if branch == "master" else " " + branch,
-    )
-    common.linux_prod_builder(
-        name = "Linux%s framework_tests|frwk_tests" % ("" if branch == "master" else " " + branch),
-        recipe = new_recipe_name,
-        console_view_name = console_view_name,
-        triggered_by = [trigger_name],
-        triggering_policy = triggering_policy,
-        priority = priority,
-        properties = {
-            "shard": "framework_tests",
-            "subshards": ["libraries", "misc", "widgets"],
-            "dependencies": [{"dependency": "goldctl"}, {"dependency": "curl"}],
-        },
-        caches = LINUX_DEFAULT_CACHES,
-        os = LINUX_OS,
     )
     common.builder_with_subshards(
         name = "Linux%s tool_tests|tool_tests" % ("" if branch == "master" else " " + branch),
@@ -272,21 +242,6 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
         bucket = "prod",
         branch_name = "" if branch == "master" else " " + branch,
     )
-    common.linux_prod_builder(
-        name = "Linux%s tool_tests|tool_tests" % ("" if branch == "master" else " " + branch),
-        recipe = new_recipe_name,
-        console_view_name = console_view_name,
-        triggered_by = [trigger_name],
-        triggering_policy = triggering_policy,
-        priority = priority,
-        properties = {
-            "shard": "tool_tests",
-            "subshards": ["general", "commands"],
-            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "open_jdk"}, {"dependency": "curl"}],
-        },
-        caches = LINUX_DEFAULT_CACHES,
-        os = LINUX_OS,
-    )
     common.builder_with_subshards(
         name = "Linux%s tool_integration_tests|tool_tests_int" % ("" if branch == "master" else " " + branch),
         recipe = drone_recipe_name,
@@ -303,21 +258,6 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
         os = LINUX_OS,
         bucket = "prod",
         branch_name = "" if branch == "master" else " " + branch,
-    )
-    common.linux_prod_builder(
-        name = "Linux%s tool_integration_tests|tool_tests_int" % ("" if branch == "master" else " " + branch),
-        recipe = new_recipe_name,
-        console_view_name = console_view_name,
-        triggered_by = [trigger_name],
-        triggering_policy = triggering_policy,
-        priority = priority,
-        properties = {
-            "shard": "tool_integration_tests",
-            "subshards": ["1_3", "2_3", "3_3"],
-            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}, {"dependency": "goldctl"}, {"dependency": "curl"}],
-        },
-        caches = LINUX_DEFAULT_CACHES,
-        os = LINUX_OS,
     )
     common.linux_prod_builder(
         name = "Linux%s web_tool_tests|web_tt" % ("" if branch == "master" else " " + branch),
@@ -366,21 +306,6 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
         bucket = "prod",
         branch_name = "" if branch == "master" else " " + branch,
     )
-    common.linux_prod_builder(
-        name = "Linux%s web_tests|web_tests" % ("" if branch == "master" else " " + branch),
-        recipe = new_recipe_name,
-        console_view_name = console_view_name,
-        triggered_by = [trigger_name],
-        triggering_policy = triggering_policy,
-        priority = priority,
-        properties = {
-            "shard": "web_tests",
-            "subshards": ["0", "1", "2", "3", "4", "5", "6", "7_last"],
-            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "goldctl"}, {"dependency": "curl"}],
-        },
-        caches = LINUX_DEFAULT_CACHES,
-        os = LINUX_OS,
-    )
     common.builder_with_subshards(
         name = "Linux%s web_long_running_tests|web_lrt" % ("" if branch == "master" else " " + branch),
         recipe = drone_recipe_name,
@@ -396,20 +321,6 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
         os = LINUX_OS,
         bucket = "prod",
         branch_name = "" if branch == "master" else " " + branch,
-    )
-    common.linux_prod_builder(
-        name = "Linux%s web_long_running_tests|web_lrt" % ("" if branch == "master" else " " + branch),
-        recipe = new_recipe_name,
-        console_view_name = console_view_name,
-        triggered_by = [trigger_name],
-        triggering_policy = triggering_policy,
-        properties = {
-            "shard": "web_long_running_tests",
-            "subshards": ["1_3", "2_3", "3_3"],
-            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "goldctl"}, {"dependency": "curl"}],
-        },
-        caches = LINUX_DEFAULT_CACHES,
-        os = LINUX_OS,
     )
     common.linux_prod_builder(
         name = "Linux%s SDK Drone|frwdrn" % ("" if branch == "master" else " " + branch),
@@ -549,21 +460,6 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
         bucket = "prod",
         branch_name = "" if branch == "master" else " " + branch,
     )
-    common.windows_prod_builder(
-        name = "Windows%s build_tests|bld_tests" % ("" if branch == "master" else " " + branch),
-        recipe = new_recipe_name,
-        console_view_name = console_view_name,
-        triggered_by = [trigger_name],
-        triggering_policy = triggering_policy,
-        priority = priority,
-        properties = {
-            "shard": "build_tests",
-            "subshards": ["1_3", "2_3", "3_3"],
-            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}, {"dependency": "goldctl"}],
-        },
-        caches = WIN_DEFAULT_CACHES,
-        os = WINDOWS_OS,
-    )
     common.builder_with_subshards(
         name = "Windows%s framework_tests|frwk_tests" % ("" if branch == "master" else " " + branch),
         recipe = drone_recipe_name,
@@ -580,21 +476,6 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
         os = WINDOWS_OS,
         bucket = "prod",
         branch_name = "" if branch == "master" else " " + branch,
-    )
-    common.windows_prod_builder(
-        name = "Windows%s framework_tests|frwk_tests" % ("" if branch == "master" else " " + branch),
-        recipe = new_recipe_name,
-        console_view_name = console_view_name,
-        triggered_by = [trigger_name],
-        triggering_policy = triggering_policy,
-        priority = priority,
-        properties = {
-            "shard": "framework_tests",
-            "subshards": ["libraries", "misc", "widgets"],
-            "dependencies": [{"dependency": "goldctl"}],
-        },
-        caches = WIN_DEFAULT_CACHES,
-        os = WINDOWS_OS,
     )
     common.builder_with_subshards(
         name = "Windows%s tool_tests|tool_tests" % ("" if branch == "master" else " " + branch),
@@ -613,21 +494,6 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
         bucket = "prod",
         branch_name = "" if branch == "master" else " " + branch,
     )
-    common.windows_prod_builder(
-        name = "Windows%s tool_tests|tool_tests" % ("" if branch == "master" else " " + branch),
-        recipe = new_recipe_name,
-        console_view_name = console_view_name,
-        triggered_by = [trigger_name],
-        triggering_policy = triggering_policy,
-        priority = priority,
-        properties = {
-            "shard": "tool_tests",
-            "subshards": ["general", "commands"],
-            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "open_jdk"}],
-        },
-        caches = WIN_DEFAULT_CACHES,
-        os = WINDOWS_OS,
-    )
     common.builder_with_subshards(
         name = "Windows%s tool_integration_tests|tool_tests_int" % ("" if branch == "master" else " " + branch),
         recipe = drone_recipe_name,
@@ -644,21 +510,6 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
         os = WINDOWS_OS,
         bucket = "prod",
         branch_name = "" if branch == "master" else " " + branch,
-    )
-    common.windows_prod_builder(
-        name = "Windows%s tool_integration_tests|tool_tests_int" % ("" if branch == "master" else " " + branch),
-        recipe = new_recipe_name,
-        console_view_name = console_view_name,
-        triggered_by = [trigger_name],
-        triggering_policy = triggering_policy,
-        priority = priority,
-        properties = {
-            "shard": "tool_integration_tests",
-            "subshards": ["1_3", "2_3", "3_3"],
-            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}, {"dependency": "goldctl"}],
-        },
-        caches = WIN_DEFAULT_CACHES,
-        os = WINDOWS_OS,
     )
     common.windows_prod_builder(
         name = "Windows%s web_tool_tests|web_tt" % ("" if branch == "master" else " " + branch),
@@ -722,25 +573,6 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
         bucket = "prod",
         branch_name = "" if branch == "master" else " " + branch,
     )
-    common.mac_prod_builder(
-        name = "Mac%s build_tests|bld_tests" % ("" if branch == "master" else " " + branch),
-        recipe = new_recipe_name,
-        console_view_name = console_view_name,
-        triggered_by = [trigger_name],
-        triggering_policy = triggering_policy,
-        priority = priority,
-        properties = {
-            "shard": "build_tests",
-            "subshards": ["1_4", "2_4", "3_4", "4_4"],
-            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}, {"dependency": "xcode"}, {"dependency": "gems"}, {"dependency": "goldctl"}],
-            "$flutter/osx_sdk": {
-                "sdk_version": XCODE_VERSION,
-            },
-        },
-        dimensions = {"device_type": "none"},
-        caches = MAC_NEWXCODE_CACHES,
-        os = MAC_OS,
-    )
     common.builder_with_subshards(
         name = "Mac%s framework_tests|frwk_tests" % ("" if branch == "master" else " " + branch),
         recipe = drone_recipe_name,
@@ -761,25 +593,6 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
         os = MAC_OS,
         bucket = "prod",
         branch_name = "" if branch == "master" else " " + branch,
-    )
-    common.mac_prod_builder(
-        name = "Mac%s framework_tests|frwk_tests" % ("" if branch == "master" else " " + branch),
-        recipe = new_recipe_name,
-        console_view_name = console_view_name,
-        triggered_by = [trigger_name],
-        triggering_policy = triggering_policy,
-        priority = priority,
-        properties = {
-            "shard": "framework_tests",
-            "subshards": ["libraries", "misc", "widgets"],
-            "dependencies": [{"dependency": "goldctl"}],
-            "$flutter/osx_sdk": {
-                "sdk_version": XCODE_VERSION,
-            },
-        },
-        dimensions = {"device_type": "none"},
-        caches = MAC_DEFAULT_CACHES,
-        os = MAC_OS,
     )
     common.builder_with_subshards(
         name = "Mac%s tool_tests|tool_tests" % ("" if branch == "master" else " " + branch),
@@ -802,25 +615,6 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
         bucket = "prod",
         branch_name = "" if branch == "master" else " " + branch,
     )
-    common.mac_prod_builder(
-        name = "Mac%s tool_tests|tool_tests" % ("" if branch == "master" else " " + branch),
-        recipe = new_recipe_name,
-        console_view_name = console_view_name,
-        triggered_by = [trigger_name],
-        triggering_policy = triggering_policy,
-        priority = priority,
-        properties = {
-            "shard": "tool_tests",
-            "subshards": ["general", "commands"],
-            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "open_jdk"}],
-            "$flutter/osx_sdk": {
-                "sdk_version": XCODE_VERSION,
-            },
-        },
-        dimensions = {"device_type": "none"},
-        caches = MAC_DEFAULT_CACHES,
-        os = MAC_OS,
-    )
     common.builder_with_subshards(
         name = "Mac%s tool_integration_tests|tool_tests_int" % ("" if branch == "master" else " " + branch),
         recipe = drone_recipe_name,
@@ -841,25 +635,6 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
         os = MAC_OS,
         bucket = "prod",
         branch_name = "" if branch == "master" else " " + branch,
-    )
-    common.mac_prod_builder(
-        name = "Mac%s tool_integration_tests|tool_tests_int" % ("" if branch == "master" else " " + branch),
-        recipe = new_recipe_name,
-        console_view_name = console_view_name,
-        triggered_by = [trigger_name],
-        triggering_policy = triggering_policy,
-        priority = priority,
-        properties = {
-            "shard": "tool_integration_tests",
-            "subshards": ["1_3", "2_3", "3_3"],
-            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}, {"dependency": "xcode"}, {"dependency": "gems"}, {"dependency": "goldctl"}],
-            "$flutter/osx_sdk": {
-                "sdk_version": XCODE_VERSION,
-            },
-        },
-        dimensions = {"device_type": "none"},
-        caches = MAC_DEFAULT_CACHES,
-        os = MAC_OS,
     )
     common.mac_prod_builder(
         name = "Mac%s web_tool_tests|web_tt" % ("" if branch == "master" else " " + branch),
@@ -940,20 +715,6 @@ def framework_try_config():
         branch_name = None,
     )
 
-    common.linux_try_builder(
-        name = "Linux build_tests|bld_tests",
-        recipe = "flutter/flutter",
-        repo = repos.FLUTTER,
-        list_view_name = list_view_name,
-        properties = {
-            "shard": "build_tests",
-            "subshards": ["1_2", "2_2"],
-            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}, {"dependency": "goldctl"}, {"dependency": "clang"}, {"dependency": "cmake"}, {"dependency": "ninja"}, {"dependency": "curl"}],
-        },
-        caches = LINUX_DEFAULT_CACHES,
-        os = LINUX_OS,
-    )
-
     common.builder_with_subshards(
         name = "Linux framework_tests|frwk_tests",
         recipe = "flutter/flutter_drone",
@@ -969,20 +730,6 @@ def framework_try_config():
         bucket = "try",
         branch_name = None,
     )
-    common.linux_try_builder(
-        name = "Linux framework_tests|frwk_tests",
-        recipe = "flutter/flutter",
-        repo = repos.FLUTTER,
-        list_view_name = list_view_name,
-        properties = {
-            "shard": "framework_tests",
-            "subshards": ["libraries", "misc", "widgets"],
-            "dependencies": [{"dependency": "goldctl"}, {"dependency": "curl"}],
-        },
-        caches = LINUX_DEFAULT_CACHES,
-        os = LINUX_OS,
-    )
-
     common.builder_with_subshards(
         name = "Linux tool_tests|tool_tests",
         recipe = "flutter/flutter_drone",
@@ -999,21 +746,6 @@ def framework_try_config():
         bucket = "try",
         branch_name = None,
     )
-    common.linux_try_builder(
-        name = "Linux tool_tests|tool_tests",
-        recipe = "flutter/flutter",
-        repo = repos.FLUTTER,
-        add_cq = True,
-        list_view_name = list_view_name,
-        properties = {
-            "shard": "tool_tests",
-            "subshards": ["general", "commands"],
-            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "open_jdk"}, {"dependency": "curl"}],
-        },
-        caches = LINUX_DEFAULT_CACHES,
-        os = LINUX_OS,
-    )
-
     common.builder_with_subshards(
         name = "Linux tool_integration_tests|tool_tests_int",
         recipe = "flutter/flutter_drone",
@@ -1029,20 +761,6 @@ def framework_try_config():
         os = LINUX_OS,
         bucket = "try",
         branch_name = None,
-    )
-    common.linux_try_builder(
-        name = "Linux tool_integration_tests|tool_tests_int",
-        recipe = "flutter/flutter",
-        repo = repos.FLUTTER,
-        add_cq = True,
-        list_view_name = list_view_name,
-        properties = {
-            "shard": "tool_integration_tests",
-            "subshards": ["1_3", "2_3", "3_3"],
-            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}, {"dependency": "goldctl"}, {"dependency": "curl"}],
-        },
-        caches = LINUX_DEFAULT_CACHES,
-        os = LINUX_OS,
     )
     common.linux_try_builder(
         name = "Linux web_tool_tests|web_tt",
@@ -1073,20 +791,6 @@ def framework_try_config():
         bucket = "try",
         branch_name = None,
     )
-    common.linux_try_builder(
-        name = "Linux web_tests|web_tests",
-        recipe = "flutter/flutter",
-        repo = repos.FLUTTER,
-        list_view_name = list_view_name,
-        properties = {
-            "shard": "web_tests",
-            "subshards": ["0", "1", "2", "3", "4", "5", "6", "7_last"],
-            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "goldctl"}, {"dependency": "curl"}],
-        },
-        caches = LINUX_DEFAULT_CACHES,
-        os = LINUX_OS,
-    )
-
     common.builder_with_subshards(
         name = "Linux web_long_running_tests|web_lrt",
         recipe = "flutter/flutter_drone",
@@ -1101,19 +805,6 @@ def framework_try_config():
         os = LINUX_OS,
         bucket = "try",
         branch_name = None,
-    )
-    common.linux_try_builder(
-        name = "Linux web_long_running_tests|web_lrt",
-        recipe = "flutter/flutter",
-        repo = repos.FLUTTER,
-        list_view_name = list_view_name,
-        properties = {
-            "shard": "web_long_running_tests",
-            "subshards": ["1_3", "2_3", "3_3"],
-            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "goldctl"}, {"dependency": "curl"}],
-        },
-        caches = LINUX_DEFAULT_CACHES,
-        os = LINUX_OS,
     )
     common.linux_try_builder(
         name = "Linux web_integration_tests|web_int",
@@ -1252,24 +943,6 @@ def framework_try_config():
         bucket = "try",
         branch_name = None,
     )
-    common.mac_try_builder(
-        name = "Mac build_tests|bld_tests",
-        recipe = "flutter/flutter",
-        repo = repos.FLUTTER,
-        add_cq = True,
-        list_view_name = list_view_name,
-        properties = {
-            "shard": "build_tests",
-            "subshards": ["1_4", "2_4", "3_4", "4_4"],
-            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}, {"dependency": "xcode"}, {"dependency": "gems"}, {"dependency": "goldctl"}],
-            "$flutter/osx_sdk": {
-                "sdk_version": XCODE_VERSION,
-            },
-        },
-        dimensions = {"device_type": "none"},
-        caches = MAC_NEWXCODE_CACHES,
-        os = MAC_OS,
-    )
     common.builder_with_subshards(
         name = "Mac framework_tests|frwk_tests",
         recipe = "flutter/flutter_drone",
@@ -1288,23 +961,6 @@ def framework_try_config():
         os = MAC_OS,
         bucket = "try",
         branch_name = None,
-    )
-    common.mac_try_builder(
-        name = "Mac framework_tests|frwk_tests",
-        recipe = "flutter/flutter",
-        repo = repos.FLUTTER,
-        list_view_name = list_view_name,
-        properties = {
-            "shard": "framework_tests",
-            "subshards": ["libraries", "misc", "widgets"],
-            "dependencies": [{"dependency": "goldctl"}],
-            "$flutter/osx_sdk": {
-                "sdk_version": XCODE_VERSION,
-            },
-        },
-        dimensions = {"device_type": "none"},
-        caches = MAC_DEFAULT_CACHES,
-        os = MAC_OS,
     )
     common.builder_with_subshards(
         name = "Mac tool_tests|tool_tests",
@@ -1326,24 +982,6 @@ def framework_try_config():
         bucket = "try",
         branch_name = None,
     )
-    common.mac_try_builder(
-        name = "Mac tool_tests|tool_tests",
-        recipe = "flutter/flutter",
-        repo = repos.FLUTTER,
-        add_cq = True,
-        list_view_name = list_view_name,
-        properties = {
-            "shard": "tool_tests",
-            "subshards": ["general", "commands"],
-            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "open_jdk"}],
-            "$flutter/osx_sdk": {
-                "sdk_version": XCODE_VERSION,
-            },
-        },
-        dimensions = {"device_type": "none"},
-        caches = MAC_DEFAULT_CACHES,
-        os = MAC_OS,
-    )
     common.builder_with_subshards(
         name = "Mac tool_integration_tests|tool_tests_int",
         recipe = "flutter/flutter_drone",
@@ -1363,24 +1001,6 @@ def framework_try_config():
         os = MAC_OS,
         bucket = "try",
         branch_name = None,
-    )
-    common.mac_try_builder(
-        name = "Mac tool_integration_tests|tool_tests_int",
-        recipe = "flutter/flutter",
-        repo = repos.FLUTTER,
-        add_cq = True,
-        list_view_name = list_view_name,
-        properties = {
-            "shard": "tool_integration_tests",
-            "subshards": ["1_3", "2_3", "3_3"],
-            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}, {"dependency": "xcode"}, {"dependency": "gems"}, {"dependency": "goldctl"}],
-            "$flutter/osx_sdk": {
-                "sdk_version": XCODE_VERSION,
-            },
-        },
-        dimensions = {"device_type": "none"},
-        caches = MAC_DEFAULT_CACHES,
-        os = MAC_OS,
     )
     common.mac_try_builder(
         name = "Mac web_tool_tests|web_tt",
@@ -1444,19 +1064,6 @@ def framework_try_config():
         bucket = "try",
         branch_name = None,
     )
-    common.windows_try_builder(
-        name = "Windows build_tests|bld_tests",
-        recipe = "flutter/flutter",
-        repo = repos.FLUTTER,
-        list_view_name = list_view_name,
-        properties = {
-            "shard": "build_tests",
-            "subshards": ["1_3", "2_3", "3_3"],
-            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}, {"dependency": "goldctl"}],
-        },
-        caches = WIN_DEFAULT_CACHES,
-        os = WINDOWS_OS,
-    )
     common.builder_with_subshards(
         name = "Windows framework_tests|frwk_tests",
         recipe = "flutter/flutter_drone",
@@ -1471,19 +1078,6 @@ def framework_try_config():
         os = WINDOWS_OS,
         bucket = "try",
         branch_name = None,
-    )
-    common.windows_try_builder(
-        name = "Windows framework_tests|frwk_tests",
-        recipe = "flutter/flutter",
-        repo = repos.FLUTTER,
-        list_view_name = list_view_name,
-        properties = {
-            "shard": "framework_tests",
-            "subshards": ["libraries", "misc", "widgets"],
-            "dependencies": [{"dependency": "goldctl"}],
-        },
-        caches = WIN_DEFAULT_CACHES,
-        os = WINDOWS_OS,
     )
     common.builder_with_subshards(
         name = "Windows tool_tests|tool_tests",
@@ -1501,20 +1095,6 @@ def framework_try_config():
         bucket = "try",
         branch_name = None,
     )
-    common.windows_try_builder(
-        name = "Windows tool_tests|tool_tests",
-        recipe = "flutter/flutter",
-        repo = repos.FLUTTER,
-        add_cq = True,
-        list_view_name = list_view_name,
-        properties = {
-            "shard": "tool_tests",
-            "subshards": ["general", "commands"],
-            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "open_jdk"}],
-        },
-        caches = WIN_DEFAULT_CACHES,
-        os = WINDOWS_OS,
-    )
     common.builder_with_subshards(
         name = "Windows tool_integration_tests|tool_tests_int",
         recipe = "flutter/flutter_drone",
@@ -1530,20 +1110,6 @@ def framework_try_config():
         os = WINDOWS_OS,
         bucket = "try",
         branch_name = None,
-    )
-    common.windows_try_builder(
-        name = "Windows tool_integration_tests|tool_tests_int",
-        recipe = "flutter/flutter",
-        repo = repos.FLUTTER,
-        add_cq = True,
-        list_view_name = list_view_name,
-        properties = {
-            "shard": "tool_integration_tests",
-            "subshards": ["1_3", "2_3", "3_3"],
-            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}, {"dependency": "goldctl"}],
-        },
-        caches = WIN_DEFAULT_CACHES,
-        os = WINDOWS_OS,
     )
     common.windows_try_builder(
         name = "Windows web_tool_tests|web_tt",
