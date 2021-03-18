@@ -14,6 +14,9 @@ load("//lib/common.star", "common")
 load("//lib/repos.star", "repos")
 load("//lib/timeout.star", "timeout")
 
+# Global OS variables
+MAC_OS = "Mac-10.15"
+
 # Default caches for Linux builders
 LINUX_DEFAULT_CACHES = [
     # Android SDK
@@ -160,8 +163,9 @@ def devicelab_staging_prod_config():
                 "use_cas": True,
             },
             pool = "luci.flutter.staging",
-            os = "iOS-14.4",
+            os = MAC_OS,
             category = "Mac_ios",
+            dimensions = {"device_os": "iOS-14.4"},
             execution_timeout = timeout.LONG,
             expiration_timeout = timeout.LONG_EXPIRATION,
             caches = MAC_DEFAULT_CACHES,
@@ -231,7 +235,7 @@ def devicelab_staging_prod_config():
                 "use_cas": True,
             },
             pool = "luci.flutter.staging",
-            os = "Mac",
+            os = MAC_OS,
             category = "Mac_android",
             dimensions = {"device_os": "N"},
             expiration_timeout = timeout.LONG_EXPIRATION,
