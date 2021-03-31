@@ -284,4 +284,18 @@ def devicelab_staging_prod_config():
             caches = LINUX_DEFAULT_CACHES,
         )
 
+    # Windows prod builders
+    common.windows_prod_builder(
+        name = "Windows_staging build_aar_module_test|aarm",
+        recipe = drone_recipe_name,
+        console_view_name = console_view_name,
+        triggered_by = [trigger_name],
+        triggering_policy = triggering_policy,
+        properties = {
+            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}],
+            "task_name": "build_aar_module_test",
+        },
+        os = "Windows-Server",
+    )
+
 devicelab_staging_config = struct(setup = _setup)
