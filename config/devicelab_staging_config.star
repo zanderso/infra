@@ -56,6 +56,20 @@ MAC_DEFAULT_CACHES = [
     swarming.cache("osx_sdk"),
 ]
 
+# Windows caches
+WIN_DEFAULT_CACHES = [
+    # Android SDK
+    swarming.cache(name = "android_sdk", path = "android"),
+    # Chrome
+    swarming.cache(name = "chrome_and_driver", path = "chrome"),
+    # OpenJDK
+    swarming.cache(name = "openjdk", path = "java"),
+    # PubCache
+    swarming.cache(name = "pub_cache", path = ".pub-cache"),
+    # Flutter SDK code
+    swarming.cache(name = "flutter_sdk", path = "flutter sdk"),
+]
+
 def _setup():
     devicelab_staging_prod_config()
 
@@ -283,5 +297,20 @@ def devicelab_staging_prod_config():
             expiration_timeout = timeout.LONG_EXPIRATION,
             caches = LINUX_DEFAULT_CACHES,
         )
+
+    # Windows prod builders
+    common.windows_prod_builder(
+        name = "Windows_staging build_aar_module_test|aarm",
+        recipe = drone_recipe_name,
+        console_view_name = console_view_name,
+        triggered_by = [trigger_name],
+        triggering_policy = triggering_policy,
+        properties = {
+            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}],
+            "task_name": "build_aar_module_test",
+        },
+        caches = WIN_DEFAULT_CACHES,
+        os = "Windows-Server",
+    )
 
 devicelab_staging_config = struct(setup = _setup)
