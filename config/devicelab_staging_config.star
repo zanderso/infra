@@ -284,4 +284,33 @@ def devicelab_staging_prod_config():
             caches = LINUX_DEFAULT_CACHES,
         )
 
+    # Windows prod builders.
+    win_tasks = [
+        "complex_layout_win__compile",
+        "basic_material_app_win__compile",
+        "flutter_gallery_win__compile",
+        "windows_chrome_dev_mode",
+        "flavors_test_win",
+        "channels_integration_test_win",
+        "hot_mode_dev_cycle_win__benchmark",
+    ]
+
+    for task in linux_tasks:
+        common.windows_prod_builder(
+            name = "Windows_staging %s|%s" % (task, short_name(task)),
+            recipe = drone_recipe_name,
+            console_view_name = console_view_name,
+            triggered_by = [trigger_name],
+            triggering_policy = triggering_policy,
+            properties = {
+                "dependencies": [
+                    {"dependency": "android_sdk"},
+                    {"dependency": "chrome_and_driver"},
+                    {"dependency": "open_jdk"},
+                ],
+                "task_name": "build_aar_module_test",
+            },
+            os = "Windows-Server",
+        )
+
 devicelab_staging_config = struct(setup = _setup)
