@@ -572,7 +572,7 @@ def devicelab_prod_config(branch, version, ref):
             pool = "luci.flutter.prod",
             os = MAC_OS,
             category = "Mac_ios",
-            dimensions = {"device_os": "iOS-14.4"},
+            dimensions = {"device_os": "iOS-14.4.2"},
             execution_timeout = timeout.SHORT,
             expiration_timeout = timeout.LONG_EXPIRATION,
             caches = MAC_DEFAULT_CACHES,
