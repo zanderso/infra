@@ -15,7 +15,7 @@ load("//lib/repos.star", "repos")
 load("//lib/timeout.star", "timeout")
 
 # Global OS variables
-MAC_OS = "Mac-10.15"
+MAC_OS = "Mac"
 
 # Default caches for Linux builders
 LINUX_DEFAULT_CACHES = [
