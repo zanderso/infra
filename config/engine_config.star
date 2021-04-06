@@ -153,6 +153,7 @@ def engine_properties(
       A dictionary with the properties applicable to the build, jazzy_version and fuchsia_ctl version.
     """
     properties = {
+        "use_cas": True,
         "build_host": build_host,
         "build_fuchsia": True if fuchsia_ctl_version else False,
         "build_android_debug": build_android_debug,
