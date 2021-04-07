@@ -116,6 +116,7 @@ def engine_properties(
         build_android_aot = False,
         build_android_vulkan = False,
         build_ios = False,
+        build_windows_uwp = False,
         needs_jazzy = False,
         ios_debug = False,
         ios_profile = False,
@@ -136,6 +137,7 @@ def engine_properties(
       build_android_aot(boolean): Whether this is an android aot build or not.
       build_android_vulkan(boolean): Whether this a android vulkan build or not.
       build_ios(boolean): Whether to build ios or not.
+      build_windows_uwp(boolean): Whether to build Windows UWP or not.
       needs_jazzy(boolean): True if this build needs jazzy.
       ios_debug(boolean): True if we need to build ios debug version.
       ios_profile(boolean): True if we need to build ios profile version.
@@ -500,6 +502,16 @@ def engine_prod_config(platform_args, branch, version, ref, fuchsia_ctl_version)
         **platform_args["windows"]
     )
     common.windows_prod_builder(
+        name = builder_name("Windows%s UWP Engine|uwp", branch),
+        recipe = full_recipe_name("engine", version),
+        console_view_name = console_view_name,
+        properties = engine_properties(build_windows_uwp = True),
+        triggered_by = [trigger_name],
+        triggering_policy = triggering_policy,
+        priority = 30 if branch == "master" else 25,
+        **platform_args["windows"]
+    )
+    common.windows_prod_builder(
         name = builder_name("Windows%s Android AOT Engine|aot", branch),
         recipe = full_recipe_name("engine", version),
         console_view_name = console_view_name,
@@ -761,6 +773,17 @@ def engine_try_config(platform_args, fuchsia_ctl_version):
         list_view_name = list_view_name,
         properties = engine_properties(
             build_host = True,
+            no_lto = True,
+        ),
+        **platform_args["windows"]
+    )
+    common.windows_try_builder(
+        name = "Windows UWP Engine|uwp",
+        recipe = "engine",
+        repo = repos.ENGINE,
+        list_view_name = list_view_name,
+        properties = engine_properties(
+            build_windows_uwp = True,
             no_lto = True,
         ),
         **platform_args["windows"]
