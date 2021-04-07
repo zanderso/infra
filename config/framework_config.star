@@ -910,6 +910,20 @@ def framework_try_config():
         os = LINUX_OS,
     )
     common.linux_try_builder(
+        name = "Linux validate_ci_config|ci_cfg",
+        recipe = "flutter/flutter",
+        repo = repos.FLUTTER,
+        list_view_name = list_view_name,
+        properties = {
+            "validation": "validate_ci_config",
+            "validation_name": "Validate CI config",
+            "dependencies": [{"dependency": "cocoon"}],
+            "use_cas": True,
+        },
+        caches = LINUX_DEFAULT_CACHES,
+        os = LINUX_OS,
+    )
+    common.linux_try_builder(
         name = "Linux customer_testing|cst_tests",
         recipe = "flutter/flutter",
         repo = repos.FLUTTER,
