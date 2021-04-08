@@ -162,6 +162,7 @@ def engine_properties(
         "build_android_aot": build_android_aot,
         "build_android_vulkan": build_android_vulkan,
         "build_ios": build_ios,
+        "build_windows_uwp": build_windows_uwp,
         "build_android_jit_release": build_android_jit_release,
         "gcs_goldens_bucket": gcs_goldens_bucket,
         "$flutter/osx_sdk": {
