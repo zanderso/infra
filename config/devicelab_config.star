@@ -20,6 +20,7 @@ XCODE_VERSION = "12c33"
 # Global OS variables
 LINUX_OS = "Linux"
 WINDOWS_OS = "Windows-Server"
+WINDOWS_OS_DEVICELAB = "Windows-10"
 MAC_OS = "Mac-10.15"
 
 # Linux caches
@@ -1190,6 +1191,38 @@ def devicelab_prod_config(branch, version, ref):
                 caches = WIN_DEFAULT_CACHES,
                 os = WINDOWS_OS,
             )
+
+    # Windows host with android phone.
+    windows_android_tasks = [
+        "complex_layout_win__compile",
+        "basic_material_app_win__compile",
+        "flutter_gallery_win__compile",
+        "windows_chrome_dev_mode",
+        "flavors_test_win",
+        "channels_integration_test_win",
+        "hot_mode_dev_cycle_win__benchmark",
+    ]
+    for task in windows_android_tasks:
+        common.windows_prod_builder(
+            name = "Windows_android%s %s|%s" % (branched_builder_prefix, task, common.short_name(task)),
+            recipe = drone_recipe_name,
+            console_view_name = console_view_name,
+            triggered_by = [trigger_name],
+            triggering_policy = triggering_policy,
+            properties = {
+                "dependencies": [
+                    {"dependency": "android_sdk"},
+                    {"dependency": "chrome_and_driver"},
+                    {"dependency": "open_jdk"},
+                ],
+                "task_name": task,
+                "use_cas": True,
+            },
+            pool = "luci.flutter.prod",
+            dimensions = {"device_os": "N"},
+            os = WINDOWS_OS_DEVICELAB,
+            category = "Windows_android",
+        )
 
 def devicelab_try_config():
     """Try configurations for the framework repository."""
