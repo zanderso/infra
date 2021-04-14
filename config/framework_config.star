@@ -255,7 +255,8 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
         priority = priority,
         properties = {
             "shard": "tool_integration_tests",
-            "subshards": ["1_3", "2_3", "3_3"],
+            # TODO(jmagman): Remove *_3 subshards once the framework adopts *_4 builders in stable.
+            "subshards": ["1_3", "2_3", "3_3", "1_4", "2_4", "3_4", "4_4"],
             "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}, {"dependency": "goldctl"}, {"dependency": "curl"}],
             "use_cas": True,
         },
@@ -538,7 +539,8 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
         priority = priority,
         properties = {
             "shard": "tool_integration_tests",
-            "subshards": ["1_3", "2_3", "3_3"],
+            # TODO(jmagman): Remove *_3 subshards once the framework adopts *_4 builders in stable.
+            "subshards": ["1_3", "2_3", "3_3", "1_4", "2_4", "3_4", "4_4"],
             "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}, {"dependency": "goldctl"}],
             "use_cas": True,
         },
@@ -665,7 +667,8 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
         priority = priority,
         properties = {
             "shard": "tool_integration_tests",
-            "subshards": ["1_3", "2_3", "3_3"],
+            # TODO(jmagman): Remove *_3 subshards once the framework adopts *_4 builders in stable.
+            "subshards": ["1_3", "2_3", "3_3", "1_4", "2_4", "3_4", "4_4"],
             "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}, {"dependency": "xcode"}, {"dependency": "gems"}, {"dependency": "goldctl"}],
             "$flutter/osx_sdk": {
                 "sdk_version": XCODE_VERSION,
@@ -801,7 +804,8 @@ def framework_try_config():
         list_view_name = list_view_name,
         properties = {
             "shard": "tool_integration_tests",
-            "subshards": ["1_3", "2_3", "3_3"],
+            # TODO(jmagman): Remove *_3 subshards once the framework adopts *_4 builders in stable.
+            "subshards": ["1_3", "2_3", "3_3", "1_4", "2_4", "3_4", "4_4"],
             "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}, {"dependency": "goldctl"}, {"dependency": "curl"}],
             "use_cas": True,
         },
@@ -1066,7 +1070,8 @@ def framework_try_config():
         list_view_name = list_view_name,
         properties = {
             "shard": "tool_integration_tests",
-            "subshards": ["1_3", "2_3", "3_3"],
+            # TODO(jmagman): Remove *_3 subshards once the framework adopts *_4 builders in stable.
+            "subshards": ["1_3", "2_3", "3_3", "1_4", "2_4", "3_4", "4_4"],
             "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}, {"dependency": "xcode"}, {"dependency": "gems"}, {"dependency": "goldctl"}],
             "$flutter/osx_sdk": {
                 "sdk_version": XCODE_VERSION,
@@ -1185,7 +1190,8 @@ def framework_try_config():
         list_view_name = list_view_name,
         properties = {
             "shard": "tool_integration_tests",
-            "subshards": ["1_3", "2_3", "3_3"],
+            # TODO(jmagman): Remove *_3 subshards once the framework adopts *_4 builders in stable.
+            "subshards": ["1_3", "2_3", "3_3", "1_4", "2_4", "3_4", "4_4"],
             "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}, {"dependency": "goldctl"}],
             "use_cas": True,
         },
