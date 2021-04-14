@@ -72,7 +72,6 @@ def devicelab_staging_prod_config():
         name = drone_recipe_name,
         cipd_package = "flutter/recipe_bundles/flutter.googlesource.com/recipes",
         cipd_version = "refs/heads/master",
-        use_bbagent = True,
     )
 
     # Defines console views.
