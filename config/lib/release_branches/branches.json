@@ -5,12 +5,12 @@
         "version": "1_26_0"
     },
     "beta": {
-        "testing_ref": "refs/heads/flutter-1\\.27-candidate\\.12",
+        "testing_ref": "refs/heads/flutter-2\\.2-candidate\\.10",
         "release_ref": "refs/heads/beta",
-        "version": "1_27_0"
+        "version": "2_2_0"
     },
     "dev": {
-        "testing_ref": "refs/heads/flutter-2\\.2-candidate\\..+",
+        "testing_ref": "refs/heads/flutter-2\\.3-candidate\\..+",
         "release_ref": "refs/heads/dev"
     },
     "master": {

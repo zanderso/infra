@@ -9,10 +9,10 @@ be kept up to date, and re-generate the repository's config by executing
 
 ## Updating ProtoBuf
 
-After editing the protobuf, run the command:
+After editing the protobuf, run the script:
 
 ```
-protoc --descriptor_set_out=./branches.bin ./branches.proto
+$ ./compile_proto.sh
 ```
 
 And check in the updated `branches.bin` file.
