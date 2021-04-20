@@ -10,7 +10,7 @@
         "version": "2_2_0"
     },
     "dev": {
-        "testing_ref": "refs/heads/flutter-2\\.3-candidate\\..+",
+        "testing_ref": "refs/heads/flutter-2\\.2-candidate\\.16",
         "release_ref": "refs/heads/dev"
     },
     "master": {
