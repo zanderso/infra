@@ -618,6 +618,7 @@ def devicelab_prod_config(branch, version, ref):
             execution_timeout = timeout.LONG,
             expiration_timeout = timeout.LONG_EXPIRATION,
             caches = MAC_DEFAULT_CACHES,
+            category = "Mac_ios32",
         )
 
     # Mac prod builders.
