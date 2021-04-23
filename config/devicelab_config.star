@@ -1219,6 +1219,7 @@ def devicelab_prod_config(branch, version, ref):
             pool = "luci.flutter.prod",
             dimensions = {"device_os": "N"},
             os = WINDOWS_OS_DEVICELAB,
+            caches = WIN_DEFAULT_CACHES,
             category = "Windows_android",
         )
 
