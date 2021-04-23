@@ -473,6 +473,23 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
         caches = LINUX_DEFAULT_CACHES,
         os = LINUX_OS,
     )
+    if branch == "master":
+        common.linux_prod_builder(
+            name = "Linux%s skp_generator|skp_gen" % ("" if branch == "master" else " " + branch),
+            recipe = drone_recipe_name,
+            console_view_name = console_view_name,
+            triggered_by = [trigger_name],
+            triggering_policy = triggering_policy,
+            priority = priority,
+            properties = {
+                "shard": "skp_generator",
+                "subshard": "0",
+                "dependencies": [{"dependency": "curl"}],
+                "use_cas": True,
+            },
+            caches = LINUX_DEFAULT_CACHES,
+            os = LINUX_OS,
+        )
 
     # Windows platform
     common.builder_with_subshards(
@@ -887,6 +904,20 @@ def framework_try_config():
         properties = {
             "shard": "flutter_plugins",
             "subshard": "analyze",
+            "dependencies": [{"dependency": "curl"}],
+            "use_cas": True,
+        },
+        caches = LINUX_DEFAULT_CACHES,
+        os = LINUX_OS,
+    )
+    common.linux_try_builder(
+        name = "Linux skp_generator|skp_gen",
+        recipe = "flutter/flutter_drone",
+        repo = repos.FLUTTER,
+        list_view_name = list_view_name,
+        properties = {
+            "shard": "skp_generator",
+            "subshard": "0",
             "dependencies": [{"dependency": "curl"}],
             "use_cas": True,
         },
