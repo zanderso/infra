@@ -315,6 +315,7 @@ def devicelab_prod_config(branch, version, ref):
         "android_obfuscate_test",
         "android_stack_size_test",
         "android_view_scroll_perf__timeline_summary",
+        "animated_image_gc_perf",
         "animated_placeholder_perf__e2e_summary",
         "backdrop_filter_perf__e2e_summary",
         "basic_material_app_android__compile",
