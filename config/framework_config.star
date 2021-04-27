@@ -164,17 +164,17 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
     # Defines build priority, release builds should be prioritized.
     priority = 30 if branch == "master" else 29
 
-    # Defines framework prod builders
-    #
-    # Builders defined only for release refs
-    if release_ref in (r"refs/heads/stable", r"refs/heads/beta", r"refs/heads/dev"):
+    # Binaries are not signed on master
+    if branch in ("stable", "beta", "dev"):
         common.mac_prod_builder(
             name = "Mac %s verify_binaries_codesigned|vbcs" % branch,
             recipe = new_recipe_name,
             console_view_name = console_view_name,
-            # This is only signed on the release branch, not candidate branch
-            triggered_by = [branch + "-gitiles-trigger-packaging"],
-            triggering_policy = triggering_policy,
+            triggered_by = [trigger_name],
+            triggering_policy = scheduler.greedy_batching(
+                max_batch_size = 50,
+                max_concurrent_invocations = 3,
+            ),
             priority = priority,
             properties = {
                 "validation": "verify_binaries_codesigned",
