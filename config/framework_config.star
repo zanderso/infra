@@ -115,21 +115,25 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
         name = recipe_name,
         cipd_package = "flutter/recipe_bundles/flutter.googlesource.com/recipes",
         cipd_version = "refs/heads/master",
+        use_bbagent = True,
     )
     luci.recipe(
         name = new_recipe_name,
         cipd_package = "flutter/recipe_bundles/flutter.googlesource.com/recipes",
         cipd_version = "refs/heads/master",
+        use_bbagent = True,
     )
     luci.recipe(
         name = drone_recipe_name,
         cipd_package = "flutter/recipe_bundles/flutter.googlesource.com/recipes",
         cipd_version = "refs/heads/master",
+        use_bbagent = True,
     )
     luci.recipe(
         name = "devicelab",
         cipd_package = "flutter/recipe_bundles/flutter.googlesource.com/recipes",
         cipd_version = "refs/heads/master",
+        use_bbagent = True,
     )
 
     # Defines console views for prod builders

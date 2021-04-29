@@ -21,6 +21,7 @@ def _setup():
         name = "ios-usb-dependencies",
         cipd_package = "flutter/recipe_bundles/flutter.googlesource.com/recipes",
         cipd_version = "refs/heads/master",
+        use_bbagent = True,
     )
     iostools_prod_config()
 

@@ -99,6 +99,7 @@ def packaging_recipe(name, version):
         name = recipe_name(name, version),
         cipd_package = "flutter/recipe_bundles/flutter.googlesource.com/recipes",
         cipd_version = "refs/heads/master",
+        use_bbagent = True,
     )
 
 def packaging_prod_config(platform_args, branch, version, ref):
