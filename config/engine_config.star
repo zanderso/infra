@@ -108,6 +108,7 @@ def engine_recipes(version):
             cipd_package =
                 "flutter/recipe_bundles/flutter.googlesource.com/recipes",
             cipd_version = "refs/heads/master",
+            use_bbagent = True,
         )
 
 def engine_properties(
