@@ -268,6 +268,7 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
         os = LINUX_OS,
         bucket = "prod",
         branch_name = "" if branch == "master" else " " + branch,
+        dimensions = {"cores": "12"},
     )
     common.linux_prod_builder(
         name = "Linux%s web_tool_tests|web_tt" % ("" if branch == "master" else " " + branch),
