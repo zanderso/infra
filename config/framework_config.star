@@ -261,6 +261,7 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
             "shard": "tool_integration_tests",
             "subshards": ["1_4", "2_4", "3_4", "4_4"],
             "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}, {"dependency": "goldctl"}, {"dependency": "curl"}],
+            "test_timeout_secs": 45 * 60,  # 45 mins test timeout.
             "use_cas": True,
         },
         caches = LINUX_DEFAULT_CACHES,
