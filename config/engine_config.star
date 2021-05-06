@@ -29,7 +29,7 @@ def _setup(branches, fuchsia_ctl_version):
             "caches": [swarming.cache(name = "flutter_cocoapods", path = "cocoapods")],
             "os": "Mac-10.15",
         },
-        "windows": {"execution_timeout": timeout.XL, "os": "Windows-Server"},
+        "windows": {"execution_timeout": timeout.XL, "os": "Windows-10"},
     }
 
     engine_recipes(branches.stable.version)

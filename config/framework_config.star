@@ -18,7 +18,7 @@ XCODE_VERSION = "12c33"
 
 # Global OS variables
 LINUX_OS = "Linux"
-WINDOWS_OS = "Windows-Server"
+WINDOWS_OS = "Windows-10"
 MAC_OS = "Mac-10.15"
 
 # Linux caches
