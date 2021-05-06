@@ -507,7 +507,7 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
         properties = {
             "shard": "build_tests",
             "subshards": ["1_3", "2_3", "3_3"],
-            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}, {"dependency": "goldctl"}, {"dependency": "certs"}],
+            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}, {"dependency": "goldctl"}],
             "use_cas": True,
         },
         caches = WIN_DEFAULT_CACHES,
@@ -525,7 +525,7 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
         properties = {
             "shard": "framework_tests",
             "subshards": ["libraries", "misc", "widgets"],
-            "dependencies": [{"dependency": "goldctl"}, {"dependency": "certs"}],
+            "dependencies": [{"dependency": "goldctl"}],
             "use_cas": True,
         },
         caches = WIN_DEFAULT_CACHES,
@@ -543,7 +543,7 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
         properties = {
             "shard": "tool_tests",
             "subshards": ["general", "commands"],
-            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "open_jdk"}, {"dependency": "certs"}],
+            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "open_jdk"}],
             "use_cas": True,
         },
         caches = WIN_DEFAULT_CACHES,
@@ -561,7 +561,7 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
         properties = {
             "shard": "tool_integration_tests",
             "subshards": ["1_5", "2_5", "3_5", "4_5", "5_5"],
-            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}, {"dependency": "goldctl"}, {"dependency": "certs"}],
+            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}, {"dependency": "goldctl"}],
             "use_cas": True,
         },
         caches = WIN_DEFAULT_CACHES,
@@ -579,7 +579,7 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
         properties = {
             "shard": "web_tool_tests",
             "subshard": "web",
-            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}, {"dependency": "goldctl"}, {"dependency": "certs"}],
+            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}, {"dependency": "goldctl"}],
             "use_cas": True,
         },
         caches = WIN_DEFAULT_CACHES,
@@ -606,7 +606,6 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
             "validation": "customer_testing",
             "validation_name": "Customer testing",
             "use_cas": True,
-            "dependencies": [{"dependency": "certs"}],
         },
         caches = WIN_DEFAULT_CACHES,
         os = WINDOWS_OS,
@@ -1173,7 +1172,7 @@ def framework_try_config():
         properties = {
             "shard": "build_tests",
             "subshards": ["1_3", "2_3", "3_3"],
-            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}, {"dependency": "goldctl"}, {"dependency": "certs"}],
+            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}, {"dependency": "goldctl"}],
             "use_cas": True,
         },
         caches = WIN_DEFAULT_CACHES,
@@ -1189,7 +1188,7 @@ def framework_try_config():
         properties = {
             "shard": "framework_tests",
             "subshards": ["libraries", "misc", "widgets"],
-            "dependencies": [{"dependency": "goldctl"}, {"dependency": "certs"}],
+            "dependencies": [{"dependency": "goldctl"}],
             "use_cas": True,
         },
         caches = WIN_DEFAULT_CACHES,
@@ -1206,7 +1205,7 @@ def framework_try_config():
         properties = {
             "shard": "tool_tests",
             "subshards": ["general", "commands"],
-            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "open_jdk"}, {"dependency": "certs"}],
+            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "open_jdk"}],
             "use_cas": True,
         },
         caches = WIN_DEFAULT_CACHES,
@@ -1223,7 +1222,7 @@ def framework_try_config():
         properties = {
             "shard": "tool_integration_tests",
             "subshards": ["1_5", "2_5", "3_5", "4_5", "5_5"],
-            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}, {"dependency": "goldctl"}, {"dependency": "certs"}],
+            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}, {"dependency": "goldctl"}],
             "use_cas": True,
         },
         caches = WIN_DEFAULT_CACHES,
@@ -1239,7 +1238,7 @@ def framework_try_config():
         properties = {
             "shard": "web_tool_tests",
             "subshard": "web",
-            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}, {"dependency": "goldctl"}, {"dependency": "certs"}],
+            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}, {"dependency": "goldctl"}],
             "use_cas": True,
         },
         caches = WIN_DEFAULT_CACHES,
@@ -1265,7 +1264,6 @@ def framework_try_config():
             "validation": "customer_testing",
             "validation_name": "Customer testing",
             "use_cas": True,
-            "dependencies": [{"dependency": "certs"}],
         },
         caches = WIN_DEFAULT_CACHES,
         os = WINDOWS_OS,
