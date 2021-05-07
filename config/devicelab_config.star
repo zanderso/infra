@@ -1043,7 +1043,7 @@ def devicelab_prod_config(branch, version, ref):
         triggering_policy = triggering_policy,
         priority = priority,
         properties = {
-            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}],
+            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}, {"dependency": "certs"}],
             "task_name": "build_aar_module_test",
             "use_cas": True,
         },
@@ -1058,7 +1058,7 @@ def devicelab_prod_config(branch, version, ref):
         triggering_policy = triggering_policy,
         priority = priority,
         properties = {
-            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}],
+            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}, {"dependency": "certs"}],
             "task_name": "gradle_non_android_plugin_test",
             "use_cas": True,
         },
@@ -1073,7 +1073,7 @@ def devicelab_prod_config(branch, version, ref):
         triggering_policy = triggering_policy,
         priority = priority,
         properties = {
-            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}],
+            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}, {"dependency": "certs"}],
             "task_name": "gradle_plugin_bundle_test",
             "use_cas": True,
         },
@@ -1088,7 +1088,7 @@ def devicelab_prod_config(branch, version, ref):
         triggering_policy = triggering_policy,
         priority = priority,
         properties = {
-            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}],
+            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}, {"dependency": "certs"}],
             "task_name": "gradle_plugin_fat_apk_test",
             "use_cas": True,
         },
@@ -1103,7 +1103,7 @@ def devicelab_prod_config(branch, version, ref):
         triggering_policy = triggering_policy,
         priority = priority,
         properties = {
-            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}],
+            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}, {"dependency": "certs"}],
             "task_name": "gradle_plugin_light_apk_test",
             "use_cas": True,
         },
@@ -1118,7 +1118,7 @@ def devicelab_prod_config(branch, version, ref):
         triggering_policy = triggering_policy,
         priority = priority,
         properties = {
-            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}],
+            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}, {"dependency": "certs"}],
             "task_name": "module_host_with_custom_build_test",
             "use_cas": True,
         },
@@ -1133,7 +1133,7 @@ def devicelab_prod_config(branch, version, ref):
         triggering_policy = triggering_policy,
         priority = priority,
         properties = {
-            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}],
+            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}, {"dependency": "certs"}],
             "task_name": "module_custom_host_app_name_test",
             "use_cas": True,
         },
@@ -1148,7 +1148,7 @@ def devicelab_prod_config(branch, version, ref):
         triggering_policy = triggering_policy,
         priority = priority,
         properties = {
-            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}],
+            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}, {"dependency": "certs"}],
             "task_name": "module_test",
             "use_cas": True,
         },
@@ -1163,7 +1163,7 @@ def devicelab_prod_config(branch, version, ref):
         triggering_policy = triggering_policy,
         priority = priority,
         properties = {
-            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}],
+            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}, {"dependency": "certs"}],
             "task_name": "plugin_test",
             "use_cas": True,
         },
