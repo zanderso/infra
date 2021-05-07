@@ -1833,7 +1833,7 @@ def devicelab_try_config():
             "use_cas": True,
         },
         caches = WIN_DEFAULT_CACHES,
-        os = "Windows-Server",
+        os = WINDOWS_OS,
     )
     common.windows_try_builder(
         name = "Windows gradle_non_android_plugin_test|gnap",

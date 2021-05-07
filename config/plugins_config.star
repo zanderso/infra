@@ -14,7 +14,7 @@ def _setup():
     platform_args = {
         "windows": {
             "caches": [swarming.cache(name = "pub_cache", path = ".pub-cache")],
-            "os": "Windows-Server",
+            "os": "Windows",
         },
         "linux": {
             "os": "Linux",

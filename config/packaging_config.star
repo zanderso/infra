@@ -14,7 +14,7 @@ load("//lib/repos.star", "repos")
 
 # Global OS variables
 LINUX_OS = "Linux"
-WINDOWS_OS = "Windows-Server"
+WINDOWS_OS = "Windows"
 MAC_OS = "Mac-10.15"
 
 # Linux caches

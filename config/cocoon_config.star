@@ -18,7 +18,7 @@ def _setup():
             "caches": [swarming.cache(name = "dart_pub_cache", path = ".pub-cache")],
             "os": "Linux",
         },
-        "windows": {"os": "Windows-Server"},
+        "windows": {"os": "Windows"},
         "mac": {"os": "Mac-10.15"},
     }
     cocoon_recipes()
