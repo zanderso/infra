@@ -1188,6 +1188,7 @@ def devicelab_prod_config(branch, version, ref):
                 properties = {
                     "task_name": task,
                     "use_cas": True,
+                    "dependencies": [{"dependency": "certs"}],
                 },
                 caches = WIN_DEFAULT_CACHES,
                 os = WINDOWS_OS,
@@ -1827,7 +1828,7 @@ def devicelab_try_config():
         add_cq = True,
         list_view_name = list_view_name,
         properties = {
-            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}],
+            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}, {"dependency": "certs"}],
             "task_name": "build_aar_module_test",
             "use_cas": True,
         },
@@ -1840,7 +1841,7 @@ def devicelab_try_config():
         repo = repos.FLUTTER,
         list_view_name = list_view_name,
         properties = {
-            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}],
+            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}, {"dependency": "certs"}],
             "task_name": "gradle_non_android_plugin_test",
             "use_cas": True,
         },
@@ -1853,7 +1854,7 @@ def devicelab_try_config():
         repo = repos.FLUTTER,
         list_view_name = list_view_name,
         properties = {
-            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}],
+            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}, {"dependency": "certs"}],
             "task_name": "gradle_plugin_bundle_test",
             "use_cas": True,
         },
@@ -1866,7 +1867,7 @@ def devicelab_try_config():
         repo = repos.FLUTTER,
         list_view_name = list_view_name,
         properties = {
-            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}],
+            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}, {"dependency": "certs"}],
             "task_name": "gradle_plugin_fat_apk_test",
             "use_cas": True,
         },
@@ -1879,7 +1880,7 @@ def devicelab_try_config():
         repo = repos.FLUTTER,
         list_view_name = list_view_name,
         properties = {
-            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}],
+            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}, {"dependency": "certs"}],
             "task_name": "gradle_plugin_light_apk_test",
             "use_cas": True,
         },
@@ -1892,7 +1893,7 @@ def devicelab_try_config():
         repo = repos.FLUTTER,
         list_view_name = list_view_name,
         properties = {
-            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}],
+            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}, {"dependency": "certs"}],
             "task_name": "module_host_with_custom_build_test",
             "use_cas": True,
         },
@@ -1905,7 +1906,7 @@ def devicelab_try_config():
         repo = repos.FLUTTER,
         list_view_name = list_view_name,
         properties = {
-            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}],
+            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}, {"dependency": "certs"}],
             "task_name": "module_custom_host_app_name_test",
             "use_cas": True,
         },
@@ -1918,7 +1919,7 @@ def devicelab_try_config():
         repo = repos.FLUTTER,
         list_view_name = list_view_name,
         properties = {
-            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}],
+            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}, {"dependency": "certs"}],
             "task_name": "module_test",
             "use_cas": True,
         },
@@ -1931,7 +1932,7 @@ def devicelab_try_config():
         repo = repos.FLUTTER,
         list_view_name = list_view_name,
         properties = {
-            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}],
+            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}, {"dependency": "certs"}],
             "task_name": "plugin_test",
             "use_cas": True,
         },
@@ -1952,6 +1953,7 @@ def devicelab_try_config():
             properties = {
                 "task_name": task,
                 "use_cas": True,
+                "dependencies": [{"dependency": "certs"}],
             },
             caches = WIN_DEFAULT_CACHES,
             os = WINDOWS_OS,
