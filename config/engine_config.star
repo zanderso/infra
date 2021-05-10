@@ -293,6 +293,7 @@ def engine_prod_config(platform_args, branch, version, ref, fuchsia_ctl_version)
         triggered_by = [trigger_name],
         triggering_policy = triggering_policy,
         priority = 30 if branch == "master" else 25,
+        dimensions = {"device_type": "none"},
         **platform_args["windows"]
     )
     common.linux_prod_builder(
@@ -501,6 +502,7 @@ def engine_prod_config(platform_args, branch, version, ref, fuchsia_ctl_version)
         triggered_by = [trigger_name],
         triggering_policy = triggering_policy,
         priority = 30 if branch == "master" else 25,
+        dimensions = {"device_type": "none"},
         **platform_args["windows"]
     )
     common.windows_prod_builder(
@@ -511,6 +513,7 @@ def engine_prod_config(platform_args, branch, version, ref, fuchsia_ctl_version)
         triggered_by = [trigger_name],
         triggering_policy = triggering_policy,
         priority = 30 if branch == "master" else 25,
+        dimensions = {"device_type": "none"},
         **platform_args["windows"]
     )
     common.windows_prod_builder(
@@ -521,6 +524,7 @@ def engine_prod_config(platform_args, branch, version, ref, fuchsia_ctl_version)
         triggered_by = [trigger_name],
         triggering_policy = triggering_policy,
         priority = 30 if branch == "master" else 25,
+        dimensions = {"device_type": "none"},
         **platform_args["windows"]
     )
     common.windows_prod_builder(
