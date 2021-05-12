@@ -311,7 +311,7 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
         triggering_policy = triggering_policy,
         properties = {
             "shard": "web_long_running_tests",
-            "subshards": ["1_3", "2_3", "3_3", "1_5", "2_5", "3_5", "4_5", "5_5"],
+            "subshards": ["1_5", "2_5", "3_5", "4_5", "5_5"],
             "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "goldctl"}, {"dependency": "curl"}],
             "use_cas": True,
         },
@@ -823,7 +823,7 @@ def framework_try_config():
         list_view_name = list_view_name,
         properties = {
             "shard": "web_long_running_tests",
-            "subshards": ["1_3", "2_3", "3_3", "1_5", "2_5", "3_5", "4_5", "5_5"],
+            "subshards": ["1_5", "2_5", "3_5", "4_5", "5_5"],
             "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "goldctl"}, {"dependency": "curl"}],
             "use_cas": True,
         },
