@@ -285,22 +285,6 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
         caches = LINUX_DEFAULT_CACHES,
         os = LINUX_OS,
     )
-    common.linux_prod_builder(
-        name = "Linux%s web_integration_tests|web_int" % ("" if branch == "master" else " " + branch),
-        recipe = "flutter/flutter_drone",
-        console_view_name = console_view_name,
-        triggered_by = [trigger_name],
-        triggering_policy = triggering_policy,
-        priority = priority,
-        properties = {
-            "shard": "web_integration_tests",
-            "subshards": [],
-            "dependencies": [{"dependency": "chrome_and_driver"}, {"dependency": "goldctl"}, {"dependency": "curl"}],
-            "use_cas": True,
-        },
-        caches = LINUX_DEFAULT_CACHES,
-        os = LINUX_OS,
-    )
     common.builder_with_subshards(
         name = "Linux%s web_tests|web_tests" % ("" if branch == "master" else " " + branch),
         recipe = drone_recipe_name,
@@ -847,20 +831,6 @@ def framework_try_config():
         os = LINUX_OS,
         bucket = "try",
         branch_name = None,
-    )
-    common.linux_try_builder(
-        name = "Linux web_integration_tests|web_int",
-        recipe = "flutter/flutter_drone",
-        repo = repos.FLUTTER,
-        list_view_name = list_view_name,
-        properties = {
-            "shard": "web_integration_tests",
-            "subshards": [],
-            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "goldctl"}, {"dependency": "curl"}],
-            "use_cas": True,
-        },
-        caches = LINUX_DEFAULT_CACHES,
-        os = LINUX_OS,
     )
     common.linux_try_builder(
         name = "Linux SDK Drone|frwkdrn",
