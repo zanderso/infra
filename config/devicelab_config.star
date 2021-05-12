@@ -539,7 +539,7 @@ def devicelab_prod_config(branch, version, ref):
         "new_gallery_ios__transition_perf",
         "platform_channel_sample_test_ios",
         "platform_channel_sample_test_swift",
-        "platform_channels_benchmarks",
+        "platform_channels_benchmarks_ios",
         "platform_interaction_test_ios",
         "platform_view_ios__start_up",
         "platform_views_scroll_perf_ios__timeline_summary",
