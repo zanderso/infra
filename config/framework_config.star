@@ -67,6 +67,8 @@ WIN_DEFAULT_CACHES = [
     swarming.cache(name = "pub_cache", path = ".pub-cache"),
     # Flutter SDK code
     swarming.cache(name = "flutter_sdk", path = "flutter sdk"),
+    # Visual Studio
+    swarming.cache(name = "vsbuild", path = "vsbuild"),
 ]
 
 def _setup(branches):
@@ -207,7 +209,7 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
             "shard": "build_tests",
             "subshards": ["1_2", "2_2"],
             "use_cas": True,
-            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}, {"dependency": "goldctl"}, {"dependency": "clang"}, {"dependency": "cmake"}, {"dependency": "ninja"}, {"dependency": "curl"}],
+            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}, {"dependency": "goldctl"}, {"dependency": "clang"}, {"dependency": "cmake"}, {"dependency": "ninja"}, {"dependency": "curl"}, {"dependency": "vs_build"}],
         },
         caches = LINUX_DEFAULT_CACHES,
         os = LINUX_OS,
@@ -513,7 +515,7 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
         properties = {
             "shard": "tool_integration_tests",
             "subshards": ["1_5", "2_5", "3_5", "4_5", "5_5"],
-            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}, {"dependency": "goldctl"}, {"dependency": "certs"}],
+            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}, {"dependency": "goldctl"}, {"dependency": "certs"}, {"dependency": "vs_build"}],
             "use_cas": True,
         },
         caches = WIN_DEFAULT_CACHES,
