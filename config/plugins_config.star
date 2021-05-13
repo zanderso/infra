@@ -9,11 +9,18 @@ Configurations for the plugins repository.
 load("//lib/common.star", "common")
 load("//lib/repos.star", "repos")
 
+WIN_DEFAULT_CACHES = [
+    # Visual Studio
+    swarming.cache(name = "vsbuild", path = "vsbuild"),
+    # Pub cache
+    swarming.cache(name = "pub_cache", path = ".pub-cache"),
+]
+
 def _setup():
     """Set default configurations for builders, and setup recipes."""
     platform_args = {
         "windows": {
-            "caches": [swarming.cache(name = "pub_cache", path = ".pub-cache")],
+            "caches": WIN_DEFAULT_CACHES,
             "os": "Windows",
         },
         "linux": {
