@@ -209,7 +209,7 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
             "shard": "build_tests",
             "subshards": ["1_2", "2_2"],
             "use_cas": True,
-            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}, {"dependency": "goldctl"}, {"dependency": "clang"}, {"dependency": "cmake"}, {"dependency": "ninja"}, {"dependency": "curl"}, {"dependency": "vs_build"}],
+            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}, {"dependency": "goldctl"}, {"dependency": "clang"}, {"dependency": "cmake"}, {"dependency": "ninja"}, {"dependency": "curl"}],
         },
         caches = LINUX_DEFAULT_CACHES,
         os = LINUX_OS,
@@ -461,7 +461,7 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
         properties = {
             "shard": "build_tests",
             "subshards": ["1_3", "2_3", "3_3"],
-            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}, {"dependency": "goldctl"}, {"dependency": "certs"}],
+            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}, {"dependency": "goldctl"}, {"dependency": "certs"}, {"dependency": "vs_build"}],
             "use_cas": True,
         },
         caches = WIN_DEFAULT_CACHES,
@@ -1085,7 +1085,7 @@ def framework_try_config():
         properties = {
             "shard": "build_tests",
             "subshards": ["1_3", "2_3", "3_3"],
-            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}, {"dependency": "goldctl"}, {"dependency": "certs"}],
+            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}, {"dependency": "goldctl"}, {"dependency": "certs"}, {"dependency": "vs_build"}],
             "use_cas": True,
         },
         caches = WIN_DEFAULT_CACHES,
@@ -1135,7 +1135,7 @@ def framework_try_config():
         properties = {
             "shard": "tool_integration_tests",
             "subshards": ["1_5", "2_5", "3_5", "4_5", "5_5"],
-            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}, {"dependency": "goldctl"}, {"dependency": "certs"}],
+            "dependencies": [{"dependency": "android_sdk"}, {"dependency": "chrome_and_driver"}, {"dependency": "open_jdk"}, {"dependency": "goldctl"}, {"dependency": "certs"}, {"dependency     ": "vs_build"}],
             "use_cas": True,
         },
         caches = WIN_DEFAULT_CACHES,
