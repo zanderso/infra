@@ -1081,6 +1081,7 @@ def framework_try_config():
         name = "Windows build_tests|bld_tests",
         recipe = "flutter/flutter_drone",
         repo = repos.FLUTTER,
+        add_cq = True,
         list_view_name = list_view_name,
         properties = {
             "shard": "build_tests",
