@@ -11,6 +11,7 @@ which is mirrored from https://github.com/flutter/cocoon.
 
 load("//lib/common.star", "common")
 load("//lib/repos.star", "repos")
+load("//lib/timeout.star", "timeout")
 
 def _setup():
     platform_args = {
@@ -55,6 +56,7 @@ def cocoon_try_config(platform_args):
         list_view_name = list_view_name,
         repo = repos.COCOON,
         add_cq = True,
+        execution_timeout = timeout.SHORT,
         **platform_args["linux"]
     )
     common.linux_try_builder(
@@ -63,6 +65,7 @@ def cocoon_try_config(platform_args):
         list_view_name = list_view_name,
         repo = repos.COCOON,
         add_cq = True,
+        execution_timeout = timeout.SHORT,
         **platform_args["linux"]
     )
 
@@ -73,6 +76,7 @@ def cocoon_try_config(platform_args):
         list_view_name = list_view_name,
         repo = repos.COCOON,
         add_cq = True,
+        execution_timeout = timeout.SHORT,
         **platform_args["mac"]
     )
 
@@ -83,6 +87,7 @@ def cocoon_try_config(platform_args):
         list_view_name = list_view_name,
         repo = repos.COCOON,
         add_cq = True,
+        execution_timeout = timeout.SHORT,
         **platform_args["windows"]
     )
 
