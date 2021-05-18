@@ -97,13 +97,14 @@ def plugins_prod_config(branch, version, testing_ref, release_ref, platform_args
                 }
             }
     """
-    recipe_name = ("plugins_" + version if version else "plugins")
-    luci.recipe(
-        name = recipe_name,
-        cipd_package = "flutter/recipe_bundles/flutter.googlesource.com/recipes",
-        cipd_version = "refs/heads/master",
-        use_bbagent = True,
-    )
+    recipe_name = ("plugins/plugins_" + version if version else "plugins/plugins")
+    if branch != "master":
+        luci.recipe(
+            name = recipe_name,
+            cipd_package = "flutter/recipe_bundles/flutter.googlesource.com/recipes",
+            cipd_version = "refs/heads/master",
+            use_bbagent = True,
+        )
 
     # Defines console views for prod builders
     console_view_name = ("plugins" if branch == "master" else "%s_plugins" % branch)
