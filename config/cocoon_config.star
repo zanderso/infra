@@ -55,6 +55,7 @@ def cocoon_try_config(platform_args):
         recipe = "cocoon/cocoon",
         list_view_name = list_view_name,
         repo = repos.COCOON,
+        add_cq = True,
         execution_timeout = timeout.SHORT,
         **platform_args["linux"]
     )
@@ -74,6 +75,7 @@ def cocoon_try_config(platform_args):
         recipe = "cocoon/device_doctor",
         list_view_name = list_view_name,
         repo = repos.COCOON,
+        add_cq = True,
         execution_timeout = timeout.SHORT,
         **platform_args["mac"]
     )
@@ -84,6 +86,7 @@ def cocoon_try_config(platform_args):
         recipe = "cocoon/device_doctor",
         list_view_name = list_view_name,
         repo = repos.COCOON,
+        add_cq = True,
         execution_timeout = timeout.SHORT,
         **platform_args["windows"]
     )
