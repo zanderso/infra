@@ -35,6 +35,8 @@ LINUX_DEFAULT_CACHES = [
     swarming.cache(name = "pub_cache", path = ".pub-cache"),
     # Flutter SDK code
     swarming.cache(name = "flutter_sdk", path = "flutter sdk"),
+    # Gradle cache
+    swarming.cache(name = "gradle", path = "gradle"),
 ]
 
 # Default caches for Mac android builders
@@ -49,6 +51,8 @@ MAC_ANDROID_DEFAULT_CACHES = [
     swarming.cache(name = "pub_cache", path = ".pub-cache"),
     # Flutter SDK code
     swarming.cache(name = "flutter_sdk", path = "flutter sdk"),
+    # Gradle cache
+    swarming.cache(name = "gradle", path = "gradle"),
 ]
 
 # Mac caches
@@ -66,6 +70,8 @@ MAC_DEFAULT_CACHES = [
     # Xcode
     swarming.cache("xcode_binary"),
     swarming.cache("osx_sdk"),
+    # Gradle cache
+    swarming.cache(name = "gradle", path = "gradle"),
 ]
 
 # Windows caches
@@ -80,6 +86,8 @@ WIN_DEFAULT_CACHES = [
     swarming.cache(name = "pub_cache", path = ".pub-cache"),
     # Flutter SDK code
     swarming.cache(name = "flutter_sdk", path = "flutter sdk"),
+    # Gradle cache
+    swarming.cache(name = "gradle", path = "gradle"),
 ]
 
 def _setup(branches):
