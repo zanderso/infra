@@ -349,22 +349,6 @@ def framework_prod_config(branch, version, testing_ref, release_ref):
         os = LINUX_OS,
     )
     common.linux_prod_builder(
-        name = "Linux%s validate_ci_config|ci_cfg" % ("" if branch == "master" else " " + branch),
-        recipe = new_recipe_name,
-        console_view_name = console_view_name,
-        triggered_by = [trigger_name],
-        triggering_policy = triggering_policy,
-        priority = priority,
-        properties = {
-            "validation": "validate_ci_config",
-            "validation_name": "Validate CI config",
-            "dependencies": [{"dependency": "cocoon"}],
-            "use_cas": True,
-        },
-        caches = LINUX_DEFAULT_CACHES,
-        os = LINUX_OS,
-    )
-    common.linux_prod_builder(
         name = "Linux%s customer_testing|cst_test" % ("" if branch == "master" else " " + branch),
         recipe = new_recipe_name,
         console_view_name = console_view_name,
@@ -881,20 +865,6 @@ def framework_try_config():
             "validation": "analyze",
             "validation_name": "Analyze",
             "dependencies": [{"dependency": "curl"}],
-            "use_cas": True,
-        },
-        caches = LINUX_DEFAULT_CACHES,
-        os = LINUX_OS,
-    )
-    common.linux_try_builder(
-        name = "Linux validate_ci_config|ci_cfg",
-        recipe = "flutter/flutter",
-        repo = repos.FLUTTER,
-        list_view_name = list_view_name,
-        properties = {
-            "validation": "validate_ci_config",
-            "validation_name": "Validate CI config",
-            "dependencies": [{"dependency": "cocoon"}],
             "use_cas": True,
         },
         caches = LINUX_DEFAULT_CACHES,
