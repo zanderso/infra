@@ -8,6 +8,7 @@ Configurations for the plugins repository.
 
 load("//lib/common.star", "common")
 load("//lib/repos.star", "repos")
+load("//lib/timeout.star", "timeout")
 
 WIN_DEFAULT_CACHES = [
     # Visual Studio
@@ -77,6 +78,7 @@ def plugins_try_config(platform_args):
         recipe = "plugins/plugins",
         list_view_name = list_view_name,
         repo = repos.PLUGINS,
+        execution_timeout = timeout.SHORT,
         **platform_args["windows"]
     )
 
@@ -147,6 +149,7 @@ def plugins_prod_config(branch, version, testing_ref, release_ref, platform_args
         triggering_policy = triggering_policy,
         priority = priority,
         repo = repos.PLUGINS,
+        execution_timeout = timeout.SHORT,
         **platform_args["windows"]
     )
     common.windows_prod_builder(
@@ -157,6 +160,7 @@ def plugins_prod_config(branch, version, testing_ref, release_ref, platform_args
         triggering_policy = triggering_policy,
         priority = priority,
         repo = repos.PLUGINS,
+        execution_timeout = timeout.SHORT,
         properties = {"channel": "stable"},
         **platform_args["windows"]
     )
@@ -200,6 +204,7 @@ def plugins_product_tagged_config_setup(platform_args):
         recipe = publish_recipe_name,
         console_view_name = console_view_name,
         triggered_by = [trigger_name],
+        execution_timeout = timeout.SHORT,
         **platform_args["linux"]
     )
 
