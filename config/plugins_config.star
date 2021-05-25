@@ -150,8 +150,10 @@ def plugins_prod_config(branch, version, testing_ref, release_ref, platform_args
         priority = priority,
         repo = repos.PLUGINS,
         execution_timeout = timeout.SHORT,
+        properties = {"dependencies": [{"dependency": "vs_build"}, {"dependency": "certs"}]},
         **platform_args["windows"]
     )
+
     common.windows_prod_builder(
         name = "Windows %s Plugins stable channel|windows" % branch,
         recipe = recipe_name,
@@ -161,7 +163,10 @@ def plugins_prod_config(branch, version, testing_ref, release_ref, platform_args
         priority = priority,
         repo = repos.PLUGINS,
         execution_timeout = timeout.SHORT,
-        properties = {"channel": "stable"},
+        properties = {
+            "dependencies": [{"dependency": "vs_build"}, {"dependency": "certs"}],
+            "channel": "stable",
+        },
         **platform_args["windows"]
     )
 
