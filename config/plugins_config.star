@@ -79,6 +79,7 @@ def plugins_try_config(platform_args):
         list_view_name = list_view_name,
         repo = repos.PLUGINS,
         execution_timeout = timeout.SHORT,
+        properties = {"dependencies": [{"dependency": "vs_build"}, {"dependency": "certs"}]},
         **platform_args["windows"]
     )
 
