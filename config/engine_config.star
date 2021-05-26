@@ -98,6 +98,7 @@ def engine_recipes(version):
         "femu_test",
         "engine/engine_arm",
         "engine/engine_metrics",
+        "engine/framework_smoke",
         "engine/scenarios",
         "engine/web_engine_drone",
         "engine/web_engine_framework",
@@ -383,6 +384,16 @@ def engine_prod_config(platform_args, branch, version, ref, fuchsia_ctl_version)
         recipe = full_recipe_name("engine", version),
         console_view_name = console_view_name,
         properties = engine_properties(build_android_aot = True),
+        triggered_by = [trigger_name],
+        triggering_policy = triggering_policy,
+        priority = 30 if branch == "master" else 25,
+        **platform_args["linux"]
+    )
+    common.linux_prod_builder(
+        name = builder_name("Linux%s Framework Smoke Tests|lfst", branch),
+        recipe = full_recipe_name("engine/framework_smoke", version),
+        console_view_name = console_view_name,
+        properties = engine_properties(),
         triggered_by = [trigger_name],
         triggering_policy = triggering_policy,
         priority = 30 if branch == "master" else 25,
@@ -698,6 +709,13 @@ def engine_try_config(platform_args, fuchsia_ctl_version):
             "upload_packages": True,
             "clobber": True,
         },
+        **platform_args["linux"]
+    )
+    common.linux_try_builder(
+        name = "Linux Framework Smoke Tests|lfst",
+        recipe = "engine/framework_smoke",
+        repo = repos.ENGINE,
+        list_view_name = list_view_name,
         **platform_args["linux"]
     )
     common.linux_try_builder(
